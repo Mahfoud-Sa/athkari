@@ -13,9 +13,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Athkari',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+          fontFamily: "IBMPlexSansArabic"),
       home: const OnbordingPage(),
     );
   }
