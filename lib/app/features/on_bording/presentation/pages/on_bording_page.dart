@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class OnbordingPage extends StatelessWidget {
   const OnbordingPage(
@@ -13,9 +14,14 @@ class OnbordingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Image.asset(imagePath),
+        Expanded(
+          child: Image.asset(
+            imagePath,
+            // width: 120,
+          ),
+        ),
         Text(
           title,
           textAlign: TextAlign.end,
