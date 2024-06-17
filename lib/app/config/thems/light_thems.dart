@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 final lightTheme = ThemeData(
     colorScheme: ColorScheme.fromSeed(
       seedColor: Colors.purple,
-      // ···
-      brightness: Brightness.dark,
+      brightness: Brightness.light,
     ),
     useMaterial3: true,
     fontFamily: "IBMPlexSansArabic",
-    brightness: Brightness.dark,
     primaryColor: Colors.lightBlue[800],
     textTheme: const TextTheme(
       titleLarge: TextStyle(

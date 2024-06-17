@@ -10,7 +10,7 @@ class AppRoutes {
           path: '/',
           builder: (BuildContext, state) {
             if (!showOnBordingPages) {
-              return Onbording();
+              return HomePage();
             } else {
               return Onbording();
             }
