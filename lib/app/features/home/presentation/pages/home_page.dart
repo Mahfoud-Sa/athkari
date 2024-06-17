@@ -56,8 +56,7 @@ class HomePage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                          onPressed: () {}, icon: Icon(Icons.forward_outlined)),
+                      IconButton(onPressed: () {}, icon: Icon(Icons.replay)),
                       Text(
                         'ذكر اليوم',
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -71,10 +70,56 @@ class HomePage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                _buildTodayDekarSection(context)
+                _buildTodayDekarSection(context),
+                const SizedBox(
+                  height: 20,
+                ),
+                _buildEsnadatSection(context),
+                const SizedBox(
+                  height: 20,
+                ),
               ],
             ),
           ),
+        ));
+  }
+
+  Container _buildEsnadatSection(BuildContext context) {
+    return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color.fromARGB(255, 93, 137, 138),
+              Color.fromARGB(255, 213, 255, 220),
+            ],
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: Text(
+                'عرض الاسنادات',
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+            ),
+            Text(
+                textAlign: TextAlign.center,
+                'بالاسناد,تحفظ السنة وتصان\nمن الدس والتحريق والوضع',
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(fontSize: 18, color: Colors.white)),
+          ],
         ));
   }
 
