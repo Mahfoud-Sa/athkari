@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:gradient_borders/gradient_borders.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -15,10 +17,102 @@ class HomePage extends StatelessWidget {
             child: Column(
               children: [
                 _buildDailyDkeer(context),
+                const SizedBox(
+                  height: 20,
+                ),
+                // section of show all
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 60,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'عرض الكل',
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              color: Colors.black,
+                              fontSize: 14,
+                              decoration: TextDecoration.underline,
+                            ),
+                      ),
+                      Text(
+                        'أقسام الأذكار',
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                _buildDekarSection()
               ],
             ),
           ),
         ));
+  }
+
+  SingleChildScrollView _buildDekarSection() {
+    return const SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          DekaarContainerWidget(
+            text: "أذكار الصباح",
+          ),
+          DekaarContainerWidget(
+            text: "أذكار الصباح",
+          ),
+          DekaarContainerWidget(
+            text: "أذكار الصباح",
+          ),
+          DekaarContainerWidget(
+            text: "أذكار الصباح",
+          ),
+          DekaarContainerWidget(
+            text: "أذكار الصباح",
+          ),
+          DekaarContainerWidget(
+            text: "أذكار الصباح",
+          ),
+          DekaarContainerWidget(
+            text: "أذكار الصباح",
+          ),
+          DekaarContainerWidget(
+            text: "أذكار الصباح",
+          ),
+          DekaarContainerWidget(
+            text: "أذكار الصباح",
+          ),
+          DekaarContainerWidget(
+            text: "أذكار الصباح",
+          ),
+          DekaarContainerWidget(
+            text: "أذكار الصباح",
+          ),
+          DekaarContainerWidget(
+            text: "أذكار الصباح",
+          ),
+          DekaarContainerWidget(
+            text: "أذكار الصباح",
+          ),
+          DekaarContainerWidget(
+            text: "أذكار الصباح",
+          ),
+          DekaarContainerWidget(
+            text: "أذكار الصباح",
+          ),
+          DekaarContainerWidget(
+            text: "أذكار الصباح",
+          ),
+          DekaarContainerWidget(
+            text: "أذكار الصباح",
+          ),
+        ],
+      ),
+    );
   }
 
   Container _buildDailyDkeer(BuildContext context) {
@@ -139,6 +233,32 @@ class HomePage extends StatelessWidget {
               ),
             ],
           )),
+    );
+  }
+}
+
+class DekaarContainerWidget extends StatelessWidget {
+  const DekaarContainerWidget({super.key, required this.text});
+  final String text;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+          border: GradientBoxBorder(
+              width: 1,
+              gradient: LinearGradient(colors: [
+                Color.fromARGB(255, 90, 202, 165),
+                Color.fromARGB(255, 178, 231, 93),
+              ]))),
+      child: Center(
+        child: Text(text,
+            style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                  color: Color.fromARGB(255, 157, 199, 168),
+                )),
+      ),
     );
   }
 }

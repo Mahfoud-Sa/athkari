@@ -13,5 +13,9 @@ final lightTheme = ThemeData(
         fontSize: 38,
         color: Color.fromARGB(255, 157, 199, 168),
       ),
-      titleSmall: TextStyle(fontSize: 16, color: Colors.black45),
+      titleSmall: TextStyle(fontSize: 12, color: Colors.black45),
+      titleMedium: TextStyle(
+        fontSize: 16,
+        color: Color.fromARGB(255, 157, 199, 168),
+      ),
     ));
