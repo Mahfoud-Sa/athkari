@@ -22,17 +22,15 @@ class OnbordingPage extends StatelessWidget {
             // width: 120,
           ),
         ),
-        Text(
-          title,
-          textAlign: TextAlign.end,
-          style: const TextStyle(
-            fontSize: 38,
-            color: Color.fromARGB(255, 157, 199, 168),
-          ),
-        ),
+        Text(title,
+            textAlign: TextAlign.end,
+            style: Theme.of(context).textTheme.titleLarge),
         Text(
             textAlign: TextAlign.end,
-            style: const TextStyle(fontSize: 16, color: Colors.black45),
+            style: Theme.of(context)
+                .textTheme
+                .titleSmall!
+                .copyWith(color: Colors.black45),
             description),
       ],
     );

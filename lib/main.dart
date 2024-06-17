@@ -1,22 +1,20 @@
+import 'package:athkari/app/config/routes/routes.dart';
+import 'package:athkari/app/config/thems/light_thems.dart';
+import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/material.dart';
-import 'app/features/on_bording/presentation/pages/on_bording.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initializationContainer();
+  runApp(const App());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Athkari',
-      theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-          fontFamily: "IBMPlexSansArabic"),
-      home: Onbording(),
-    );
+    return MaterialApp.router(
+        title: 'Athkari', routerConfig: AppRoutes.routers, theme: lightTheme);
   }
 }

@@ -1,7 +1,9 @@
+import 'package:athkari/app/features/home/presentation/pages/home_page.dart';
 import 'package:athkari/app/features/on_bording/presentation/pages/on_bording_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class Onbording extends StatefulWidget {
@@ -56,7 +58,7 @@ class _OnbordingState extends State<Onbording> {
                           },
                           child: const Text(
                             "تخطي",
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontFamily: "IBMPlexSansArabic",
                                 fontSize: 16,
                                 color: Color.fromARGB(255, 157, 199, 168)),
@@ -75,7 +77,7 @@ class _OnbordingState extends State<Onbording> {
                   children: const [
                     OnbordingPage(
                         imagePath: "assets/images/dua_hands_icon.png",
-                        title: "قائمة غنية من      الاذكار والادعية",
+                        title: "قائمة غنية من\nالاذكار والادعية",
                         description:
                             "تصفح مجموعة متنوعة من الاذكار والادعية واضفها الى وردك اليومي او شاركها عبر مواقع التواصل الاجتماعي"),
                     OnbordingPage(
@@ -114,7 +116,16 @@ class _OnbordingState extends State<Onbording> {
                                 color: Color.fromARGB(255, 157, 199, 168)),
                           ))
                       : TextButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            SharedPreferences localStorage =
+                                await SharedPreferences.getInstance();
+                            localStorage.setBool("showOnBordingPages", false);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const HomePage(),
+                                ));
+                          },
                           child: const Text(
                             "ابدا",
                             style: TextStyle(
