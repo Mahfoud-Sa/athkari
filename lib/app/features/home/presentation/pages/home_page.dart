@@ -9,8 +9,107 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(context),
-      body: const Center(child: Text('Hellow word')),
+        appBar: _buildAppBar(context),
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: [
+                _buildDailyDkeer(context),
+              ],
+            ),
+          ),
+        ));
+  }
+
+  Container _buildDailyDkeer(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 20),
+      width: MediaQuery.of(context).size.width - 60,
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+          image: DecorationImage(
+              fit: BoxFit.fill,
+              image: AssetImage("assets/images/patteren.png"))),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            'الورد اليومي',
+            style: Theme.of(context)
+                .textTheme
+                .titleSmall!
+                .copyWith(color: Colors.white, fontSize: 32),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            'سبحان الله والحمدلله \nولا اله  الا الله والله أكبر',
+            style: Theme.of(context)
+                .textTheme
+                .titleSmall!
+                .copyWith(color: Colors.white),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Container(
+            width: 95,
+            height: 95,
+            decoration: BoxDecoration(
+                border: const Border(
+                  right: BorderSide(
+                    color: Colors.green,
+                    width: 3,
+                  ),
+                ),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(50)),
+            child: Center(
+                child: Text(
+              "30%",
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(fontSize: 24, fontWeight: FontWeight.bold),
+            )),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Container(
+            height: 35,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(25))),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    "عرض الكل",
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          decoration: TextDecoration.underline,
+                          fontSize: 12,
+                        ),
+                  ),
+                ),
+                Text(
+                  "تم اكمال 35 من 50 ذكر",
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        fontSize: 12,
+                      ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 
