@@ -47,7 +47,53 @@ class HomePage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                _buildDekarSection()
+                _buildDekarSection(),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 60,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                          onPressed: () {}, icon: Icon(Icons.forward_outlined)),
+                      Text(
+                        'ذكر اليوم',
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              color: Colors.black,
+                              fontSize: 14,
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+                  decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                      border: GradientBoxBorder(
+                          width: 1,
+                          gradient: LinearGradient(colors: [
+                            Color.fromARGB(255, 90, 202, 165),
+                            Color.fromARGB(255, 178, 231, 93),
+                          ]))),
+                  child: Center(
+                    child: Text(
+                        textAlign: TextAlign.center,
+                        'بسم الله الذي لا يضر مع اسمه شيء في الارض ولا في السماء وهو السميع العليم',
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+
+                                //   color: Color.fromARGB(255, 159, 216, 174),
+                                )),
+                  ),
+                )
               ],
             ),
           ),
