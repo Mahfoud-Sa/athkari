@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:gradient_borders/gradient_borders.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -56,7 +57,10 @@ class HomePage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(onPressed: () {}, icon: Icon(Icons.replay)),
+                      IconButton(
+                        onPressed: () {},
+                        icon: FaIcon(FontAwesomeIcons.share),
+                      ),
                       Text(
                         'ذكر اليوم',
                         style: Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -103,8 +107,8 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Container(
-              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              decoration: BoxDecoration(
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(20))),
               child: Text(
@@ -114,7 +118,7 @@ class HomePage extends StatelessWidget {
             ),
             Text(
                 textAlign: TextAlign.center,
-                'بالاسناد,تحفظ السنة وتصان\nمن الدس والتحريق والوضع',
+                'بالاسناد,تحفظ السنة وتصان\nمن الدس والتحريف والوضع',
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!
