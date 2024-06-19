@@ -1,6 +1,8 @@
+import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -339,59 +341,6 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class DrawerWidget extends StatelessWidget {
-  const DrawerWidget({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      width: double.infinity,
-      shape: BeveledRectangleBorder(),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: 100,
-              decoration: const BoxDecoration(
-                  borderRadius:
-                      BorderRadius.vertical(bottom: Radius.circular(30)),
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage("assets/images/patteren.png"))),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  // First widget aligned to the right
-                  SizedBox(
-                    width: 50,
-                  ),
-                  // Second widget centered
-                  Text(
-                    'إعدادات التطبيق',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(color: Colors.white, fontSize: 24),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: IconButton(
-                      onPressed: () {},
-                      icon: Icon(Icons.abc),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class DekaarContainerWidget extends StatelessWidget {
   const DekaarContainerWidget({super.key, required this.text});
   final String text;
@@ -411,7 +360,7 @@ class DekaarContainerWidget extends StatelessWidget {
       child: Center(
         child: Text(text,
             style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  color: Color.fromARGB(255, 157, 199, 168),
+                  color: const Color.fromARGB(255, 157, 199, 168),
                 )),
       ),
     );

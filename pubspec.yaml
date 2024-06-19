@@ -23,6 +23,7 @@ dependencies:
   intl: ^0.19.0
   gradient_borders: ^1.0.0
   font_awesome_flutter: ^10.7.0
+  flutter_svg: ^2.0.10+1
 
 
 
@@ -45,6 +46,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/svgs/
 
   fonts:
     - family: IBMPlexSansArabic
