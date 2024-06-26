@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -96,77 +94,107 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ],
               ),
             ),
-            ExpansionTile(
-              expandedAlignment: Alignment.centerRight,
-              trailing: Text(
-                'ضبط الوقت والتاريخ',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: Colors.black),
-              ),
-              leading: Icon(Icons.arrow_drop_up),
-              title: Text('تلقائي'),
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text('تلقائي'),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text('مخصص'),
-                  ],
-                ),
-              ],
+            MyExpansionRadioTile(
+              title: 'ضبط الوقت والتاريخ',
+              selected: true,
+              choices: ['تلقائي', 'مخصص'],
             ),
-            ExpansionPanelList(
-              expandIconColor: Colors.amberAccent,
-              children: [
-                ExpansionPanel(
-                  headerBuilder: (context, isExpanded) => Text('تلقائي'),
-                  body: Text('تلقائي'),
-                  isExpanded: true,
-                ),
-                ExpansionPanel(
-                  headerBuilder: (context, isExpanded) => Text('تلقائي'),
-                  body: Text('تلقائي'),
-                  isExpanded: false,
-                ),
-                ExpansionPanel(
-                  headerBuilder: (context, isExpanded) => Text('تلقائي'),
-                  body: Text('تلقائي'),
-                  isExpanded: false,
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: DropdownButton(
-                  icon: Text(
-                    'ضبط الوقت والتاريخ',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(color: Colors.black),
-                  ),
-                  isExpanded: true,
-                  alignment: Alignment.centerRight,
-                  value: 0,
-                  items: [
-                    DropdownMenuItem(
-                      child: Text("تلقائي"),
-                      value: 0,
-                    ),
-                    DropdownMenuItem(child: Text("مخصص"), value: 1)
-                  ],
-                  onChanged: (value) {}),
-            )
           ],
         ),
       ),
+    );
+  }
+}
+
+class MyExpansionRadioTile extends StatefulWidget {
+  MyExpansionRadioTile(
+      {super.key,
+      required this.title,
+      this.selected = true,
+      required this.choices});
+  final String title;
+  bool selected;
+  final List<String> choices;
+  @override
+  State<MyExpansionRadioTile> createState() => _MyExpansionRadioTileState();
+}
+
+class _MyExpansionRadioTileState extends State<MyExpansionRadioTile> {
+  bool isExpansion = true;
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionTile(
+      onExpansionChanged: (value) {
+        setState(() {
+          isExpansion = !isExpansion;
+        });
+      },
+      expandedAlignment: Alignment.centerRight,
+      trailing: Text(widget.title,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal)),
+      leading: isExpansion
+          ? const Icon(
+              Icons.arrow_drop_up,
+              size: 28,
+              color: Color.fromARGB(255, 157, 199, 168),
+            )
+          : const Icon(
+              size: 28,
+              color: Color.fromARGB(255, 157, 199, 168),
+              Icons.arrow_drop_down),
+      title: Text(
+        widget.choices[0],
+        style: Theme.of(context)
+            .textTheme
+            .titleMedium!
+            .copyWith(fontSize: 18, fontWeight: FontWeight.normal),
+      ),
+      children: [
+        ListTile(
+          contentPadding: const EdgeInsets.all(0),
+          titleAlignment: ListTileTitleAlignment.top,
+          title: Text(
+            widget.choices[0],
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium!
+                .copyWith(color: Colors.black),
+            textAlign: TextAlign.right,
+          ),
+          trailing: Radio(
+              hoverColor: const Color.fromARGB(255, 157, 199, 168),
+              activeColor: const Color.fromARGB(255, 157, 199, 168),
+              value: widget.selected,
+              groupValue: true,
+              onChanged: (value) {
+                setState(() {
+                  widget.selected = !widget.selected;
+                });
+              }),
+        ),
+        ListTile(
+          contentPadding: const EdgeInsets.all(0),
+          titleAlignment: ListTileTitleAlignment.top,
+          title: Text(
+            widget.choices[1],
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium!
+                .copyWith(color: Colors.black),
+            textAlign: TextAlign.right,
+          ),
+          trailing: Radio(
+              hoverColor: const Color.fromARGB(255, 157, 199, 168),
+              activeColor: const Color.fromARGB(255, 157, 199, 168),
+              value: widget.selected,
+              groupValue: false,
+              onChanged: (value) {
+                setState(() {
+                  widget.selected = !widget.selected;
+                }); //selected value
+              }),
+        ),
+      ],
     );
   }
 }
