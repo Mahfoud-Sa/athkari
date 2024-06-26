@@ -143,7 +143,7 @@ class _MyExpansionRadioTileState extends State<MyExpansionRadioTile> {
               color: Color.fromARGB(255, 157, 199, 168),
               Icons.arrow_drop_down),
       title: Text(
-        widget.choices[0],
+        widget.selected ? widget.choices[0] : widget.choices[1],
         style: Theme.of(context)
             .textTheme
             .titleMedium!
