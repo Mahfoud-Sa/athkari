@@ -4,8 +4,11 @@ class ForwardedTitleWidget extends StatelessWidget {
   ForwardedTitleWidget({
     required this.title,
     super.key,
+    required this.onPressed,
   });
   final String title;
+  final VoidCallback onPressed;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -14,17 +17,7 @@ class ForwardedTitleWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
-            onPressed: () {
-              showAboutDialog(context: context);
-              showBottomSheet(
-                context: context,
-                builder: (context) {
-                  return Container(
-                    child: Text('data'),
-                  );
-                },
-              );
-            },
+            onPressed: onPressed,
             icon: const Icon(
               Icons.arrow_back_ios,
               color: Color.fromARGB(255, 157, 199, 168),

@@ -110,18 +110,49 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
             ForwardedTitleWidget(
               title: 'ضبط الاشعارات',
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: (context) => Container(
+                    width: double.infinity,
+                    child: Column(
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: 3,
+                          width: 80,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(30),
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text('data'),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
             DrawerTitleWidet(
               title: 'أخرى',
             ),
             ForwardedTitleWidget(
               title: 'مشاركة التطبيق',
+              onPressed: () {},
             ),
             ForwardedTitleWidget(
               title: 'تقييم التطبيق',
+              onPressed: () {
+                showAboutDialog(context: context);
+              },
             ),
             ForwardedTitleWidget(
               title: 'تواصل معنا',
+              onPressed: () {
+                showAboutDialog(context: context);
+              },
             ),
           ],
         ),
