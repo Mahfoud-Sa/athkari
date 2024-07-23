@@ -14,7 +14,17 @@ class ForwardedTitleWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showAboutDialog(context: context);
+              showBottomSheet(
+                context: context,
+                builder: (context) {
+                  return Container(
+                    child: Text('data'),
+                  );
+                },
+              );
+            },
             icon: const Icon(
               Icons.arrow_back_ios,
               color: Color.fromARGB(255, 157, 199, 168),
