@@ -1,6 +1,8 @@
-import 'package:flutter/cupertino.dart';
+import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -13,6 +15,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: _buildAppBar(context),
+        drawer: DrawerWidget(),
         body: SingleChildScrollView(
           child: Center(
             child: Column(
@@ -306,12 +309,16 @@ class HomePage extends StatelessWidget {
 
   AppBar _buildAppBar(BuildContext context) {
     return AppBar(
-      leading: IconButton(
-        onPressed: () {},
-        icon: const Icon(Icons.settings),
-        iconSize: 36,
-        color: const Color.fromARGB(255, 117, 192, 192),
-      ),
+      leading: Builder(builder: (context) {
+        return IconButton(
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+          icon: const Icon(Icons.settings),
+          iconSize: 36,
+          color: const Color.fromARGB(255, 117, 192, 192),
+        );
+      }),
       title: Align(
           alignment: Alignment.centerRight,
           child: Column(
@@ -353,7 +360,7 @@ class DekaarContainerWidget extends StatelessWidget {
       child: Center(
         child: Text(text,
             style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  color: Color.fromARGB(255, 157, 199, 168),
+                  color: const Color.fromARGB(255, 157, 199, 168),
                 )),
       ),
     );

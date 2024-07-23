@@ -18,4 +18,8 @@ final lightTheme = ThemeData(
         fontSize: 16,
         color: Color.fromARGB(255, 157, 199, 168),
       ),
+      bodyMedium: TextStyle(
+        fontSize: 24,
+        color: Color.fromARGB(255, 157, 199, 168),
+      ),
     ));
