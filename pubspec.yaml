@@ -13,7 +13,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  flutter_time_picker_spinner: ^2.0.0
+  share_plus: ^9.0.0
   cupertino_icons: ^1.0.6
   flutter_native_splash: ^2.4.0
   smooth_page_indicator: ^1.1.0
@@ -24,6 +25,9 @@ dependencies:
   gradient_borders: ^1.0.0
   font_awesome_flutter: ^10.7.0
   flutter_svg: ^2.0.10+1
+  easy_date_timeline: ^1.1.3
+  
+  
 
 
 

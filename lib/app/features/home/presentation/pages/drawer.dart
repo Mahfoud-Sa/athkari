@@ -1,9 +1,14 @@
+import 'dart:ui';
+
 import 'package:athkari/app/features/home/presentation/widgets/DrawerTitleWidet.dart';
 import 'package:athkari/app/features/home/presentation/widgets/ForwardedTitleWidget.dart';
 import 'package:athkari/app/features/home/presentation/widgets/MyExpansionRadioTile.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:easy_date_timeline/easy_date_timeline.dart';
+import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 
 class DrawerWidget extends StatefulWidget {
   DrawerWidget({
@@ -106,33 +111,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             MyExpansionRadioTile(
               title: 'ضبط الورد اليومي',
               selected: true,
-              choices: ['غير مفعل', 'مفعل'],
+              choices: const ['غير مفعل', 'مفعل'],
             ),
             ForwardedTitleWidget(
               title: 'ضبط الاشعارات',
               onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) => Container(
-                    width: double.infinity,
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          height: 3,
-                          width: 80,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text('data'),
-                      ],
-                    ),
-                  ),
-                );
+                buildShowModalBottomSheet(context);
               },
             ),
             DrawerTitleWidet(
@@ -140,7 +124,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ),
             ForwardedTitleWidget(
               title: 'مشاركة التطبيق',
-              onPressed: () {},
+              onPressed: () {
+                Share.share('check out my website https://example.com');
+              },
             ),
             ForwardedTitleWidget(
               title: 'تقييم التطبيق',
@@ -154,6 +140,115 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 showAboutDialog(context: context);
               },
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => SingleChildScrollView(
+        //  width: double.infinity,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: 3,
+              width: 80,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: Colors.black,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8, bottom: 12),
+              child: const Text(
+                'ضبط الاشعارات',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w800),
+              ),
+            ),
+            const Row(
+              children: [
+                Expanded(child: SizedBox()),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: const Text(
+                    'حدد موعد ظهور اشعارات الورد اليومي',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 18,
+                        color: Color.fromARGB(255, 157, 199, 168)),
+                  ),
+                )
+              ],
+            ),
+            TimePickerSpinner(
+              is24HourMode: false,
+              normalTextStyle: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 24,
+                  color: Color.fromARGB(255, 213, 240, 193)),
+              highlightedTextStyle: TextStyle(
+                  fontSize: 24, color: Color.fromARGB(255, 128, 188, 189)),
+              spacing: 50,
+              itemHeight: 80,
+              isForce2Digits: true,
+              onTimeChange: (time) {
+                setState(() {
+                  // _dateTime = time;
+                });
+              },
+            ),
+            // EasyDateTimeLine(
+            //   initialDate: DateTime.now(),
+            // ),
+            // EasyDateTimeLine(
+            //   initialDate: DateTime.now(),
+            //   onDateChange: (selectedDate) {
+            //     //`selectedDate` the new date selected.
+            //   },
+            // ),
+            const Row(
+              children: [
+                Expanded(child: SizedBox()),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: const Text(
+                    'حدد موعد ظهور اشعارات ورد اليوم',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 18,
+                        color: Color.fromARGB(255, 157, 199, 168)),
+                  ),
+                )
+              ],
+            ),
+            TimePickerSpinner(
+              is24HourMode: false,
+              normalTextStyle: TextStyle(
+                  fontSize: 24, color: Color.fromARGB(255, 157, 199, 168)),
+              highlightedTextStyle:
+                  TextStyle(fontSize: 24, color: Colors.blueGrey),
+              spacing: 50,
+              itemHeight: 80,
+              isForce2Digits: true,
+              onTimeChange: (time) {
+                setState(() {
+                  // _dateTime = time;
+                });
+              },
+            ),
+            SizedBox(
+              height: 150,
+            )
           ],
         ),
       ),
