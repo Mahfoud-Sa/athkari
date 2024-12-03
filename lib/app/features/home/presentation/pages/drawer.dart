@@ -9,7 +9,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
-import 'package:rating/rating.dart';
+// import 'package:rating/rating.dart';
 
 class DrawerWidget extends StatefulWidget {
   DrawerWidget({
@@ -132,11 +132,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             ForwardedTitleWidget(
               title: 'تقييم التطبيق',
               onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) => RatingWidget(
-                      controller: PrintRatingController(ratingModel)),
-                );
+                // showModalBottomSheet(
+                //   context: context,
+                //   builder: (context) => RatingWidget(
+                //       controller: PrintRatingController(ratingModel)),
+                // );
               },
             ),
             ForwardedTitleWidget(
@@ -312,39 +312,39 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   }
 }
 
-class PrintRatingController extends RatingController {
-  PrintRatingController(RatingModel ratingModel) : super(ratingModel);
+// class PrintRatingController extends RatingController {
+//   PrintRatingController(RatingModel ratingModel) : super(ratingModel);
 
-  @override
-  Future<void> ignoreForEverCallback() async {
-    print('Rating ignored forever!');
-    await Future.delayed(const Duration(seconds: 3));
-  }
+//   @override
+//   Future<void> ignoreForEverCallback() async {
+//     print('Rating ignored forever!');
+//     await Future.delayed(const Duration(seconds: 3));
+//   }
 
-  @override
-  Future<void> saveRatingCallback(
-      int rate, List<RatingCriterionModel> selectedCriterions) async {
-    print('Rating saved!\nRate: $rate\nsSelectedItems: $selectedCriterions');
-    await Future.delayed(const Duration(seconds: 3));
-  }
-}
+//   @override
+//   Future<void> saveRatingCallback(
+//       int rate, List<RatingCriterionModel> selectedCriterions) async {
+//     print('Rating saved!\nRate: $rate\nsSelectedItems: $selectedCriterions');
+//     await Future.delayed(const Duration(seconds: 3));
+//   }
+// }
 
-final ratingModel = RatingModel(
-  id: 1,
-  title: null,
-  subtitle: 'Classifique nosso app:',
-  ratingConfig: RatingConfigModel(
-    id: 1,
-    ratingSurvey1: 'Em que podemos melhorar?',
-    ratingSurvey2: 'Em que podemos melhorar?',
-    ratingSurvey3: 'Em que podemos melhorar?',
-    ratingSurvey4: 'Em que podemos melhorar?',
-    ratingSurvey5: 'O que você mais gostou?',
-    items: [
-      RatingCriterionModel(id: 1, name: 'Qualidade do atendimento'),
-      RatingCriterionModel(id: 2, name: 'Competência dos atendentes'),
-      RatingCriterionModel(id: 3, name: 'Limpeza do ambiente'),
-      RatingCriterionModel(id: 4, name: 'Tempo de espera'),
-    ],
-  ),
-);
+// final ratingModel = RatingModel(
+//   id: 1,
+//   title: null,
+//   subtitle: 'Classifique nosso app:',
+//   ratingConfig: RatingConfigModel(
+//     id: 1,
+//     ratingSurvey1: 'Em que podemos melhorar?',
+//     ratingSurvey2: 'Em que podemos melhorar?',
+//     ratingSurvey3: 'Em que podemos melhorar?',
+//     ratingSurvey4: 'Em que podemos melhorar?',
+//     ratingSurvey5: 'O que você mais gostou?',
+//     items: [
+//       RatingCriterionModel(id: 1, name: 'Qualidade do atendimento'),
+//       RatingCriterionModel(id: 2, name: 'Competência dos atendentes'),
+//       RatingCriterionModel(id: 3, name: 'Limpeza do ambiente'),
+//       RatingCriterionModel(id: 4, name: 'Tempo de espera'),
+//     ],
+//   ),
+// );
