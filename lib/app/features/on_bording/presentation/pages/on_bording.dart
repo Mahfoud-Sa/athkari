@@ -1,3 +1,4 @@
+import 'package:athkari/app/features/daily_wered/presentation/pages/index.dart';
 import 'package:athkari/app/features/home/presentation/pages/home_page.dart';
 import 'package:athkari/app/features/on_bording/presentation/pages/on_bording_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -123,7 +124,7 @@ class _OnbordingState extends State<Onbording> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => HomePage(),
+                                  builder: (context) => IndexPage(),
                                 ));
                           },
                           child: const Text(

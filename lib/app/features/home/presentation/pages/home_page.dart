@@ -1,3 +1,4 @@
+import 'package:athkari/app/features/daily_wered/presentation/pages/index.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
 
 import 'package:flutter/material.dart';
@@ -284,7 +285,13 @@ class HomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => IndexPage(),
+                        ));
+                  },
                   child: Text(
                     "عرض الكل",
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
