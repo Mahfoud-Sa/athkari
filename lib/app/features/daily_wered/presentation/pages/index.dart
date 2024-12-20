@@ -149,33 +149,49 @@ Container _buildTodayDekarSection(BuildContext context) {
             ],
             showTrailingIcon: false,
           ),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-            Container(
-              child: Row(
-                children: [
-                  Icon(Icons.more_vert),
-                  Icon(Icons.share),
-                  Icon(Icons.copy),
-                ],
-              ),
-            ),
-            Container(
-              width: 100,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-                color: Color.fromARGB(255, 90, 202, 165),
-              ),
-              child: Center(
-                child: Text(
-                  '3',
-                  style: TextStyle(color: Colors.white),
+          Row(
+              // mainAxisAlignment:
+              //     MainAxisAlignment.spaceAround, // Center all content
+              children: [
+                Container(
+                  child: Row(
+                    children: [
+                      Icon(Icons.more_vert),
+                      Icon(Icons.share),
+                      Icon(Icons.copy),
+                    ],
+                  ),
                 ),
-              ),
-            ),
-            Container(
-              child: Text('عرض السند'),
-            )
-          ])
+                //     Expanded(child: SizedBox()),
+                Container(
+                  width: 100,
+                  decoration: const BoxDecoration(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(25)),
+                    color: Color.fromARGB(255, 90, 202, 165),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '3',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                //  Expanded(child: SizedBox()),
+                Container(
+                  child: Row(
+                    children: [
+                      IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.arrow_drop_up_sharp)),
+                      Text(
+                        'عرض السند',
+                        style: TextStyle(fontSize: 16),
+                      )
+                    ],
+                  ),
+                )
+              ])
         ],
       ));
 }
