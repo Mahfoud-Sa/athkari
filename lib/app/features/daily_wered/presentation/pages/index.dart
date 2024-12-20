@@ -21,27 +21,24 @@ class _IndexPageState extends State<IndexPage> {
     return Scaffold(
         appBar: _buildAppBar(context),
         //    drawer: DrawerWidget(),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              _buildSearchBar(),
-              Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text("عدد الاذكار: ${30}")),
-              ),
-              ExpansionPanelList(
-                children: [
-                  ExpansionPanel(
-                      headerBuilder: (context, isExpanded) =>
-                          _buildTodayDekarSection(context),
-                      body: _buildTodayDekarSection(context),
-                      isExpanded: true),
-                ],
-              ),
-            ],
-          ),
+        body: ListView(
+          children: [
+            _buildSearchBar(),
+            TitleWidget(),
+            _buildTodayDekarSection(context),
+            _buildTodayDekarSection(context),
+            _buildTodayDekarSection(context),
+            _buildTodayDekarSection(context),
+            _buildTodayDekarSection(context),
+            _buildTodayDekarSection(context),
+            _buildTodayDekarSection(context),
+            _buildTodayDekarSection(context),
+            _buildTodayDekarSection(context),
+            // MyWidget(
+            //   content: "",
+            //   title: "",
+            // )
+          ],
         ));
   }
 
@@ -65,6 +62,21 @@ class _IndexPageState extends State<IndexPage> {
               vertical: 10, horizontal: 20), // Adjust padding
         ),
       ),
+    );
+  }
+}
+
+class TitleWidget extends StatelessWidget {
+  const TitleWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Align(
+          alignment: Alignment.centerRight, child: Text("عدد الاذكار: ${30}")),
     );
   }
 }
@@ -104,25 +116,68 @@ class dkeerWidget extends StatelessWidget {
 }
 
 Container _buildTodayDekarSection(BuildContext context) {
+  final double _fontsize = 18;
   return Container(
-    margin: const EdgeInsets.symmetric(horizontal: 10),
-    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
-    decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(25)),
-        border: GradientBoxBorder(
-            width: 1,
-            gradient: LinearGradient(colors: [
-              Color.fromARGB(255, 90, 202, 165),
-              Color.fromARGB(255, 178, 231, 93),
-            ]))),
-    child: Center(
-      child: Text(
-          textAlign: TextAlign.center,
-          "اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ ، خَلَقْتَنـي وَأَنا عَبْـدُك ، وَأَنا عَلـى عَهْـدِكَ وَوَعْـدِكَ ما اسْتَـطَعْـت ، أَعـوذُبِكَ مِنْ شَـرِّ ما صَنَـعْت ، أَبـوءُ لَـكَ بِنِعْـمَتِـكَ عَلَـيَّ وَأَبـوءُ بِذَنْـبي فَاغْفـِرْ لي فَإِنَّـهُ لا يَغْـفِرُ الذُّنـوبَ إِلاّ أَنْتَ ",
-          style:
-              Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 22)),
-    ),
-  );
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+          border: GradientBoxBorder(
+              width: 1,
+              gradient: LinearGradient(colors: [
+                Color.fromARGB(255, 90, 202, 165),
+                Color.fromARGB(255, 178, 231, 93),
+              ]))),
+      child: Column(
+        children: [
+          ExpansionTile(
+            title: Text(
+                textAlign: TextAlign.center,
+                "اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ ، خَلَقْتَنـي وَأَنا عَبْـدُك ، وَأَنا عَلـى عَهْـدِكَ وَوَعْـدِكَ ما اسْتَـطَعْـت ، أَعـوذُبِكَ مِنْ شَـرِّ ما صَنَـعْت ، أَبـوءُ لَـكَ بِنِعْـمَتِـكَ عَلَـيَّ وَأَبـوءُ بِذَنْـبي فَاغْفـِرْ لي فَإِنَّـهُ لا يَغْـفِرُ الذُّنـوبَ إِلاّ أَنْتَ ",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(fontSize: _fontsize)),
+            children: [
+              Text(
+                  textAlign: TextAlign.center,
+                  "اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ ، خَلَقْتَنـي وَأَنا عَبْـدُك ، وَأَنا عَلـى عَهْـدِكَ وَوَعْـدِكَ ما اسْتَـطَعْـت ، أَعـوذُبِكَ مِنْ شَـرِّ ما صَنَـعْت ، أَبـوءُ لَـكَ بِنِعْـمَتِـكَ عَلَـيَّ وَأَبـوءُ بِذَنْـبي فَاغْفـِرْ لي فَإِنَّـهُ لا يَغْـفِرُ الذُّنـوبَ إِلاّ أَنْتَ ",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(fontSize: _fontsize, color: Colors.black12)),
+            ],
+            showTrailingIcon: false,
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            Container(
+              child: Row(
+                children: [
+                  Icon(Icons.more_vert),
+                  Icon(Icons.share),
+                  Icon(Icons.copy),
+                ],
+              ),
+            ),
+            Container(
+              width: 100,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                color: Color.fromARGB(255, 90, 202, 165),
+              ),
+              child: Center(
+                child: Text(
+                  '3',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ),
+            Container(
+              child: Text('عرض السند'),
+            )
+          ])
+        ],
+      ));
 }
 
 PreferredSize _buildAppBar(BuildContext context) {
