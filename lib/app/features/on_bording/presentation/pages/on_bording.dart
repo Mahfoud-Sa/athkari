@@ -124,7 +124,7 @@ class _OnbordingState extends State<Onbording> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => IndexPage(),
+                                  builder: (context) => HomePage(),
                                 ));
                           },
                           child: const Text(

@@ -20,7 +20,7 @@ class AppRoutes {
             GoRoute(
               path: 'homepage',
               builder: (BuildContext, state) {
-                return Onbording();
+                return HomePage();
               },
             ),
             GoRoute(

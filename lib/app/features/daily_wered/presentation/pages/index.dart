@@ -25,19 +25,28 @@ class _IndexPageState extends State<IndexPage> {
           children: [
             _buildSearchBar(),
             TitleWidget(),
-            _buildTodayDekarSection(context),
-            _buildTodayDekarSection(context),
-            _buildTodayDekarSection(context),
-            _buildTodayDekarSection(context),
-            _buildTodayDekarSection(context),
-            _buildTodayDekarSection(context),
-            _buildTodayDekarSection(context),
-            _buildTodayDekarSection(context),
-            _buildTodayDekarSection(context),
-            // MyWidget(
-            //   content: "",
-            //   title: "",
-            // )
+            DekarCardWidget(
+                no_of_repeating: 1,
+                deker: """أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ
+اللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ. [آية الكرسى - البقرة 255]. """,
+                saneed:
+                    "من قالها حين يصبح أجير من الجن حتى يمسى ومن قالها حين يمسى أجير من الجن حتى يصبح."),
+            DekarCardWidget(
+                no_of_repeating: 1,
+                deker:
+                    """اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ ، خَلَقْتَنـي وَأَنا عَبْـدُك ، وَأَنا عَلـى عَهْـدِكَ وَوَعْـدِكَ ما اسْتَـطَعْـت ، أَعـوذُبِكَ مِنْ شَـرِّ ما صَنَـعْت ، أَبـوءُ لَـكَ بِنِعْـمَتِـكَ عَلَـيَّ وَأَبـوءُ بِذَنْـبي فَاغْفـِرْ لي فَإِنَّـهُ لا يَغْـفِرُ الذُّنـوبَ إِلاّ أَنْتَ .""",
+                saneed:
+                    "من قالها موقنا بها حين يمسى ومات من ليلته دخل الجنة وكذلك حين يصبح."),
+            DekarCardWidget(
+                no_of_repeating: 4,
+                deker:
+                    """اللّهُـمَّ إِنِّـي أَصْبَـحْتُ أُشْـهِدُك ، وَأُشْـهِدُ حَمَلَـةَ عَـرْشِـك ، وَمَلَائِكَتَكَ ، وَجَمـيعَ خَلْـقِك ، أَنَّـكَ أَنْـتَ اللهُ لا إلهَ إلاّ أَنْـتَ وَحْـدَكَ لا شَريكَ لَـك ، وَأَنَّ ُ مُحَمّـداً عَبْـدُكَ وَرَسـولُـك. """,
+                saneed: "من قالها أعتقه الله من النار."),
+            DekarCardWidget(
+                no_of_repeating: 7,
+                deker:
+                    """حَسْبِـيَ اللّهُ لا إلهَ إلاّ هُوَ عَلَـيهِ تَوَكَّـلتُ وَهُوَ رَبُّ العَرْشِ العَظـيم.  """,
+                saneed: "من قالها كفاه الله ما أهمه من أمر الدنيا والأخرة."),
           ],
         ));
   }
@@ -81,39 +90,306 @@ class TitleWidget extends StatelessWidget {
   }
 }
 
-class dkeerWidget extends StatelessWidget {
-  const dkeerWidget({
-    super.key,
-  });
+class DekarCardWidget extends StatefulWidget {
+  DekarCardWidget(
+      {super.key,
+      required this.no_of_repeating,
+      required this.deker,
+      required this.saneed});
+  final double _fontsize = 18;
+  int no_of_repeating = 100;
+  String deker;
+  String saneed;
+  @override
+  State<DekarCardWidget> createState() => _DekarCardWidgetState();
+}
+
+class _DekarCardWidgetState extends State<DekarCardWidget> {
+  final ExpansionTileController _controller = ExpansionTileController();
+  int _no_of_repeating = 100;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _no_of_repeating = widget.no_of_repeating;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(border: Border.all(color: Colors.black38)),
-      child: Column(children: [
-        Text(
-            "اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ ، خَلَقْتَنـي وَأَنا عَبْـدُك ، وَأَنا عَلـى عَهْـدِكَ وَوَعْـدِكَ ما اسْتَـطَعْـت ، أَعـوذُبِكَ مِنْ شَـرِّ ما صَنَـعْت ، أَبـوءُ لَـكَ بِنِعْـمَتِـكَ عَلَـيَّ وَأَبـوءُ بِذَنْـبي فَاغْفـِرْ لي فَإِنَّـهُ لا يَغْـفِرُ الذُّنـوبَ إِلاّ أَنْتَ "),
-        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          Container(
-            child: Row(
+    return InkWell(
+      onTap: () {
+        setState(() {
+          if (_no_of_repeating != 0) {
+            _no_of_repeating -= 1;
+          } else {
+            _no_of_repeating = widget.no_of_repeating;
+          }
+        });
+      },
+      borderRadius: BorderRadius.circular(15),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+          border: GradientBoxBorder(
+            width: 1,
+            gradient: LinearGradient(colors: [
+              Color.fromARGB(255, 90, 202, 165),
+              Color.fromARGB(255, 178, 231, 93),
+            ]),
+          ),
+        ),
+        child: Column(
+          children: [
+            ExpansionTile(
+              onExpansionChanged: (isExpanded) {
+                setState(() {}); // State change for any UI updates if needed
+              },
+              controller: _controller,
+              title: Text(
+                textAlign: TextAlign.center,
+                widget.deker,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(fontSize: widget._fontsize),
+              ),
               children: [
-                Icon(Icons.more_vert),
-                Icon(Icons.share),
-                Icon(Icons.copy),
+                Text(
+                  textAlign: TextAlign.center,
+                  widget.saneed,
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      fontSize: widget._fontsize, color: Colors.black12),
+                ),
+              ],
+              showTrailingIcon: false,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                // First Container with Icons
+                Flexible(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: IconButton(
+                          padding: EdgeInsets.all(0), // No padding
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.more_vert,
+                            color: Colors.blueGrey,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: IconButton(
+                          padding: EdgeInsets.all(0), // No padding
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.share,
+                            color: Colors.blueGrey,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: IconButton(
+                          padding: EdgeInsets.all(0), // No padding
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.copy,
+                            color: Colors.blueGrey,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // Second Container with Number
+                Container(
+                  width: 100,
+                  decoration: const BoxDecoration(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(25)),
+                    color: Color.fromARGB(255, 90, 202, 165),
+                  ),
+                  child: Center(
+                    child: Text(
+                      _no_of_repeating.toString(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                      ),
+                    ),
+                  ),
+                ),
+
+                // Third Container with Arrow and Text
+                Flexible(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _controller.isExpanded
+                                ? _controller.collapse()
+                                : _controller.expand();
+                          });
+                        },
+                        icon: const Icon(Icons.arrow_drop_up_sharp),
+                      ),
+                      //  const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'عرض السند',
+                          style: TextStyle(fontSize: widget._fontsize - 5),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
-          Container(
-            child: Text('3'),
-          ),
-          Container(
-            child: Text('عرض السند'),
-          )
-        ])
-      ]),
+          ],
+        ),
+      ),
     );
   }
 }
+
+// class DekarCardWidget extends StatefulWidget {
+//   const DekarCardWidget({super.key});
+//   final double _fontsize = 18;
+//   @override
+//   State<DekarCardWidget> createState() => _DekarCardWidgetState();
+// }
+
+// class _DekarCardWidgetState extends State<DekarCardWidget> {
+//   final ExpansionTileController _controller = ExpansionTileController();
+
+//   @override
+//   Widget build(BuildContext context) {
+//     var data =
+//         "اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ ، خَلَقْتَنـي وَأَنا عَبْـدُك ، وَأَنا عَلـى عَهْـدِكَ وَوَعْـدِكَ ما اسْتَـطَعْـت ، أَعـوذُبِكَ مِنْ شَـرِّ ما صَنَـعْت ، أَبـوءُ لَـكَ بِنِعْـمَتِـكَ عَلَـيَّ وَأَبـوءُ بِذَنْـبي فَاغْفـِرْ لي فَإِنَّـهُ لا يَغْـفِرُ الذُّنـوبَ إِلاّ أَنْتَ ";
+//     var data2 =
+//         "اللّهـمَّ أَنْتَ رَبِّـي لا إلهَ إلاّ أَنْتَ ، خَلَقْتَنـي وَأَنا عَبْـدُك ، وَأَنا عَلـى عَهْـدِكَ وَوَعْـدِكَ ما اسْتَـطَعْـت ، أَعـوذُبِكَ مِنْ شَـرِّ ما صَنَـعْت ، أَبـوءُ لَـكَ بِنِعْـمَتِـكَ عَلَـيَّ وَأَبـوءُ بِذَنْـبي فَاغْفـِرْ لي فَإِنَّـهُ لا يَغْـفِرُ الذُّنـوبَ إِلاّ أَنْتَ ";
+//     int data3 = 1;
+//     return InkWell(
+//       child: Container(
+//           margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+//           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
+//           decoration: const BoxDecoration(
+//               borderRadius: BorderRadius.all(Radius.circular(25)),
+//               border: GradientBoxBorder(
+//                   width: 1,
+//                   gradient: LinearGradient(colors: [
+//                     Color.fromARGB(255, 90, 202, 165),
+//                     Color.fromARGB(255, 178, 231, 93),
+//                   ]))),
+//           child: Column(
+//             children: [
+//               ExpansionTile(
+//                 onExpansionChanged: (isExpanded) {
+//                   setState(() {
+//                     data3 += 1;
+//                   });
+//                 },
+//                 controller: _controller,
+//                 title: Text(
+//                     textAlign: TextAlign.center,
+//                     data,
+//                     style: Theme.of(context)
+//                         .textTheme
+//                         .titleMedium!
+//                         .copyWith(fontSize: widget._fontsize)),
+//                 children: [
+//                   Text(
+//                       textAlign: TextAlign.center,
+//                       data2,
+//                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
+//                           fontSize: widget._fontsize, color: Colors.black12)),
+//                 ],
+//                 showTrailingIcon: false,
+//               ),
+//               Row(
+//                 mainAxisAlignment:
+//                     MainAxisAlignment.spaceAround, // Space around the children
+//                 children: [
+//                   // First Container with Icons
+//                   Flexible(
+//                     child: Container(
+//                       child: Row(
+//                         mainAxisAlignment: MainAxisAlignment
+//                             .center, // Center icons within this container
+//                         children: [
+//                           Icon(Icons.more_vert),
+//                           SizedBox(width: 8), // Add space between icons
+//                           Icon(Icons.share),
+//                           SizedBox(width: 8), // Add space between icons
+//                           Icon(Icons.copy),
+//                         ],
+//                       ),
+//                     ),
+//                   ),
+
+//                   // Second Container with Number
+//                   InkWell(
+//                     onTap: () {
+//                       setState(() {
+//                         data3 = 10;
+//                       });
+//                     },
+//                     child: Container(
+//                       width: 100,
+//                       decoration: const BoxDecoration(
+//                         borderRadius:
+//                             BorderRadius.vertical(top: Radius.circular(25)),
+//                         color: Color.fromARGB(255, 90, 202, 165),
+//                       ),
+//                       child: Center(
+//                         child: Text(
+//                           data3.toString(),
+//                           style: TextStyle(color: Colors.white, fontSize: 24),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+
+//                   // Third Container with Arrow and Text
+//                   Flexible(
+//                     child: Container(
+//                       child: Row(
+//                         mainAxisAlignment: MainAxisAlignment
+//                             .center, // Center content within this container
+//                         children: [
+//                           IconButton(
+//                             onPressed: () {
+//                               _controller.isExpanded
+//                                   ? _controller.collapse()
+//                                   : _controller.expand();
+//                             },
+//                             icon: Icon(Icons.arrow_drop_up_sharp),
+//                           ),
+//                           SizedBox(width: 8), // Add space between icon and text
+//                           Text(
+//                             'عرض السند',
+//                             style: TextStyle(fontSize: 16),
+//                           ),
+//                         ],
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ],
+//           )),
+//     );
+//   }
+// }
 
 Container _buildTodayDekarSection(BuildContext context) {
   final double _fontsize = 18;
@@ -150,48 +426,63 @@ Container _buildTodayDekarSection(BuildContext context) {
             showTrailingIcon: false,
           ),
           Row(
-              // mainAxisAlignment:
-              //     MainAxisAlignment.spaceAround, // Center all content
-              children: [
-                Container(
+            mainAxisAlignment:
+                MainAxisAlignment.spaceAround, // Space around the children
+            children: [
+              // First Container with Icons
+              Flexible(
+                child: Container(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment
+                        .center, // Center icons within this container
                     children: [
                       Icon(Icons.more_vert),
+                      SizedBox(width: 8), // Add space between icons
                       Icon(Icons.share),
+                      SizedBox(width: 8), // Add space between icons
                       Icon(Icons.copy),
                     ],
                   ),
                 ),
-                //     Expanded(child: SizedBox()),
-                Container(
-                  width: 100,
-                  decoration: const BoxDecoration(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(25)),
-                    color: Color.fromARGB(255, 90, 202, 165),
-                  ),
-                  child: Center(
-                    child: Text(
-                      '3',
-                      style: TextStyle(color: Colors.white),
-                    ),
+              ),
+
+              // Second Container with Number
+              Container(
+                width: 100,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                  color: Color.fromARGB(255, 90, 202, 165),
+                ),
+                child: Center(
+                  child: Text(
+                    '3',
+                    style: TextStyle(color: Colors.white, fontSize: 24),
                   ),
                 ),
-                //  Expanded(child: SizedBox()),
-                Container(
+              ),
+
+              // Third Container with Arrow and Text
+              Flexible(
+                child: Container(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment
+                        .center, // Center content within this container
                     children: [
                       IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.arrow_drop_up_sharp)),
+                        onPressed: () {},
+                        icon: Icon(Icons.arrow_drop_up_sharp),
+                      ),
+                      SizedBox(width: 8), // Add space between icon and text
                       Text(
                         'عرض السند',
                         style: TextStyle(fontSize: 16),
-                      )
+                      ),
                     ],
                   ),
-                )
-              ])
+                ),
+              ),
+            ],
+          ),
         ],
       ));
 }
