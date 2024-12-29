@@ -1,3 +1,4 @@
+import 'package:athkari/app/features/categories/presentation/pages/index.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/index.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
 
@@ -31,13 +32,23 @@ class HomePage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'عرض الكل',
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              color: Colors.black,
-                              fontSize: 14,
-                              decoration: TextDecoration.underline,
-                            ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CatogroesPage(),
+                              ));
+                        },
+                        child: Text(
+                          'عرض الكل',
+                          style:
+                              Theme.of(context).textTheme.titleLarge!.copyWith(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                        ),
                       ),
                       Text(
                         'أقسام الأذكار',
