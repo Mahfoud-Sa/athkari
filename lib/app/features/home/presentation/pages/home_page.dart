@@ -1,5 +1,6 @@
 import 'package:athkari/app/features/categories/presentation/pages/index.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/index.dart';
+import 'package:athkari/app/features/esnaad/presentation/pages/index.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
 
 import 'package:flutter/material.dart';
@@ -121,14 +122,24 @@ class HomePage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: Text(
-                'عرض الاسنادات',
-                style: Theme.of(context).textTheme.titleSmall,
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EsnaadsPage(),
+                    ));
+              },
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                child: Text(
+                  'عرض الاسنادات',
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
               ),
             ),
             Text(

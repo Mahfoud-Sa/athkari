@@ -1,4 +1,3 @@
-import 'package:athkari/app/features/categories/presentation/pages/detailes.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/index.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
 
@@ -11,14 +10,17 @@ import 'package:gradient_borders/gradient_borders.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
-class CatogroesPage extends StatefulWidget {
-  const CatogroesPage({super.key});
+class CatogroesDetailesPage extends StatefulWidget {
+  const CatogroesDetailesPage(
+      {super.key, required this.categoryName, required this.dekeers});
+  final String categoryName;
+  final List<String> dekeers;
 
   @override
-  State<CatogroesPage> createState() => _CatogroesPageState();
+  State<CatogroesDetailesPage> createState() => _CatogroesDetailesPageState();
 }
 
-class _CatogroesPageState extends State<CatogroesPage> {
+class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
   List<Map<String, dynamic>> athkari = [
     {
       "deker": """أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ
@@ -31,38 +33,18 @@ class _CatogroesPageState extends State<CatogroesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _buildAppBar(context),
+        appBar: _buildAppBar(context, widget.categoryName),
         drawer: DrawerWidget(),
-        body: Column(
+        body: ListView(
           children: [
             _buildSearchBar(),
-            Expanded(
-              child: GridView.count(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 5,
-                  childAspectRatio: 1.5,
-                  children: [
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                  ]
-                  //  itemCount: 4,
-                  ),
+            TitleWidget(No_of_adkeer: widget.dekeers.length),
+            DekarCardWidget(
+              deker:
+                  "أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذا اليوم وَخَـيرَ ما بَعْـدَه ، وَأَعـوذُ بِكَ مِنْ شَـرِّ ما في هـذا اليوم وَشَرِّ ما بَعْـدَه، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر.",
+              no_of_repeating: 5,
+              saneed:
+                  "بِسـمِ اللهِ الذي لا يَضُـرُّ مَعَ اسمِـهِ شَيءٌ في الأرْضِ وَلا في السّمـاءِ وَهـوَ السّمـيعُ العَلـيم.",
             )
           ],
         ));
@@ -95,33 +77,43 @@ class _CatogroesPageState extends State<CatogroesPage> {
   }
 }
 
-class CategoryWidget extends StatefulWidget {
-  CategoryWidget({
-    super.key,
-    required this.no_of_repeating,
-    required this.deker,
-  });
+class DekarCardWidget extends StatefulWidget {
+  DekarCardWidget(
+      {super.key,
+      required this.no_of_repeating,
+      required this.deker,
+      required this.saneed});
   final double _fontsize = 18;
   int no_of_repeating = 100;
   String deker;
-
+  String saneed;
   @override
-  State<CategoryWidget> createState() => _CategoryWidgetState();
+  State<DekarCardWidget> createState() => _DekarCardWidgetState();
 }
 
-class _CategoryWidgetState extends State<CategoryWidget> {
+class _DekarCardWidgetState extends State<DekarCardWidget> {
+  final ExpansionTileController _controller = ExpansionTileController();
+  int _no_of_repeating = 100;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _no_of_repeating = widget.no_of_repeating;
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => CatogroesDetailesPage(
-                categoryName: ' ${widget.deker}',
-                dekeers: [],
-              ),
-            ));
+        setState(() {
+          if (_no_of_repeating != 0) {
+            _no_of_repeating -= 1;
+          } else {
+            _no_of_repeating = widget.no_of_repeating;
+          }
+        });
       },
       borderRadius: BorderRadius.circular(15),
       child: Container(
@@ -138,23 +130,153 @@ class _CategoryWidgetState extends State<CategoryWidget> {
           ),
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              textAlign: TextAlign.center,
-              widget.deker,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(fontSize: widget._fontsize),
+            ExpansionTile(
+              onExpansionChanged: (isExpanded) {
+                setState(() {}); // State change for any UI updates if needed
+              },
+              controller: _controller,
+              title: Text(
+                textAlign: TextAlign.center,
+                widget.deker,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(fontSize: widget._fontsize),
+              ),
+              children: [
+                Text(
+                  textAlign: TextAlign.center,
+                  widget.saneed,
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      fontSize: widget._fontsize, color: Colors.black12),
+                ),
+              ],
+              showTrailingIcon: false,
             ),
-            Text(
-              textAlign: TextAlign.center,
-              "عدد الاذكار ${widget.no_of_repeating} ذكر",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(fontSize: widget._fontsize, color: Colors.black12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // First Container with Icons
+                Flexible(
+                  //    width: 50,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      PopupMenuButton(
+                        color:
+                            Colors.white, // Set the background color to white
+                        padding: EdgeInsets.all(0), // No padding
+                        //  onChanged: (value) {},
+                        icon: Expanded(
+                          child: Icon(
+                            Icons.more_vert,
+                            color: Colors.blueGrey,
+                          ),
+                        ),
+                        itemBuilder: (BuildContext context) {
+                          return [
+                            PopupMenuItem(
+                                child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    buildShowModalBottomSheet(context);
+                                  },
+                                  child: Text(
+                                    "تعديل مرات التكرار",
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 90, 202, 165),
+                                    ),
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.add,
+                                  color: Color.fromARGB(255, 90, 202, 165),
+                                )
+                              ],
+                            )),
+                            PopupMenuItem(
+                                child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    buildShowDeleteDekeerBottomSheet(context);
+                                  },
+                                  child: Text(
+                                    "حذف من الورد اليومي",
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 90, 202, 165),
+                                    ),
+                                  ),
+                                ),
+                                Icon(
+                                  Icons.delete,
+                                  color: Color.fromARGB(255, 90, 202, 165),
+                                )
+                              ],
+                            )),
+                            //  PopupMenuItem(child: Text("حذف")),
+                          ];
+                        },
+                      ),
+                      Expanded(
+                        child: IconButton(
+                          padding: EdgeInsets.all(0), // No padding
+                          onPressed: () {
+                            Share.share(
+                                'check out my website https://example.com');
+                          },
+                          icon: Icon(
+                            Icons.share,
+                            color: Colors.blueGrey,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: IconButton(
+                          padding: EdgeInsets.all(0), // No padding
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.copy,
+                            color: Colors.blueGrey,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 120,
+                ),
+                // Second Container text
+                Flexible(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _controller.isExpanded
+                                ? _controller.collapse()
+                                : _controller.expand();
+                          });
+                        },
+                        icon: const Icon(Icons.arrow_drop_up_sharp),
+                      ),
+                      //  const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'عرض السند',
+                          style: TextStyle(fontSize: widget._fontsize - 5),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),
@@ -363,7 +485,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
   }
 }
 
-PreferredSize _buildAppBar(BuildContext context) {
+PreferredSize _buildAppBar(BuildContext context, String name) {
   return PreferredSize(
     preferredSize: const Size.fromHeight(75), // Set custom height here
     child: AppBar(
@@ -380,7 +502,7 @@ PreferredSize _buildAppBar(BuildContext context) {
       automaticallyImplyLeading: false, // Remove default leading button
       centerTitle: true, // Keeps the title centered horizontally
       title: Text(
-        "تصنيفات الأذكار",
+        name,
         style: Theme.of(context).textTheme.titleMedium!.copyWith(
             fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
       ),
