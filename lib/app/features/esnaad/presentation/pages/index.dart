@@ -328,7 +328,7 @@ class _EsnaadCardWidgetState extends State<EsnaadCardWidget> {
 }
 
 class EsnaadCar2dWidget extends StatefulWidget {
-  EsnaadCardWidget(
+  EsnaadCar2dWidget(
       {super.key,
       required this.no_of_repeating,
       required this.deker,
