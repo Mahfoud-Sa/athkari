@@ -1,10 +1,13 @@
 import 'package:athkari/app/features/categories/presentation/pages/index.dart';
+import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_cubit.dart';
+import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_state.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/index.dart';
 import 'package:athkari/app/features/esnaad/presentation/pages/index.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:gradient_borders/gradient_borders.dart';
@@ -311,7 +314,13 @@ class HomePage extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => IndexPage(),
+                          builder: (context) => BlocBuilder<
+                              LocalDailyWereCubitCubit,
+                              LocalDailyWeredCubitStates>(
+                            builder: (context, state) {
+                              return IndexPage();
+                            },
+                          ),
                         ));
                   },
                   child: Text(

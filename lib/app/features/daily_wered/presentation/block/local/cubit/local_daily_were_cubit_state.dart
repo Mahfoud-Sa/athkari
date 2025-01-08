@@ -1,6 +1,21 @@
-part of 'local_daily_were_cubit_cubit.dart';
+import 'package:equatable/equatable.dart';
 
-@immutable
-sealed class LocalDailyWereCubitState {}
+abstract class LocalDailyWeredCubitStates extends Equatable {}
 
-final class LocalDailyWereCubitInitial extends LocalDailyWereCubitState {}
+class InitialState extends LocalDailyWeredCubitStates {
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+}
+
+class LoadingState extends LocalDailyWeredCubitStates {
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+}
+
+class DoneState extends LocalDailyWeredCubitStates {
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+}
