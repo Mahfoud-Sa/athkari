@@ -49,7 +49,7 @@ class AppDataBaseServices {
 //  ''');
     await db.execute('''
   
-  CREATE TABLE "articles" ( 
+  CREATE TABLE "Adhkars" ( 
     "id" INTEGER  NOT NULL PRIMARY KEY  AUTOINCREMENT, 
     "source_id" TEXT NULL,
     "source_name" TEXT NULL,

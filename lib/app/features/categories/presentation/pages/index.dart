@@ -1,5 +1,5 @@
 import 'package:athkari/app/features/categories/presentation/pages/detailes.dart';
-import 'package:athkari/app/features/daily_wered/presentation/pages/index.dart';
+import 'package:athkari/app/features/daily_wered/presentation/pages/dedher_Index_page.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
 
 import 'package:flutter/material.dart';
