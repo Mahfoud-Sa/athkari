@@ -33,6 +33,7 @@ class _CatogroesPageState extends State<CatogroesPage> {
     return Scaffold(
         appBar: _buildAppBar(context),
         drawer: DrawerWidget(),
+        floatingActionButton: FloatingActionButton(onPressed: () {}),
         body: Column(
           children: [
             _buildSearchBar(),

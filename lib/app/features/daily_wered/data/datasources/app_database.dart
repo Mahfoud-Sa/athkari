@@ -1,100 +1,78 @@
-//import 'package:note/app/features/manage_notes/data/models/note.dart';
-//import 'package:note/app/features/manage_notes/domain/entities/note.dart';
-
+import 'package:athkari/app/features/daily_wered/data/datasources/local/dhkar_dao.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:flutter/widgets.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppDataBaseServices {
-  static Database? _db;
-  // late ArticleDao articleDao;
+  static final AppDataBaseServices _instance = AppDataBaseServices._internal();
+  Database? _database;
 
-  // AppDataBaseServices();
+  AppDataBaseServices._internal();
+
+  factory AppDataBaseServices() {
+    return _instance;
+  }
+
   Future<Database?> get db async {
-    if (_db == null) {
-      _db = await intialDb();
-      return _db;
-    } else {
-      return _db;
+    if (_database == null) {
+      _database = await _initializeDb();
     }
+    return _database;
   }
 
-  intialDb() async {
-    String databasepath = await getDatabasesPath();
-    String path = join(databasepath, 'database.db');
-    Database mydb = await openDatabase(path,
-        onCreate: _onCreate, version: 1, onUpgrade: _onUpgrade);
-
-    //  articleDao = ArticleDao(AppDataBase: mydb);
-    return mydb;
+  Future<Database> _initializeDb() async {
+    String databasePath = await getDatabasesPath();
+    String path = join(databasePath, 'database.db');
+    return await openDatabase(
+      path,
+      version: 1,
+      onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
+    );
   }
 
-  _onUpgrade(Database db, int oldversion, int newversion) {}
+  DhkarDao get adhkaiDao {
+    if (_database == null) {
+      throw Exception(
+          "Database not initialized yet. Please wait until it's initialized.");
+    }
+    return DhkarDao(_database!);
+  }
 
-  _onCreate(Database db, int version) async {
-    print("Table created successfully.");
-//     await db.execute('''
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    // Handle database upgrades if needed
+  }
 
-//   CREATE TABLE "sources" (
-//     "sourceId" INTEGER  NOT NULL PRIMARY KEY  AUTOINCREMENT,
-//     "id" TEXT NULL,
-//     "name" TEXT NULL
+  Future<void> _onCreate(Database db, int version) async {
+    print("Creating tables...");
 
-//  )
-
-//  ''');
     await db.execute('''
-  
-  CREATE TABLE "Adhkars" ( 
-    "id" INTEGER  NOT NULL PRIMARY KEY  AUTOINCREMENT, 
-    "source_id" TEXT NULL,
-    "source_name" TEXT NULL,
-    "title" TEXT NULL,
-    "author" TEXT NULL,
-    "description" TEXT NULL,
-    "url" TEXT NULL,
-    "urlToImage" TEXT NULL,
-    "content" TEXT NULL 
- )
+      CREATE TABLE Adhkars (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        source_id TEXT,
+        source_name TEXT,
+        title TEXT,
+        author TEXT,
+        description TEXT,
+        url TEXT,
+        urlToImage TEXT,
+        content TEXT
+      )
+    ''');
 
- ''');
-    //  //  "publishedAt" String NULL,
+    print("Tables created successfully.");
   }
 
-  // create(Database? mydb, ArticleEntity article) async {
-  //   return await mydb!.insert(
-  //     'articles',
-  //     {
-  //       'source_id': article.source!.id,
-  //       'name_name': article.source!.name,
-  //       'author': article.author,
-  //       'title': article.title,
-  //       'description': article.descripution,
-  //       'url': article.url,
-  //       'urlToImage': article.urlToImage,
-  //       //   'publishedAt': article.publishedAt!.toString(),
-  //       'content': article.content,
-  //     },
-  //   );
-  // }
+  Future<List<Map<String, dynamic>>> getAllAdhkars() async {
+    if (_database == null) {
+      throw Exception(
+          "Database not initialized yet. Please wait until it's initialized.");
+    }
+    return await _database!.query("Adhkars");
+  }
+}
+
 /*
-  getAll(Database? mydb) async {
-    //var response = await mydb!.rawQuery("SELECT articles.* from articles INNER JOIN sources ON articles.source = sources.id");
-    List<dynamic> response = await mydb!.rawQuery(
-        "SELECT articles.*, sources.* FROM articles INNER JOIN sources ON articles.source = sources.id;");
-
-    //print(response);
-//List<NoteModel> notes =
-    //    response.map((json) => NoteModel.fromJson(json)).toList();
-    //print(notes);
-
-    return response;
-  }
-
   Future<List<NoteModel>> getAll(Database? mydb) async {
     var response = await mydb!.query("Notes");
     //print(response);
@@ -195,5 +173,6 @@ class AppDataBaseServices {
 
     return response;
   }
-*/
+
 }
+*/

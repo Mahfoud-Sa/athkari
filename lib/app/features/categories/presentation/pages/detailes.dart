@@ -33,6 +33,7 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: FloatingActionButton(onPressed: () {}),
         appBar: _buildAppBar(context, widget.categoryName),
         drawer: DrawerWidget(),
         body: ListView(

@@ -1,12 +1,12 @@
 import 'package:athkari/app/core/usecase/usecase.dart';
-import 'package:athkari/app/features/daily_wered/domain/repository/dhkar_repository.dart';
+import 'package:athkari/app/features/daily_wered/data/repository/dhkar_repository_impl.dart';
 
 class GetDailyWereUseCase implements UseCase {
-  final DhkarRepository _dhkarRepository;
+  final DhkarRepositoryImpl _dhkarRepository;
   GetDailyWereUseCase(this._dhkarRepository);
   @override
-  Future call({params}) {
+  Future<List<Map<String, dynamic>>> call({params}) async {
     // TODO: implement call
-    throw UnimplementedError();
+    return await _dhkarRepository.getAllDhkars();
   }
 }

@@ -1,10 +1,11 @@
-import 'package:athkari/app/features/categories/presentation/pages/detailes.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_state.dart';
+import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:athkari/app/features/daily_wered/presentation/widgets/dekar_card_widget.dart';
 
 import 'package:gradient_borders/gradient_borders.dart';
 
@@ -16,41 +17,40 @@ class DedherIndexPage extends StatelessWidget {
     return Scaffold(
         appBar: _buildAppBar(context),
         body: BlocBuilder<LocalDailyWereCubitCubit, LocalDailyWeredCubitStates>(
-          builder: (context, state) {
-            if (state is LoadingState) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (state is DoneState) {
-              return ListView(
-                children: [
-                  _buildSearchBar(),
-                  TitleWidget(
-                    No_of_adkeer: 30,
-                  ),
-
-                  // Iterate through the doneState list to generate DekarCardWidgets
-                  for (var item in state.athkari)
-                    DekarCardWidget(
-                      no_of_repeating: item['no_of_repeating'],
-                      deker: item['deker'],
-                      saneed: item['saneed'],
-                    ),
-                ],
-              );
-            } else {
-              return Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Trigger a specific event
-                    context.read<LocalDailyWereCubitCubit>().FetchData();
-                  },
-                  child: Text('إعاده المحاولة'),
+            builder: (context, state) {
+          if (state is LoadingState) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is DoneState) {
+            return ListView(
+              children: [
+                _buildSearchBar(),
+                TitleWidget(
+                  No_of_adkeer: 30,
                 ),
-              );
-            }
-          },
-        ));
+
+                // Iterate through the doneState list to generate DekarCardWidgets
+                for (var item in state.athkari)
+                  DekarCardWidget(
+                    no_of_repeating: item['no_of_repeating'],
+                    deker: item['deker'],
+                    saneed: item['saneed'],
+                  ),
+              ],
+            );
+          } else {
+            return Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  // Trigger a specific event
+                  context.read<LocalDailyWereCubitCubit>().FetchData();
+                },
+                child: Text('إعاده المحاولة'),
+              ),
+            );
+          }
+        }));
   }
 
   Padding _buildSearchBar() {

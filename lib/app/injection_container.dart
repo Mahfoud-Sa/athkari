@@ -1,4 +1,7 @@
 import 'package:athkari/app/features/daily_wered/data/datasources/app_database.dart';
+import 'package:athkari/app/features/daily_wered/data/repository/dhkar_repository_impl.dart';
+import 'package:athkari/app/features/daily_wered/domain/usecase/get_daily_wered.dart';
+import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_cubit.dart';
 import 'package:get_it/get_it.dart';
 //import 'package:news_app/app/core/resources/app_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,13 +18,17 @@ Future<void> initializationContainer() async {
 
 //Database
   final _appDataBaseServices = await AppDataBaseServices();
-  await _appDataBaseServices.intialDb();
+  await _appDataBaseServices.db;
   getIt.registerSingleton<AppDataBaseServices>(_appDataBaseServices);
-
   var _AppDataBaseServices = await getIt.get<AppDataBaseServices>();
-  // await _AppDataBaseServices.articleDao.getAll();
+
+  // State Managment
+  getIt.registerFactory<LocalDailyWereCubitCubit>(
+      () => LocalDailyWereCubitCubit(getIt()));
+
+  // repositories
+  getIt.registerSingleton<DhkarRepositoryImpl>(DhkarRepositoryImpl(getIt()));
 
 // use cases
-
-// State Managment objets
+  getIt.registerSingleton<GetDailyWereUseCase>(GetDailyWereUseCase(getIt()));
 }
