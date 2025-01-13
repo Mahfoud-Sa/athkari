@@ -5,7 +5,7 @@ class DhkarDao {
   final Database database;
 
   // AdhkaiDao(this._db);
-  Future<bool> Insert(String name, String esnadd) async {
+  Future<bool> Insert(String name, int esnadd) async {
     var value = {
       'dhaker': name,
       'repetitions': esnadd,
@@ -24,6 +24,12 @@ class DhkarDao {
     var temp = await database.query('Adhkars');
     print(temp);
     return temp;
+  }
+
+  Future<int> getTotal() async {
+    var result = await database.query('Adhkars');
+
+    return result.length;
   }
   // Future<void> GetAll();
   // Future<void> Get();

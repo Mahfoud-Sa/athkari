@@ -2,16 +2,21 @@ import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/
 import 'package:athkari/app/features/daily_wered/presentation/pages/dedher_Index_page.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
 import 'package:athkari/app/injection_container.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
-import 'package:intl/intl.dart';
 import 'package:gradient_borders/gradient_borders.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share_plus/share_plus.dart';
+
+// class MyWidget extends StatelessWidget {
+//   const MyWidget({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Placeholder();
+//   }
+// }
 
 class CatogroesDetailesPage extends StatefulWidget {
   const CatogroesDetailesPage(
@@ -24,15 +29,6 @@ class CatogroesDetailesPage extends StatefulWidget {
 }
 
 class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
-  List<Map<String, dynamic>> athkari = [
-    {
-      "deker": """أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ
-اللّهُ لاَ إِلَـهَ إِلاَّ هُوَ الْحَيُّ الْقَيُّومُ لاَ تَأْخُذُهُ سِنَةٌ وَلاَ نَوْمٌ لَّهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الأَرْضِ مَن ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلاَّ بِإِذْنِهِ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ وَلاَ يُحِيطُونَ بِشَيْءٍ مِّنْ عِلْمِهِ إِلاَّ بِمَا شَاء وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالأَرْضَ وَلاَ يَؤُودُهُ حِفْظُهُمَا وَهُوَ الْعَلِيُّ الْعَظِيمُ. [آية الكرسى - البقرة 255]. """,
-      "saneed":
-          "من قالها حين يصبح أجير من الجن حتى يمسى ومن قالها حين يمسى أجير من الجن حتى يصبح.",
-      "no_of_repeating": 4
-    }
-  ];
   var formKey = GlobalKey<FormState>();
   var textEditingController_1 = TextEditingController();
   var textEditingController_2 = TextEditingController();
@@ -47,7 +43,10 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
         body: ListView(
           children: [
             _buildSearchBar(),
-            TitleWidget(No_of_adkeer: widget.dekeers.length),
+            SideTitle(
+              count: widget.dekeers.length,
+              title: "عدد الاذكار",
+            ),
             DekarCardWidget(
               deker:
                   "أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذا اليوم وَخَـيرَ ما بَعْـدَه ، وَأَعـوذُ بِكَ مِنْ شَـرِّ ما في هـذا اليوم وَشَرِّ ما بَعْـدَه، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر.",

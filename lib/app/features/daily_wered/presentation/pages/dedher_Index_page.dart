@@ -1,6 +1,5 @@
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_state.dart';
-import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,16 +25,17 @@ class DedherIndexPage extends StatelessWidget {
             return ListView(
               children: [
                 _buildSearchBar(),
-                TitleWidget(
-                  No_of_adkeer: 30,
+                SideTitle(
+                  title: "عدد الاذكار",
+                  count: 30,
                 ),
 
                 // Iterate through the doneState list to generate DekarCardWidgets
                 for (var item in state.athkari)
                   DekarCardWidget(
-                    no_of_repeating: item['no_of_repeating'],
-                    deker: item['deker'],
-                    saneed: item['saneed'],
+                    no_of_repeating: item['repetitions'] as int,
+                    deker: item['dhaker'],
+                    saneed: item['esnaad_id'].toString(),
                   ),
               ],
             );
@@ -80,19 +80,20 @@ class DedherIndexPage extends StatelessWidget {
   }
 }
 
-class TitleWidget extends StatelessWidget {
-  const TitleWidget({
+class SideTitle extends StatelessWidget {
+  const SideTitle({
     super.key,
-    required this.No_of_adkeer,
+    required this.count,
+    required this.title,
   });
-  final int No_of_adkeer;
+  final int count;
+  final String title;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
       child: Align(
-          alignment: Alignment.centerRight,
-          child: Text("عدد الاذكار: ${No_of_adkeer}")),
+          alignment: Alignment.centerRight, child: Text("${title} : ${count}")),
     );
   }
 }

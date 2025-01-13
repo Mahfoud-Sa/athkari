@@ -7,6 +7,8 @@ class AddDhakerUseCase implements UseCase {
   @override
   Future<bool> call({params}) async {
     // TODO: implement call
-    return await _dhkarRepository.addDhkars("asdfas", "asdfasd");
+    return await _dhkarRepository.addDhkars(
+        "اللّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلاً مُتَقَبَّلاً.",
+        5);
   }
 }
