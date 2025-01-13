@@ -5,14 +5,25 @@ class DhkarDao {
   final Database database;
 
   // AdhkaiDao(this._db);
-  Future<void> Insert() {
-    // TODO: implement Insert
-    throw UnimplementedError();
+  Future<bool> Insert(String name, String esnadd) async {
+    var value = {
+      'dhaker': name,
+      'repetitions': esnadd,
+      'esnaad_id': 0,
+    };
+    var status = await database.insert("Adhkars", value);
+    if (status == 0) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   // Example: Get all records
   Future<List<Map<String, dynamic>>> getAllAdhkai() async {
-    return await database.query('Adhkars');
+    var temp = await database.query('Adhkars');
+    print(temp);
+    return temp;
   }
   // Future<void> GetAll();
   // Future<void> Get();

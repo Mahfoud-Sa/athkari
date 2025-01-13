@@ -1,8 +1,11 @@
+import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/dedher_Index_page.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
+import 'package:athkari/app/injection_container.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 import 'package:intl/intl.dart';
@@ -30,10 +33,15 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
       "no_of_repeating": 4
     }
   ];
+  var formKey = GlobalKey<FormState>();
+  var textEditingController_1 = TextEditingController();
+  var textEditingController_2 = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: () {}),
+        floatingActionButton: FloatingActionButton(onPressed: () {
+          buildShowAddDhaderBottomSheet(context);
+        }),
         appBar: _buildAppBar(context, widget.categoryName),
         drawer: DrawerWidget(),
         body: ListView(
@@ -49,6 +57,139 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
             )
           ],
         ));
+  }
+
+  Future<dynamic> buildShowAddDhaderBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => Form(
+        key: formKey,
+        onChanged: () {},
+        child: SingleChildScrollView(
+          //  width: double.infinity,
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 3,
+                width: 80,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.black,
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(top: 8, bottom: 12),
+                child: Text(
+                  'اضافة ذكر',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900),
+                ),
+              ),
+              const Row(
+                children: [
+                  Expanded(child: SizedBox()),
+                  Padding(
+                    padding: EdgeInsets.only(right: 8.0),
+                    child: Text(
+                      'نص الذكر المتن',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 22,
+                          color: Color.fromARGB(255, 128, 188, 189)),
+                    ),
+                  )
+                ],
+              ),
+              // TempWidget(
+              //   noOfRepeating: 5,
+              // ),
+              TextFormField(
+                controller: textEditingController_1,
+              ),
+              const Row(
+                children: [
+                  Expanded(child: SizedBox()),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: const Text(
+                      'السند',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 22,
+                          color: Color.fromARGB(255, 128, 188, 189)),
+                    ),
+                  )
+                ],
+              ),
+              TextFormField(),
+              BlocProvider(
+                create: (context) => getIt<LocalDailyWereCubitCubit>(),
+                child: InkWell(
+                  onTap: () {
+                    //  formKey.currentState.validate();
+                    if (formKey.currentState!.validate()) {
+                      context.read<LocalDailyWereCubitCubit>().AddDheker(
+                          textEditingController_1.text,
+                          textEditingController_2.text);
+                    }
+                  },
+                  borderRadius: BorderRadius.circular(20),
+                  child: Container(
+                    width: 300,
+                    height: 50,
+                    child: Center(
+                      child: const Text(
+                        'أضافة ذكر',
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                        color: const Color.fromARGB(255, 128, 188, 189),
+                        borderRadius: BorderRadius.circular(30)),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(20),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: 300,
+                  height: 50,
+                  child: const Center(
+                    child: Text(
+                      'الغاء',
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 128, 188, 189),
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color: const Color.fromARGB(255, 128, 188, 189),
+                          width: 3),
+                      borderRadius: BorderRadius.circular(30)),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Padding _buildSearchBar() {

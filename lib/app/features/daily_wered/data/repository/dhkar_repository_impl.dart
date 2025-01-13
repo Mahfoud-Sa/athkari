@@ -85,8 +85,7 @@ class DhkarRepositoryImpl implements DhkarRepository {
   }
 
   @override
-  Future<List<DhkarModel>> addDhkars() {
-    // TODO: implement addDhkars
-    throw UnimplementedError();
+  Future<bool> addDhkars(String dheer, String esnaad) {
+    return _appDataBaseServices.adhkaiDao.Insert(dheer, esnaad);
   }
 }

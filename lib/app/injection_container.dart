@@ -1,5 +1,6 @@
 import 'package:athkari/app/features/daily_wered/data/datasources/app_database.dart';
 import 'package:athkari/app/features/daily_wered/data/repository/dhkar_repository_impl.dart';
+import 'package:athkari/app/features/daily_wered/domain/usecase/add_dhaker_usecase.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/get_daily_wered.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_cubit.dart';
 import 'package:get_it/get_it.dart';
@@ -24,11 +25,12 @@ Future<void> initializationContainer() async {
 
   // State Managment
   getIt.registerFactory<LocalDailyWereCubitCubit>(
-      () => LocalDailyWereCubitCubit(getIt()));
+      () => LocalDailyWereCubitCubit(getIt(), getIt()));
 
   // repositories
   getIt.registerSingleton<DhkarRepositoryImpl>(DhkarRepositoryImpl(getIt()));
 
 // use cases
   getIt.registerSingleton<GetDailyWereUseCase>(GetDailyWereUseCase(getIt()));
+  getIt.registerSingleton<AddDhakerUseCase>(AddDhakerUseCase(getIt()));
 }

@@ -49,14 +49,10 @@ class AppDataBaseServices {
     await db.execute('''
       CREATE TABLE Adhkars (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        source_id TEXT,
-        source_name TEXT,
-        title TEXT,
-        author TEXT,
-        description TEXT,
-        url TEXT,
-        urlToImage TEXT,
-        content TEXT
+        dhaker TEXT ,
+        repetitions INTEGER,
+        esnaad_id
+       
       )
     ''');
 

@@ -10,7 +10,7 @@ Future<void> main() async {
   await initializationContainer();
   runApp(MultiBlocProvider(
     providers: [
-      BlocProvider(create: (_) => LocalDailyWereCubitCubit(getIt())),
+      BlocProvider(create: (_) => LocalDailyWereCubitCubit(getIt(), getIt())),
     ],
     child: App(),
   ));
