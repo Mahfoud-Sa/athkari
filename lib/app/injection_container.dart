@@ -2,7 +2,7 @@ import 'package:athkari/app/features/daily_wered/data/datasources/app_database.d
 import 'package:athkari/app/features/daily_wered/data/repository/dhkar_repository_impl.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/add_dhaker_usecase.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/get_daily_wered.dart';
-import 'package:athkari/app/features/daily_wered/domain/usecase/get_total_daily_wered.dart';
+import 'package:athkari/app/features/daily_wered/domain/usecase/update_daily_wered_usecase.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_cubit.dart';
 import 'package:get_it/get_it.dart';
 //import 'package:news_app/app/core/resources/app_database.dart';
@@ -34,6 +34,6 @@ Future<void> initializationContainer() async {
 // use cases
   getIt.registerSingleton<GetDailyWereUseCase>(GetDailyWereUseCase(getIt()));
   getIt.registerSingleton<AddDhakerUseCase>(AddDhakerUseCase(getIt()));
-  getIt.registerSingleton<GetTotalDailyWereUseCase>(
-      GetTotalDailyWereUseCase(getIt()));
+  // getIt.registerSingleton<GetTotalDailyWereUseCase>(
+  //     GetTotalDailyWereUseCase(getIt()));
 }

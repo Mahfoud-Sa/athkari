@@ -1,3 +1,5 @@
+import 'package:athkari/app/features/daily_wered/data/modules/dhkar.dart';
+import 'package:flutter/material.dart';
 import 'package:sqflite_common/sqlite_api.dart';
 
 class DhkarDao {
@@ -5,10 +7,10 @@ class DhkarDao {
   final Database database;
 
   // AdhkaiDao(this._db);
-  Future<bool> Insert(String name, int esnadd) async {
+  Future<bool> Insert(DhkarModel dhkar) async {
     var value = {
-      'dhaker': name,
-      'repetitions': esnadd,
+      'dhaker': dhkar.dhkar,
+      'repetitions': dhkar.repetitions,
       'esnaad_id': 0,
     };
     var status = await database.insert("Adhkars", value);
@@ -17,6 +19,17 @@ class DhkarDao {
     } else {
       return true;
     }
+  }
+
+  Future<int> Update(DhkarModel dhkar) async {
+    var value = {
+      'dhaker': dhkar.dhkar,
+      'repetitions': dhkar.repetitions,
+      'esnaad_id': 0,
+    };
+    var status = await database
+        .update("Adhkars", value, where: 'id = ?', whereArgs: [dhkar.id]);
+    return status;
   }
 
   // Example: Get all records

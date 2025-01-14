@@ -1,3 +1,4 @@
+import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
 import 'package:athkari/app/features/daily_wered/domain/repository/dhkar_repository.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/add_dhaker_usecase.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/get_daily_wered.dart';
@@ -6,12 +7,12 @@ import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-class LocalDailyWereCubitCubit extends Cubit<LocalDailyWeredCubitStates> {
+class CatogeryCubit extends Cubit<CatogeryState> {
   final GetDailyWereUseCase _dailyWereUseCase;
   final AddDhakerUseCase _addDhakerUseCase;
   var athkariList;
   //final GetTotalDailyWereUseCase _getTotalDailyWereUseCase;
-  LocalDailyWereCubitCubit(this._dailyWereUseCase, this._addDhakerUseCase)
+  CatogeryCubit(this._dailyWereUseCase, this._addDhakerUseCase)
       //  this._getTotalDailyWereUseCase
       : super(InitialState()) {
     emit(NoDataState());

@@ -4,7 +4,7 @@ class DhkarModel extends DhkarEntity {
   DhkarModel({
     int? id,
     String? dhkar,
-    int? no_of_repeating,
+    int? repetitions,
   });
 
   // ignore: avoid_types_as_parameter_names
