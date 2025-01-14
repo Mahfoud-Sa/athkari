@@ -24,10 +24,10 @@ class DedherIndexPage extends StatelessWidget {
           } else if (state is DoneState) {
             return ListView(
               children: [
-                _buildSearchBar(),
+                _buildSearchBar(context),
                 SideTitle(
                   title: "عدد الاذكار",
-                  count: 30,
+                  count: state.total,
                 ),
 
                 // Iterate through the doneState list to generate DekarCardWidgets
@@ -53,13 +53,13 @@ class DedherIndexPage extends StatelessWidget {
         }));
   }
 
-  Padding _buildSearchBar() {
+  Padding _buildSearchBar(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: TextField(
-        // onchange: (){
-
-        // },
+        onChanged: (value) {
+          context.read<LocalDailyWereCubitCubit>().Search(value);
+        },
         keyboardType: TextInputType.text,
         textAlign: TextAlign.right,
         decoration: InputDecoration(

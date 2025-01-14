@@ -26,7 +26,7 @@ Future<void> initializationContainer() async {
 
   // State Managment
   getIt.registerFactory<LocalDailyWereCubitCubit>(
-      () => LocalDailyWereCubitCubit(getIt(), getIt(), getIt()));
+      () => LocalDailyWereCubitCubit(getIt(), getIt()));
 
   // repositories
   getIt.registerSingleton<DhkarRepositoryImpl>(DhkarRepositoryImpl(getIt()));

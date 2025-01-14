@@ -22,10 +22,12 @@ class LoadingState extends LocalDailyWeredCubitStates {
 
 class DoneState extends LocalDailyWeredCubitStates with EquatableMixin {
   final List<Map<String, dynamic>> athkari;
+  final int total;
 
   // Constructor
-  DoneState({required this.athkari});
+  DoneState({required this.athkari})
+      : total = athkari.isEmpty ? 0 : athkari.length;
 
   @override
-  List<Object?> get props => [athkari]; // For state comparison
+  List<Object?> get props => [athkari, total]; // For state comparison
 }

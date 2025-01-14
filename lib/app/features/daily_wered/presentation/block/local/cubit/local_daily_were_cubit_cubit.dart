@@ -9,9 +9,10 @@ import 'package:meta/meta.dart';
 class LocalDailyWereCubitCubit extends Cubit<LocalDailyWeredCubitStates> {
   final GetDailyWereUseCase _dailyWereUseCase;
   final AddDhakerUseCase _addDhakerUseCase;
-  final GetTotalDailyWereUseCase _getTotalDailyWereUseCase;
-  LocalDailyWereCubitCubit(this._dailyWereUseCase, this._addDhakerUseCase,
-      this._getTotalDailyWereUseCase)
+  var athkariList;
+  //final GetTotalDailyWereUseCase _getTotalDailyWereUseCase;
+  LocalDailyWereCubitCubit(this._dailyWereUseCase, this._addDhakerUseCase)
+      //  this._getTotalDailyWereUseCase
       : super(InitialState()) {
     emit(NoDataState());
     //emit(DoneState(athkari: athkariList));
@@ -19,16 +20,22 @@ class LocalDailyWereCubitCubit extends Cubit<LocalDailyWeredCubitStates> {
   }
 
   void FetchData() async {
-    var athkariList = await _dailyWereUseCase.call();
+    athkariList = await _dailyWereUseCase.call();
 
     emit(DoneState(athkari: athkariList));
   }
 
-  void GetTotalOfDekeers() async {
-    var athkariList = await _getTotalDailyWereUseCase.call();
-
+  void Search(String query) async {
+    // var athkariList = await _dailyWereUseCase.call();
+    athkariList =
+        athkariList.where((x) => x["dhaker"].contains(query)).toList();
     emit(DoneState(athkari: athkariList));
   }
+  // void GetTotalOfDekeers() async {
+  //   var total = await _getTotalDailyWereUseCase.call();
+
+  //   emit(DoneState(athkari: athkariList));
+  // }
 
   void AddDheker(String text_1, String test_2) async {
     var athkariList = await _addDhakerUseCase.call();
