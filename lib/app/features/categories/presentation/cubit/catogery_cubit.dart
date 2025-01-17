@@ -25,7 +25,7 @@ class CategoryCubit extends Cubit<CatogeryState> {
   }
 
   void AddCategory(String name) async {
-    await _addCatogoriesUseCase.call();
+    await _addCatogoriesUseCase(params: CategoryEntity(name: name));
     // print(temp);
     // categoryiList = {
     //   "deker": """الصباح""",

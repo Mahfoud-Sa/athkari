@@ -7,8 +7,8 @@ class CategoryRepositoryImp implements CategoryRepository {
   final AppDataBaseServices _appDataBaseServices;
   CategoryRepositoryImp(this._appDataBaseServices);
   @override
-  Future<int> addCatogory(CategoryEntity category) {
-    return _appDataBaseServices.categoryDao
+  Future<int> addCatogory(CategoryEntity category) async {
+    return await _appDataBaseServices.categoryDao
         .insertCategory(CategoryModel.fromEntity(category));
   }
 
