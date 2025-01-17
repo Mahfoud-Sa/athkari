@@ -14,12 +14,6 @@ class CategoryCubit extends Cubit<CatogeryState> {
 
   void FetchData() async {
     categoryiList = await _getCatogoriesUseCase.call();
-    // print(temp);
-    // categoryiList = {
-    //   "deker": """الصباح""",
-    //   "deker": """المساء""",
-    //   "deker": """النوم"""
-    // };
 
     emit(DoneCategoryState(categoryiList));
   }
@@ -40,17 +34,17 @@ class CategoryCubit extends Cubit<CatogeryState> {
     emit(LoadingCategoryState());
   }
 
-  // void Search(String query) async {
-  //   // var athkariList = await _dailyWereUseCase.call();
-  //   athkariList =
-  //       athkariList.where((x) => x["dhaker"].contains(query)).toList();
+  void Search(String query) async {
+    // var athkariList = await _dailyWereUseCase.call();
+    categoryiList =
+        categoryiList.where((x) => x.name!.contains(query)).toList();
+    emit(DoneCategoryState(categoryiList));
+  }
+  // void GetTotalOfDekeers() async {
+  //   var total = await _getTotalDailyWereUseCase.call();
+
   //   emit(DoneState(athkari: athkariList));
   // }
-  // // void GetTotalOfDekeers() async {
-  // //   var total = await _getTotalDailyWereUseCase.call();
-
-  // //   emit(DoneState(athkari: athkariList));
-  // // }
 
   // void AddDheker(String text_1, String test_2) async {
   //   var athkariList = await _addDhakerUseCase.call();
