@@ -10,9 +10,9 @@ class CategoryEntity extends Equatable {
   });
 
   // ignore: avoid_types_as_parameter_names
-  factory CategoryEntity.fromJson(Map<String, dynamic> json) {
-    return CategoryEntity();
-  }
+  // factory CategoryEntity.fromJson(Map<String, dynamic> json) {
+  //   return CategoryEntity();
+  // }
 
   @override
   // TODO: implement props

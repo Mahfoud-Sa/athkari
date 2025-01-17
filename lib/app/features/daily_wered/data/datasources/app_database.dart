@@ -1,3 +1,4 @@
+import 'package:athkari/app/features/categories/data/datasources/local/category_dao.dart';
 import 'package:athkari/app/features/daily_wered/data/datasources/local/dhkar_dao.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -20,6 +21,22 @@ class AppDataBaseServices {
     return _database;
   }
 
+  DhkarDao get adhkaiDao {
+    if (_database == null) {
+      throw Exception(
+          "Database not initialized yet. Please wait until it's initialized.");
+    }
+    return DhkarDao(_database!);
+  }
+
+  CategoryDao get categoryDao {
+    if (_database == null) {
+      throw Exception(
+          "Database not initialized yet. Please wait until it's initialized.");
+    }
+    return CategoryDao(_database!);
+  }
+
   Future<Database> _initializeDb() async {
     String databasePath = await getDatabasesPath();
     String path = join(databasePath, 'database.db');
@@ -31,14 +48,6 @@ class AppDataBaseServices {
     );
   }
 
-  DhkarDao get adhkaiDao {
-    if (_database == null) {
-      throw Exception(
-          "Database not initialized yet. Please wait until it's initialized.");
-    }
-    return DhkarDao(_database!);
-  }
-
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     // Handle database upgrades if needed
   }
@@ -47,12 +56,18 @@ class AppDataBaseServices {
     print("Creating tables...");
 
     await db.execute('''
-      CREATE TABLE Adhkars (
+      CREATE TABLE Dhkars (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         dhaker TEXT ,
         repetitions INTEGER,
-        esnaad_id
-       
+        category_id,
+        FOREIGN KEY (category_id) REFERENCES Categories(id) ON DELETE CASCADE
+      )
+    ''');
+    await db.execute('''
+      CREATE TABLE Categories (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT 
       )
     ''');
 

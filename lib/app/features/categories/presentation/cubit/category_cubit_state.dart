@@ -1,33 +1,26 @@
+import 'package:athkari/app/features/categories/domain/entities/category.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class CatogeryState extends Equatable {}
 
-class InitialState extends CatogeryState {
+class InitialCategoryState extends CatogeryState {
   @override
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }
 
-class NoDataState extends CatogeryState {
+class LoadingCategoryState extends CatogeryState {
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
-class LoadingState extends CatogeryState {
+class DoneCategoryState extends CatogeryState {
+  final List<CategoryEntity> catogories;
+
+  DoneCategoryState(this.catogories);
+
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
-}
-
-class DoneState extends CatogeryState with EquatableMixin {
-  final List<Map<String, dynamic>> athkari;
-  final int total;
-
-  // Constructor
-  DoneState({required this.athkari})
-      : total = athkari.isEmpty ? 0 : athkari.length;
-
-  @override
-  List<Object?> get props => [athkari, total]; // For state comparison
+  List<Object?> get props => [catogories]; // For state comparison
 }

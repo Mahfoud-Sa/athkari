@@ -1,46 +1,59 @@
-// import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
-// import 'package:athkari/app/features/daily_wered/domain/repository/dhkar_repository.dart';
-// import 'package:athkari/app/features/daily_wered/domain/usecase/add_dhaker_usecase.dart';
-// import 'package:athkari/app/features/daily_wered/domain/usecase/get_daily_wered.dart';
-// import 'package:athkari/app/features/daily_wered/domain/usecase/update_daily_wered_usecase.dart';
-// import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_state.dart';
-// import 'package:bloc/bloc.dart';
-// import 'package:meta/meta.dart';
+import 'package:athkari/app/features/categories/domain/entities/category.dart';
+import 'package:athkari/app/features/categories/domain/usecase/add_catogories_use_case.dart';
+import 'package:athkari/app/features/categories/domain/usecase/get_catogories_use_case.dart';
+import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
+import 'package:bloc/bloc.dart';
 
-// class CatogeryCubit extends Cubit<CatogeryState> {
-//   final GetDailyWereUseCase _dailyWereUseCase;
-//   final AddDhakerUseCase _addDhakerUseCase;
-//   var athkariList;
-//   //final GetTotalDailyWereUseCase _getTotalDailyWereUseCase;
-//   CatogeryCubit(this._dailyWereUseCase, this._addDhakerUseCase)
-//       //  this._getTotalDailyWereUseCase
-//       : super(InitialState()) {
-//     emit(NoDataState());
-//     //emit(DoneState(athkari: athkariList));
-//     // FetchData();
-//   }
+class CategoryCubit extends Cubit<CatogeryState> {
+  final GetCatogoriesUseCase _getCatogoriesUseCase;
+  final AddCatogoriesUseCase _addCatogoriesUseCase;
+  List<CategoryEntity> categoryiList = [];
 
-//   void FetchData() async {
-//     athkariList = await _dailyWereUseCase.call();
+  CategoryCubit(this._getCatogoriesUseCase, this._addCatogoriesUseCase)
+      : super(InitialCategoryState());
 
-//     emit(DoneState(athkari: athkariList));
-//   }
+  void FetchData() async {
+    categoryiList = await _getCatogoriesUseCase.call();
+    // print(temp);
+    // categoryiList = {
+    //   "deker": """الصباح""",
+    //   "deker": """المساء""",
+    //   "deker": """النوم"""
+    // };
 
-//   void Search(String query) async {
-//     // var athkariList = await _dailyWereUseCase.call();
-//     athkariList =
-//         athkariList.where((x) => x["dhaker"].contains(query)).toList();
-//     emit(DoneState(athkari: athkariList));
-//   }
-//   // void GetTotalOfDekeers() async {
-//   //   var total = await _getTotalDailyWereUseCase.call();
+    emit(DoneCategoryState(categoryiList));
+  }
 
-//   //   emit(DoneState(athkari: athkariList));
-//   // }
+  void AddCategory(String name) async {
+    await _addCatogoriesUseCase.call();
+    // print(temp);
+    // categoryiList = {
+    //   "deker": """الصباح""",
+    //   "deker": """المساء""",
+    //   "deker": """النوم"""
+    // };
+    FetchData();
+    // emit(DoneCategoryState(categoryiList));
+  }
 
-//   void AddDheker(String text_1, String test_2) async {
-//     var athkariList = await _addDhakerUseCase.call();
+  void Loading() async {
+    emit(LoadingCategoryState());
+  }
 
-//     emit(DoneState(athkari: []));
-//   }
-// }
+  // void Search(String query) async {
+  //   // var athkariList = await _dailyWereUseCase.call();
+  //   athkariList =
+  //       athkariList.where((x) => x["dhaker"].contains(query)).toList();
+  //   emit(DoneState(athkari: athkariList));
+  // }
+  // // void GetTotalOfDekeers() async {
+  // //   var total = await _getTotalDailyWereUseCase.call();
+
+  // //   emit(DoneState(athkari: athkariList));
+  // // }
+
+  // void AddDheker(String text_1, String test_2) async {
+  //   var athkariList = await _addDhakerUseCase.call();
+
+  //   emit(DoneState(athkari: []));
+}

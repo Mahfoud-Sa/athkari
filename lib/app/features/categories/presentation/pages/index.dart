@@ -1,15 +1,14 @@
+import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
+import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/features/categories/presentation/pages/detailes.dart';
+import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_state.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/dedher_Index_page.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
-import 'package:intl/intl.dart';
 import 'package:gradient_borders/gradient_borders.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:share_plus/share_plus.dart';
 
 class CatogroesPage extends StatefulWidget {
   const CatogroesPage({super.key});
@@ -19,6 +18,8 @@ class CatogroesPage extends StatefulWidget {
 }
 
 class _CatogroesPageState extends State<CatogroesPage> {
+  var formKey = GlobalKey<FormState>();
+  var textEditingController_1 = TextEditingController();
   List<Map<String, dynamic>> athkari = [
     {
       "deker": """أَعُوذُ بِاللهِ مِنْ الشَّيْطَانِ الرَّجِيمِ
@@ -34,138 +35,162 @@ class _CatogroesPageState extends State<CatogroesPage> {
         appBar: _buildAppBar(context),
         drawer: DrawerWidget(),
         floatingActionButton: FloatingActionButton(onPressed: () {
-          buildShowModalBottomSheet(context);
+          buildACategoryModalBottomSheet(context);
         }),
-        body: Column(
-          children: [
-            _buildSearchBar(),
-            Expanded(
-              child: GridView.count(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 5,
-                  childAspectRatio: 1.5,
-                  children: [
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                    CategoryWidget(
-                        deker: """أذكار الصباح """, no_of_repeating: 20),
-                  ]
-                  //  itemCount: 4,
+        body: BlocBuilder<CategoryCubit, CatogeryState>(
+            builder: (context, state) {
+          if (state is LoadingCategoryState) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is DoneCategoryState) {
+            // Sample data for the widgets
+            // final List<Map<String, dynamic>> azkarList = List.generate(
+            //   9, // Number of items you want to generate
+            //   (index) => {"deker": "أذكار الصباح", "no_of_repeating": 20},
+            // );
+
+            return Column(
+              children: [
+                _buildSearchBar(),
+                Expanded(
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, // Number of columns
+                      crossAxisSpacing: 5, // Space between columns
+                      mainAxisSpacing: 5, // Space between rows
+                      childAspectRatio: 1.5, // Aspect ratio of each grid item
+                    ),
+                    itemCount: state.catogories.length,
+                    itemBuilder: (context, index) {
+                      //  final azkar = state.props[index];
+                      return CategoryWidget(
+                        deker: state.catogories[index].name!,
+                        no_of_repeating: 5,
+                      );
+                    },
                   ),
-            )
-          ],
-        ));
+                ),
+              ],
+            );
+          } else {
+            return Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  // Trigger a specific event
+                  context.read<CategoryCubit>().FetchData();
+                },
+                child: Text('إعاده المحاولة'),
+              ),
+            );
+          }
+        }));
   }
 
-  Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
+  Future<dynamic> buildACategoryModalBottomSheet(BuildContext context) {
     return showModalBottomSheet(
       isScrollControlled: true,
       context: context,
-      builder: (context) => SingleChildScrollView(
-        //  width: double.infinity,
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 3,
-              width: 80,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.black,
+      builder: (context) => Form(
+        key: formKey,
+        child: SingleChildScrollView(
+          //  width: double.infinity,
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 10,
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 8, bottom: 12),
-              child: Text(
-                'ضبط عدد مرات اتكرار',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w900),
-              ),
-            ),
-            const Row(
-              children: [
-                Expanded(child: SizedBox()),
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: const Text(
-                    'عدد مرات التكرار',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 22,
-                        color: Color.fromARGB(255, 128, 188, 189)),
-                  ),
-                )
-              ],
-            ),
-            TempWidget(
-              noOfRepeating: 5,
-            ),
-            InkWell(
-              onTap: () {},
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                width: 300,
-                height: 50,
-                child: Center(
-                  child: const Text(
-                    'تعديل مرات التكرار',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w600),
-                  ),
-                ),
+              Container(
+                height: 3,
+                width: 80,
                 decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 128, 188, 189),
-                    borderRadius: BorderRadius.circular(30)),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            InkWell(
-              borderRadius: BorderRadius.circular(20),
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Container(
-                width: 300,
-                height: 50,
-                child: const Center(
-                  child: Text(
-                    'الغاء',
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 128, 188, 189),
-                        fontWeight: FontWeight.w600),
-                  ),
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.black,
                 ),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: const Color.fromARGB(255, 128, 188, 189),
-                        width: 3),
-                    borderRadius: BorderRadius.circular(30)),
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-          ],
+              const Padding(
+                padding: EdgeInsets.only(top: 8, bottom: 12),
+                child: Text(
+                  'أضافة تصنيف جديد',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900),
+                ),
+              ),
+              const Row(
+                children: [
+                  Expanded(child: SizedBox()),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: const Text(
+                      'اسم التصنيف',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 22,
+                          color: Color.fromARGB(255, 128, 188, 189)),
+                    ),
+                  )
+                ],
+              ),
+              TextFormField(
+                controller: textEditingController_1,
+              ),
+              InkWell(
+                onTap: () {
+                  if (formKey.currentState!.validate()) {
+                    context.read<CategoryCubit>().AddCategory(
+                          textEditingController_1.text,
+                        );
+                  }
+                },
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  width: 300,
+                  height: 50,
+                  child: Center(
+                    child: const Text(
+                      'اضافة',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 128, 188, 189),
+                      borderRadius: BorderRadius.circular(30)),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(20),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: 300,
+                  height: 50,
+                  child: const Center(
+                    child: Text(
+                      'الغاء',
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 128, 188, 189),
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color: const Color.fromARGB(255, 128, 188, 189),
+                          width: 3),
+                      borderRadius: BorderRadius.circular(30)),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
         ),
       ),
     );
