@@ -10,7 +10,10 @@ class CategoryCubit extends Cubit<CatogeryState> {
   List<CategoryEntity> categoryiList = [];
 
   CategoryCubit(this._getCatogoriesUseCase, this._addCatogoriesUseCase)
-      : super(InitialCategoryState());
+      : super(InitialCategoryState()) {
+    emit(LoadingCategoryState());
+    FetchData();
+  }
 
   void FetchData() async {
     categoryiList = await _getCatogoriesUseCase.call();
@@ -20,14 +23,8 @@ class CategoryCubit extends Cubit<CatogeryState> {
 
   void AddCategory(String name) async {
     await _addCatogoriesUseCase(params: CategoryEntity(name: name));
-    // print(temp);
-    // categoryiList = {
-    //   "deker": """الصباح""",
-    //   "deker": """المساء""",
-    //   "deker": """النوم"""
-    // };
+
     FetchData();
-    // emit(DoneCategoryState(categoryiList));
   }
 
   void Loading() async {
@@ -35,19 +32,12 @@ class CategoryCubit extends Cubit<CatogeryState> {
   }
 
   void Search(String query) async {
-    // var athkariList = await _dailyWereUseCase.call();
-    categoryiList =
+    var result = categoryiList =
         categoryiList.where((x) => x.name!.contains(query)).toList();
-    emit(DoneCategoryState(categoryiList));
+    if (result.length == 0) {
+      emit(EmptyCategoryState());
+    } else {
+      emit(DoneCategoryState(result));
+    }
   }
-  // void GetTotalOfDekeers() async {
-  //   var total = await _getTotalDailyWereUseCase.call();
-
-  //   emit(DoneState(athkari: athkariList));
-  // }
-
-  // void AddDheker(String text_1, String test_2) async {
-  //   var athkariList = await _addDhakerUseCase.call();
-
-  //   emit(DoneState(athkari: []));
 }

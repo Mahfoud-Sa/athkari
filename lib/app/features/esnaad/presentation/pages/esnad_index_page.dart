@@ -1,194 +1,53 @@
-import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/dedher_Index_page.dart';
+import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
+import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit_state.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
-import 'package:athkari/app/injection_container.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
+import 'package:intl/intl.dart';
 import 'package:gradient_borders/gradient_borders.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
-// class MyWidget extends StatelessWidget {
-//   const MyWidget({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return const Placeholder();
-//   }
-// }
-
-class CatogroesDetailesPage extends StatefulWidget {
-  const CatogroesDetailesPage(
-      {super.key, required this.categoryName, required this.dekeers});
-  final String categoryName;
-  final List<String> dekeers;
-
-  @override
-  State<CatogroesDetailesPage> createState() => _CatogroesDetailesPageState();
-}
-
-class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
-  var formKey = GlobalKey<FormState>();
-  var textEditingController_1 = TextEditingController();
-  var textEditingController_2 = TextEditingController();
+class EsnaadsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: () {
-          buildShowAddDhaderBottomSheet(context);
-        }),
-        appBar: _buildAppBar(context, widget.categoryName),
+        appBar: _buildAppBar(context),
         drawer: DrawerWidget(),
-        body: ListView(
-          children: [
-            _buildSearchBar(),
-            SideTitle(
-              count: widget.dekeers.length,
-              title: "عدد الاذكار",
-            ),
-            DekarCardWidget(
-              deker:
-                  "أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذا اليوم وَخَـيرَ ما بَعْـدَه ، وَأَعـوذُ بِكَ مِنْ شَـرِّ ما في هـذا اليوم وَشَرِّ ما بَعْـدَه، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر.",
-              no_of_repeating: 5,
-              saneed:
-                  "بِسـمِ اللهِ الذي لا يَضُـرُّ مَعَ اسمِـهِ شَيءٌ في الأرْضِ وَلا في السّمـاءِ وَهـوَ السّمـيعُ العَلـيم.",
-            )
-          ],
-        ));
-  }
-
-  Future<dynamic> buildShowAddDhaderBottomSheet(BuildContext context) {
-    return showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => Form(
-        key: formKey,
-        onChanged: () {},
-        child: SingleChildScrollView(
-          //  width: double.infinity,
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                height: 3,
-                width: 80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.black,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 8, bottom: 12),
-                child: Text(
-                  'اضافة ذكر',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w900),
-                ),
-              ),
-              const Row(
-                children: [
-                  Expanded(child: SizedBox()),
-                  Padding(
-                    padding: EdgeInsets.only(right: 8.0),
-                    child: Text(
-                      'نص الذكر المتن',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 22,
-                          color: Color.fromARGB(255, 128, 188, 189)),
-                    ),
+        body: BlocBuilder<EsnadsCubit, EsnadState>(builder: (context, state) {
+          if (state is LoadingEsnadState) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is DoneEsnadState) {
+            return ListView(
+              children: [
+                _buildSearchBar(),
+                // TitleWidget(No_of_adkeer: 5),
+                for (var item in state.esnads)
+                  EsnaadCardWidget(
+                    deker: item.name!,
+                    no_of_repeating: 5,
                   )
-                ],
-              ),
-              // TempWidget(
-              //   noOfRepeating: 5,
-              // ),
-              TextFormField(
-                controller: textEditingController_1,
-              ),
-              const Row(
-                children: [
-                  Expanded(child: SizedBox()),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: const Text(
-                      'السند',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 22,
-                          color: Color.fromARGB(255, 128, 188, 189)),
-                    ),
-                  )
-                ],
-              ),
-              TextFormField(),
-              BlocProvider(
-                create: (context) => getIt<LocalDailyWereCubitCubit>(),
-                child: InkWell(
-                  onTap: () {
-                    //  formKey.currentState.validate();
-                    if (formKey.currentState!.validate()) {
-                      context.read<LocalDailyWereCubitCubit>().AddDheker(
-                          textEditingController_1.text,
-                          textEditingController_2.text);
-                    }
-                  },
-                  borderRadius: BorderRadius.circular(20),
-                  child: Container(
-                    width: 300,
-                    height: 50,
-                    child: Center(
-                      child: const Text(
-                        'أضافة ذكر',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 128, 188, 189),
-                        borderRadius: BorderRadius.circular(30)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                borderRadius: BorderRadius.circular(20),
-                onTap: () {
-                  Navigator.pop(context);
+              ],
+            );
+          } else {
+            return Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  // Trigger a specific event
+                  //  context.read<EsnadsCubit>().FetchData();
                 },
-                child: Container(
-                  width: 300,
-                  height: 50,
-                  child: const Center(
-                    child: Text(
-                      'الغاء',
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 128, 188, 189),
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          color: const Color.fromARGB(255, 128, 188, 189),
-                          width: 3),
-                      borderRadius: BorderRadius.circular(30)),
-                ),
+                child: Text('إعاده المحاولة'),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+            );
+          }
+        }));
   }
 
   Padding _buildSearchBar() {
@@ -218,8 +77,263 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
   }
 }
 
-class DekarCardWidget extends StatefulWidget {
-  DekarCardWidget(
+class EsnaadCardWidget extends StatefulWidget {
+  EsnaadCardWidget({
+    super.key,
+    required this.no_of_repeating,
+    required this.deker,
+  });
+  final double _fontsize = 18;
+  int no_of_repeating = 100;
+  String deker;
+
+  @override
+  State<EsnaadCardWidget> createState() => _EsnaadCardWidgetState();
+}
+
+class _EsnaadCardWidgetState extends State<EsnaadCardWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(25)),
+        border: GradientBoxBorder(
+          width: 1,
+          gradient: LinearGradient(colors: [
+            Color.fromARGB(255, 90, 202, 165),
+            Color.fromARGB(255, 178, 231, 93),
+          ]),
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            textAlign: TextAlign.center,
+            widget.deker,
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium!
+                .copyWith(fontSize: widget._fontsize),
+          ),
+          Text(
+            textAlign: TextAlign.center,
+            "عدد الاذكار ${widget.no_of_repeating} ذكر",
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium!
+                .copyWith(fontSize: widget._fontsize, color: Colors.black12),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => SingleChildScrollView(
+        //  width: double.infinity,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: 3,
+              width: 80,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: Colors.black,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 8, bottom: 12),
+              child: Text(
+                'ضبط عدد مرات اتكرار',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w900),
+              ),
+            ),
+            const Row(
+              children: [
+                Expanded(child: SizedBox()),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: const Text(
+                    'عدد مرات التكرار',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 22,
+                        color: Color.fromARGB(255, 128, 188, 189)),
+                  ),
+                )
+              ],
+            ),
+            TempWidget(
+              noOfRepeating: 5,
+            ),
+            InkWell(
+              onTap: () {},
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                width: 300,
+                height: 50,
+                child: Center(
+                  child: const Text(
+                    'تعديل مرات التكرار',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w600),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 128, 188, 189),
+                    borderRadius: BorderRadius.circular(30)),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              borderRadius: BorderRadius.circular(20),
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                width: 300,
+                height: 50,
+                child: const Center(
+                  child: Text(
+                    'الغاء',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 128, 188, 189),
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: const Color.fromARGB(255, 128, 188, 189),
+                        width: 3),
+                    borderRadius: BorderRadius.circular(30)),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<dynamic> buildShowDeleteDekeerBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => SingleChildScrollView(
+        //  width: double.infinity,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: 3,
+              width: 80,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(30),
+                color: Colors.black,
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 8, bottom: 12),
+              child: Text(
+                "حذف من الورد اليومي",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w900),
+              ),
+            ),
+            const Row(
+              children: [
+                Expanded(child: SizedBox()),
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: const Text(
+                    'هل انت متاكد من حذف هذا الذكر؟',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 22,
+                        color: Color.fromARGB(255, 128, 188, 189)),
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              onTap: () {},
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                width: 300,
+                height: 50,
+                child: Center(
+                  child: const Text(
+                    'حذف الذكر',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w600),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 128, 188, 189),
+                    borderRadius: BorderRadius.circular(30)),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            InkWell(
+              borderRadius: BorderRadius.circular(20),
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: Container(
+                width: 300,
+                height: 50,
+                child: const Center(
+                  child: Text(
+                    'الغاء',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 128, 188, 189),
+                        fontWeight: FontWeight.w600),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: const Color.fromARGB(255, 128, 188, 189),
+                        width: 3),
+                    borderRadius: BorderRadius.circular(30)),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class EsnaadCar2dWidget extends StatefulWidget {
+  EsnaadCar2dWidget(
       {super.key,
       required this.no_of_repeating,
       required this.deker,
@@ -229,10 +343,10 @@ class DekarCardWidget extends StatefulWidget {
   String deker;
   String saneed;
   @override
-  State<DekarCardWidget> createState() => _DekarCardWidgetState();
+  State<EsnaadCardWidget> createState() => _EsnaadCardWidgetState();
 }
 
-class _DekarCardWidgetState extends State<DekarCardWidget> {
+class _EsnaadCar2dWidgetState extends State<EsnaadCardWidget> {
   final ExpansionTileController _controller = ExpansionTileController();
   int _no_of_repeating = 100;
 
@@ -288,7 +402,7 @@ class _DekarCardWidgetState extends State<DekarCardWidget> {
               children: [
                 Text(
                   textAlign: TextAlign.center,
-                  widget.saneed,
+                  "widget.saneed",
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       fontSize: widget._fontsize, color: Colors.black12),
                 ),
@@ -626,7 +740,7 @@ class _DekarCardWidgetState extends State<DekarCardWidget> {
   }
 }
 
-PreferredSize _buildAppBar(BuildContext context, String name) {
+PreferredSize _buildAppBar(BuildContext context) {
   return PreferredSize(
     preferredSize: const Size.fromHeight(75), // Set custom height here
     child: AppBar(
@@ -643,7 +757,7 @@ PreferredSize _buildAppBar(BuildContext context, String name) {
       automaticallyImplyLeading: false, // Remove default leading button
       centerTitle: true, // Keeps the title centered horizontally
       title: Text(
-        name,
+        "الاسنادات",
         style: Theme.of(context).textTheme.titleMedium!.copyWith(
             fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
       ),

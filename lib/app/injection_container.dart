@@ -3,7 +3,7 @@ import 'package:athkari/app/features/categories/domain/repository/category_repos
 import 'package:athkari/app/features/categories/domain/usecase/add_catogories_use_case.dart';
 import 'package:athkari/app/features/categories/domain/usecase/get_catogories_use_case.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
-import 'package:athkari/app/features/daily_wered/data/datasources/app_database.dart';
+import 'package:athkari/app/core/app_database.dart';
 import 'package:athkari/app/features/daily_wered/data/repository/dhkar_repository_impl.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/add_dhaker_usecase.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/get_daily_wered.dart';

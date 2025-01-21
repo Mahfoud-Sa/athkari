@@ -2,6 +2,7 @@ import 'package:athkari/app/config/routes/routes.dart';
 import 'package:athkari/app/config/thems/light_thems.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_cubit.dart';
+import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
 import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +14,7 @@ Future<void> main() async {
     providers: [
       BlocProvider(create: (_) => LocalDailyWereCubitCubit(getIt(), getIt())),
       BlocProvider(create: (_) => CategoryCubit(getIt(), getIt())),
+      BlocProvider(create: (_) => EsnadsCubit()),
     ],
     child: App(),
   ));

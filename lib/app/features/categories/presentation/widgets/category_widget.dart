@@ -1,4 +1,4 @@
-import 'package:athkari/app/features/categories/presentation/pages/detailes.dart';
+import 'package:athkari/app/features/categories/presentation/pages/category_detailes_page.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/dedher_Index_page.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
@@ -45,6 +45,8 @@ class CategoryWidget extends StatelessWidget {
             Text(
               textAlign: TextAlign.center,
               title,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!
@@ -53,6 +55,7 @@ class CategoryWidget extends StatelessWidget {
             Text(
               textAlign: TextAlign.center,
               "عدد الاذكار ${no_of_dekres} ذكر",
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!

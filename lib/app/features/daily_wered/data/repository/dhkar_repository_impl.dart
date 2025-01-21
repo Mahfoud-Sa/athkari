@@ -1,4 +1,4 @@
-import 'package:athkari/app/features/daily_wered/data/datasources/app_database.dart';
+import 'package:athkari/app/core/app_database.dart';
 import 'package:athkari/app/features/daily_wered/data/modules/dhkar.dart';
 import 'package:athkari/app/features/daily_wered/domain/repository/dhkar_repository.dart';
 

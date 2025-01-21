@@ -24,3 +24,20 @@ class DoneCategoryState extends CatogeryState {
   // TODO: implement props
   List<Object?> get props => [catogories]; // For state comparison
 }
+
+class EmptyCategoryState extends CatogeryState {
+  EmptyCategoryState();
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => []; // For state comparison
+}
+
+class ErrorCategoryState extends CatogeryState {
+  final String message;
+  ErrorCategoryState(this.message);
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [message]; // For state comparison
+}

@@ -5,6 +5,7 @@ Padding buildSearchBar(BuildContext context, Function(String) onSearch) {
     padding: const EdgeInsets.all(20.0),
     child: TextField(
       onChanged: onSearch,
+      onSubmitted: onSearch,
       keyboardType: TextInputType.text,
       textAlign: TextAlign.right,
       decoration: InputDecoration(

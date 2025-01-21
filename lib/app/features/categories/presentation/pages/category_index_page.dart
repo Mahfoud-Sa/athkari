@@ -1,7 +1,7 @@
 import 'package:athkari/app/core/methods/build_searchbae_method.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
-import 'package:athkari/app/features/categories/presentation/pages/detailes.dart';
+import 'package:athkari/app/features/categories/presentation/pages/category_detailes_page.dart';
 import 'package:athkari/app/features/categories/presentation/widgets/category_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -39,42 +39,26 @@ class CategoryIndexPage extends StatelessWidget {
             child: BlocBuilder<CategoryCubit, CatogeryState>(
                 builder: (context, state) {
               if (state is LoadingCategoryState) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
+                return WaitingStateWidget();
               } else if (state is DoneCategoryState) {
-                return Expanded(
-                  child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // Number of columns
-                      crossAxisSpacing: 5, // Space between columns
-                      mainAxisSpacing: 5, // Space between rows
-                      childAspectRatio: 1.5, // Aspect ratio of each grid item
-                    ),
-                    itemCount: state.catogories.length,
-                    itemBuilder: (context, index) {
-                      final azkar = state.props[index];
-                      return CategoryWidget(
-                        title: state.catogories[index].name!,
-                        no_of_dekres: 5,
-                      );
-                    },
-                  ),
-                );
+                return DoneStateWidget(state: state);
+              } else if (state is ErrorCategoryState)
+                return ErrorStateWidget(state: state);
+              else if (state is EmptyCategoryState) {
+                return const Center(
+                    child: Text('جرب البحث باستخدام كلمات أخرئ'));
               } else {
-                return Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Trigger a specific event
-                      context.read<CategoryCubit>().FetchData();
-                    },
-                    child: Text('إعاده المحاولة'),
-                  ),
-                );
+                return Center(child: Text('Nothing...'));
               }
             }),
           )
         ]));
+  }
+
+  Center WaitingStateWidget() {
+    return Center(
+      child: CircularProgressIndicator(),
+    );
   }
 
   Future<dynamic> buildACategoryModalBottomSheet(BuildContext context) {
@@ -198,6 +182,57 @@ class CategoryIndexPage extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class ErrorStateWidget extends StatelessWidget {
+  final ErrorCategoryState state;
+  const ErrorStateWidget({
+    super.key,
+    required this.state,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ElevatedButton(
+        onPressed: () {
+          // Trigger a specific event
+          context.read<CategoryCubit>().FetchData();
+        },
+        child: Text(state.message.toString()),
+      ),
+    );
+  }
+}
+
+class DoneStateWidget extends StatelessWidget {
+  final DoneCategoryState state;
+  const DoneStateWidget({
+    super.key,
+    required this.state,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // Number of columns
+          crossAxisSpacing: 5, // Space between columns
+          mainAxisSpacing: 5, // Space between rows
+          childAspectRatio: 1.5, // Aspect ratio of each grid item
+        ),
+        itemCount: state.catogories.length,
+        itemBuilder: (context, index) {
+          final azkar = state.catogories[index];
+          return CategoryWidget(
+            title: azkar.name!,
+            no_of_dekres: 5,
+          );
+        },
       ),
     );
   }

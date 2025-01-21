@@ -1,5 +1,6 @@
 import 'package:athkari/app/features/categories/data/datasources/local/category_dao.dart';
 import 'package:athkari/app/features/daily_wered/data/datasources/local/dhkar_dao.dart';
+import 'package:athkari/app/features/esnaad/data/datasources/esnad_dto.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -37,6 +38,14 @@ class AppDataBaseServices {
     return CategoryDao(_database!);
   }
 
+  EsnadDao get esnadDao {
+    if (_database == null) {
+      throw Exception(
+          "Database not initialized yet. Please wait until it's initialized.");
+    }
+    return EsnadDao(_database!);
+  }
+
   Future<Database> _initializeDb() async {
     String databasePath = await getDatabasesPath();
     String path = join(databasePath, 'database.db');
@@ -61,7 +70,10 @@ class AppDataBaseServices {
         dhaker TEXT ,
         repetitions INTEGER,
         category_id,
-        FOREIGN KEY (category_id) REFERENCES Categories(id) ON DELETE CASCADE
+        esnads_id,
+        FOREIGN KEY (category_id) REFERENCES Categories(id) ON DELETE CASCADE,
+        FOREIGN KEY (esnads_id) REFERENCES Esnads(id) ON DELETE CASCADE
+
       )
     ''');
     await db.execute('''
@@ -70,7 +82,12 @@ class AppDataBaseServices {
         name TEXT 
       )
     ''');
-
+    await db.execute('''
+      CREATE TABLE Esnads (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT 
+      )
+    ''');
     print("Tables created successfully.");
   }
 
