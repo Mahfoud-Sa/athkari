@@ -26,8 +26,9 @@ class DoneEsnadState extends EsnadState {
   List<Object?> get props => [esnads]; // For state comparison
 }
 
-class EmptyEsnadStateState extends EsnadState {
-  EmptyEsnadStateState();
+class EmptyEsnadState extends EsnadState {
+  final String message;
+  EmptyEsnadState(this.message);
 
   @override
   // TODO: implement props

@@ -9,6 +9,10 @@ import 'package:athkari/app/features/daily_wered/domain/usecase/add_dhaker_useca
 import 'package:athkari/app/features/daily_wered/domain/usecase/get_daily_wered.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/update_daily_wered_usecase.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_cubit.dart';
+import 'package:athkari/app/features/esnaad/data/repository/esnads_repository_imp.dart';
+import 'package:athkari/app/features/esnaad/domain/usecase/add_esnade_usecase.dart';
+import 'package:athkari/app/features/esnaad/domain/usecase/get_all_usecase.dart';
+import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
 import 'package:get_it/get_it.dart';
 //import 'package:news_app/app/core/resources/app_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,11 +37,13 @@ Future<void> initializationContainer() async {
   getIt.registerFactory<LocalDailyWereCubitCubit>(
       () => LocalDailyWereCubitCubit(getIt(), getIt()));
   getIt.registerFactory<CategoryCubit>(() => CategoryCubit(getIt(), getIt()));
+  getIt.registerFactory<EsnadsCubit>(() => EsnadsCubit(getIt(), getIt()));
 
   // repositories
   getIt.registerSingleton<DhkarRepositoryImpl>(DhkarRepositoryImpl(getIt()));
   getIt
       .registerSingleton<CategoryRepositoryImp>(CategoryRepositoryImp(getIt()));
+  getIt.registerSingleton<EsnadRepositoryImp>(EsnadRepositoryImp(getIt()));
 
 // use cases
   getIt.registerSingleton<GetDailyWereUseCase>(GetDailyWereUseCase(getIt()));
@@ -48,4 +54,8 @@ Future<void> initializationContainer() async {
 
   getIt.registerSingleton<GetCatogoriesUseCase>(GetCatogoriesUseCase(getIt()));
   getIt.registerSingleton<AddCatogoriesUseCase>(AddCatogoriesUseCase(getIt()));
+
+  //Esnads
+  getIt.registerSingleton<GetAllEsnadUseCase>(GetAllEsnadUseCase(getIt()));
+  getIt.registerSingleton<AddEsnadeUsecase>(AddEsnadeUsecase(getIt()));
 }

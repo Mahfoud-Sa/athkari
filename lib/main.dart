@@ -14,7 +14,7 @@ Future<void> main() async {
     providers: [
       BlocProvider(create: (_) => LocalDailyWereCubitCubit(getIt(), getIt())),
       BlocProvider(create: (_) => CategoryCubit(getIt(), getIt())),
-      BlocProvider(create: (_) => EsnadsCubit()),
+      BlocProvider(create: (_) => EsnadsCubit(getIt(), getIt())),
     ],
     child: App(),
   ));

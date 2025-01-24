@@ -14,40 +14,187 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
 class EsnaadsPage extends StatelessWidget {
+  var formKey = GlobalKey<FormState>();
+  var textEditingController_1 = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _buildAppBar(context),
-        drawer: DrawerWidget(),
-        body: BlocBuilder<EsnadsCubit, EsnadState>(builder: (context, state) {
-          if (state is LoadingEsnadState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is DoneEsnadState) {
-            return ListView(
-              children: [
-                _buildSearchBar(),
-                // TitleWidget(No_of_adkeer: 5),
-                for (var item in state.esnads)
-                  EsnaadCardWidget(
-                    deker: item.name!,
-                    no_of_repeating: 5,
-                  )
-              ],
-            );
-          } else {
-            return Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  // Trigger a specific event
-                  //  context.read<EsnadsCubit>().FetchData();
-                },
-                child: Text('إعاده المحاولة'),
+      appBar: _buildAppBar(context),
+      drawer: DrawerWidget(),
+      floatingActionButton: FloatingActionButton.small(
+          child: Icon(Icons.add),
+          onPressed: () {
+            buildEsnadModalBottomSheet(context);
+          }),
+      body: Column(
+        children: [
+          _buildSearchBar(), // Keep the search bar at its place
+          Expanded(
+            // Ensure the ListView takes the remaining space
+            child: BlocBuilder<EsnadsCubit, EsnadState>(
+              builder: (context, state) {
+                if (state is LoadingEsnadState) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (state is DoneEsnadState) {
+                  return ListView.builder(
+                    itemCount: state.esnads.length,
+                    itemBuilder: (context, index) {
+                      final item = state.esnads[index];
+                      return EsnaadCardWidget(
+                        deker: item.name!,
+                        no_of_repeating: 5,
+                      );
+                    },
+                  );
+                } else if (state is EmptyEsnadState) {
+                  return Center(
+                    child: Text(state.message),
+                  );
+                } else {
+                  return Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        // Trigger a specific event
+                        //  context.read<EsnadsCubit>().fetchData();
+                      },
+                      child: Text('إعاده المحاولة'),
+                    ),
+                  );
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<dynamic> buildEsnadModalBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (context) => Form(
+        key: formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 10,
               ),
-            );
-          }
-        }));
+              Container(
+                height: 3,
+                width: 80,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  color: Colors.black,
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(top: 8, bottom: 12),
+                child: Text(
+                  'أضافة اسناد جديد',
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900),
+                ),
+              ),
+              const Row(
+                children: [
+                  Expanded(child: SizedBox()),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: const Text(
+                      'اسم الاسناد',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 22,
+                          color: Color.fromARGB(255, 128, 188, 189)),
+                    ),
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  controller: textEditingController_1,
+                  keyboardType: TextInputType.text,
+                  textAlign: TextAlign.right,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(25),
+                      borderSide: BorderSide.none, // Remove the visible border
+                    ),
+
+                    hintText: 'اسم الاسناد',
+                    filled: true, // Enable background color
+                    fillColor: Colors.black12, // Set the background color
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 20), // Adjust padding
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  if (formKey.currentState!.validate()) {
+                    context.read<EsnadsCubit>().AddEsnad(
+                          textEditingController_1.text,
+                        );
+                  }
+                },
+                borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  width: 300,
+                  height: 50,
+                  child: Center(
+                    child: const Text(
+                      'اضافة',
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 128, 188, 189),
+                      borderRadius: BorderRadius.circular(30)),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(20),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: 300,
+                  height: 50,
+                  child: const Center(
+                    child: Text(
+                      'الغاء',
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 128, 188, 189),
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color: const Color.fromARGB(255, 128, 188, 189),
+                          width: 3),
+                      borderRadius: BorderRadius.circular(30)),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   Padding _buildSearchBar() {

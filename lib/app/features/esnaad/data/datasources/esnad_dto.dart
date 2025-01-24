@@ -8,18 +8,13 @@ class EsnadDao {
   final Database database;
 
   // AdhkaiDao(this._db);
-  Future<bool> InsertEsnad(EsnadModel esnad) async {
+  Future<int> InsertEsnad(EsnadModel esnad) async {
     var value = {
       'name': esnad.name,
       // 'repetitions': dhkar.repetitions,
       // 'esnaad_id': 0,
     };
-    var status = await database.insert("Esnads", value);
-    if (status == 0) {
-      return false;
-    } else {
-      return true;
-    }
+    return await database.insert("Esnads", value);
   }
 
   // Future<int> Update(DhkarModel dhkar) async {
@@ -34,10 +29,9 @@ class EsnadDao {
   // }
 
   // Example: Get all records
-  Future<List<Map<String, dynamic>>> getAllEsnads() async {
-    var temp = await database.query('Esnads');
-    print(temp);
-    return temp;
+  Future<List<EsnadModel>> getAllEsnads() async {
+    var esnads = await database.query('Esnads');
+    return esnads.map((esnad) => EsnadModel.fromDataBase(esnad)).toList();
   }
 
   // Future<int> getTotal() async {
