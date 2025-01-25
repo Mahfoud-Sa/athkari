@@ -11,40 +11,42 @@ import 'package:bloc/bloc.dart';
 class EsnadsCubit extends Cubit<EsnadState> {
   final GetAllEsnadUseCase _getAllEsnadUseCase;
   final AddEsnadeUsecase _addEsnadeUsecase;
-  List<EsnadEntity> esnads = [];
+  List<EsnadEntity> esnadsList = [];
 
   EsnadsCubit(this._getAllEsnadUseCase, this._addEsnadeUsecase)
       : super(InitialEsnadState()) {
     emit(LoadingEsnadState());
-    FetchData();
+    fetchData();
   }
 
-  void FetchData() async {
-    esnads = await _getAllEsnadUseCase.call();
-    if (esnads.length == 0) {
+  void fetchData() async {
+    esnadsList = await _getAllEsnadUseCase.call();
+    if (esnadsList.length == 0) {
       emit(EmptyEsnadState("لاتوجد بيانات"));
     } else {
-      emit(DoneEsnadState(esnads));
+      emit(DoneEsnadState(esnadsList));
     }
   }
 
-  void AddEsnad(String name) async {
+  void addEsnad(String name) async {
     await _addEsnadeUsecase(params: EsnadEntity(name: name));
+    emit(NotifeyEsnadState("تم"));
+    fetchData();
+  }
 
-    FetchData();
+  void search(String query) async {
+    esnadsList =
+        esnadsList = esnadsList.where((x) => x.name!.contains(query)).toList();
+    if (esnadsList.length == 0) {
+      emit(EmptyEsnadState("لاتوجد نتيجة لبحثك"));
+    } else {
+      emit(DoneEsnadState(esnadsList));
+    }
   }
 }
 //   void Loading() async {
 //     emit(LoadingCategoryState());
 //   }
 
-//   void Search(String query) async {
-//     var result = categoryiList =
-//         categoryiList.where((x) => x.name!.contains(query)).toList();
-//     if (result.length == 0) {
-//       emit(EmptyCategoryState());
-//     } else {
-//       emit(DoneCategoryState(result));
-//     }
-//   }
-// }
+  
+

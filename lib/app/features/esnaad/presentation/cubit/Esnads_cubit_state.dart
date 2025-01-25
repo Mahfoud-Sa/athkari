@@ -18,6 +18,7 @@ class LoadingEsnadState extends EsnadState {
 
 class DoneEsnadState extends EsnadState {
   final List<EsnadEntity> esnads;
+  // final String message;
 
   DoneEsnadState(this.esnads);
 
@@ -35,11 +36,11 @@ class EmptyEsnadState extends EsnadState {
   List<Object?> get props => []; // For state comparison
 }
 
-// class ErrorCategoryState extends CatogeryState {
-//   final String message;
-//   ErrorCategoryState(this.message);
+class NotifeyEsnadState extends EsnadState {
+  final String message;
+  NotifeyEsnadState(this.message);
 
-//   @override
-//   // TODO: implement props
-//   List<Object?> get props => [message]; // For state comparison
-// }
+  @override
+  // TODO: implement props
+  List<Object?> get props => [message]; // For state comparison
+}
