@@ -4,16 +4,21 @@ import 'package:athkari/app/features/categories/domain/usecase/get_catogories_us
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
 import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 import 'package:athkari/app/features/esnaad/domain/usecase/add_esnade_usecase.dart';
-import 'package:athkari/app/features/esnaad/domain/usecase/get_all_usecase.dart';
+import 'package:athkari/app/features/esnaad/domain/usecase/delete_esnad_usecase.dart';
+import 'package:athkari/app/features/esnaad/domain/usecase/get_all_esnad_usecase.dart';
+import 'package:athkari/app/features/esnaad/domain/usecase/update_esnade_usecase.dart';
 import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit_state.dart';
 import 'package:bloc/bloc.dart';
 
 class EsnadsCubit extends Cubit<EsnadState> {
   final GetAllEsnadUseCase _getAllEsnadUseCase;
   final AddEsnadeUsecase _addEsnadeUsecase;
+  final UpdateEsnadeUsecase _updateEsnadeUsecase;
+  final DeleteEsnadeUsecase _deleteEsnadeUsecase;
   List<EsnadEntity> esnadsList = [];
 
-  EsnadsCubit(this._getAllEsnadUseCase, this._addEsnadeUsecase)
+  EsnadsCubit(this._getAllEsnadUseCase, this._addEsnadeUsecase,
+      this._updateEsnadeUsecase, this._deleteEsnadeUsecase)
       : super(InitialEsnadState()) {
     emit(LoadingEsnadState());
     fetchData();
@@ -34,6 +39,18 @@ class EsnadsCubit extends Cubit<EsnadState> {
     fetchData();
   }
 
+  void deleteEsnad(int esnadId) async {
+    await _deleteEsnadeUsecase(params: esnadId);
+    emit(NotifeyEsnadState("تم"));
+    fetchData();
+  }
+
+  void updateEsnad(int id, String name) async {
+    await _updateEsnadeUsecase(params: EsnadEntity(id: id, name: name));
+    emit(NotifeyEsnadState("تم"));
+    fetchData();
+  }
+
   void search(String query) async {
     esnadsList =
         esnadsList = esnadsList.where((x) => x.name!.contains(query)).toList();
@@ -44,9 +61,3 @@ class EsnadsCubit extends Cubit<EsnadState> {
     }
   }
 }
-//   void Loading() async {
-//     emit(LoadingCategoryState());
-//   }
-
-  
-

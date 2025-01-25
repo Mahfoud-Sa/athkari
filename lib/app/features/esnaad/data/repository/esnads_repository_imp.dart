@@ -15,7 +15,18 @@ class EsnadRepositoryImp implements EsnadRepository {
   }
 
   @override
+  Future<int> updateEsnad(EsnadEntity esnad) async {
+    return await _appDataBaseServices.esnadDao
+        .UpdateEsnad(esnad.id!, EsnadModel(name: esnad.name));
+  }
+
+  @override
   Future<List<EsnadEntity>> getAllEsnads() async {
     return await _appDataBaseServices.esnadDao.getAllEsnads();
+  }
+
+  @override
+  Future<int> deleteEsnad(int id) async {
+    return await _appDataBaseServices.esnadDao.deleteEsnad(id);
   }
 }

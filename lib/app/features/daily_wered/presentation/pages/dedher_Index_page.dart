@@ -1,5 +1,6 @@
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_state.dart';
+import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,7 +45,7 @@ class DedherIndexPage extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   // Trigger a specific event
-                  context.read<LocalDailyWereCubitCubit>().FetchData();
+                  context.read<EsnadsCubit>().fetchData();
                 },
                 child: Text('إعاده المحاولة'),
               ),
