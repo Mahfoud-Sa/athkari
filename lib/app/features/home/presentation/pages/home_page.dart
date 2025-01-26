@@ -1,7 +1,7 @@
 import 'package:athkari/app/features/categories/presentation/pages/category_index_page.dart';
-import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_cubit.dart';
-import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_state.dart';
-import 'package:athkari/app/features/daily_wered/presentation/pages/dedher_Index_page.dart';
+import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
+import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_state.dart';
+import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_Index_page.dart';
 import 'package:athkari/app/features/esnaad/presentation/pages/esnad_index_page.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
 

@@ -1,5 +1,7 @@
-import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_cubit.dart';
-import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_state.dart';
+import 'package:athkari/app/core/methods/build_appbar_method.dart';
+import 'package:athkari/app/core/methods/build_searchbae_method.dart';
+import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
+import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_state.dart';
 import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,69 +17,80 @@ class DedherIndexPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: _buildAppBar(context),
-        body: BlocBuilder<LocalDailyWereCubitCubit, LocalDailyWeredCubitStates>(
-            builder: (context, state) {
-          if (state is LoadingState) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is DoneState) {
-            return ListView(
-              children: [
-                _buildSearchBar(context),
-                SideTitle(
-                  title: "عدد الاذكار",
-                  count: state.total,
-                ),
-
-                // Iterate through the doneState list to generate DekarCardWidgets
-                for (var item in state.athkari)
-                  DekarCardWidget(
-                    no_of_repeating: item['repetitions'] as int,
-                    deker: item['dhaker'],
-                    saneed: item['esnaad_id'].toString(),
-                  ),
-              ],
-            );
-          } else {
-            return Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  // Trigger a specific event
-                  context.read<EsnadsCubit>().fetchData();
+        appBar: buildAppBar(context, "الورد اليومي"),
+        floatingActionButton: FloatingActionButton.small(
+            child: Icon(Icons.add),
+            onPressed: () {
+              //  buildEsnadModalBottomSheet(context);
+            }),
+        body: Column(
+          children: [
+            buildSearchBar(
+              context,
+              (query) {
+                if (query.isNotEmpty) {
+                  //context.read<EsnadsCubit>().search(query);
+                } else {
+                  // context.read<EsnadsCubit>().fetchData();
+                }
+              },
+            ),
+            Expanded(
+              child: BlocListener<DailyWereCubit, DailyWeredCubitStates>(
+                listenWhen: (previous, current) {
+                  return current == NotifeyDailyWeredCubitState;
                 },
-                child: Text('إعاده المحاولة'),
+                listener: (context, state) {
+                  // Show the SnackBar when the state is ShowMessageState
+                  if (state is NotifeyDailyWeredCubitState) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.message),
+                        duration: const Duration(seconds: 3),
+                        backgroundColor: Colors.blueAccent,
+                      ),
+                    );
+                  }
+                },
+                child: BlocBuilder<DailyWereCubit, DailyWeredCubitStates>(
+                    builder: (context, state) {
+                  if (state is LoadingDailyWeredState) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is DoneDailyWeredState) {
+                    return ListView(
+                      children: [
+                        SideTitle(
+                          title: "عدد الاذكار",
+                          count: state.athkari.length,
+                        ),
+
+                        // Iterate through the doneState list to generate DekarCardWidgets
+                        for (var item in state.athkari)
+                          DekarCardWidget(
+                            no_of_repeating: item.repetitions as int,
+                            deker: item.dhkar!,
+                            saneed: item.esnad!.name.toString(),
+                          ),
+                      ],
+                    );
+                  } else {
+                    return Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Trigger a specific event
+                          context.read<EsnadsCubit>().fetchData();
+                        },
+                        child: Text('إعاده المحاولة'),
+                      ),
+                    );
+                  }
+                }),
               ),
-            );
-          }
-        }));
-  }
-
-  Padding _buildSearchBar(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: TextField(
-        onChanged: (value) {
-          context.read<LocalDailyWereCubitCubit>().Search(value);
-        },
-        keyboardType: TextInputType.text,
-        textAlign: TextAlign.right,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.search), // Icon inside the border
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25),
-            borderSide: BorderSide.none, // Remove the visible border
-          ),
-
-          hintText: '...بحث ',
-          filled: true, // Enable background color
-          fillColor: Colors.black12, // Set the background color
-          contentPadding: const EdgeInsets.symmetric(
-              vertical: 10, horizontal: 20), // Adjust padding
-        ),
-      ),
-    );
+            ),
+          ],
+        ));
   }
 }
 

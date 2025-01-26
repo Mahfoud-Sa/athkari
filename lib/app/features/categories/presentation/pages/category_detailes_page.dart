@@ -1,5 +1,5 @@
-import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_cubit.dart';
-import 'package:athkari/app/features/daily_wered/presentation/pages/dedher_Index_page.dart';
+import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
+import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_Index_page.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
 import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/material.dart';
@@ -119,12 +119,12 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
               ),
               TextFormField(),
               BlocProvider(
-                create: (context) => getIt<LocalDailyWereCubitCubit>(),
+                create: (context) => getIt<DailyWereCubit>(),
                 child: InkWell(
                   onTap: () {
                     //  formKey.currentState.validate();
                     if (formKey.currentState!.validate()) {
-                      context.read<LocalDailyWereCubitCubit>().AddDheker(
+                      context.read<DailyWereCubit>().AddDheker(
                           textEditingController_1.text,
                           textEditingController_2.text);
                     }

@@ -1,4 +1,4 @@
-import 'package:athkari/app/features/daily_wered/presentation/pages/dedher_Index_page.dart';
+import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_Index_page.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:share_plus/share_plus.dart';

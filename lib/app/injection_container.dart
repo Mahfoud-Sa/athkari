@@ -8,7 +8,7 @@ import 'package:athkari/app/features/daily_wered/data/repository/dhkar_repositor
 import 'package:athkari/app/features/daily_wered/domain/usecase/add_dhaker_usecase.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/get_daily_wered.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/update_daily_wered_usecase.dart';
-import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_cubit.dart';
+import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/esnaad/data/repository/esnads_repository_imp.dart';
 import 'package:athkari/app/features/esnaad/domain/usecase/add_esnade_usecase.dart';
 import 'package:athkari/app/features/esnaad/domain/usecase/delete_esnad_usecase.dart';
@@ -36,8 +36,7 @@ Future<void> initializationContainer() async {
   var _AppDataBaseServices = await getIt.get<AppDataBaseServices>();
 
   // State Managment
-  getIt.registerFactory<LocalDailyWereCubitCubit>(
-      () => LocalDailyWereCubitCubit(getIt(), getIt()));
+  getIt.registerFactory<DailyWereCubit>(() => DailyWereCubit(getIt(), getIt()));
   getIt.registerFactory<CategoryCubit>(() => CategoryCubit(getIt(), getIt()));
   getIt.registerFactory<EsnadsCubit>(
       () => EsnadsCubit(getIt(), getIt(), getIt(), getIt()));

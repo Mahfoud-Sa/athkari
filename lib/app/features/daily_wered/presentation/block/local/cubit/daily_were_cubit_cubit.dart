@@ -2,34 +2,37 @@ import 'package:athkari/app/features/daily_wered/domain/repository/dhkar_reposit
 import 'package:athkari/app/features/daily_wered/domain/usecase/add_dhaker_usecase.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/get_daily_wered.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/update_daily_wered_usecase.dart';
-import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/local_daily_were_cubit_state.dart';
+import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_state.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
-class LocalDailyWereCubitCubit extends Cubit<LocalDailyWeredCubitStates> {
+class DailyWereCubit extends Cubit<DailyWeredCubitStates> {
   final GetDailyWereUseCase _dailyWereUseCase;
   final AddDhakerUseCase _addDhakerUseCase;
   var athkariList;
   //final GetTotalDailyWereUseCase _getTotalDailyWereUseCase;
-  LocalDailyWereCubitCubit(this._dailyWereUseCase, this._addDhakerUseCase)
+  DailyWereCubit(this._dailyWereUseCase, this._addDhakerUseCase)
       //  this._getTotalDailyWereUseCase
-      : super(InitialState()) {
-    emit(NoDataState());
-    //emit(DoneState(athkari: athkariList));
-    // FetchData();
+      : super(InitialDailyWeredState()) {
+    emit(LoadingDailyWeredState());
+    FetchData();
   }
 
   void FetchData() async {
     athkariList = await _dailyWereUseCase.call();
-
-    emit(DoneState(athkari: athkariList));
+    if (athkariList.length == 0) {
+      emit(EmptyDailyWeredDataState(message: "لاتوجد بيانات"));
+    } else {
+      emit(DoneDailyWeredState(athkari: athkariList));
+    }
+    // emit(DoneDailyWeredState(athkari: athkariList));
   }
 
   void Search(String query) async {
     // var athkariList = await _dailyWereUseCase.call();
     athkariList =
         athkariList.where((x) => x["dhaker"].contains(query)).toList();
-    emit(DoneState(athkari: athkariList));
+    emit(DoneDailyWeredState(athkari: athkariList));
   }
   // void GetTotalOfDekeers() async {
   //   var total = await _getTotalDailyWereUseCase.call();
@@ -40,6 +43,6 @@ class LocalDailyWereCubitCubit extends Cubit<LocalDailyWeredCubitStates> {
   void AddDheker(String text_1, String test_2) async {
     var athkariList = await _addDhakerUseCase.call();
 
-    emit(DoneState(athkari: []));
+    emit(DoneDailyWeredState(athkari: []));
   }
 }
