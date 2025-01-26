@@ -5,7 +5,6 @@ import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:share_plus/share_plus.dart';
 
 class EsnadCardWidget extends StatelessWidget {
@@ -31,15 +30,18 @@ class EsnadCardWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Esnad text
-          Text(
-            esnad.name!,
-            textAlign: TextAlign.center,
-            maxLines: 6,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium!
-                .copyWith(fontSize: fontSize),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              esnad.name!,
+              textAlign: TextAlign.center,
+              maxLines: 6,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(fontSize: fontSize),
+            ),
           ),
 
           Row(

@@ -5,19 +5,19 @@ class EsnadModel extends EsnadEntity {
   final int? id;
   final String? name;
 
-  EsnadModel({this.id, this.name});
+  const EsnadModel({this.id, this.name});
 
   factory EsnadModel.fromDataBase(Map<String, dynamic> map) {
     return EsnadModel(id: map['id'] ?? "", name: map['name'] ?? "");
   }
-  factory EsnadModel.fromEntity(CategoryEntity entity) {
-    return EsnadModel(id: entity.id, name: entity.name);
-  }
-  // Convert an object to JSON (opposite function)
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toDatabse() {
     return {
-      //'id': id,
+      'id': id,
       'name': name,
     };
+  }
+
+  factory EsnadModel.fromEntity(EsnadEntity entity) {
+    return EsnadModel(id: entity.id, name: entity.name);
   }
 }

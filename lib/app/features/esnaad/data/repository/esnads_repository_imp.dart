@@ -11,17 +11,17 @@ class EsnadRepositoryImp implements EsnadRepository {
   @override
   Future<int> addEsnad(EsnadEntity esnad) async {
     return await _appDataBaseServices.esnadDao
-        .InsertEsnad(EsnadModel(name: esnad.name));
+        .insertEsnad(EsnadModel.fromEntity(esnad));
   }
 
   @override
-  Future<int> updateEsnad(EsnadEntity esnad) async {
-    return await _appDataBaseServices.esnadDao
-        .UpdateEsnad(esnad.id!, EsnadModel(name: esnad.name));
+  Future<int> updateEsnad(EsnadEntity esnad) {
+    return _appDataBaseServices.esnadDao
+        .updateEsnad(esnad.id!, EsnadModel.fromEntity(esnad));
   }
 
   @override
-  Future<List<EsnadEntity>> getAllEsnads() async {
+  Future<List<EsnadModel>> getAllEsnads() async {
     return await _appDataBaseServices.esnadDao.getAllEsnads();
   }
 

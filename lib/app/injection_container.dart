@@ -48,17 +48,18 @@ Future<void> initializationContainer() async {
       .registerSingleton<CategoryRepositoryImp>(CategoryRepositoryImp(getIt()));
   getIt.registerSingleton<EsnadRepositoryImp>(EsnadRepositoryImp(getIt()));
 
-// use cases
+  // use cases
+  //daily use case
   getIt.registerSingleton<GetDailyWereUseCase>(GetDailyWereUseCase(getIt()));
   getIt.registerSingleton<AddDhakerUseCase>(AddDhakerUseCase(getIt()));
 
   // getIt.registerSingleton<GetTotalDailyWereUseCase>(
   //     GetTotalDailyWereUseCase(getIt()));
-
+  //category use case
   getIt.registerSingleton<GetCatogoriesUseCase>(GetCatogoriesUseCase(getIt()));
   getIt.registerSingleton<AddCatogoriesUseCase>(AddCatogoriesUseCase(getIt()));
 
-  //Esnads
+  //Esnads use cases
   getIt.registerSingleton<GetAllEsnadUseCase>(GetAllEsnadUseCase(getIt()));
   getIt.registerSingleton<AddEsnadeUsecase>(AddEsnadeUsecase(getIt()));
   getIt.registerSingleton<UpdateEsnadeUsecase>(UpdateEsnadeUsecase(getIt()));

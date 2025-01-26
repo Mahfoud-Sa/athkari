@@ -7,8 +7,7 @@ class GetAllEsnadUseCase implements UseCase {
   final EsnadRepositoryImp _esnadRepositoryImp;
   GetAllEsnadUseCase(this._esnadRepositoryImp);
   @override
-  Future<List<EsnadEntity>> call({params}) async {
-   
-    return await _esnadRepositoryImp.getAllEsnads();
+  Future<List<EsnadEntity>> call({params}) {
+    return _esnadRepositoryImp.getAllEsnads();
   }
 }

@@ -1,6 +1,4 @@
-import 'package:athkari/app/features/daily_wered/data/modules/dhkar.dart';
 import 'package:athkari/app/features/esnaad/data/modules/esnad_model.dart';
-import 'package:flutter/material.dart';
 import 'package:sqflite_common/sqlite_api.dart';
 
 class EsnadDao {
@@ -8,7 +6,7 @@ class EsnadDao {
   final Database database;
 
   // AdhkaiDao(this._db);
-  Future<int> InsertEsnad(EsnadModel esnad) async {
+  Future<int> insertEsnad(EsnadModel esnad) async {
     var value = {
       'name': esnad.name,
       // 'repetitions': dhkar.repetitions,
@@ -17,9 +15,9 @@ class EsnadDao {
     return await database.insert("Esnads", value);
   }
 
-  Future<int> UpdateEsnad(int id, EsnadModel esnad) async {
-    return await database
-        .update('Esnads', esnad.toJson(), where: 'id = ?', whereArgs: [id]);
+  Future<int> updateEsnad(int id, EsnadModel esnad) {
+    return database
+        .update('Esnads', esnad.toDatabse(), where: 'id = ?', whereArgs: [id]);
   }
 
   Future<int> deleteEsnad(int id) async {
