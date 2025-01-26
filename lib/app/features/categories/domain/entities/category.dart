@@ -1,4 +1,4 @@
-import 'package:athkari/app/features/daily_wered/domain/entities/dhkar.dart';
+import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
 import 'package:equatable/equatable.dart';
 
 class CategoryEntity extends Equatable {

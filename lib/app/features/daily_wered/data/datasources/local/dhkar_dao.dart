@@ -1,4 +1,4 @@
-import 'package:athkari/app/features/daily_wered/data/modules/dhkar.dart';
+import 'package:athkari/app/features/daily_wered/data/modules/dhkar_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite_common/sqlite_api.dart';
 
@@ -33,10 +33,10 @@ class DhkarDao {
   }
 
   // Example: Get all records
-  Future<List<Map<String, dynamic>>> getAllAdhkai() async {
-    var temp = await database.query('Adhkars');
-    print(temp);
-    return temp;
+  Future<List<DhkarModel>> getAllAdhkai() async {
+    var dekars = await database.query('Adhkars');
+    print(dekars);
+    return dekars.map((dekar) => DhkarModel.fromDataBase(dekar)).toList();
   }
 
   Future<int> getTotal() async {

@@ -65,7 +65,7 @@ class AppDataBaseServices {
     print("Creating tables...");
 
     await db.execute('''
-      CREATE TABLE Dhkars (
+      CREATE TABLE Adhkars (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         dhaker TEXT ,
         repetitions INTEGER,
@@ -91,13 +91,13 @@ class AppDataBaseServices {
     print("Tables created successfully.");
   }
 
-  Future<List<Map<String, dynamic>>> getAllAdhkars() async {
-    if (_database == null) {
-      throw Exception(
-          "Database not initialized yet. Please wait until it's initialized.");
-    }
-    return await _database!.query("Adhkars");
-  }
+  // Future<List<Map<String, dynamic>>> getAllAdhkars() async {
+  //   if (_database == null) {
+  //     throw Exception(
+  //         "Database not initialized yet. Please wait until it's initialized.");
+  //   }
+  //   return await _database!.query("Adhkars");
+  // }
 }
 
 /*
