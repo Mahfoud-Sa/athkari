@@ -40,9 +40,15 @@ dependencies:
 
 
 dev_dependencies:
+  flutter_lorem: ^2.0.0
+  mockito: 5.4.4
+  build_runner: ^2.4.6
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  test: ^1.25.7
+  
+
 
 #Splash Screen
 flutter_native_splash:

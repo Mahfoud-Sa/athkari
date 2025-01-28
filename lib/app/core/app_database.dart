@@ -4,6 +4,7 @@ import 'package:athkari/app/features/esnaad/data/datasources/esnad_dto.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_lorem/flutter_lorem.dart';
 
 class AppDataBaseServices {
   static final AppDataBaseServices _instance = AppDataBaseServices._internal();
@@ -90,14 +91,6 @@ class AppDataBaseServices {
     ''');
     print("Tables created successfully.");
   }
-
-  // Future<List<Map<String, dynamic>>> getAllAdhkars() async {
-  //   if (_database == null) {
-  //     throw Exception(
-  //         "Database not initialized yet. Please wait until it's initialized.");
-  //   }
-  //   return await _database!.query("Adhkars");
-  // }
 }
 
 /*

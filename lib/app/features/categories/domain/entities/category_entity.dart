@@ -4,19 +4,16 @@ import 'package:equatable/equatable.dart';
 class CategoryEntity extends Equatable {
   final int? id;
   final String? name;
+  final List<DhkarEntity>? dhkars;
+
   const CategoryEntity({
+    this.dhkars,
     this.id,
     this.name,
   });
 
-  // ignore: avoid_types_as_parameter_names
-  // factory CategoryEntity.fromJson(Map<String, dynamic> json) {
-  //   return CategoryEntity();
-  // }
-
   @override
-  // TODO: implement props
   List<Object?> get props {
-    return [id, name];
+    return [id, name, dhkars];
   }
 }

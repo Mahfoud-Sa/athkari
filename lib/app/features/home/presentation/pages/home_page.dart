@@ -1,14 +1,13 @@
+import 'package:athkari/app/features/categories/data/modules/category_models.dart';
+import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/presentation/pages/category_index_page.dart';
-import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
-import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_state.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_Index_page.dart';
 import 'package:athkari/app/features/esnaad/presentation/pages/esnad_index_page.dart';
+import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit.dart';
+import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit_states.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -67,7 +66,23 @@ class HomePage extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                _buildDekarSection(),
+
+                BlocBuilder<HomepageCubit, HomePageCubitStates>(
+                  builder: (context, state) {
+                    if (state is LoadingHomePageState) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state is DoneHomePageState) {
+                      return _buildDekarSection(state);
+                    } else if (state is EmptyHomePageState) {
+                      return Center(
+                        child: Text(state.message),
+                      );
+                    }
+                    return Container();
+                  },
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -180,62 +195,16 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  SingleChildScrollView _buildDekarSection() {
-    return const SingleChildScrollView(
+  SingleChildScrollView _buildDekarSection(DoneHomePageState categoriesList) {
+    return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          DekaarContainerWidget(
-            text: "أذكار الصباح",
-          ),
-          DekaarContainerWidget(
-            text: "أذكار الصباح",
-          ),
-          DekaarContainerWidget(
-            text: "أذكار الصباح",
-          ),
-          DekaarContainerWidget(
-            text: "أذكار الصباح",
-          ),
-          DekaarContainerWidget(
-            text: "أذكار الصباح",
-          ),
-          DekaarContainerWidget(
-            text: "أذكار الصباح",
-          ),
-          DekaarContainerWidget(
-            text: "أذكار الصباح",
-          ),
-          DekaarContainerWidget(
-            text: "أذكار الصباح",
-          ),
-          DekaarContainerWidget(
-            text: "أذكار الصباح",
-          ),
-          DekaarContainerWidget(
-            text: "أذكار الصباح",
-          ),
-          DekaarContainerWidget(
-            text: "أذكار الصباح",
-          ),
-          DekaarContainerWidget(
-            text: "أذكار الصباح",
-          ),
-          DekaarContainerWidget(
-            text: "أذكار الصباح",
-          ),
-          DekaarContainerWidget(
-            text: "أذكار الصباح",
-          ),
-          DekaarContainerWidget(
-            text: "أذكار الصباح",
-          ),
-          DekaarContainerWidget(
-            text: "أذكار الصباح",
-          ),
-          DekaarContainerWidget(
-            text: "أذكار الصباح",
-          ),
+          // Text(categoriesList.categories.length.toString()),
+          for (CategoryEntity category in categoriesList.categories)
+            DekaarContainerWidget(
+              text: category.name!,
+            ),
         ],
       ),
     );

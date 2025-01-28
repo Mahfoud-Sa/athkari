@@ -7,7 +7,6 @@ class GetDailyWereUseCase implements UseCase {
   GetDailyWereUseCase(this._dhkarRepository);
   @override
   Future<List<DhkarModel>> call({params}) async {
-    // TODO: implement call
     return await _dhkarRepository.getAllDhkars();
   }
 }

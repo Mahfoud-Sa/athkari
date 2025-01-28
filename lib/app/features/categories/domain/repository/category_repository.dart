@@ -1,7 +1,10 @@
-import 'package:athkari/app/features/categories/data/modules/category.dart';
-import 'package:athkari/app/features/categories/domain/entities/category.dart';
+import 'package:athkari/app/features/categories/data/modules/category_models.dart';
+import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 
 abstract class CategoryRepository {
   Future<List<CategoryEntity>> getAllCatogories();
+  Future<CategoryEntity> getCatogory(int id);
   Future<int> addCatogory(CategoryEntity category);
+  Future<CategoryEntity> updareCatogory(CategoryEntity category);
+  Future<bool> deleteCatogory(CategoryEntity category);
 }

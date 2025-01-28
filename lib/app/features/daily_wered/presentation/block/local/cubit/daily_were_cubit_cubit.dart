@@ -1,10 +1,7 @@
-import 'package:athkari/app/features/daily_wered/domain/repository/dhkar_repository.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/add_dhaker_usecase.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/get_daily_wered.dart';
-import 'package:athkari/app/features/daily_wered/domain/usecase/update_daily_wered_usecase.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_state.dart';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 class DailyWereCubit extends Cubit<DailyWeredCubitStates> {
   final GetDailyWereUseCase _dailyWereUseCase;

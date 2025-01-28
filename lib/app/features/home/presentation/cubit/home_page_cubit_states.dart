@@ -2,43 +2,43 @@ import 'package:athkari/app/features/categories/domain/entities/category_entity.
 import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 import 'package:equatable/equatable.dart';
 
-abstract class EsnadState extends Equatable {}
+abstract class HomePageCubitStates extends Equatable {}
 
-class InitialEsnadState extends EsnadState {
+class InitialHomePageState extends HomePageCubitStates {
   @override
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }
 
-class LoadingEsnadState extends EsnadState {
+class LoadingHomePageState extends HomePageCubitStates {
   @override
   // TODO: implement props
   List<Object?> get props => [];
 }
 
-class DoneEsnadState extends EsnadState {
-  final List<EsnadEntity> esnads;
+class DoneHomePageState extends HomePageCubitStates {
+  final List<CategoryEntity> categories;
   // final String message;
 
-  DoneEsnadState(this.esnads);
+  DoneHomePageState(this.categories);
 
   @override
   // TODO: implement props
-  List<Object?> get props => [esnads]; // For state comparison
+  List<Object?> get props => [categories]; // For state comparison
 }
 
-class EmptyEsnadState extends EsnadState {
+class EmptyHomePageState extends HomePageCubitStates {
   final String message;
-  EmptyEsnadState(this.message);
+  EmptyHomePageState(this.message);
 
   @override
   // TODO: implement props
   List<Object?> get props => []; // For state comparison
 }
 
-class NotifeyEsnadState extends EsnadState {
+class NotifeyHomePageState extends HomePageCubitStates {
   final String message;
-  NotifeyEsnadState(this.message);
+  NotifeyHomePageState(this.message);
 
   @override
   // TODO: implement props

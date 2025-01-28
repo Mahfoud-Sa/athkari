@@ -1,5 +1,6 @@
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_Index_page.dart';
+import 'package:athkari/app/features/daily_wered/presentation/pages/side_title_widget.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
 import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/material.dart';

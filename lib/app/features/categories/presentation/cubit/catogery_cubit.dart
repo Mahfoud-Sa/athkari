@@ -1,4 +1,4 @@
-import 'package:athkari/app/features/categories/domain/entities/category.dart';
+import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/domain/usecase/add_catogories_use_case.dart';
 import 'package:athkari/app/features/categories/domain/usecase/get_catogories_use_case.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';

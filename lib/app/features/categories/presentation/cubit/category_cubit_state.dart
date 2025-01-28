@@ -1,4 +1,4 @@
-import 'package:athkari/app/features/categories/domain/entities/category.dart';
+import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class CatogeryState extends Equatable {}
