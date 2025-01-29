@@ -1,4 +1,5 @@
 import 'package:athkari/app/core/methods/build_searchbae_method.dart';
+import 'package:athkari/app/core/widgets/error_state_widget.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/features/categories/presentation/pages/category_detailes_page.dart';
@@ -30,11 +31,13 @@ class CategoryIndexPage extends StatelessWidget {
             }
           }),
           BlocListener<CategoryCubit, CatogeryState>(
+            listenWhen: (previous, current) {
+              return current != NotifeyCategoryState;
+            },
             listener: (context, state) {
-              // ScaffoldMessenger.of(context).showSnackBar(
-              //   SnackBar(content: Text('تمت الاضافة')),
-              // );
-              //  Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('تمت الاضافة')),
+              );
             },
             child: BlocBuilder<CategoryCubit, CatogeryState>(
                 builder: (context, state) {
@@ -43,7 +46,10 @@ class CategoryIndexPage extends StatelessWidget {
               } else if (state is DoneCategoryState) {
                 return DoneStateWidget(state: state);
               } else if (state is ErrorCategoryState)
-                return ErrorStateWidget(state: state);
+                return ErrorStateWidget(
+                  state: state,
+                  onTap: () => context.read<CategoryCubit>().FetchData(),
+                );
               else if (state is EmptyCategoryState) {
                 return const Center(
                     child: Text('جرب البحث باستخدام كلمات أخرئ'));
@@ -118,7 +124,7 @@ class CategoryIndexPage extends StatelessWidget {
                       borderSide: BorderSide.none, // Remove the visible border
                     ),
 
-                    hintText: 'اسم الفئة',
+                    hintText: 'اسم التصنيف',
                     filled: true, // Enable background color
                     fillColor: Colors.black12, // Set the background color
                     contentPadding: const EdgeInsets.symmetric(
@@ -187,27 +193,6 @@ class CategoryIndexPage extends StatelessWidget {
   }
 }
 
-class ErrorStateWidget extends StatelessWidget {
-  final ErrorCategoryState state;
-  const ErrorStateWidget({
-    super.key,
-    required this.state,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: ElevatedButton(
-        onPressed: () {
-          // Trigger a specific event
-          context.read<CategoryCubit>().FetchData();
-        },
-        child: Text(state.message.toString()),
-      ),
-    );
-  }
-}
-
 class DoneStateWidget extends StatelessWidget {
   final DoneCategoryState state;
   const DoneStateWidget({
@@ -229,8 +214,7 @@ class DoneStateWidget extends StatelessWidget {
         itemBuilder: (context, index) {
           final azkar = state.catogories[index];
           return CategoryWidget(
-            title: azkar.name!,
-            no_of_dekres: 5,
+            category: azkar,
           );
         },
       ),

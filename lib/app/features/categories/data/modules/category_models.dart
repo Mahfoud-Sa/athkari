@@ -16,7 +16,7 @@ class CategoryModel extends CategoryEntity {
         id: map['id'] ?? "", name: map['name'] ?? "", dhkars: dhkarsList ?? []);
   }
   // factory CategoryModel.fromEntity(CategoryEntity entity) {
-  //   return CategoryModel(id: entity.id, name: entity.name,dhkars: entity.dhkars);
+  //   return CategoryModel(id: entity.id, name: entity.name,dhkars: entity.dhkars?.map((dhkar) => DhkarModel.fro).toList(),);
   // }
 
   Map<String, dynamic> toDatabase() {

@@ -41,3 +41,12 @@ class ErrorCategoryState extends CatogeryState {
   // TODO: implement props
   List<Object?> get props => [message]; // For state comparison
 }
+
+class NotifeyCategoryState extends CatogeryState {
+  final String message;
+  NotifeyCategoryState(this.message);
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [message]; // For state comparison
+}

@@ -9,6 +9,6 @@ class GetCatogoriesUseCase extends UseCase {
 
   @override
   Future<List<CategoryEntity>> call({params}) {
-    return _categoryRepository.getAllCatogories();
+    return _categoryRepository.getAllCatogoriesWithDekars();
   }
 }

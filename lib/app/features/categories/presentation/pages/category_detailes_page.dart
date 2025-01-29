@@ -1,8 +1,11 @@
+import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
+import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_Index_page.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/side_title_widget.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
 import 'package:athkari/app/injection_container.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +17,7 @@ class CatogroesDetailesPage extends StatefulWidget {
   const CatogroesDetailesPage(
       {super.key, required this.categoryName, required this.dekeers});
   final String categoryName;
-  final List<String> dekeers;
+  final List<DhkarEntity> dekeers;
 
   @override
   State<CatogroesDetailesPage> createState() => _CatogroesDetailesPageState();
@@ -39,13 +42,12 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
               count: widget.dekeers.length,
               title: "عدد الاذكار",
             ),
-            DekarCardWidget(
-              deker:
-                  "أَصْـبَحْنا وَأَصْـبَحَ المُـلْكُ لله وَالحَمدُ لله ، لا إلهَ إلاّ اللّهُ وَحدَهُ لا شَريكَ لهُ، لهُ المُـلكُ ولهُ الحَمْـد، وهُوَ على كلّ شَيءٍ قدير ، رَبِّ أسْـأَلُـكَ خَـيرَ ما في هـذا اليوم وَخَـيرَ ما بَعْـدَه ، وَأَعـوذُ بِكَ مِنْ شَـرِّ ما في هـذا اليوم وَشَرِّ ما بَعْـدَه، رَبِّ أَعـوذُبِكَ مِنَ الْكَسَـلِ وَسـوءِ الْكِـبَر ، رَبِّ أَعـوذُ بِكَ مِنْ عَـذابٍ في النّـارِ وَعَـذابٍ في القَـبْر.",
-              no_of_repeating: 5,
-              saneed:
-                  "بِسـمِ اللهِ الذي لا يَضُـرُّ مَعَ اسمِـهِ شَيءٌ في الأرْضِ وَلا في السّمـاءِ وَهـوَ السّمـيعُ العَلـيم.",
-            )
+            for (var dekar in widget.dekeers)
+              DekarCardWidget(
+                deker: dekar.dhkar ?? "",
+                no_of_repeating: dekar.repetitions ?? 0,
+                saneed: dekar.esnad?.name,
+              )
           ],
         ));
   }
@@ -211,15 +213,11 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
 }
 
 class DekarCardWidget extends StatefulWidget {
-  DekarCardWidget(
-      {super.key,
-      required this.no_of_repeating,
-      required this.deker,
-      required this.saneed});
+  DekarCardWidget({super.key, this.no_of_repeating, this.deker, this.saneed});
   final double _fontsize = 18;
-  int no_of_repeating = 100;
-  String deker;
-  String saneed;
+  int? no_of_repeating;
+  String? deker;
+  String? saneed;
   @override
   State<DekarCardWidget> createState() => _DekarCardWidgetState();
 }
@@ -233,7 +231,7 @@ class _DekarCardWidgetState extends State<DekarCardWidget> {
     // TODO: implement initState
     super.initState();
 
-    _no_of_repeating = widget.no_of_repeating;
+    _no_of_repeating = widget.no_of_repeating ?? 0;
   }
 
   @override
@@ -244,7 +242,7 @@ class _DekarCardWidgetState extends State<DekarCardWidget> {
           if (_no_of_repeating != 0) {
             _no_of_repeating -= 1;
           } else {
-            _no_of_repeating = widget.no_of_repeating;
+            _no_of_repeating = widget.no_of_repeating ?? 0;
           }
         });
       },
@@ -271,7 +269,7 @@ class _DekarCardWidgetState extends State<DekarCardWidget> {
               controller: _controller,
               title: Text(
                 textAlign: TextAlign.center,
-                widget.deker,
+                widget.deker ?? "",
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!
@@ -280,7 +278,7 @@ class _DekarCardWidgetState extends State<DekarCardWidget> {
               children: [
                 Text(
                   textAlign: TextAlign.center,
-                  widget.saneed,
+                  widget.saneed ?? "",
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       fontSize: widget._fontsize, color: Colors.black12),
                 ),

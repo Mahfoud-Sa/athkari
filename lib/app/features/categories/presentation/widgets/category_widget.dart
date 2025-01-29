@@ -1,17 +1,14 @@
+import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/presentation/pages/category_detailes_page.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_Index_page.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class CategoryWidget extends StatelessWidget {
-  CategoryWidget({
-    super.key,
-    required this.no_of_dekres,
-    required this.title,
-  });
+  CategoryWidget({super.key, required this.category});
   final double _fontsize = 18;
-  int no_of_dekres = 100;
-  String title;
+  CategoryEntity category;
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -20,8 +17,8 @@ class CategoryWidget extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => CatogroesDetailesPage(
-                categoryName: '$title',
-                dekeers: [],
+                categoryName: '${category.name}',
+                dekeers: category.dhkars!,
               ),
             ));
       },
@@ -44,7 +41,7 @@ class CategoryWidget extends StatelessWidget {
           children: [
             Text(
               textAlign: TextAlign.center,
-              title,
+              '${category.name}',
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context)
@@ -54,7 +51,7 @@ class CategoryWidget extends StatelessWidget {
             ),
             Text(
               textAlign: TextAlign.center,
-              "عدد الاذكار ${no_of_dekres} ذكر",
+              "عدد الاذكار ${'${category.dhkars!.length}'} ذكر",
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context)
                   .textTheme

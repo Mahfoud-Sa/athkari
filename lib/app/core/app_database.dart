@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:athkari/app/features/categories/data/datasources/local/category_dao.dart';
 import 'package:athkari/app/features/daily_wered/data/datasources/local/dhkar_dao.dart';
 import 'package:athkari/app/features/esnaad/data/datasources/esnad_dto.dart';
@@ -48,8 +50,17 @@ class AppDataBaseServices {
   }
 
   Future<Database> _initializeDb() async {
-    String databasePath = await getDatabasesPath();
-    String path = join(databasePath, 'database.db');
+    String path;
+
+    if (Platform.environment.containsKey('FLUTTER_TEST')) {
+      // Use an in-memory database for tests
+      path = ':memory:';
+    } else {
+      // Use the real database path
+      String databasePath = await getDatabasesPath();
+      path = join(databasePath, 'database.db');
+    }
+
     return await openDatabase(
       path,
       version: 1,
@@ -57,6 +68,17 @@ class AppDataBaseServices {
       onUpgrade: _onUpgrade,
     );
   }
+
+  // Future<Database> _initializeDb() async {
+  //   String databasePath = await getDatabasesPath();
+  //   String path = join(databasePath, 'database.db');
+  //   return await openDatabase(
+  //     path,
+  //     version: 1,
+  //     onCreate: _onCreate,
+  //     onUpgrade: _onUpgrade,
+  //   );
+  // }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     // Handle database upgrades if needed

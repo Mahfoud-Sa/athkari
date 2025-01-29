@@ -17,10 +17,14 @@ class CategoryRepositoryImp implements CategoryRepository {
     return _appDataBaseServices.categoryDao.getCategories();
   }
 
+  Future<List<CategoryEntity>> getAllCatogoriesWithDekars() {
+    return _appDataBaseServices.categoryDao.getCategoriesWithDekars();
+  }
+
   @override
   Future<int> addCatogory(CategoryEntity category) {
-    // TODO: implement addCatogory
-    throw UnimplementedError();
+    return _appDataBaseServices.categoryDao
+        .insertCategory(CategoryModel(name: category.name));
   }
 
   @override

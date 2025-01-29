@@ -22,8 +22,9 @@ class CategoryCubit extends Cubit<CatogeryState> {
   }
 
   void AddCategory(String name) async {
-    await _addCatogoriesUseCase(params: CategoryEntity(name: name));
-
+    var state = await _addCatogoriesUseCase(params: CategoryEntity(name: name));
+    emit(NotifeyCategoryState("تم"));
+    //print(state);
     FetchData();
   }
 
@@ -32,12 +33,12 @@ class CategoryCubit extends Cubit<CatogeryState> {
   }
 
   void Search(String query) async {
-    var result = categoryiList =
+    categoryiList =
         categoryiList.where((x) => x.name!.contains(query)).toList();
-    if (result.length == 0) {
+    if (categoryiList.length == 0) {
       emit(EmptyCategoryState());
     } else {
-      emit(DoneCategoryState(result));
+      emit(DoneCategoryState(categoryiList));
     }
   }
 }

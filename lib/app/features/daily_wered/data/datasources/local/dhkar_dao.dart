@@ -1,6 +1,7 @@
 import 'package:athkari/app/features/daily_wered/data/modules/dhkar_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite_common/sqlite_api.dart';
+import 'package:flutter_lorem/flutter_lorem.dart';
 
 class DhkarDao {
   DhkarDao(this.database);
@@ -44,9 +45,22 @@ class DhkarDao {
 
     return result.length;
   }
-  // Future<void> GetAll();
-  // Future<void> Get();
 
-  // Future<void> Update();
-  // Future<void> Delete();
+  Future<void> seedEsnads() async {
+    for (int i = 0; i < 10; i++) {
+      var dhkarName = lorem(words: 1);
+      var value = {
+        'dhaker': dhkarName,
+        'repetitions': 10,
+        'category_id': 1,
+      };
+
+      await database.insert("Adhkars", value);
+      // await database.insert(
+      //   'Adhkars', // Table name
+      //   {'name': dhkarName, 'category_id': 1}, // Data to insert
+      //   conflictAlgorithm: ConflictAlgorithm.replace, // Handle conflicts
+      // );
+    }
+  }
 }
