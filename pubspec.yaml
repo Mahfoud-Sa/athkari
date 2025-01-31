@@ -21,7 +21,7 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   #service_locater
   get_it: ^8.0.0
-
+  fluttertoast: ^8.2.10
   shared_preferences: ^2.2.2
   go_router: ^14.1.4
   intl: ^0.19.0
@@ -33,6 +33,7 @@ dependencies:
   equatable: ^2.0.7
   #database
   sqflite: ^2.4.1
+ 
   
   
   

@@ -14,7 +14,7 @@ Future<void> main() async {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider(create: (_) => DailyWereCubit(getIt(), getIt())),
-      BlocProvider(create: (_) => CategoryCubit(getIt(), getIt())),
+      BlocProvider(create: (_) => CategoryCubit(getIt(), getIt(), getIt())),
       BlocProvider(
           create: (_) => EsnadsCubit(getIt(), getIt(), getIt(), getIt())),
       BlocProvider(create: (_) => HomepageCubit(getIt())),

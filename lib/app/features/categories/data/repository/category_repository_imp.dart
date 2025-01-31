@@ -34,15 +34,16 @@ class CategoryRepositoryImp implements CategoryRepository {
   }
 
   @override
-  Future<CategoryEntity> getCatogory(int id) {
+  Future<CategoryEntity?> getCatogory(int id) {
     // TODO: implement getCatogory
-    throw UnimplementedError();
+    return _appDataBaseServices.categoryDao.getCategory(id);
   }
 
   @override
-  Future<CategoryEntity> updareCatogory(CategoryEntity category) {
-    // TODO: implement updareCatogory
-    throw UnimplementedError();
+  Future<CategoryEntity?> updareCatogory(CategoryEntity category) async {
+    int updatedCategoryIndex = await _appDataBaseServices.categoryDao
+        .updateCategory(category.id!, CategoryModel(name: category.name));
+    return await getCatogory(updatedCategoryIndex);
   }
 
 //   @override

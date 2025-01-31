@@ -26,7 +26,8 @@ class DoneCategoryState extends CatogeryState {
 }
 
 class EmptyCategoryState extends CatogeryState {
-  EmptyCategoryState();
+  final String message;
+  EmptyCategoryState(this.message);
 
   @override
   // TODO: implement props

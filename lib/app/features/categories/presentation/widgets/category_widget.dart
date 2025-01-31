@@ -1,3 +1,8 @@
+import 'dart:ffi';
+
+import 'package:athkari/app/core/ModelBottomSheet/delete_category_modelbottomsheet.dart';
+import 'package:athkari/app/core/ModelBottomSheet/update_category_modelbottomsheet.dart';
+import 'package:athkari/app/core/widgets/custome_container.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/presentation/pages/category_detailes_page.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_Index_page.dart';
@@ -5,9 +10,15 @@ import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class CategoryWidget extends StatelessWidget {
-  CategoryWidget({super.key, required this.category});
+  const CategoryWidget(
+      {super.key,
+      required this.category,
+      required this.formKey,
+      required this.categoryName});
   final double _fontsize = 18;
-  CategoryEntity category;
+  final CategoryEntity category;
+  final GlobalKey<FormState> formKey;
+  final TextEditingController categoryName;
 
   @override
   Widget build(BuildContext context) {
@@ -23,244 +34,114 @@ class CategoryWidget extends StatelessWidget {
             ));
       },
       borderRadius: BorderRadius.circular(15),
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(25)),
-          border: GradientBoxBorder(
-            width: 1,
-            gradient: LinearGradient(colors: [
-              Color.fromARGB(255, 90, 202, 165),
-              Color.fromARGB(255, 178, 231, 93),
-            ]),
+      child: CustomeContainer(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            PopupMenuButton(
+              color: Colors.white, // Set the background color to white
+              padding: EdgeInsets.all(0), // No padding
+              //  onChanged: (value) {},
+              icon: Expanded(
+                child: Icon(
+                  Icons.more_vert,
+                  color: Colors.blueGrey,
+                ),
+              ),
+              itemBuilder: (BuildContext context) {
+                return [
+                  _popUpEditButton(context),
+                  _popupDeleteButton(context, formKey),
+                ];
+              },
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  textAlign: TextAlign.center,
+                  '${category.name}',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(fontSize: _fontsize),
+                ),
+                Text(
+                  textAlign: TextAlign.center,
+                  "عدد الاذكار ${'${category.dhkars!.length}'} ذكر",
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(fontSize: _fontsize, color: Colors.black12),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  PopupMenuItem<dynamic> _popupDeleteButton(
+      BuildContext context, GlobalKey<FormState> formKey) {
+    return PopupMenuItem(
+        child: Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        InkWell(
+          onTap: () {
+            buildShowDeleteDekeerBottomSheet(context);
+          },
+          child: Text(
+            "حذف",
+            style: TextStyle(
+              color: Color.fromARGB(255, 90, 202, 165),
+            ),
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              textAlign: TextAlign.center,
-              '${category.name}',
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(fontSize: _fontsize),
-            ),
-            Text(
-              textAlign: TextAlign.center,
-              "عدد الاذكار ${'${category.dhkars!.length}'} ذكر",
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(fontSize: _fontsize, color: Colors.black12),
-            ),
-          ],
-        ),
-      ),
-    );
+        Icon(
+          Icons.delete,
+          color: Color.fromARGB(255, 90, 202, 165),
+        )
+      ],
+    ));
   }
 
-  Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
-    return showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => SingleChildScrollView(
-        //  width: double.infinity,
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 10,
+  PopupMenuItem<dynamic> _popUpEditButton(
+    BuildContext context,
+    //GlobalKey<FormState> formKey,
+    // TextEditingController categoryName,
+    // categoryId
+  ) {
+    return PopupMenuItem(
+        child: Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        InkWell(
+          onTap: () {
+            buildShowUpdateCategoryModalBottomSheet(
+                context, formKey, categoryName, category.id!);
+          },
+          child: Text(
+            "تعديل",
+            style: TextStyle(
+              color: Color.fromARGB(255, 90, 202, 165),
             ),
-            Container(
-              height: 3,
-              width: 80,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.black,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 8, bottom: 12),
-              child: Text(
-                'ضبط عدد مرات اتكرار',
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w900),
-              ),
-            ),
-            const Row(
-              children: [
-                Expanded(child: SizedBox()),
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: const Text(
-                    'عدد مرات التكرار',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 22,
-                        color: Color.fromARGB(255, 128, 188, 189)),
-                  ),
-                )
-              ],
-            ),
-            TempWidget(
-              noOfRepeating: 5,
-            ),
-            InkWell(
-              onTap: () {},
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                width: 300,
-                height: 50,
-                child: Center(
-                  child: const Text(
-                    'تعديل مرات التكرار',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w600),
-                  ),
-                ),
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 128, 188, 189),
-                    borderRadius: BorderRadius.circular(30)),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            InkWell(
-              borderRadius: BorderRadius.circular(20),
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Container(
-                width: 300,
-                height: 50,
-                child: const Center(
-                  child: Text(
-                    'الغاء',
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 128, 188, 189),
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: const Color.fromARGB(255, 128, 188, 189),
-                        width: 3),
-                    borderRadius: BorderRadius.circular(30)),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-          ],
+          ),
         ),
-      ),
-    );
-  }
-
-  Future<dynamic> buildShowDeleteDekeerBottomSheet(BuildContext context) {
-    return showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => SingleChildScrollView(
-        //  width: double.infinity,
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Container(
-              height: 3,
-              width: 80,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.black,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 8, bottom: 12),
-              child: Text(
-                "حذف من الورد اليومي",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w900),
-              ),
-            ),
-            const Row(
-              children: [
-                Expanded(child: SizedBox()),
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: const Text(
-                    'هل انت متاكد من حذف هذا الذكر؟',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 22,
-                        color: Color.fromARGB(255, 128, 188, 189)),
-                  ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            InkWell(
-              onTap: () {},
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                width: 300,
-                height: 50,
-                child: Center(
-                  child: const Text(
-                    'حذف الذكر',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w600),
-                  ),
-                ),
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 128, 188, 189),
-                    borderRadius: BorderRadius.circular(30)),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            InkWell(
-              borderRadius: BorderRadius.circular(20),
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: Container(
-                width: 300,
-                height: 50,
-                child: const Center(
-                  child: Text(
-                    'الغاء',
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 128, 188, 189),
-                        fontWeight: FontWeight.w600),
-                  ),
-                ),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: const Color.fromARGB(255, 128, 188, 189),
-                        width: 3),
-                    borderRadius: BorderRadius.circular(30)),
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-          ],
-        ),
-      ),
-    );
+        Icon(
+          Icons.add,
+          color: Color.fromARGB(255, 90, 202, 165),
+        )
+      ],
+    ));
   }
 }

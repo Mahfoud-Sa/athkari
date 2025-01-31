@@ -25,8 +25,8 @@ class CatogroesDetailesPage extends StatefulWidget {
 
 class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
   var formKey = GlobalKey<FormState>();
-  var textEditingController_1 = TextEditingController();
-  var textEditingController_2 = TextEditingController();
+  var addCategoryText = TextEditingController();
+  var editCategoryText = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +45,7 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
             for (var dekar in widget.dekeers)
               DekarCardWidget(
                 deker: dekar.dhkar ?? "",
-                no_of_repeating: dekar.repetitions ?? 0,
+                repetitions: dekar.repetitions ?? 0,
                 saneed: dekar.esnad?.name,
               )
           ],
@@ -103,7 +103,7 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
               //   noOfRepeating: 5,
               // ),
               TextFormField(
-                controller: textEditingController_1,
+                controller: addCategoryText,
               ),
               const Row(
                 children: [
@@ -128,8 +128,7 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
                     //  formKey.currentState.validate();
                     if (formKey.currentState!.validate()) {
                       context.read<DailyWereCubit>().AddDheker(
-                          textEditingController_1.text,
-                          textEditingController_2.text);
+                          addCategoryText.text, editCategoryText.text);
                     }
                   },
                   borderRadius: BorderRadius.circular(20),
@@ -212,10 +211,46 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
   }
 }
 
+PreferredSize _buildAppBar(BuildContext context, String name) {
+  return PreferredSize(
+    preferredSize: const Size.fromHeight(75), // Set custom height here
+    child: AppBar(
+      flexibleSpace: Container(
+        decoration: const BoxDecoration(
+          color: Colors.black38,
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
+          image: DecorationImage(
+            fit: BoxFit.fitWidth,
+            image: AssetImage("assets/images/patteren.png"),
+          ),
+        ),
+      ),
+      automaticallyImplyLeading: false, // Remove default leading button
+      centerTitle: true, // Keeps the title centered horizontally
+      title: Text(
+        name,
+        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+            fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+      actions: [
+        IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: SvgPicture.asset('assets/svgs/back_button.svg'),
+          padding: EdgeInsets.zero, // Remove default padding
+          constraints: const BoxConstraints(), // Remove default constraints
+          alignment: Alignment.center, // Center vertically
+        ),
+      ],
+    ),
+  );
+}
+
 class DekarCardWidget extends StatefulWidget {
-  DekarCardWidget({super.key, this.no_of_repeating, this.deker, this.saneed});
+  DekarCardWidget({super.key, this.repetitions, this.deker, this.saneed});
   final double _fontsize = 18;
-  int? no_of_repeating;
+  int? repetitions;
   String? deker;
   String? saneed;
   @override
@@ -231,7 +266,7 @@ class _DekarCardWidgetState extends State<DekarCardWidget> {
     // TODO: implement initState
     super.initState();
 
-    _no_of_repeating = widget.no_of_repeating ?? 0;
+    _no_of_repeating = widget.repetitions ?? 0;
   }
 
   @override
@@ -242,7 +277,7 @@ class _DekarCardWidgetState extends State<DekarCardWidget> {
           if (_no_of_repeating != 0) {
             _no_of_repeating -= 1;
           } else {
-            _no_of_repeating = widget.no_of_repeating ?? 0;
+            _no_of_repeating = widget.repetitions ?? 0;
           }
         });
       },
@@ -614,40 +649,4 @@ class _DekarCardWidgetState extends State<DekarCardWidget> {
       ),
     );
   }
-}
-
-PreferredSize _buildAppBar(BuildContext context, String name) {
-  return PreferredSize(
-    preferredSize: const Size.fromHeight(75), // Set custom height here
-    child: AppBar(
-      flexibleSpace: Container(
-        decoration: const BoxDecoration(
-          color: Colors.black38,
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(15)),
-          image: DecorationImage(
-            fit: BoxFit.fitWidth,
-            image: AssetImage("assets/images/patteren.png"),
-          ),
-        ),
-      ),
-      automaticallyImplyLeading: false, // Remove default leading button
-      centerTitle: true, // Keeps the title centered horizontally
-      title: Text(
-        name,
-        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-            fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
-      ),
-      actions: [
-        IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: SvgPicture.asset('assets/svgs/back_button.svg'),
-          padding: EdgeInsets.zero, // Remove default padding
-          constraints: const BoxConstraints(), // Remove default constraints
-          alignment: Alignment.center, // Center vertically
-        ),
-      ],
-    ),
-  );
 }

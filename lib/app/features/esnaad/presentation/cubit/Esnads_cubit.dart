@@ -1,6 +1,6 @@
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
-import 'package:athkari/app/features/categories/domain/usecase/add_catogories_use_case.dart';
-import 'package:athkari/app/features/categories/domain/usecase/get_catogories_use_case.dart';
+import 'package:athkari/app/features/categories/domain/usecase/add_catogories_usecase.dart';
+import 'package:athkari/app/features/categories/domain/usecase/get_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
 import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 import 'package:athkari/app/features/esnaad/domain/usecase/add_esnade_usecase.dart';

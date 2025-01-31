@@ -1,17 +1,21 @@
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
-import 'package:athkari/app/features/categories/domain/usecase/add_catogories_use_case.dart';
-import 'package:athkari/app/features/categories/domain/usecase/get_catogories_use_case.dart';
+import 'package:athkari/app/features/categories/domain/usecase/add_catogories_usecase.dart';
+import 'package:athkari/app/features/categories/domain/usecase/get_catogories_usecase.dart';
+import 'package:athkari/app/features/categories/domain/usecase/update_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
 import 'package:bloc/bloc.dart';
 
 class CategoryCubit extends Cubit<CatogeryState> {
   final GetCatogoriesUseCase _getCatogoriesUseCase;
   final AddCatogoriesUseCase _addCatogoriesUseCase;
+  final UpdateCatogoriesUseCase _updateCatogoriesUseCase;
   List<CategoryEntity> categoryiList = [];
 
-  CategoryCubit(this._getCatogoriesUseCase, this._addCatogoriesUseCase)
+  CategoryCubit(this._getCatogoriesUseCase, this._addCatogoriesUseCase,
+      this._updateCatogoriesUseCase)
       : super(InitialCategoryState()) {
     emit(LoadingCategoryState());
+    emit(NotifeyCategoryState("تم"));
     FetchData();
   }
 
@@ -28,6 +32,13 @@ class CategoryCubit extends Cubit<CatogeryState> {
     FetchData();
   }
 
+  void UpdateCategory(int id, String name) async {
+    await _updateCatogoriesUseCase(params: CategoryEntity(name: name, id: id));
+    emit(NotifeyCategoryState("تم"));
+    //print(state);
+    FetchData();
+  }
+
   void Loading() async {
     emit(LoadingCategoryState());
   }
@@ -36,7 +47,8 @@ class CategoryCubit extends Cubit<CatogeryState> {
     categoryiList =
         categoryiList.where((x) => x.name!.contains(query)).toList();
     if (categoryiList.length == 0) {
-      emit(EmptyCategoryState());
+      emit(EmptyCategoryState(
+          "لا توجد نتيجة لبحثك جرب البحث باستخدام كلمات اخرئ ..."));
     } else {
       emit(DoneCategoryState(categoryiList));
     }

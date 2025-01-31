@@ -3,8 +3,8 @@ import 'package:athkari/app/features/categories/domain/entities/category_entity.
 
 abstract class CategoryRepository {
   Future<List<CategoryEntity>> getAllCatogories();
-  Future<CategoryEntity> getCatogory(int id);
+  Future<CategoryEntity?> getCatogory(int id);
   Future<int> addCatogory(CategoryEntity category);
-  Future<CategoryEntity> updareCatogory(CategoryEntity category);
+  Future<CategoryEntity?> updareCatogory(CategoryEntity category);
   Future<bool> deleteCatogory(CategoryEntity category);
 }

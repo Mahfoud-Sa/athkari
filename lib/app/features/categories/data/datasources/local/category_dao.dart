@@ -25,7 +25,7 @@ class CategoryDao {
 //      await database.insert('Adhkars', category.toDatabase());
 //   }
   Future<int> updateCategory(int id, CategoryModel category) async {
-    return await database.update('categories', category.toDatabase(),
+    return await database.update('categories', {"name": category.name},
         where: 'id = ?', whereArgs: [id]);
   }
 
@@ -36,8 +36,9 @@ class CategoryDao {
 
   Future<List<CategoryModel>> getCategories() async {
     // Query the 'categories' table
+
     var categories = await database.query('categories');
-    print(categories);
+
     // Map the query result to a list of CategoryModel instances
     return categories
         .map((category) => CategoryModel.fromDataBase(category))
@@ -107,8 +108,12 @@ class CategoryDao {
     // return categoryMap.values.toList();
   }
 
-  Future<List<Map<String, Object?>>> getCategory(int id) async {
-    return await database.query('categories', where: 'id = ?', whereArgs: [id]);
+  Future<CategoryModel?> getCategory(int id) async {
+    var result =
+        await database.query('categories', where: 'id = ?', whereArgs: [id]);
+    return result
+        .map((category) => CategoryModel.fromDataBase(category))
+        .toList()[0];
   }
 
   Future<void> seedCategory() async {

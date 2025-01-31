@@ -1,6 +1,7 @@
-import 'package:athkari/app/features/categories/data/repository/category_repository.dart';
-import 'package:athkari/app/features/categories/domain/usecase/add_catogories_use_case.dart';
-import 'package:athkari/app/features/categories/domain/usecase/get_catogories_use_case.dart';
+import 'package:athkari/app/features/categories/data/repository/category_repository_imp.dart';
+import 'package:athkari/app/features/categories/domain/usecase/add_catogories_usecase.dart';
+import 'package:athkari/app/features/categories/domain/usecase/get_catogories_usecase.dart';
+import 'package:athkari/app/features/categories/domain/usecase/update_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/core/app_database.dart';
 import 'package:athkari/app/features/daily_wered/data/repository/dhkar_repository_impl.dart';
@@ -32,11 +33,12 @@ Future<void> initializationContainer() async {
   await _appDataBaseServices.db;
   getIt.registerSingleton<AppDataBaseServices>(_appDataBaseServices);
   var _AppDataBaseServices = await getIt.get<AppDataBaseServices>();
-  //_AppDataBaseServices.categoryDao.seedCategory();
-  //_AppDataBaseServices.esnadDao.seedEsnads();
+  _AppDataBaseServices.categoryDao.seedCategory();
+  _AppDataBaseServices.esnadDao.seedEsnads();
   // State Managment
   getIt.registerFactory<DailyWereCubit>(() => DailyWereCubit(getIt(), getIt()));
-  getIt.registerFactory<CategoryCubit>(() => CategoryCubit(getIt(), getIt()));
+  getIt.registerFactory<CategoryCubit>(
+      () => CategoryCubit(getIt(), getIt(), getIt()));
   getIt.registerFactory<EsnadsCubit>(
       () => EsnadsCubit(getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<HomepageCubit>(() => HomepageCubit(getIt()));
@@ -57,6 +59,8 @@ Future<void> initializationContainer() async {
   //category use case
   getIt.registerSingleton<GetCatogoriesUseCase>(GetCatogoriesUseCase(getIt()));
   getIt.registerSingleton<AddCatogoriesUseCase>(AddCatogoriesUseCase(getIt()));
+  getIt.registerSingleton<UpdateCatogoriesUseCase>(
+      UpdateCatogoriesUseCase(getIt()));
 
   //Esnads use cases
   getIt.registerSingleton<GetAllEsnadUseCase>(GetAllEsnadUseCase(getIt()));
