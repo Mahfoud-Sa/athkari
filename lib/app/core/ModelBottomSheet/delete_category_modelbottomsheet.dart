@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-Future<dynamic> buildShowDeleteDekeerBottomSheet(BuildContext context) {
+Future<dynamic> buildShowDeleteDekeerBottomSheet(
+    BuildContext context, int categoryId) {
   return showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -22,11 +26,11 @@ Future<dynamic> buildShowDeleteDekeerBottomSheet(BuildContext context) {
           const Padding(
             padding: EdgeInsets.only(top: 8, bottom: 12),
             child: Text(
-              "حذف من الورد اليومي",
+              "حذف",
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 24,
-                  fontWeight: FontWeight.w900),
+                  fontWeight: FontWeight.w600),
             ),
           ),
           const Row(
@@ -35,9 +39,9 @@ Future<dynamic> buildShowDeleteDekeerBottomSheet(BuildContext context) {
               Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: const Text(
-                  'هل انت متاكد من حذف هذا الذكر؟',
+                  'هل انت متاكد من حذف هذا الصنف؟',
                   style: TextStyle(
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w600,
                       fontSize: 22,
                       color: Color.fromARGB(255, 128, 188, 189)),
                 ),
@@ -48,14 +52,19 @@ Future<dynamic> buildShowDeleteDekeerBottomSheet(BuildContext context) {
             height: 10,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              context.read<CategoryCubit>().DeleteCategory(
+                    categoryId,
+                  );
+              Navigator.pop(context);
+            },
             borderRadius: BorderRadius.circular(20),
             child: Container(
               width: 300,
               height: 50,
               child: Center(
                 child: const Text(
-                  'حذف الذكر',
+                  'حذف الصنف',
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.w600),
                 ),

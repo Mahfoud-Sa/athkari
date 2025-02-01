@@ -5,9 +5,7 @@ import 'package:athkari/app/core/ModelBottomSheet/update_category_modelbottomshe
 import 'package:athkari/app/core/widgets/custome_container.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/presentation/pages/category_detailes_page.dart';
-import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_Index_page.dart';
 import 'package:flutter/material.dart';
-import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
 class CategoryWidget extends StatelessWidget {
   const CategoryWidget(
@@ -52,7 +50,7 @@ class CategoryWidget extends StatelessWidget {
               itemBuilder: (BuildContext context) {
                 return [
                   _popUpEditButton(context),
-                  _popupDeleteButton(context, formKey),
+                  _popupDeleteButton(context),
                 ];
               },
             ),
@@ -90,15 +88,14 @@ class CategoryWidget extends StatelessWidget {
     );
   }
 
-  PopupMenuItem<dynamic> _popupDeleteButton(
-      BuildContext context, GlobalKey<FormState> formKey) {
+  PopupMenuItem<dynamic> _popupDeleteButton(BuildContext context) {
     return PopupMenuItem(
         child: Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         InkWell(
           onTap: () {
-            buildShowDeleteDekeerBottomSheet(context);
+            buildShowDeleteDekeerBottomSheet(context, category.id!);
           },
           child: Text(
             "حذف",

@@ -28,14 +28,17 @@ class CategoryRepositoryImp implements CategoryRepository {
   }
 
   @override
-  Future<bool> deleteCatogory(CategoryEntity category) {
-    // TODO: implement deleteCatogory
-    throw UnimplementedError();
+  Future<bool> deleteCatogory(int id) async {
+    var state = await _appDataBaseServices.categoryDao.deleteCategory(id);
+    if (state != 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
   Future<CategoryEntity?> getCatogory(int id) {
-    // TODO: implement getCatogory
     return _appDataBaseServices.categoryDao.getCategory(id);
   }
 

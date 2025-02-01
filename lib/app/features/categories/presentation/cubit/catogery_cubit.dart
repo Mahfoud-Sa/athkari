@@ -1,18 +1,21 @@
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/domain/usecase/add_catogories_usecase.dart';
+import 'package:athkari/app/features/categories/domain/usecase/delete_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/get_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/update_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
+import 'package:athkari/app/features/esnaad/domain/usecase/delete_esnad_usecase.dart';
 import 'package:bloc/bloc.dart';
 
 class CategoryCubit extends Cubit<CatogeryState> {
   final GetCatogoriesUseCase _getCatogoriesUseCase;
   final AddCatogoriesUseCase _addCatogoriesUseCase;
   final UpdateCatogoriesUseCase _updateCatogoriesUseCase;
+  final DeleteCatogoriesUseCase _deleteCatogoriesUseCase;
   List<CategoryEntity> categoryiList = [];
 
   CategoryCubit(this._getCatogoriesUseCase, this._addCatogoriesUseCase,
-      this._updateCatogoriesUseCase)
+      this._updateCatogoriesUseCase, this._deleteCatogoriesUseCase)
       : super(InitialCategoryState()) {
     emit(LoadingCategoryState());
     emit(NotifeyCategoryState("تم"));
@@ -52,5 +55,11 @@ class CategoryCubit extends Cubit<CatogeryState> {
     } else {
       emit(DoneCategoryState(categoryiList));
     }
+  }
+
+  void DeleteCategory(int id) async {
+    await _deleteCatogoriesUseCase.call(params: id);
+    emit(NotifeyCategoryState("تم"));
+    FetchData();
   }
 }
