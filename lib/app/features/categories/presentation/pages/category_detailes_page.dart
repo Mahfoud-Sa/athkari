@@ -1,3 +1,5 @@
+import 'package:athkari/app/core/ModelBottomSheet/add_dhkar_modelbottomsheet.dart';
+import 'package:athkari/app/core/methods/build_searchbae_method.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
@@ -31,13 +33,14 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(onPressed: () {
-          buildShowAddDhaderBottomSheet(context);
+          buildAddDhaderBottomSheet(
+              context, formKey, addCategoryText, editCategoryText);
         }),
         appBar: _buildAppBar(context, widget.categoryName),
         drawer: DrawerWidget(),
         body: ListView(
           children: [
-            _buildSearchBar(),
+            buildSearchBar(context, (query) {}),
             SideTitle(
               count: widget.dekeers.length,
               title: "عدد الاذكار",
@@ -50,164 +53,6 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
               )
           ],
         ));
-  }
-
-  Future<dynamic> buildShowAddDhaderBottomSheet(BuildContext context) {
-    return showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => Form(
-        key: formKey,
-        onChanged: () {},
-        child: SingleChildScrollView(
-          //  width: double.infinity,
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                height: 3,
-                width: 80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.black,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 8, bottom: 12),
-                child: Text(
-                  'اضافة ذكر',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w900),
-                ),
-              ),
-              const Row(
-                children: [
-                  Expanded(child: SizedBox()),
-                  Padding(
-                    padding: EdgeInsets.only(right: 8.0),
-                    child: Text(
-                      'نص الذكر المتن',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 22,
-                          color: Color.fromARGB(255, 128, 188, 189)),
-                    ),
-                  )
-                ],
-              ),
-              // TempWidget(
-              //   noOfRepeating: 5,
-              // ),
-              TextFormField(
-                controller: addCategoryText,
-              ),
-              const Row(
-                children: [
-                  Expanded(child: SizedBox()),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: const Text(
-                      'السند',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 22,
-                          color: Color.fromARGB(255, 128, 188, 189)),
-                    ),
-                  )
-                ],
-              ),
-              TextFormField(),
-              BlocProvider(
-                create: (context) => getIt<DailyWereCubit>(),
-                child: InkWell(
-                  onTap: () {
-                    //  formKey.currentState.validate();
-                    if (formKey.currentState!.validate()) {
-                      context.read<DailyWereCubit>().AddDheker(
-                          addCategoryText.text, editCategoryText.text);
-                    }
-                  },
-                  borderRadius: BorderRadius.circular(20),
-                  child: Container(
-                    width: 300,
-                    height: 50,
-                    child: Center(
-                      child: const Text(
-                        'أضافة ذكر',
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    decoration: BoxDecoration(
-                        color: const Color.fromARGB(255, 128, 188, 189),
-                        borderRadius: BorderRadius.circular(30)),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              InkWell(
-                borderRadius: BorderRadius.circular(20),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  width: 300,
-                  height: 50,
-                  child: const Center(
-                    child: Text(
-                      'الغاء',
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 128, 188, 189),
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                          color: const Color.fromARGB(255, 128, 188, 189),
-                          width: 3),
-                      borderRadius: BorderRadius.circular(30)),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Padding _buildSearchBar() {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: TextField(
-        // onchange: (){
-
-        // },
-        keyboardType: TextInputType.text,
-        textAlign: TextAlign.right,
-        decoration: InputDecoration(
-          prefixIcon: Icon(Icons.search), // Icon inside the border
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25),
-            borderSide: BorderSide.none, // Remove the visible border
-          ),
-
-          hintText: '...بحث ',
-          filled: true, // Enable background color
-          fillColor: Colors.black12, // Set the background color
-          contentPadding: const EdgeInsets.symmetric(
-              vertical: 10, horizontal: 20), // Adjust padding
-        ),
-      ),
-    );
   }
 }
 

@@ -33,6 +33,7 @@ dependencies:
   equatable: ^2.0.7
   #database
   sqflite: ^2.4.1
+  sqflite_common_ffi: ^2.3.4+4
  
   
   

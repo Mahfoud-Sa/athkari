@@ -1,3 +1,4 @@
+import 'package:athkari/app/features/daily_wered/data/modules/dhkar_model.dart';
 import 'package:athkari/app/features/esnaad/data/modules/esnad_model.dart';
 import 'package:sqflite_common/sqlite_api.dart';
 import 'package:flutter_lorem/flutter_lorem.dart';
@@ -31,6 +32,46 @@ class EsnadDao {
   Future<List<EsnadModel>> getAllEsnads() async {
     var esnads = await database.query('Esnads');
     return esnads.map((esnad) => EsnadModel.fromDataBase(esnad)).toList();
+  }
+
+  Future<List<EsnadModel>> getAllEsnadsWithDekars() async {
+    final query = '''
+  SELECT 
+    Esnads.id AS id, 
+    Esnads.name AS name,  
+    Adhkars.dhaker AS dhaker
+  FROM Esnads 
+  LEFT JOIN Adhkars ON Esnads.id = Adhkars.category_id
+''';
+
+    final List<Map<String, dynamic>> result = await database.rawQuery(query);
+    var temp = result
+        .fold<Map<int, EsnadModel>>({}, (map, row) {
+          int categoryId = row['id'];
+          String categoryName = row['name'];
+
+          // Add category if it doesn't exist in the map
+          map.putIfAbsent(
+            categoryId,
+            () => EsnadModel(
+              id: categoryId,
+              name: categoryName,
+              dekarsList: [],
+            ),
+          );
+
+          // Add adhkar if it's not null
+          if (row['dhaker'] != null) {
+            map[categoryId]!.dekarsList!.add(DhkarModel(dhkar: row['dhaker']));
+          }
+
+          return map;
+        })
+        .values
+        .toList();
+    return temp;
+    // var esnads = await database.query('Esnads');
+    // return esnads.map((esnad) => EsnadModel.fromDataBase(esnad)).toList();
   }
 
   Future<void> seedEsnads() async {

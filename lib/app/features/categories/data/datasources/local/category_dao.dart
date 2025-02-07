@@ -80,32 +80,7 @@ class CategoryDao {
         })
         .values
         .toList();
-    // print(result);
     return temp;
-    // Map to store categories with their dekars
-    // Map<int, CategoryModel> categoryMap = {};
-
-    // for (var row in result) {
-    //   int categoryId = row['id'] as int;
-
-    //   if (!categoryMap.containsKey(categoryId)) {
-    //     categoryMap[categoryId] = CategoryModel.fromDataBase(row);
-    //     categoryMap[categoryId]!.. = [];
-    //   }
-
-    //   // If there is a dekar, add it to the list
-    //   if (row['dekar_id'] != null) {
-    //     categoryMap[categoryId]!.dekars.add(
-    //       DekarModel(
-    //         id: row['dekar_id'] as int,
-    //         name: row['dekar_name'] as String,
-    //         categoryId: row['category_id'] as int,
-    //       ),
-    //     );
-    //   }
-    // }
-
-    // return categoryMap.values.toList();
   }
 
   Future<CategoryModel?> getCategory(int id) async {

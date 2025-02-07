@@ -5,7 +5,7 @@ class CategoryModel extends CategoryEntity {
   final int? id;
   final String? name;
   final List<DhkarModel>? dhkars;
-  CategoryModel({this.id, this.name, this.dhkars});
+  const CategoryModel({this.id, this.name, this.dhkars});
 
   factory CategoryModel.fromDataBase(Map<String, dynamic> map) {
     var dhkarsFromJson = map['dhkars'] as List<dynamic>?;
