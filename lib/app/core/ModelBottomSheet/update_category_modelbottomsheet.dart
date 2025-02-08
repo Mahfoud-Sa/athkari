@@ -1,7 +1,4 @@
-import 'dart:ffi';
-
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
-import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_Index_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
