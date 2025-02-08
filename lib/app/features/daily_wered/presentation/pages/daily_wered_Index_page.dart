@@ -1,5 +1,6 @@
 import 'package:athkari/app/core/methods/build_appbar_method.dart';
 import 'package:athkari/app/core/methods/build_searchbae_method.dart';
+import 'package:athkari/app/features/categories/presentation/widgets/BejarCardWidger.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_state.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/side_title_widget.dart';
@@ -8,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:athkari/app/features/daily_wered/presentation/widgets/dekar_card_widget.dart';
 
 import 'package:gradient_borders/gradient_borders.dart';
 
@@ -67,12 +67,12 @@ class DedherIndexPage extends StatelessWidget {
                     return ListView(
                       children: [
                         // Iterate through the doneState list to generate DekarCardWidgets
-                        for (var item in state.athkari)
-                          DekarCardWidget(
-                            no_of_repeating: item.repetitions as int,
-                            deker: item.dhkar!,
-                            saneed: item.esnad!.name.toString(),
-                          ),
+                        // for (var item in state.athkari)
+                        // DekarCardWidget(
+                        //   no_of_repeating: item.repetitions as int,
+                        //   deker: item.dhkar!,
+                        //   saneed: item.esnad!.name.toString(),
+                        // ),
                       ],
                     );
                   } else {

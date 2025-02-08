@@ -13,8 +13,8 @@ import "package:athkari/app/core/methods/build_appbar_method.dart";
 
 class CategoryIndexPage extends StatelessWidget {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController textEditingController_1 = TextEditingController();
-  final TextEditingController textEditingController_2 = TextEditingController();
+  final TextEditingController addCategoryText = TextEditingController();
+  final TextEditingController updateCategoryText = TextEditingController();
 
   CategoryIndexPage({super.key});
 
@@ -34,7 +34,7 @@ class CategoryIndexPage extends StatelessWidget {
             child: Icon(Icons.add),
             onPressed: () {
               buildAddCategoryModalBottomSheet(
-                  context, formKey, textEditingController_1);
+                  context, formKey, addCategoryText);
             }),
         body: Column(children: [
           searchMethod,
@@ -78,7 +78,7 @@ class CategoryIndexPage extends StatelessWidget {
           return CategoryWidget(
             category: azkar,
             formKey: formKey,
-            categoryName: textEditingController_1,
+            categoryName: addCategoryText,
           );
         },
       ),

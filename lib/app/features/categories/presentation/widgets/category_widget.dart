@@ -26,8 +26,7 @@ class CategoryWidget extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => CatogroesDetailesPage(
-                categoryName: '${category.name}',
-                dekeers: category.dhkars!,
+                category: category,
               ),
             ));
       },

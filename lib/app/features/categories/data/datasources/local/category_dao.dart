@@ -50,7 +50,8 @@ class CategoryDao {
   SELECT 
     categories.id AS id, 
     categories.name AS name,  
-    Adhkars.dhaker AS dhaker
+    Adhkars.dhaker AS dhaker,
+    Adhkars.repetitions AS repetitions
   FROM categories 
   LEFT JOIN Adhkars ON categories.id = Adhkars.category_id
 ''';
@@ -73,7 +74,8 @@ class CategoryDao {
 
           // Add adhkar if it's not null
           if (row['dhaker'] != null) {
-            map[categoryId]!.dhkars!.add(DhkarModel(dhkar: row['dhaker']));
+            map[categoryId]!.dhkars!.add(DhkarModel(
+                dhkar: row['dhaker'], repetitions: row['repetitions']));
           }
 
           return map;

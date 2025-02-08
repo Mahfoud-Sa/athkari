@@ -62,5 +62,20 @@ class DhkarDao {
       //   conflictAlgorithm: ConflictAlgorithm.replace, // Handle conflicts
       // );
     }
+    for (int i = 0; i < 10; i++) {
+      var dhkarName = lorem(words: 1);
+      var value = {
+        'dhaker': dhkarName,
+        'repetitions': 10,
+        'category_id': i,
+      };
+
+      await database.insert("Adhkars", value);
+      // await database.insert(
+      //   'Adhkars', // Table name
+      //   {'name': dhkarName, 'category_id': 1}, // Data to insert
+      //   conflictAlgorithm: ConflictAlgorithm.replace, // Handle conflicts
+      // );
+    }
   }
 }
