@@ -32,9 +32,11 @@ class _DekarCardWidgetState extends State<DekarCardWidget> {
     return InkWell(
       onTap: () {
         setState(() {
-          _noOfRepeating = widget.dhkar.repetitions ?? 0;
+          if (_noOfRepeating != 0) {
+            _noOfRepeating -= 1;
+          }
 
-          //  _noOfRepeating > 0
+          // _noOfRepeating > 0
           //     ? _noOfRepeating - 1
           //     : widget.dhkar.repetitions ?? 0;
         });

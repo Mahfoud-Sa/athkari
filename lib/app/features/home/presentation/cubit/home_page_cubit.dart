@@ -26,6 +26,8 @@ class HomepageCubit extends Cubit<HomePageCubitStates> {
     if (categoriesList.length == 0) {
       emit(EmptyHomePageState("لاتوجد بيانات"));
     } else {
+      var temp1 = categoriesList[0];
+      print(temp1);
       emit(DoneHomePageState(categoriesList));
     }
   }
