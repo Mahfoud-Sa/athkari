@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:share_plus/share_plus.dart';
 
-class DekarCardWidget extends StatefulWidget {
-  const DekarCardWidget({
+class DekarDailyWereCardWidget extends StatefulWidget {
+  const DekarDailyWereCardWidget({
     super.key,
     required this.dhkar,
   });
@@ -13,10 +13,11 @@ class DekarCardWidget extends StatefulWidget {
   final double _fontSize = 18;
 
   @override
-  State<DekarCardWidget> createState() => _DekarCardWidgetState();
+  State<DekarDailyWereCardWidget> createState() =>
+      _DekarDailyWereCardWidgetState();
 }
 
-class _DekarCardWidgetState extends State<DekarCardWidget> {
+class _DekarDailyWereCardWidgetState extends State<DekarDailyWereCardWidget> {
   final ExpansionTileController _controller = ExpansionTileController();
   int _noOfRepeating = 0;
 
@@ -35,10 +36,6 @@ class _DekarCardWidgetState extends State<DekarCardWidget> {
           if (_noOfRepeating != 0) {
             _noOfRepeating -= 1;
           }
-
-          // _noOfRepeating > 0
-          //     ? _noOfRepeating - 1
-          //     : widget.dhkar.repetitions ?? 0;
         });
       },
       borderRadius: BorderRadius.circular(15),
@@ -74,8 +71,7 @@ class _DekarCardWidgetState extends State<DekarCardWidget> {
               children: [
                 Text(
                   textAlign: TextAlign.center,
-                  "widget.dhkar.esnad.name" ??
-                      "لا يوجد", // Replace with actual data if available
+                  widget.dhkar.esnad?.name ?? "لا يوجد",
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         fontSize: widget._fontSize,
                         color: Colors.black12,

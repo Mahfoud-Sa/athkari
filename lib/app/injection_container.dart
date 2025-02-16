@@ -34,9 +34,9 @@ Future<void> initializationContainer() async {
   await _appDataBaseServices.db;
   getIt.registerSingleton<AppDataBaseServices>(_appDataBaseServices);
   var _AppDataBaseServices = await getIt.get<AppDataBaseServices>();
-  // _AppDataBaseServices.categoryDao.seedCategory();
-  // _AppDataBaseServices.esnadDao.seedEsnads();
-  // await _AppDataBaseServices.adhkaiDao.seedEsnads();
+  _AppDataBaseServices.categoryDao.seedCategory();
+  _AppDataBaseServices.esnadDao.seedEsnads();
+  await _AppDataBaseServices.adhkaiDao.seedEsnads();
   // State Managment
   getIt.registerFactory<DailyWereCubit>(() => DailyWereCubit(getIt(), getIt()));
   getIt.registerFactory<CategoryCubit>(

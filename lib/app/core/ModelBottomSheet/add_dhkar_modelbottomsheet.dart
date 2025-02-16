@@ -3,11 +3,11 @@ import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-Future<dynamic> buildAddDhaderBottomSheet(
-    BuildContext context,
-    GlobalKey<FormState> formKey,
-    TextEditingController textEditingController_1,
-    TextEditingController textEditingController_2) {
+Future<dynamic> buildAddDhaderWithEsnadBottomSheet(
+  BuildContext context,
+  GlobalKey<FormState> formKey,
+  TextEditingController textEditingController_1,
+) {
   return showModalBottomSheet(
     isScrollControlled: true,
     context: context,
@@ -58,7 +58,7 @@ Future<dynamic> buildAddDhaderBottomSheet(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 maxLines: 5, // Allows the field to expand as the user types
-                controller: textEditingController_2,
+                // controller: textEditingController_2,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'لايمكن اضافة سند فارغ, جرب كتابة نص الإسناد';
@@ -101,25 +101,27 @@ Future<dynamic> buildAddDhaderBottomSheet(
               ],
             ),
             Container(
+              height: 120,
               padding: const EdgeInsets.all(8.0),
               child: DropdownButtonFormField<String>(
                 isExpanded: true,
                 items: [
-                  DropdownMenuItem(
+                  DropdownMenuItem<String>(
                     child: Text("data"),
                     value: "",
                   ),
-                  DropdownMenuItem(child: Text("data")),
-                  DropdownMenuItem(child: Text("data")),
-                  DropdownMenuItem(child: Text("data")),
-                  DropdownMenuItem(child: Text("data")),
-                  DropdownMenuItem(child: Text("data")),
-                  DropdownMenuItem(child: Text("data")),
+                  DropdownMenuItem<String>(child: Text("data")),
+                  DropdownMenuItem<String>(child: Text("data")),
+                  DropdownMenuItem<String>(child: Text("data")),
+                  DropdownMenuItem<String>(child: Text("data")),
+                  DropdownMenuItem<String>(child: Text("data")),
+                  DropdownMenuItem<String>(child: Text("data")),
+                  DropdownMenuItem<String>(child: Text("data"))
                 ],
                 onChanged: (value) {},
                 value: "",
                 icon: IconButton(
-                    onPressed: () {}, icon: Icon(Icons.arrow_back_ios)),
+                    onPressed: () {}, icon: Icon(Icons.keyboard_arrow_down)),
                 // hint: Text("اختر من قائمة الاسنادات"),
                 // borderRadius: BorderRadius.circular(15),
                 decoration: InputDecoration(
@@ -158,11 +160,11 @@ Future<dynamic> buildAddDhaderBottomSheet(
               child: InkWell(
                 onTap: () {
                   //  formKey.currentState.validate();
-                  if (formKey.currentState!.validate()) {
-                    context.read<DailyWereCubit>().AddDheker(
-                        textEditingController_2.text,
-                        textEditingController_1.text);
-                  }
+                  // if (formKey.currentState!.validate()) {
+                  //   context.read<DailyWereCubit>().AddDheker(
+                  //   //    textEditingController_2.text,
+                  //       textEditingController_1.text);
+                  // }
                 },
                 borderRadius: BorderRadius.circular(20),
                 child: Container(

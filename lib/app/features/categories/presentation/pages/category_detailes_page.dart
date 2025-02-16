@@ -3,7 +3,7 @@ import 'package:athkari/app/core/methods/build_appbar_method.dart';
 import 'package:athkari/app/core/methods/build_searchbae_method.dart';
 import 'package:athkari/app/core/widgets/dekar_card_widget.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
-import 'package:athkari/app/features/categories/presentation/widgets/BejarCardWidger.dart';
+import 'package:athkari/app/features/categories/presentation/widgets/dekhar_card_widget.dart';
 import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/side_title_widget.dart';
 import 'package:flutter/material.dart';
@@ -26,12 +26,7 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          buildAddDhaderBottomSheet(
-            context,
-            formKey,
-            addCategoryText,
-            editCategoryText,
-          );
+          buildAddDhaderWithEsnadBottomSheet(context, formKey, addCategoryText);
         },
         tooltip: 'Add Dhkar', // Tooltip for accessibility
         child: const Icon(Icons.add), // Icon for the button
@@ -50,8 +45,8 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
           Expanded(
             child: ListView.builder(
               itemCount: widget.category.dhkars?.length ?? 0,
-              itemBuilder: (context, index) => DekarCardWidget(
-                dhkar: widget.category.dhkars![index],
+              itemBuilder: (context, index) => DekharCardWidget(
+                dekhar: widget.category.dhkars![index],
               ),
             ),
           ),
