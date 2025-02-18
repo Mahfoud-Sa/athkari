@@ -4,7 +4,6 @@ import 'package:athkari/app/features/categories/domain/usecase/delete_catogories
 import 'package:athkari/app/features/categories/domain/usecase/get_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/update_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
-import 'package:athkari/app/features/esnaad/domain/usecase/delete_esnad_usecase.dart';
 import 'package:bloc/bloc.dart';
 
 class CategoryCubit extends Cubit<CatogeryState> {
@@ -61,5 +60,13 @@ class CategoryCubit extends Cubit<CatogeryState> {
     await _deleteCatogoriesUseCase.call(params: id);
     emit(NotifeyCategoryState("تم"));
     FetchData();
+  }
+
+  void fetchCategoryDetails(int id) async {
+    await _deleteCatogoriesUseCase.call(params: id);
+    emit(LoadingCategoryState());
+    await Future.delayed(Duration(seconds: 1));
+    emit(DoneCategoryDetailsState(categoryiList[0]));
+    // FetchData();
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-PreferredSize buildAppBar(BuildContext context, String appbarTitle) {
+PreferredSize buildAppBar(BuildContext context, String appbarTitle,
+    {VoidCallback? popMethod}) {
   return PreferredSize(
     preferredSize: const Size.fromHeight(75), // Set custom height here
     child: AppBar(
@@ -25,7 +26,8 @@ PreferredSize buildAppBar(BuildContext context, String appbarTitle) {
       actions: [
         IconButton(
           onPressed: () {
-            Navigator.pop(context);
+            // If popMethod is null, call Navigator.pop(context)
+            (popMethod ?? () => Navigator.pop(context))();
           },
           icon: SvgPicture.asset('assets/svgs/back_button.svg'),
           padding: EdgeInsets.zero, // Remove default padding

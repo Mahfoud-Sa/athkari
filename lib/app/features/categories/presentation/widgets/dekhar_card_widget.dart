@@ -59,10 +59,10 @@ class _DekarCardWidgetState extends State<DekharCardWidget> {
               ),
               children: [
                 Text(
-                  textAlign: TextAlign.center,
                   widget.dekhar.esnad?.name ?? "",
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                       fontSize: widget._fontsize, color: Colors.black12),
+                  textAlign: TextAlign.center,
                 ),
               ],
               showTrailingIcon: false,

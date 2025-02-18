@@ -107,52 +107,26 @@ Future<dynamic> buildAddDhaderWithEsnadBottomSheet(
                 isExpanded: true,
                 items: [
                   DropdownMenuItem<String>(
-                    child: Text("data"),
-                    value: "",
-                  ),
-                  DropdownMenuItem<String>(child: Text("data")),
-                  DropdownMenuItem<String>(child: Text("data")),
-                  DropdownMenuItem<String>(child: Text("data")),
-                  DropdownMenuItem<String>(child: Text("data")),
-                  DropdownMenuItem<String>(child: Text("data")),
-                  DropdownMenuItem<String>(child: Text("data")),
-                  DropdownMenuItem<String>(child: Text("data"))
+                      value: "data1", child: Text("Data 1")),
+                  DropdownMenuItem<String>(
+                      value: "data2", child: Text("Data 2")),
+                  DropdownMenuItem<String>(
+                      value: "data3", child: Text("Data 3")),
+                  DropdownMenuItem<String>(
+                      value: "data4", child: Text("Data 4")),
                 ],
                 onChanged: (value) {},
-                value: "",
-                icon: IconButton(
-                    onPressed: () {}, icon: Icon(Icons.keyboard_arrow_down)),
-                // hint: Text("اختر من قائمة الاسنادات"),
-                // borderRadius: BorderRadius.circular(15),
+                value: "data1", // Default value (must exist in the items list)
+                icon: const Icon(Icons.keyboard_arrow_down),
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25),
-                    borderSide: BorderSide.none, // Remove the visible border
+                    borderSide: BorderSide.none,
                   ),
                   hintText: "اختر من قائمة الاسنادات",
-                  filled: true, // Enable background color
-                  // fillColor: Color.fromARGB(
-                  //     255, 214, 214, 213), // Set the background color
-                  contentPadding: const EdgeInsets.symmetric(
-                      // vertical: 100,
-                      horizontal: 20), // Increased vertical padding
+                  filled: true,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
                 ),
-                // child: DropdoenButton<String>(
-                //   controller: textEditingController_1,
-                //   keyboardType: TextInputType.text,
-                //   textAlign: TextAlign.right,
-                //   decoration: InputDecoration(
-                //     border: OutlineInputBorder(
-                //       borderRadius: BorderRadius.circular(25),
-                //       borderSide: BorderSide.none, // Remove the visible border
-                //     ),
-
-                //     hintText: 'ادخل النص',
-                //     filled: true, // Enable background color
-                //     fillColor: Colors.black12, // Set the background color
-                //     contentPadding: const EdgeInsets.symmetric(
-                //         vertical: 10, horizontal: 20), // Adjust padding
-                //   ),
               ),
             ),
             BlocProvider(
