@@ -1,4 +1,5 @@
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
+import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class CatogeryState extends Equatable {}
@@ -33,6 +34,16 @@ class DoneCategoryDetailsState extends CatogeryState {
   @override
   // TODO: implement props
   List<Object?> get props => [catogory]; // For state comparison
+}
+
+class DoneEsnadsState extends CatogeryState {
+  final List<EsnadEntity> EsandsList;
+
+  DoneEsnadsState(this.EsandsList);
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [EsandsList]; // For state comparison
 }
 
 class EmptyCategoryState extends CatogeryState {

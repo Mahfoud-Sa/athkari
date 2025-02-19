@@ -1,3 +1,6 @@
+import 'package:athkari/app/core/methods/build_waiting_state.dart';
+import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
+import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
 import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/material.dart';
@@ -101,34 +104,44 @@ Future<dynamic> buildAddDhaderWithEsnadBottomSheet(
               ],
             ),
             Container(
-              height: 120,
-              padding: const EdgeInsets.all(8.0),
-              child: DropdownButtonFormField<String>(
-                isExpanded: true,
-                items: [
-                  DropdownMenuItem<String>(
-                      value: "data1", child: Text("Data 1")),
-                  DropdownMenuItem<String>(
-                      value: "data2", child: Text("Data 2")),
-                  DropdownMenuItem<String>(
-                      value: "data3", child: Text("Data 3")),
-                  DropdownMenuItem<String>(
-                      value: "data4", child: Text("Data 4")),
-                ],
-                onChanged: (value) {},
-                value: "data1", // Default value (must exist in the items list)
-                icon: const Icon(Icons.keyboard_arrow_down),
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25),
-                    borderSide: BorderSide.none,
-                  ),
-                  hintText: "اختر من قائمة الاسنادات",
-                  filled: true,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                ),
-              ),
-            ),
+                height: 120,
+                padding: const EdgeInsets.all(8.0),
+                child: BlocBuilder<CategoryCubit, CatogeryState>(
+                    builder: (context, state) {
+                  if (state is LoadingCategoryState) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (state is DoneEsnadsState) {
+                    return DropdownButtonFormField<String>(
+                      isExpanded: true,
+                      items: [
+                        DropdownMenuItem<String>(
+                          value: 'value',
+                          child: Text('value'),
+                        )
+                      ],
+                      onChanged: (value) {
+                        // Handle the selected value
+                      },
+                      value: "value", // state.EsandsList.isNotEmpty
+                      //     ? state.EsandsList[0].name
+                      //     : null,
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25),
+                          borderSide: BorderSide.none,
+                        ),
+                        hintText: "اختر من قائمة الاسنادات",
+                        filled: true,
+                        contentPadding:
+                            const EdgeInsets.symmetric(horizontal: 20),
+                      ),
+                    );
+                  }
+                  return Placeholder();
+                })),
             BlocProvider(
               create: (context) => getIt<DailyWereCubit>(),
               child: InkWell(

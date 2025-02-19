@@ -26,6 +26,7 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
   final formKey = GlobalKey<FormState>();
   final addCategoryText = TextEditingController();
   final editCategoryText = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -37,10 +38,11 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          context.read<CategoryCubit>().fetchEsnadsData();
           buildAddDhaderWithEsnadBottomSheet(context, formKey, addCategoryText);
         },
-        tooltip: 'Add Dhkar', // Tooltip for accessibility
-        child: const Icon(Icons.add), // Icon for the button
+        tooltip: 'Add Dhkar',
+        child: const Icon(Icons.add),
       ),
       appBar: buildAppBar(context, widget.category.name ?? 'Category Details',
           popMethod: () {
@@ -49,30 +51,29 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
       }),
       body: Column(
         children: [
-          BlocListener<CategoryCubit, CatogeryState>(
-            listener: (context, state) {
-              if (state is NotifeyCategoryState) {
-                successToastMessage(context, state.message);
-              }
-            },
-            child: BlocBuilder<CategoryCubit, CatogeryState>(
+          Expanded(
+            child: BlocListener<CategoryCubit, CatogeryState>(
+              listener: (context, state) {
+                if (state is NotifeyCategoryState) {
+                  successToastMessage(context, state.message);
+                }
+              },
+              child: BlocBuilder<CategoryCubit, CatogeryState>(
                 builder: (context, state) {
-              if (state is LoadingCategoryState) {
-                return buildWaitingState();
-              } else if (state is DoneCategoryDetailsState) {
-                return _buildDoneState(state);
-              } else if (state is ErrorCategoryState) {
-                return ErrorStateWidget(state: state);
-              } else if (state is EmptyCategoryState) {
-                return buildEmptyState(state.message);
-              }
-              return buildEmptyState("Nothing ...");
-            }),
-          )
-          // buildSearchBar(context, (query) {
-          //   // Placeholder function for search functionality
-          //   // Implement search logic here
-          // }),
+                  if (state is LoadingCategoryState) {
+                    return buildWaitingState();
+                  } else if (state is DoneCategoryDetailsState) {
+                    return _buildDoneState(state);
+                  } else if (state is ErrorCategoryState) {
+                    return ErrorStateWidget(state: state);
+                  } else if (state is EmptyCategoryState) {
+                    return buildEmptyState(state.message);
+                  }
+                  return buildEmptyState("Nothing ...");
+                },
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -83,17 +84,17 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
   Column _buildDoneState(DoneCategoryDetailsState state) {
     return Column(
       children: [
-        // SideTitle(
-        //   count: state.catogory.dhkars!.length ?? 0,
-        //   title: "عدد الاذكار",
-        // ),
+        SideTitle(
+          count: state.catogory.dhkars?.length ?? 0,
+          title: "عدد الاذكار",
+        ),
         Expanded(
           child: ListView.builder(
-              itemCount: widget.category.dhkars?.length ?? 0,
-              itemBuilder: (context, index) => Text("data") //DekharCardWidget(
-              //   dekhar: state.catogory.dhkars![index],
-              // ),
-              ),
+            itemCount: state.catogory.dhkars?.length ?? 0,
+            itemBuilder: (context, index) => DekharCardWidget(
+              dekhar: state.catogory.dhkars![index],
+            ),
+          ),
         ),
       ],
     );
