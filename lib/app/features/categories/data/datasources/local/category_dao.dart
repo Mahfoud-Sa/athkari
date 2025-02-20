@@ -11,6 +11,12 @@ class CategoryDao {
   Future<int> insertCategory(CategoryModel category) async {
     return await database.insert('Categories', {"name": category.name});
   }
+
+  Future<int> insertCategoryWithDekhar(CategoryModel category) async {
+    await database.insert('Categories', {"name": category.name});
+    //  await database.insert('Dekhar', {"name": category.});
+    return await database.insert('Categories', {"name": category.name});
+  }
 //  Future<int> insertCategoryWithDekar(CategoryModel category) async {
 
 //     int categoryIndex= await database.insert('categories', category.toDatabase());

@@ -1,4 +1,4 @@
-import 'package:athkari/app/core/ModelBottomSheet/add_dhkar_modelbottomsheet.dart';
+import 'package:athkari/app/core/ModelBottomSheet/add_dhkar_with_esnad_modelbottomsheet.dart';
 import 'package:athkari/app/core/methods/build_appbar_method.dart';
 import 'package:athkari/app/core/methods/build_searchbae_method.dart';
 import 'package:athkari/app/core/methods/build_waiting_state.dart';
@@ -39,7 +39,8 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           context.read<CategoryCubit>().fetchEsnadsData();
-          buildAddDhaderWithEsnadBottomSheet(context, formKey, addCategoryText);
+          buildAddDhaderWithEsnadBottomSheet(
+              context, formKey, widget.category, addCategoryText);
         },
         tooltip: 'Add Dhkar',
         child: const Icon(Icons.add),

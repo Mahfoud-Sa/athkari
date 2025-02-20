@@ -6,5 +6,6 @@ abstract class EsnadRepository {
   Future<List<EsnadModel>> getAllEsnadsWithAdkars();
   Future<int> updateEsnad(EsnadEntity esnad);
   Future<int> addEsnad(EsnadEntity esnad);
+
   Future<int> deleteEsnad(int id);
 }

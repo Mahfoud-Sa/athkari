@@ -1,10 +1,12 @@
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
+import 'package:athkari/app/features/categories/domain/usecase/add_category_with_esnade_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/add_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/delete_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/get_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/update_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
 import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
+import 'package:athkari/app/features/esnaad/domain/usecase/get_all_esnad_usecase.dart';
 import 'package:bloc/bloc.dart';
 
 class CategoryCubit extends Cubit<CatogeryState> {
@@ -12,10 +14,17 @@ class CategoryCubit extends Cubit<CatogeryState> {
   final AddCatogoriesUseCase _addCatogoriesUseCase;
   final UpdateCatogoriesUseCase _updateCatogoriesUseCase;
   final DeleteCatogoriesUseCase _deleteCatogoriesUseCase;
+  final GetAllEsnadUseCase _getallEsnadUseCase;
+  final AddCategoryWithDekharUsecase _addCategoryWithDekharUsecase;
   List<CategoryEntity> categoryiList = [];
 
-  CategoryCubit(this._getCatogoriesUseCase, this._addCatogoriesUseCase,
-      this._updateCatogoriesUseCase, this._deleteCatogoriesUseCase)
+  CategoryCubit(
+      this._getCatogoriesUseCase,
+      this._addCatogoriesUseCase,
+      this._updateCatogoriesUseCase,
+      this._deleteCatogoriesUseCase,
+      this._getallEsnadUseCase,
+      this._addCategoryWithDekharUsecase)
       : super(InitialCategoryState()) {
     emit(LoadingCategoryState());
     emit(NotifeyCategoryState("تم"));
@@ -72,13 +81,47 @@ class CategoryCubit extends Cubit<CatogeryState> {
   }
 
   void fetchEsnadsData() async {
-    final List<EsnadEntity> esnads = [
-      EsnadEntity(id: 1, name: "asdf"),
-    ];
-    //  await _deleteCatogoriesUseCase.call(params: id);
     emit(LoadingCategoryState());
-    await Future.delayed(Duration(seconds: 5));
-    emit(DoneEsnadsState(esnads));
+    List<EsnadEntity> categoryiList = await _getallEsnadUseCase.call();
+    // final List<EsnadEntity> esnads = [
+    //   EsnadEntity(id: 1, name: "asdf"),
+    //   EsnadEntity(id: 1, name: "google"),
+    //   EsnadEntity(id: 1, name: "youtube"),
+    //   EsnadEntity(id: 1, name: "amazopn"),
+    //   EsnadEntity(id: 1, name: "asddf"),
+    //   EsnadEntity(id: 1, name: "asdsf"),
+    //   EsnadEntity(id: 1, name: "aasdf"),
+    //   EsnadEntity(id: 1, name: "asdrf"),
+    //   EsnadEntity(id: 1, name: "asd_f"),
+    // ];
+    //  await _deleteCatogoriesUseCase.call(params: id);
+
+    // await Future.delayed(Duration(seconds: 1));
+    emit(DoneEsnadsState(categoryiList));
+    //   FetchData();
+  }
+
+  void addDekharWithEsnad(
+      int categoryId, int EsnadId, String DekharText) async {
+    _addCategoryWithDekharUsecase.call(
+        params: CategoryEntity(id: categoryId, dhkars: []));
+    emit(LoadingCategoryState());
+    List<EsnadEntity> categoryiList = await _getallEsnadUseCase.call();
+    // final List<EsnadEntity> esnads = [
+    //   EsnadEntity(id: 1, name: "asdf"),
+    //   EsnadEntity(id: 1, name: "google"),
+    //   EsnadEntity(id: 1, name: "youtube"),
+    //   EsnadEntity(id: 1, name: "amazopn"),
+    //   EsnadEntity(id: 1, name: "asddf"),
+    //   EsnadEntity(id: 1, name: "asdsf"),
+    //   EsnadEntity(id: 1, name: "aasdf"),
+    //   EsnadEntity(id: 1, name: "asdrf"),
+    //   EsnadEntity(id: 1, name: "asd_f"),
+    // ];
+    //  await _deleteCatogoriesUseCase.call(params: id);
+
+    // await Future.delayed(Duration(seconds: 1));
+    emit(DoneEsnadsState(categoryiList));
     //   FetchData();
   }
 }
