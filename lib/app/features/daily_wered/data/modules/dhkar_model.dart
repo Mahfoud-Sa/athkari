@@ -29,7 +29,10 @@ class DhkarModel extends DhkarEntity {
     };
   }
 
-  // factory DhkarModel.fromEntity(DhkarEntity entity) {
-  //   return DhkarModel(id: entity.id, dhkar: entity.dhkar,esnad: entity.esnad);
-  // }
+  factory DhkarModel.fromEntity(DhkarEntity entity) {
+    return DhkarModel(
+        id: entity.id,
+        dhkar: entity.dhkar,
+        esnad: EsnadModel.fromEntity(entity.esnad!));
+  }
 }

@@ -6,6 +6,7 @@ abstract class DhkarRepository {
   Future<List<DhkarEntity>> getAllDhkars();
   Future<int> addDhkar(
       String dheer, int repetitions, int esnaad, EsnadEntity esnad);
+  Future<int> addDhkarWithCategory(int categoryId, DhkarEntity dhkar);
   Future<int> updateDhkar(DhkarEntity dhkar, EsnadEntity esnad);
   Future<int> deleteDhkar(DhkarEntity dhkar);
   Future<int> totalDeker();

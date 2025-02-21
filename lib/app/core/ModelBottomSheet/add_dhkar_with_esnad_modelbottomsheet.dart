@@ -192,7 +192,7 @@ Future<dynamic> buildAddDhaderWithEsnadBottomSheet(
                   if (formKey.currentState!.validate()) {
                     context.read<CategoryCubit>().addDekharWithEsnad(
                           category.id!,
-                          4,
+                          1,
                           textEditingController_1.text,
                         );
                   }

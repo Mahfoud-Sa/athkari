@@ -5,6 +5,8 @@ import 'package:athkari/app/features/categories/domain/usecase/delete_catogories
 import 'package:athkari/app/features/categories/domain/usecase/get_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/update_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
+import 'package:athkari/app/features/daily_wered/data/modules/dhkar_model.dart';
+import 'package:athkari/app/features/esnaad/data/modules/esnad_model.dart';
 import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 import 'package:athkari/app/features/esnaad/domain/usecase/get_all_esnad_usecase.dart';
 import 'package:bloc/bloc.dart';
@@ -15,7 +17,7 @@ class CategoryCubit extends Cubit<CatogeryState> {
   final UpdateCatogoriesUseCase _updateCatogoriesUseCase;
   final DeleteCatogoriesUseCase _deleteCatogoriesUseCase;
   final GetAllEsnadUseCase _getallEsnadUseCase;
-  final AddCategoryWithDekharUsecase _addCategoryWithDekharUsecase;
+  final AddDekharWithEsnadUsecase _addDekharWithEsnadUsecase;
   List<CategoryEntity> categoryiList = [];
 
   CategoryCubit(
@@ -24,7 +26,7 @@ class CategoryCubit extends Cubit<CatogeryState> {
       this._updateCatogoriesUseCase,
       this._deleteCatogoriesUseCase,
       this._getallEsnadUseCase,
-      this._addCategoryWithDekharUsecase)
+      this._addDekharWithEsnadUsecase)
       : super(InitialCategoryState()) {
     emit(LoadingCategoryState());
     emit(NotifeyCategoryState("تم"));
@@ -76,7 +78,7 @@ class CategoryCubit extends Cubit<CatogeryState> {
     await _deleteCatogoriesUseCase.call(params: id);
     emit(LoadingCategoryState());
     await Future.delayed(Duration(seconds: 1));
-    emit(DoneCategoryDetailsState(categoryiList[0]));
+    emit(DoneCategoryDetailsState(categoryiList[1]));
     // FetchData();
   }
 
@@ -103,8 +105,12 @@ class CategoryCubit extends Cubit<CatogeryState> {
 
   void addDekharWithEsnad(
       int categoryId, int EsnadId, String DekharText) async {
-    _addCategoryWithDekharUsecase.call(
-        params: CategoryEntity(id: categoryId, dhkars: []));
+    var temp = _addDekharWithEsnadUsecase.call(params: (
+      categoryId,
+      DhkarModel(dhkar: DekharText, esnad: EsnadModel(id: EsnadId))
+    ));
+    print(temp);
+    print("hgauf dvd] hsrh' hgkh;lkasjdf;laksjdf;lashd;fjh");
     emit(LoadingCategoryState());
     List<EsnadEntity> categoryiList = await _getallEsnadUseCase.call();
     // final List<EsnadEntity> esnads = [

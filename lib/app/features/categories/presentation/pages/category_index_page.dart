@@ -7,7 +7,6 @@ import 'package:athkari/app/features/categories/presentation/cubit/category_cubi
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/features/categories/presentation/widgets/category_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:athkari/app/core/methods/build_appbar_method.dart";
 
@@ -72,7 +71,7 @@ class CategoryIndexPage extends StatelessWidget {
           mainAxisSpacing: 5, // Space between rows
           childAspectRatio: 1.5, // Aspect ratio of each grid item
         ),
-        itemCount: state.catogories.length,
+        itemCount: 10, //state.catogories.length,
         itemBuilder: (context, index) {
           final azkar = state.catogories[index];
           return CategoryWidget(

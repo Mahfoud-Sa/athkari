@@ -49,12 +49,6 @@ class CategoryRepositoryImp implements CategoryRepository {
     return await getCatogory(updatedCategoryIndex);
   }
 
-  @override
-  Future<int> addCatogorWithEsnad(CategoryEntity category) {
-    return _appDataBaseServices.categoryDao
-        .insertCategoryWithDekhar(CategoryModel(name: category.name));
-  }
-
 //   @override
 // Future<List<Map<String, Object?>>> getAllCatogories() {
 //    return _appDataBaseServices.categoryDao.getCategories();

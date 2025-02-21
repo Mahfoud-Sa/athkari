@@ -12,7 +12,7 @@ class DhkarDao {
     var value = {
       'dhaker': dhkar.dhkar,
       'repetitions': dhkar.repetitions,
-      'esnaad_id': 0,
+      'esnads_id': dhkar.esnad!.id!,
     };
     var status = await database.insert("Adhkars", value);
     if (status == 0) {
@@ -22,11 +22,23 @@ class DhkarDao {
     }
   }
 
+  // AdhkaiDao(this._db);
+  Future<int> InsertWitnCategory(int categoryId, DhkarModel dhkar) async {
+    var value = {
+      'dhaker': dhkar.dhkar,
+      'repetitions': dhkar.repetitions,
+      'esnads_id': dhkar.esnad!.id!,
+      'category_id': categoryId
+    };
+    var state = await database.insert("Adhkars", value);
+    return state;
+  }
+
   Future<int> Update(DhkarModel dhkar) async {
     var value = {
       'dhaker': dhkar.dhkar,
       'repetitions': dhkar.repetitions,
-      'esnaad_id': 0,
+      'esnads_id': 0,
     };
     var status = await database
         .update("Adhkars", value, where: 'id = ?', whereArgs: [dhkar.id]);

@@ -11,11 +11,9 @@ class DhkarRepositoryImpl implements DhkarRepository {
 
   @override
   Future<List<DhkarModel>> getAllDhkars() async {
-    {
-      var temp = await _appDataBaseServices.adhkaiDao.getAllAdhkai();
+    var temp = await _appDataBaseServices.adhkaiDao.getAllAdhkai();
 
-      return temp;
-    }
+    return temp;
   }
 
   @override
@@ -47,5 +45,13 @@ class DhkarRepositoryImpl implements DhkarRepository {
   Future<int> updateDhkar(DhkarEntity dhkar, EsnadEntity esnad) {
     // TODO: implement updateDhkar
     throw UnimplementedError();
+  }
+
+  @override
+  Future<int> addDhkarWithCategory(int categoryId, DhkarEntity dhkar) async {
+    var temp = await _appDataBaseServices.adhkaiDao
+        .InsertWitnCategory(categoryId, DhkarModel.fromEntity(dhkar));
+    print(temp);
+    return temp;
   }
 }

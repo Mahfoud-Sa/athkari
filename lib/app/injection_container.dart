@@ -1,4 +1,5 @@
 import 'package:athkari/app/features/categories/data/repository/category_repository_imp.dart';
+import 'package:athkari/app/features/categories/domain/usecase/add_category_with_esnade_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/add_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/delete_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/get_catogories_usecase.dart';
@@ -39,8 +40,8 @@ Future<void> initializationContainer() async {
   // await _AppDataBaseServices.adhkaiDao.seedEsnads();
   // State Managment
   getIt.registerFactory<DailyWereCubit>(() => DailyWereCubit(getIt(), getIt()));
-  getIt.registerFactory<CategoryCubit>(
-      () => CategoryCubit(getIt(), getIt(), getIt(), getIt(), getIt()));
+  getIt.registerFactory<CategoryCubit>(() =>
+      CategoryCubit(getIt(), getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<EsnadsCubit>(
       () => EsnadsCubit(getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<HomepageCubit>(() => HomepageCubit(getIt()));
@@ -65,6 +66,8 @@ Future<void> initializationContainer() async {
       UpdateCatogoriesUseCase(getIt()));
   getIt.registerSingleton<DeleteCatogoriesUseCase>(
       DeleteCatogoriesUseCase(getIt()));
+  getIt.registerSingleton<AddDekharWithEsnadUsecase>(
+      AddDekharWithEsnadUsecase(getIt()));
 
   //Esnads use cases
   getIt.registerSingleton<GetAllEsnadUseCase>(GetAllEsnadUseCase(getIt()));
