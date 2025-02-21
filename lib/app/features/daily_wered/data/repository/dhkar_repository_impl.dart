@@ -54,4 +54,10 @@ class DhkarRepositoryImpl implements DhkarRepository {
     print(temp);
     return temp;
   }
+
+  @override
+  Future<void> dailyDhkarProgress() {
+    // TODO: implement dailyDhkarProgress
+    throw UnimplementedError();
+  }
 }

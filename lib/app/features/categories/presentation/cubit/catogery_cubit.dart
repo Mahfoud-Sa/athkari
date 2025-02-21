@@ -112,7 +112,7 @@ class CategoryCubit extends Cubit<CatogeryState> {
     print(temp);
     print("hgauf dvd] hsrh' hgkh;lkasjdf;laksjdf;lashd;fjh");
     emit(LoadingCategoryState());
-    List<EsnadEntity> categoryiList = await _getallEsnadUseCase.call();
+    // categoryiList = await _getallEsnadUseCase.call();
     // final List<EsnadEntity> esnads = [
     //   EsnadEntity(id: 1, name: "asdf"),
     //   EsnadEntity(id: 1, name: "google"),
@@ -127,7 +127,7 @@ class CategoryCubit extends Cubit<CatogeryState> {
     //  await _deleteCatogoriesUseCase.call(params: id);
 
     // await Future.delayed(Duration(seconds: 1));
-    emit(DoneEsnadsState(categoryiList));
+    FetchData();
     //   FetchData();
   }
 }

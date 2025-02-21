@@ -7,6 +7,7 @@ abstract class DhkarRepository {
   Future<int> addDhkar(
       String dheer, int repetitions, int esnaad, EsnadEntity esnad);
   Future<int> addDhkarWithCategory(int categoryId, DhkarEntity dhkar);
+  Future<void> dailyDhkarProgress();
   Future<int> updateDhkar(DhkarEntity dhkar, EsnadEntity esnad);
   Future<int> deleteDhkar(DhkarEntity dhkar);
   Future<int> totalDeker();

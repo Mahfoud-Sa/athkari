@@ -30,7 +30,7 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
   @override
   void initState() {
     super.initState();
-    context.read<CategoryCubit>().fetchCategoryDetails(0);
+    context.read<CategoryCubit>().fetchCategoryDetails(widget.category.id!);
   }
 
   @override
