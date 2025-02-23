@@ -63,7 +63,7 @@ Future<dynamic> buildUpdateEsnadModalBottomSheet(
                   if (value == null || value.isEmpty) {
                     return 'لايمكن اضافة سند فارغ, جرب كتابة نص الإسناد';
                   }
-                  if (value.length == 150) {
+                  if (value.length >= 150) {
                     return 'لا يجب ان يحتوي نص الاصناد على اكثر من 150حرف';
                   }
                   return null;

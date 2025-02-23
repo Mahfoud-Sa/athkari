@@ -17,15 +17,7 @@ class AddButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap ??
-          () {
-            // Default behavior if onTap is not provided
-            // if (formKey.currentState!.validate()) {
-            //   context.read<EsnadsCubit>().AddEsnad(
-            //         textEditingController_1.text,
-            //       );
-            // }
-          },
+      onTap: onTap,
       borderRadius: BorderRadius.circular(20),
       child: Container(
         width: 300,
@@ -40,6 +32,7 @@ class AddButtonWidget extends StatelessWidget {
             style: const TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w600,
+              fontSize: 16,
             ),
           ),
         ),

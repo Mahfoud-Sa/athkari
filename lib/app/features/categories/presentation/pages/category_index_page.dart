@@ -29,12 +29,7 @@ class CategoryIndexPage extends StatelessWidget {
 
     return Scaffold(
         appBar: buildAppBar(context, "تصنيفات الأذكار"),
-        floatingActionButton: FloatingActionButton.small(
-            child: Icon(Icons.add),
-            onPressed: () {
-              buildAddCategoryModalBottomSheet(
-                  context, formKey, addCategoryText);
-            }),
+        floatingActionButton: buildFloatingActionMethod(context),
         body: Column(children: [
           searchMethod,
           BlocListener<CategoryCubit, CatogeryState>(
@@ -60,26 +55,45 @@ class CategoryIndexPage extends StatelessWidget {
         ]));
   }
 
+  FloatingActionButton buildFloatingActionMethod(BuildContext context) {
+    return FloatingActionButton(
+        foregroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 128, 188, 189),
+        child: Center(
+          child: Icon(
+            Icons.add,
+          ),
+        ),
+        onPressed: () {
+          buildAddCategoryModalBottomSheet(context, formKey, addCategoryText);
+        });
+  }
+
   Center buildEmptyState(String message) => Center(child: Text(message));
 
   Expanded _buildDoneState(DoneCategoryState state) {
     return Expanded(
-      child: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2, // Number of columns
-          crossAxisSpacing: 5, // Space between columns
-          mainAxisSpacing: 5, // Space between rows
-          childAspectRatio: 1.5, // Aspect ratio of each grid item
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2, // Two columns
+            crossAxisSpacing: 10, // Space between columns
+            mainAxisSpacing: 1, // Space between rows
+            childAspectRatio: 1.4, // Adjust this value to fit your design
+          ),
+          itemCount: state.catogories.length,
+          itemBuilder: (context, index) {
+            final azkar = state.catogories[index];
+            final categoryNameController =
+                TextEditingController(text: addCategoryText.text);
+            return CategoryWidget(
+              category: azkar,
+              formKey: formKey,
+              categoryName: categoryNameController,
+            );
+          },
         ),
-        itemCount: 10, //state.catogories.length,
-        itemBuilder: (context, index) {
-          final azkar = state.catogories[index];
-          return CategoryWidget(
-            category: azkar,
-            formKey: formKey,
-            categoryName: addCategoryText,
-          );
-        },
       ),
     );
   }

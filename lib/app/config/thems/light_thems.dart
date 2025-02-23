@@ -7,7 +7,7 @@ final lightTheme = ThemeData(
     ),
     useMaterial3: true,
     fontFamily: "IBMPlexSansArabic",
-    primaryColor: Colors.lightBlue[800],
+    primaryColor: Color.fromARGB(255, 128, 188, 189),
     textTheme: const TextTheme(
       titleLarge: TextStyle(
         fontSize: 38,

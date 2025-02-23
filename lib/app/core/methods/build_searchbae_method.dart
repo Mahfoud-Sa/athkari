@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Padding buildSearchBar(BuildContext context, Function(String) onSearch) {
   return Padding(
-    padding: const EdgeInsets.all(20.0),
+    padding: const EdgeInsets.all(25.0),
     child: TextField(
       onChanged: onSearch,
       onSubmitted: onSearch,

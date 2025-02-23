@@ -17,14 +17,15 @@ class CancelButtonWidget extends StatelessWidget {
         height: 50,
         decoration: BoxDecoration(
             border: Border.all(
-                color: const Color.fromARGB(255, 128, 188, 189), width: 3),
+                color: const Color.fromARGB(255, 128, 188, 189), width: 2),
             borderRadius: BorderRadius.circular(30)),
-        child: const Center(
+        child: Center(
           child: Text(
             'الغاء',
             style: TextStyle(
-                color: Color.fromARGB(255, 128, 188, 189),
-                fontWeight: FontWeight.w600),
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+                color: Theme.of(context).primaryColor),
           ),
         ),
       ),
