@@ -2,6 +2,7 @@ import 'package:athkari/app/core/ModelBottomSheet/add_category_modelbottomsheet.
 import 'package:athkari/app/core/methods/build_searchbae_method.dart';
 import 'package:athkari/app/core/methods/build_waiting_state.dart';
 import 'package:athkari/app/core/methods/success_snackbar.dart';
+import 'package:athkari/app/core/widgets/empty_state_widget.dart';
 import 'package:athkari/app/core/widgets/error_state_widget.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
@@ -47,9 +48,9 @@ class CategoryIndexPage extends StatelessWidget {
               } else if (state is ErrorCategoryState) {
                 return ErrorStateWidget(state: state);
               } else if (state is EmptyCategoryState) {
-                return buildEmptyState(state.message);
+                return NoResultWidget(state.message);
               }
-              return buildEmptyState("Nothing ...");
+              return Center(child: Text("Nothing ..."));
             }),
           )
         ]));
@@ -68,8 +69,6 @@ class CategoryIndexPage extends StatelessWidget {
           buildAddCategoryModalBottomSheet(context, formKey, addCategoryText);
         });
   }
-
-  Center buildEmptyState(String message) => Center(child: Text(message));
 
   Expanded _buildDoneState(DoneCategoryState state) {
     return Expanded(
