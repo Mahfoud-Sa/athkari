@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AddTextFormFeildWidget extends StatelessWidget {
-  const AddTextFormFeildWidget({super.key, required this.value});
+class CustomTextFormFieldWidget extends StatelessWidget {
+  const CustomTextFormFieldWidget({super.key, required this.value});
   final TextEditingController value;
 
   @override

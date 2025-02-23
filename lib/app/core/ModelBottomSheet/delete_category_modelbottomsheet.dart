@@ -1,3 +1,7 @@
+import 'package:athkari/app/core/widgets/add_button_widget.dart';
+import 'package:athkari/app/core/widgets/cancel_button_widget.dart';
+import 'package:athkari/app/core/widgets/delete_button_widget.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:flutter/material.dart';
@@ -33,75 +37,38 @@ Future<dynamic> buildShowDeleteDekeerBottomSheet(
                   fontWeight: FontWeight.w600),
             ),
           ),
-          const Row(
+          Row(
             children: [
               Expanded(child: SizedBox()),
               Padding(
                 padding: const EdgeInsets.only(right: 8.0),
-                child: const Text(
+                child: Text(
                   'هل انت متاكد من حذف هذا الصنف؟',
                   style: TextStyle(
                       fontWeight: FontWeight.w600,
-                      fontSize: 22,
-                      color: Color.fromARGB(255, 128, 188, 189)),
+                      fontSize: 16,
+                      color: Theme.of(context).primaryColor),
                 ),
               )
             ],
           ),
           SizedBox(
-            height: 10,
+            height: 20,
           ),
-          InkWell(
+          DeleteButtonWidget(
             onTap: () {
               context.read<CategoryCubit>().DeleteCategory(
                     categoryId,
                   );
               Navigator.pop(context);
             },
-            borderRadius: BorderRadius.circular(20),
-            child: Container(
-              width: 300,
-              height: 50,
-              child: Center(
-                child: const Text(
-                  'حذف الصنف',
-                  style: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w600),
-                ),
-              ),
-              decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 128, 188, 189),
-                  borderRadius: BorderRadius.circular(30)),
-            ),
           ),
           const SizedBox(
             height: 10,
           ),
-          InkWell(
-            borderRadius: BorderRadius.circular(20),
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Container(
-              width: 300,
-              height: 50,
-              child: const Center(
-                child: Text(
-                  'الغاء',
-                  style: TextStyle(
-                      color: Color.fromARGB(255, 128, 188, 189),
-                      fontWeight: FontWeight.w600),
-                ),
-              ),
-              decoration: BoxDecoration(
-                  border: Border.all(
-                      color: const Color.fromARGB(255, 128, 188, 189),
-                      width: 3),
-                  borderRadius: BorderRadius.circular(30)),
-            ),
-          ),
+          CancelButtonWidget(),
           const SizedBox(
-            height: 10,
+            height: 20,
           ),
         ],
       ),

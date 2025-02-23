@@ -57,7 +57,7 @@ Future<dynamic> buildAddCategoryModalBottomSheet(
                   ),
                 ],
               ),
-              AddTextFormFeildWidget(value: textEditingController_1),
+              CustomTextFormFieldWidget(value: textEditingController_1),
               const SizedBox(height: 20),
               AddButtonWidget(
                 buttonText: "إضافة التصنيف",

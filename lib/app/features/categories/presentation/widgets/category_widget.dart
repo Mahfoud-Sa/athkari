@@ -121,11 +121,11 @@ class CategoryWidget extends StatelessWidget {
         children: [
           InkWell(
             onTap: () {
-              final UpdatecategoryNameController =
+              final updatecategoryNameController =
                   TextEditingController(text: updatedValue);
 
               buildShowUpdateCategoryModalBottomSheet(
-                  context, formKey, UpdatecategoryNameController, category.id!);
+                  context, formKey, updatecategoryNameController, category.id!);
             },
             child: Text(
               "تعديل",
