@@ -38,7 +38,7 @@ Future<dynamic> buildShowUpdateCategoryModalBottomSheet(
               const Padding(
                 padding: EdgeInsets.only(top: 8, bottom: 12),
                 child: Text(
-                  'حفظ',
+                  'التعديل على اسم التصنيف',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 24,

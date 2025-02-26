@@ -90,25 +90,25 @@ class CategoryWidget extends StatelessWidget {
 
   PopupMenuItem<dynamic> _popupDeleteButton(BuildContext context) {
     return PopupMenuItem(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          InkWell(
-            onTap: () {
-              buildShowDeleteDekeerBottomSheet(context, category.id!);
-            },
-            child: Text(
+      child: InkWell(
+        onTap: () {
+          buildShowDeleteDekeerBottomSheet(context, category.id!);
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
               "حذف",
               style: TextStyle(
                 color: Color.fromARGB(255, 90, 202, 165),
               ),
             ),
-          ),
-          Icon(
-            Icons.delete,
-            color: Color.fromARGB(255, 90, 202, 165),
-          ),
-        ],
+            Icon(
+              Icons.delete,
+              color: Color.fromARGB(255, 90, 202, 165),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -116,29 +116,29 @@ class CategoryWidget extends StatelessWidget {
   PopupMenuItem<dynamic> _popUpEditButton(
       BuildContext context, String updatedValue) {
     return PopupMenuItem(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          InkWell(
-            onTap: () {
-              final updatecategoryNameController =
-                  TextEditingController(text: updatedValue);
+      child: InkWell(
+        onTap: () {
+          final updatecategoryNameController =
+              TextEditingController(text: updatedValue);
 
-              buildShowUpdateCategoryModalBottomSheet(
-                  context, formKey, updatecategoryNameController, category.id!);
-            },
-            child: Text(
+          buildShowUpdateCategoryModalBottomSheet(
+              context, formKey, updatecategoryNameController, category.id!);
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
               "تعديل",
               style: TextStyle(
                 color: Color.fromARGB(255, 90, 202, 165),
               ),
             ),
-          ),
-          Icon(
-            Icons.add,
-            color: Color.fromARGB(255, 90, 202, 165),
-          ),
-        ],
+            Icon(
+              Icons.add,
+              color: Color.fromARGB(255, 90, 202, 165),
+            ),
+          ],
+        ),
       ),
     );
   }
