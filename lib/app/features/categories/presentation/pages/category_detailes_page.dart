@@ -14,15 +14,15 @@ import 'package:athkari/app/features/daily_wered/presentation/pages/side_title_w
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CatogroesDetailesPage extends StatefulWidget {
-  const CatogroesDetailesPage({super.key, required this.category});
+class CatogoryDetailesPage extends StatefulWidget {
+  const CatogoryDetailesPage({super.key, required this.category});
   final CategoryEntity category;
 
   @override
-  State<CatogroesDetailesPage> createState() => _CatogroesDetailesPageState();
+  State<CatogoryDetailesPage> createState() => _CatogoryDetailesPageState();
 }
 
-class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
+class _CatogoryDetailesPageState extends State<CatogoryDetailesPage> {
   final formKey = GlobalKey<FormState>();
   final addCategoryText = TextEditingController();
   final editCategoryText = TextEditingController();
@@ -36,15 +36,7 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.read<CategoryCubit>().fetchEsnadsData();
-          buildAddDhaderWithEsnadBottomSheet(
-              context, formKey, widget.category, addCategoryText);
-        },
-        tooltip: 'Add Dhkar',
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: buildFloatingActionMethod(context),
       appBar: buildAppBar(context, widget.category.name ?? 'Category Details',
           popMethod: () {
         Navigator.pop(context);
@@ -78,6 +70,22 @@ class _CatogroesDetailesPageState extends State<CatogroesDetailesPage> {
         ],
       ),
     );
+  }
+
+  FloatingActionButton buildFloatingActionMethod(BuildContext context) {
+    return FloatingActionButton(
+        foregroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 128, 188, 189),
+        child: Center(
+          child: Icon(
+            Icons.add,
+          ),
+        ),
+        onPressed: () {
+          context.read<CategoryCubit>().fetchEsnadsData();
+          buildAddDhaderWithEsnadBottomSheet(
+              context, formKey, widget.category, addCategoryText);
+        });
   }
 
   Center buildEmptyState(String message) => Center(child: Text(message));

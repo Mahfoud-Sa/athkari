@@ -2,6 +2,7 @@ import 'package:athkari/app/core/ModelBottomSheet/add_category_modelbottomsheet.
 import 'package:athkari/app/core/methods/build_searchbae_method.dart';
 import 'package:athkari/app/core/methods/build_waiting_state.dart';
 import 'package:athkari/app/core/methods/success_snackbar.dart';
+import 'package:athkari/app/core/widgets/custom_floating_action_button.dart';
 import 'package:athkari/app/core/widgets/empty_state_widget.dart';
 import 'package:athkari/app/core/widgets/error_state_widget.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
@@ -83,13 +84,12 @@ class CategoryIndexPage extends StatelessWidget {
           ),
           itemCount: state.catogories.length,
           itemBuilder: (context, index) {
-            final azkar = state.catogories[index];
-            final categoryNameController =
-                TextEditingController(text: addCategoryText.text);
+            final category = state.catogories[index];
+
             return CategoryWidget(
-              category: azkar,
+              category: category,
               formKey: formKey,
-              categoryName: categoryNameController,
+              //  categoryName: categoryNameController,
             );
           },
         ),

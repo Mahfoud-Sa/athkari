@@ -12,13 +12,13 @@ class CategoryWidget extends StatelessWidget {
     super.key,
     required this.category,
     required this.formKey,
-    required this.categoryName,
+    //  required this.categoryName,
   });
 
   final double _fontsize = 18;
   final CategoryEntity category;
   final GlobalKey<FormState> formKey;
-  final TextEditingController categoryName;
+  // final TextEditingController categoryName;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class CategoryWidget extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => CatogroesDetailesPage(
+            builder: (context) => CatogoryDetailesPage(
               category: category,
             ),
           ),

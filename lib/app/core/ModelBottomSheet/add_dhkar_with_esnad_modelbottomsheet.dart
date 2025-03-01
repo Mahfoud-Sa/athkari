@@ -1,4 +1,6 @@
 import 'package:athkari/app/core/methods/build_waiting_state.dart';
+import 'package:athkari/app/core/widgets/add_button_widget.dart';
+import 'package:athkari/app/core/widgets/cancel_button_widget.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
@@ -51,7 +53,7 @@ Future<dynamic> buildAddDhaderWithEsnadBottomSheet(
                   ),
                 ),
               ),
-              const Row(
+              Row(
                 children: [
                   Expanded(child: SizedBox()),
                   Padding(
@@ -59,23 +61,23 @@ Future<dynamic> buildAddDhaderWithEsnadBottomSheet(
                       child: Text(
                         'نص الذكر (المتن)',
                         style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 22,
-                          color: Color.fromARGB(255, 128, 188, 189),
-                        ),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                            color: Theme.of(context).primaryColor),
                       )),
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
+                  controller: textEditingController_1,
                   maxLines: 5, // Allows the field to expand as the user types
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'لايمكن اضافة سند فارغ, جرب كتابة نص الإسناد';
                     }
                     if (value.length == 150) {
-                      return 'لا يجب ان يحتوي نص الاصناد على اكثر من 150حرف';
+                      return 'لا يجب ان يحتوي نص الاصناد على اكثر من 150 حرف';
                     }
                     return null;
                   },
@@ -95,7 +97,7 @@ Future<dynamic> buildAddDhaderWithEsnadBottomSheet(
                   ),
                 ),
               ),
-              const Row(
+              Row(
                 children: [
                   Expanded(child: SizedBox()),
                   Padding(
@@ -103,10 +105,9 @@ Future<dynamic> buildAddDhaderWithEsnadBottomSheet(
                     child: Text(
                       'السند',
                       style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 22,
-                        color: Color.fromARGB(255, 128, 188, 189),
-                      ),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                          color: Theme.of(context).primaryColor),
                     ),
                   )
                 ],
@@ -182,65 +183,31 @@ Future<dynamic> buildAddDhaderWithEsnadBottomSheet(
                         ),
                       );
                     }
-                    return Placeholder();
+                    return SizedBox(height: 35, width: 120, child: InkWell());
                   },
                 ),
               ),
-              InkWell(
+              SizedBox(
+                height: 20,
+              ),
+              AddButtonWidget(
+                formKey: formKey,
+                esnadValue: textEditingController_1,
+                buttonText: 'أضافة ذكر',
                 onTap: () {
                   formKey.currentState!.validate();
                   if (formKey.currentState!.validate()) {
                     context.read<CategoryCubit>().addDekharWithEsnad(
                           category.id!,
-                          1,
+                          esnadId,
                           textEditingController_1.text,
                         );
                   }
                 },
-                borderRadius: BorderRadius.circular(20),
-                child: Container(
-                  width: 300,
-                  height: 50,
-                  child: Center(
-                    child: Text(
-                      'أضافة ذكر',
-                      style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 128, 188, 189),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
               ),
               const SizedBox(height: 10),
-              InkWell(
-                borderRadius: BorderRadius.circular(20),
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  width: 300,
-                  height: 50,
-                  child: const Center(
-                    child: Text(
-                      'الغاء',
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 128, 188, 189),
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: const Color.fromARGB(255, 128, 188, 189),
-                      width: 3,
-                    ),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
+              CancelButtonWidget(),
+              const SizedBox(height: 20),
             ],
           ),
         ),

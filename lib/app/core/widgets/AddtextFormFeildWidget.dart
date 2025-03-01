@@ -14,7 +14,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
           if (value == null || value.isEmpty) {
             return 'لايمكن اضافة تصنيف فارغ';
           }
-          if (value.length > 20) {
+          if (value.length > 30) {
             return 'لا يجب ان يحتوي اسم تصنيف على اكثر من 20 حرف';
           }
           return null;
