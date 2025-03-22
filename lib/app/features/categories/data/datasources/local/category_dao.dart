@@ -101,6 +101,14 @@ class CategoryDao {
         .toList()[0];
   }
 
+  Future<CategoryModel?> getCategoryDetailes(int id) async {
+    var result =
+        await database.query('categories', where: 'id = ?', whereArgs: [id]);
+    return result
+        .map((category) => CategoryModel.fromDataBase(category))
+        .toList()[0];
+  }
+
   Future<void> seedCategory() async {
     for (int i = 0; i < 50; i++) {
       var categoryName = lorem(words: 1);

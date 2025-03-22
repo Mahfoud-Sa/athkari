@@ -1,6 +1,6 @@
 import 'package:athkari/app/core/methods/build_appbar_method.dart';
 import 'package:athkari/app/core/methods/build_searchbae_method.dart';
-import 'package:athkari/app/features/categories/presentation/widgets/dekhar_card_widget.dart';
+import 'package:athkari/app/core/widgets/dekar_card_widget.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_state.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/side_title_widget.dart';
@@ -8,8 +8,6 @@ import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-
 import 'package:gradient_borders/gradient_borders.dart';
 
 class DedherIndexPage extends StatelessWidget {
@@ -24,73 +22,72 @@ class DedherIndexPage extends StatelessWidget {
         //     onPressed: () {
         //       buildEsnadModalBottomSheet(context);
         //     }),
-        body: Column(
-          children: [
-            buildSearchBar(
-              context,
-              (query) {
-                if (query.isNotEmpty) {
-                  //context.read<EsnadsCubit>().search(query);
-                } else {
-                  // context.read<EsnadsCubit>().fetchData();
-                }
-              },
-            ),
-            SideTitle(
-              title: "عدد الاذكار",
-              count: 50,
-            ),
-            Expanded(
-              child: BlocListener<DailyWereCubit, DailyWeredCubitStates>(
-                listenWhen: (previous, current) {
-                  return current == NotifeyDailyWeredCubitState;
-                },
-                listener: (context, state) {
-                  // Show the SnackBar when the state is ShowMessageState
-                  if (state is NotifeyDailyWeredCubitState) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(state.message),
-                        duration: const Duration(seconds: 3),
-                        backgroundColor: Colors.blueAccent,
+        body: Column(children: [
+          buildSearchBar(
+            context,
+            (query) {
+              if (query.isNotEmpty) {
+                //context.read<EsnadsCubit>().search(query);
+              } else {
+                // context.read<EsnadsCubit>().fetchData();
+              }
+            },
+          ),
+          SideTitle(
+            title: "عدد الاذكار",
+            count: 50,
+          ),
+          Expanded(
+            //    child: BlocBuilder<DailyWereCubit, DailyWeredCubitStates>(
+            //  BlocBuilder<CategoryCubit, CatogeryState>
+            // listenWhen: (previous, current) {
+            //   return current == NotifeyDailyWeredCubitState;
+            // },
+            // listener: (context, state) {
+            //   // Show the SnackBar when the state is ShowMessageState
+            //   if (state is NotifeyDailyWeredCubitState) {
+            //     ScaffoldMessenger.of(context).showSnackBar(
+            //       SnackBar(
+            //         content: Text(state.message),
+            //         duration: const Duration(seconds: 3),
+            //         backgroundColor: Colors.blueAccent,
+            //       ),
+            //     );
+            //   }
+            // },
+            child: BlocBuilder<DailyWereCubit, DailyWeredCubitStates>(
+                builder: (context, state) {
+              if (state is LoadingDailyWeredState) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (state is DoneDailyWeredState) {
+                return ListView(
+                  children: [
+                    // Iterate through the doneState list to generate DekarCardWidgets
+                    for (var item in state.athkari)
+                      DekarDailyWereCardWidget(
+                        dhkar: item,
+                        // no_of_repeating: item.repetitions as int,
+                        // deker: item.dhkar!,
+                        // saneed: item.esnad!.name.toString(),
                       ),
-                    );
-                  }
-                },
-                child: BlocBuilder<DailyWereCubit, DailyWeredCubitStates>(
-                    builder: (context, state) {
-                  if (state is LoadingDailyWeredState) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (state is DoneDailyWeredState) {
-                    return ListView(
-                      children: [
-                        // Iterate through the doneState list to generate DekarCardWidgets
-                        // for (var item in state.athkari)
-                        // DekarCardWidget(
-                        //   no_of_repeating: item.repetitions as int,
-                        //   deker: item.dhkar!,
-                        //   saneed: item.esnad!.name.toString(),
-                        // ),
-                      ],
-                    );
-                  } else {
-                    return Center(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Trigger a specific event
-                          context.read<EsnadsCubit>().fetchData();
-                        },
-                        child: Text('إعاده المحاولة'),
-                      ),
-                    );
-                  }
-                }),
-              ),
-            ),
-          ],
-        ));
+                  ],
+                );
+              } else {
+                return Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // Trigger a specific event
+                      context.read<EsnadsCubit>().fetchData();
+                    },
+                    child: Text('إعاده المحاولة'),
+                  ),
+                );
+              }
+            }),
+          ),
+        ]));
   }
 
   // Future<dynamic> buildEsnadModalBottomSheet(BuildContext context) {

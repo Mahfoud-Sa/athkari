@@ -18,7 +18,6 @@ class CategoryIndexPage extends StatelessWidget {
   final TextEditingController updateCategoryText = TextEditingController();
 
   CategoryIndexPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     Widget searchMethod = buildSearchBar(context, (query) {

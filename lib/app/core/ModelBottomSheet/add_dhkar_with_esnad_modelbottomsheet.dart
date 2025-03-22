@@ -20,15 +20,14 @@ Future<dynamic> buildAddDhaderWithEsnadBottomSheet(
   return showModalBottomSheet(
     isScrollControlled: true,
     context: context,
-    builder: (context) => Form(
-      key: formKey,
-      onChanged: () {},
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(
-            bottom:
-                MediaQuery.of(context).viewInsets.bottom, // Adjust for keyboard
-          ),
+    builder: (context) => Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom, // Adjust for keyboard
+      ),
+      child: Form(
+        key: formKey,
+        onChanged: () {},
+        child: SingleChildScrollView(
           child: Column(
             mainAxisSize:
                 MainAxisSize.min, // Ensure the Column takes minimal space
@@ -57,14 +56,16 @@ Future<dynamic> buildAddDhaderWithEsnadBottomSheet(
                 children: [
                   Expanded(child: SizedBox()),
                   Padding(
-                      padding: EdgeInsets.only(right: 8.0),
-                      child: Text(
-                        'نص الذكر (المتن)',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                            color: Theme.of(context).primaryColor),
-                      )),
+                    padding: EdgeInsets.only(right: 8.0),
+                    child: Text(
+                      'نص الذكر (المتن)',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ),
+                  ),
                 ],
               ),
               Padding(
@@ -105,11 +106,12 @@ Future<dynamic> buildAddDhaderWithEsnadBottomSheet(
                     child: Text(
                       'السند',
                       style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          color: Theme.of(context).primaryColor),
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                        color: Theme.of(context).primaryColor,
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
               Padding(
@@ -127,7 +129,6 @@ Future<dynamic> buildAddDhaderWithEsnadBottomSheet(
                             true, // Ensure the dropdown takes full width
                         items: state.EsandsList.map((EsnadEntity? esnad) {
                           // Ensure esnad is not null
-
                           return DropdownMenuItem<int>(
                             value: esnad!.id!,
                             child: Container(

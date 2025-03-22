@@ -75,7 +75,7 @@ class CategoryCubit extends Cubit<CatogeryState> {
   }
 
   void fetchCategoryDetails(int id) async {
-    await _deleteCatogoriesUseCase.call(params: id);
+    // await _deleteCatogoriesUseCase.call(params: id);
     emit(LoadingCategoryState());
     await Future.delayed(Duration(seconds: 1));
     emit(DoneCategoryDetailsState(categoryiList[1]));

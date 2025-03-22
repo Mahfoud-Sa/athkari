@@ -49,8 +49,8 @@ class CategoryRepositoryImp implements CategoryRepository {
     return await getCatogory(updatedCategoryIndex);
   }
 
-//   @override
-// Future<List<Map<String, Object?>>> getAllCatogories() {
-//    return _appDataBaseServices.categoryDao.getCategories();
-//   }
+  @override
+  Future<CategoryEntity?> getCatogoryDetails(int id) {
+    return _appDataBaseServices.categoryDao.getCategoryDetailes(id);
+  }
 }
