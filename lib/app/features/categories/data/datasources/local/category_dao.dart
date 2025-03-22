@@ -59,7 +59,7 @@ class CategoryDao {
     Adhkars.dhaker AS dhaker,
     Adhkars.repetitions AS repetitions
   FROM categories 
-  LEFT JOIN Adhkars ON categories.id = Adhkars.category_id
+    LEFT JOIN Adhkars ON categories.id = Adhkars.category_id
 ''';
 
     final List<Map<String, dynamic>> result = await database.rawQuery(query);
@@ -102,11 +102,19 @@ class CategoryDao {
   }
 
   Future<CategoryModel?> getCategoryDetailes(int id) async {
-    var result =
-        await database.query('categories', where: 'id = ?', whereArgs: [id]);
-    return result
-        .map((category) => CategoryModel.fromDataBase(category))
-        .toList()[0];
+    // print("result");
+    // var dekars = await database.query('Adhkars');
+    // print(dekars);
+    // return dekars.map((dekar) => DhkarModel.fromDataBase(dekar)).toList();
+    var result = await database
+        .query('Adhkars', where: 'category_id = ?', whereArgs: [id]);
+    List<DhkarModel> dekars =
+        result.map((dekar) => DhkarModel.fromDataBase(dekar)).toList();
+    print(result);
+    return CategoryModel(name: "try", dhkars: dekars);
+    // return result
+    //     .map((category) => CategoryModel.fromDataBase(category))
+    //     .toList()[0];
   }
 
   Future<void> seedCategory() async {

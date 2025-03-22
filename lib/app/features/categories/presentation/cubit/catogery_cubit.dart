@@ -3,6 +3,7 @@ import 'package:athkari/app/features/categories/domain/usecase/add_category_with
 import 'package:athkari/app/features/categories/domain/usecase/add_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/delete_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/get_catogories_usecase.dart';
+import 'package:athkari/app/features/categories/domain/usecase/get_catogory_details_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/update_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
 import 'package:athkari/app/features/daily_wered/data/modules/dhkar_model.dart';
@@ -13,6 +14,7 @@ import 'package:bloc/bloc.dart';
 
 class CategoryCubit extends Cubit<CatogeryState> {
   final GetCatogoriesUseCase _getCatogoriesUseCase;
+  final GetCatogoryDetailsUseCase _getCatogoryDetailsUseCase;
   final AddCatogoriesUseCase _addCatogoriesUseCase;
   final UpdateCatogoriesUseCase _updateCatogoriesUseCase;
   final DeleteCatogoriesUseCase _deleteCatogoriesUseCase;
@@ -22,6 +24,7 @@ class CategoryCubit extends Cubit<CatogeryState> {
 
   CategoryCubit(
       this._getCatogoriesUseCase,
+      this._getCatogoryDetailsUseCase,
       this._addCatogoriesUseCase,
       this._updateCatogoriesUseCase,
       this._deleteCatogoriesUseCase,
@@ -75,10 +78,15 @@ class CategoryCubit extends Cubit<CatogeryState> {
   }
 
   void fetchCategoryDetails(int id) async {
-    // await _deleteCatogoriesUseCase.call(params: id);
-    emit(LoadingCategoryState());
-    await Future.delayed(Duration(seconds: 1));
-    emit(DoneCategoryDetailsState(categoryiList[1]));
+    CategoryEntity? categoryDetails;
+    categoryDetails = await _getCatogoryDetailsUseCase.call(params: id);
+    categoryDetails == null
+        ? emit(EmptyCategoryState(""))
+        : emit(DoneCategoryDetailsState(categoryDetails!));
+    // if(categoryDetails. is null)
+    // emit(LoadingCategoryState());
+    // await Future.delayed(Duration(seconds: 1));
+    // emit(DoneCategoryDetailsState(categoryDetails!));
     // FetchData();
   }
 

@@ -3,6 +3,7 @@ import 'package:athkari/app/features/categories/domain/usecase/add_category_with
 import 'package:athkari/app/features/categories/domain/usecase/add_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/delete_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/get_catogories_usecase.dart';
+import 'package:athkari/app/features/categories/domain/usecase/get_catogory_details_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/update_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/core/app_database.dart';
@@ -40,8 +41,8 @@ Future<void> initializationContainer() async {
   // await _AppDataBaseServices.adhkaiDao.seedEsnads();
   // State Managment
   getIt.registerFactory<DailyWereCubit>(() => DailyWereCubit(getIt(), getIt()));
-  getIt.registerFactory<CategoryCubit>(() =>
-      CategoryCubit(getIt(), getIt(), getIt(), getIt(), getIt(), getIt()));
+  getIt.registerFactory<CategoryCubit>(() => CategoryCubit(
+      getIt(), getIt(), getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<EsnadsCubit>(
       () => EsnadsCubit(getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<HomepageCubit>(() => HomepageCubit(getIt()));
@@ -61,6 +62,8 @@ Future<void> initializationContainer() async {
   //     GetTotalDailyWereUseCase(getIt()));
   //category use case
   getIt.registerSingleton<GetCatogoriesUseCase>(GetCatogoriesUseCase(getIt()));
+  getIt.registerSingleton<GetCatogoryDetailsUseCase>(
+      GetCatogoryDetailsUseCase(getIt()));
   getIt.registerSingleton<AddCatogoriesUseCase>(AddCatogoriesUseCase(getIt()));
   getIt.registerSingleton<UpdateCatogoriesUseCase>(
       UpdateCatogoriesUseCase(getIt()));
