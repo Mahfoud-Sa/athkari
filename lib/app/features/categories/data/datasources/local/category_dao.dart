@@ -120,7 +120,7 @@ class CategoryDao {
         result.map((dekar) => DhkarModel.fromDataBase_1(dekar)).toList();
 
     print(dekhars);
-    return CategoryModel(name: categoryName!.name);
+    return CategoryModel(name: categoryName!.name, dhkars: dekhars);
     // return result
     //     .map((category) => CategoryModel.fromDataBase(category))
     //     .toList()[0];
