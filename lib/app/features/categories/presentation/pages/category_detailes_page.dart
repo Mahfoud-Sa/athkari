@@ -1,15 +1,12 @@
 import 'package:athkari/app/core/ModelBottomSheet/add_dhkar_with_esnad_modelbottomsheet.dart';
 import 'package:athkari/app/core/methods/build_appbar_method.dart';
-import 'package:athkari/app/core/methods/build_searchbae_method.dart';
 import 'package:athkari/app/core/methods/build_waiting_state.dart';
 import 'package:athkari/app/core/methods/success_snackbar.dart';
-import 'package:athkari/app/core/widgets/dekar_card_widget.dart';
 import 'package:athkari/app/core/widgets/error_state_widget.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/features/categories/presentation/widgets/dekhar_card_widget.dart';
-import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/side_title_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

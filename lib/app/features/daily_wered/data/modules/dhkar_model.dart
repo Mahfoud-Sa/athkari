@@ -20,6 +20,16 @@ class DhkarModel extends DhkarEntity {
         dhkar: map['dhaker'] ?? "",
         esnad: EsnadModel.fromDataBase(map));
   }
+  factory DhkarModel.fromDataBase_1(Map<String, dynamic> map) {
+    return DhkarModel(
+      // id: int.parse(map['id'] ?? 0),
+      dhkar: map['dhaker'] ?? "",
+      // repetitions: int.parse(map["repetitions"] ?? 0),
+      esnad: EsnadModel(
+          // id: int.parse(map['id'] ?? 0),
+          name: map['name'] ?? ""),
+    );
+  }
   Map<String, dynamic> toDatabse() {
     return {
       'id': id,

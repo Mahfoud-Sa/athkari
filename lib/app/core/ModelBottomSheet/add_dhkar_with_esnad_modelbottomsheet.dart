@@ -203,6 +203,7 @@ Future<dynamic> buildAddDhaderWithEsnadBottomSheet(
                           esnadId,
                           textEditingController_1.text,
                         );
+                    Navigator.pop(context);
                   }
                 },
               ),
