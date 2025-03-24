@@ -17,7 +17,7 @@ class DhkarModel extends DhkarEntity {
   factory DhkarModel.fromDataBase(Map<String, dynamic> map) {
     return DhkarModel(
         id: map['id'] ?? "",
-        dhkar: map['name'] ?? "",
+        dhkar: map['dhaker'] ?? "",
         esnad: EsnadModel.fromDataBase(map));
   }
   Map<String, dynamic> toDatabse() {

@@ -102,6 +102,7 @@ class CategoryDao {
   }
 
   Future<CategoryModel?> getCategoryDetailes(int id) async {
+    CategoryModel? categoryName = await getCategory(id);
     // print("result");
     // var dekars = await database.query('Adhkars');
     // print(dekars);
@@ -111,7 +112,7 @@ class CategoryDao {
     List<DhkarModel> dekars =
         result.map((dekar) => DhkarModel.fromDataBase(dekar)).toList();
     print(result);
-    return CategoryModel(name: "try", dhkars: dekars);
+    return CategoryModel(name: categoryName!.name, dhkars: dekars);
     // return result
     //     .map((category) => CategoryModel.fromDataBase(category))
     //     .toList()[0];

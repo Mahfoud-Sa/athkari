@@ -77,12 +77,13 @@ class CategoryCubit extends Cubit<CatogeryState> {
     FetchData();
   }
 
-  void fetchCategoryDetails(int id) async {
+  fetchCategoryDetails(int id) async {
     CategoryEntity? categoryDetails;
     categoryDetails = await _getCatogoryDetailsUseCase.call(params: id);
     categoryDetails == null
         ? emit(EmptyCategoryState(""))
         : emit(DoneCategoryDetailsState(categoryDetails!));
+    // return categoryDetails;
     // if(categoryDetails. is null)
     // emit(LoadingCategoryState());
     // await Future.delayed(Duration(seconds: 1));

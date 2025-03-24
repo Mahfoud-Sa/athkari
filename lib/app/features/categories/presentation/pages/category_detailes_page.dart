@@ -26,7 +26,7 @@ class _CatogoryDetailesPageState extends State<CatogoryDetailesPage> {
   final formKey = GlobalKey<FormState>();
   final addCategoryText = TextEditingController();
   final editCategoryText = TextEditingController();
-
+  // late CategoryEntity category;
   @override
   void initState() {
     super.initState();
