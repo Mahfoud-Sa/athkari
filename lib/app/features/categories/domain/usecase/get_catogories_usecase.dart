@@ -9,7 +9,7 @@ class GetCatogoriesUseCase extends UseCase {
 
   @override
   Future<List<CategoryEntity>> call({params}) async {
-    var temp = await _categoryRepository.getAllCatogories();
+    var temp = await _categoryRepository.getAllCatogoriesWithDekars();
 
     return temp;
   }
