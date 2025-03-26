@@ -1,3 +1,4 @@
+import 'package:athkari/app/features/daily_wered/data/modules/daily_werel_model.dart';
 import 'package:athkari/app/features/daily_wered/data/modules/dhkar_model.dart';
 import 'package:equatable/equatable.dart';
 
@@ -14,7 +15,7 @@ class LoadingDailyWeredState extends DailyWeredCubitStates {
 }
 
 class DoneDailyWeredState extends DailyWeredCubitStates {
-  final List<DhkarModel> athkari;
+  final List<DailyWeredModel> athkari;
 
   // Constructor
   DoneDailyWeredState({required this.athkari});

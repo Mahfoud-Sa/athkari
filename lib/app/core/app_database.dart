@@ -1,12 +1,10 @@
 import 'dart:io';
-
 import 'package:athkari/app/features/categories/data/datasources/local/category_dao.dart';
+import 'package:athkari/app/features/daily_wered/data/datasources/local/daily_wered_dao.dart';
 import 'package:athkari/app/features/daily_wered/data/datasources/local/dhkar_dao.dart';
 import 'package:athkari/app/features/esnaad/data/datasources/esnad_dto.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_lorem/flutter_lorem.dart';
 
 class AppDataBaseServices {
   static final AppDataBaseServices _instance = AppDataBaseServices._internal();
@@ -23,6 +21,14 @@ class AppDataBaseServices {
       _database = await _initializeDb();
     }
     return _database;
+  }
+
+  DailyWeredDao get dailyWeredDao {
+    if (_database == null) {
+      throw Exception(
+          "Database not initialized yet. Please wait until it's initialized.");
+    }
+    return DailyWeredDao(_database!);
   }
 
   DhkarDao get adhkaiDao {
@@ -86,7 +92,17 @@ class AppDataBaseServices {
 
   Future<void> _onCreate(Database db, int version) async {
     print("Creating tables...");
+    await db.execute('''
+      CREATE TABLE DailyWered (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        dhaker TEXT ,
+        repetitions INTEGER,
+        esnads_id,
+        is_compeleted bool,
+        FOREIGN KEY (esnads_id) REFERENCES Esnads(id) ON DELETE CASCADE
 
+      )
+    ''');
     await db.execute('''
       CREATE TABLE Adhkars (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

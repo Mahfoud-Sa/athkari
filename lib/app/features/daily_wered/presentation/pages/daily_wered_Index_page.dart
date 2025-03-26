@@ -33,10 +33,6 @@ class DedherIndexPage extends StatelessWidget {
               }
             },
           ),
-          SideTitle(
-            title: "عدد الاذكار",
-            count: 50,
-          ),
           Expanded(
             //    child: BlocBuilder<DailyWereCubit, DailyWeredCubitStates>(
             //  BlocBuilder<CategoryCubit, CatogeryState>
@@ -65,10 +61,14 @@ class DedherIndexPage extends StatelessWidget {
                 return ListView(
                   children: [
                     // Iterate through the doneState list to generate DekarCardWidgets
+                    SideTitle(
+                      title: "عدد الاذكار",
+                      count: state.athkari.length,
+                    ),
                     for (var item in state.athkari)
                       DekarDailyWereCardWidget(
                         dhkar: item,
-                        // no_of_repeating: item.repetitions as int,
+                        //  no_of_repeating: item.repetitions as int,
                         // deker: item.dhkar!,
                         // saneed: item.esnad!.name.toString(),
                       ),

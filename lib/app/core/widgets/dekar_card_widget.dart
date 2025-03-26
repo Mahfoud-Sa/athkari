@@ -1,3 +1,4 @@
+import 'package:athkari/app/features/daily_wered/data/modules/daily_werel_model.dart';
 import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
@@ -9,7 +10,7 @@ class DekarDailyWereCardWidget extends StatefulWidget {
     required this.dhkar,
   });
 
-  final DhkarEntity dhkar;
+  final DailyWeredModel dhkar;
   final double _fontSize = 18;
 
   @override
