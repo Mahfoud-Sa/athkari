@@ -14,8 +14,8 @@ class DailyWeredRepositoryImpl implements DailyWeredRepository {
   }
 
   @override
-  Future<void> doneDailyWered() async {
-    await _appDataBaseServices.dailyWeredDao.doneDailyWered();
+  Future<void> doneDailyWered(int id) async {
+    await _appDataBaseServices.dailyWeredDao.doneDailyWered(id);
   }
 
   // @override

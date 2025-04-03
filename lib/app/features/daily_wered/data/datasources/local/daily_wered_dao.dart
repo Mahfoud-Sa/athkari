@@ -48,7 +48,8 @@ class DailyWeredDao {
 
   // Example: Get all records
   Future<List<DailyWeredModel>> getAllAdhkai() async {
-    var dekars = await database.query('DailyWered');
+    var dekars = await database
+        .query('DailyWered', where: "is_compeleted = ?", whereArgs: ["false"]);
     print(dekars);
     return dekars.map((dekar) => DailyWeredModel.fromDataBase(dekar)).toList();
   }
@@ -59,10 +60,20 @@ class DailyWeredDao {
     return result.length;
   }
 
-  Future<int> doneDailyWered() async {
-    var result = await database.query('DailyWered'//Compelete your work here
-
-    return result.length;
+  Future<int> doneDailyWered(int id) async {
+    try {
+      var state = await database.update(
+        'DailyWered', // table name
+        {"is_compeleted": true}, // Map of column names to values
+        where: 'id = ?', // WHERE clause to identify the record
+        whereArgs: [id], // Values for the WHERE clause
+      );
+      print(state);
+      return state;
+    } catch (e) {
+      print('Error updating item: $e');
+      return 0;
+    }
   }
 
   Future<void> seedDailyWered() async {
