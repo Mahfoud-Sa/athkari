@@ -20,7 +20,8 @@ Future<void> main() async {
     enabled: !kReleaseMode,
     builder: (context) => MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => DailyWereCubit(getIt(), getIt(), getIt())),
+        BlocProvider(
+            create: (_) => DailyWereCubit(getIt(), getIt(), getIt(), getIt())),
         BlocProvider(
             create: (_) => CategoryCubit(
                 getIt(), getIt(), getIt(), getIt(), getIt(), getIt(), getIt())),

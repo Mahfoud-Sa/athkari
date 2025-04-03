@@ -11,8 +11,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 
 class DedherIndexPage extends StatelessWidget {
-  const DedherIndexPage({super.key});
-
+  DedherIndexPage({super.key});
+  // final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  // final TextEditingController deleteDailywered = TextEditingController();
+  // final TextEditingController updateRepetation = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,9 +70,6 @@ class DedherIndexPage extends StatelessWidget {
                     for (var item in state.athkari)
                       DekarDailyWereCardWidget(
                         dhkar: item,
-                        //  no_of_repeating: item.repetitions as int,
-                        // deker: item.dhkar!,
-                        // saneed: item.esnad!.name.toString(),
                       ),
                   ],
                 );
@@ -79,7 +78,7 @@ class DedherIndexPage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       // Trigger a specific event
-                      context.read<EsnadsCubit>().fetchData();
+                      context.read<DailyWereCubit>().FetchData();
                     },
                     child: Text('إعاده المحاولة'),
                   ),

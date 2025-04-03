@@ -18,6 +18,16 @@ class DailyWeredRepositoryImpl implements DailyWeredRepository {
     await _appDataBaseServices.dailyWeredDao.doneDailyWered(id);
   }
 
+  @override
+  Future<void> updateDailyWeredRepertation(int id, int repetation) async {
+    await _appDataBaseServices.dailyWeredDao.updateRepetation(id, repetation);
+  }
+
+  @override
+  Future<int> deleteDailyWered(int id) async {
+    return await _appDataBaseServices.dailyWeredDao.deleteDailyWered(id);
+  }
+
   // @override
   // Future<List<DhkarModel>> getAllDhkars() async {
   //   var temp = await _appDataBaseServices.adhkaiDao.getAllAdhkai();

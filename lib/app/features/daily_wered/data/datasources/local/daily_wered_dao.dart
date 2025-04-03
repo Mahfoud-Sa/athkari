@@ -76,6 +76,22 @@ class DailyWeredDao {
     }
   }
 
+  Future<int> updateRepetation(int id, int repetation) async {
+    try {
+      var state = await database.update(
+        'DailyWered', // table name
+        {"repetitions": repetation}, // Map of column names to values
+        where: 'id = ?', // WHERE clause to identify the record
+        whereArgs: [id], // Values for the WHERE clause
+      );
+      print(state);
+      return state;
+    } catch (e) {
+      print('Error updating item: $e');
+      return 0;
+    }
+  }
+
   Future<void> seedDailyWered() async {
     for (int i = 0; i < 10; i++) {
       var dhkarName = lorem(words: 1);
@@ -93,5 +109,12 @@ class DailyWeredDao {
       //   conflictAlgorithm: ConflictAlgorithm.replace, // Handle conflicts
       // );
     }
+  }
+
+  Future<int> deleteDailyWered(int id) async {
+    var state =
+        await database.delete('DailyWered', where: "id=?", whereArgs: [id]);
+    print(state);
+    return state;
   }
 }

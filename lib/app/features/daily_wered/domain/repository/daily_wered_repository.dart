@@ -6,6 +6,8 @@ import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 abstract class DailyWeredRepository {
   Future<List<DailyWeredModel>> getAllDailyWereds();
   Future<void> doneDailyWered(int id);
+  Future<void> updateDailyWeredRepertation(int id, int repetation);
+  Future<int> deleteDailyWered(int id);
   // Future<int> addDhkar(
   //     String dheer, int repetitions, int esnaad, EsnadEntity esnad);
   // Future<int> addDhkarWithCategory(int categoryId, DhkarEntity dhkar);

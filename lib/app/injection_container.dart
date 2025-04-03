@@ -10,8 +10,10 @@ import 'package:athkari/app/core/app_database.dart';
 import 'package:athkari/app/features/daily_wered/data/repository/daily_wered_repository_impl.dart';
 import 'package:athkari/app/features/daily_wered/data/repository/dhkar_repository_impl.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/add_dhaker_usecase.dart';
+import 'package:athkari/app/features/daily_wered/domain/usecase/delete_daily_wered_usecase.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/done_daily_wered_usecase.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/get_daily_wered.dart';
+import 'package:athkari/app/features/daily_wered/domain/usecase/update_daily_wered_repetation_usecase%20copy.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/esnaad/data/repository/esnads_repository_imp.dart';
 import 'package:athkari/app/features/esnaad/domain/usecase/add_esnade_usecase.dart';
@@ -41,10 +43,10 @@ Future<void> initializationContainer() async {
   //_AppDataBaseServices.categoryDao.seedCategory();
   // _AppDataBaseServices.esnadDao.seedEsnads();
   //await _AppDataBaseServices.adhkaiDao.seedEsnads();
-  //await _AppDataBaseServices.dailyWeredDao.seedDailyWered();
+  await _AppDataBaseServices.dailyWeredDao.seedDailyWered();
   // State Managment
   getIt.registerFactory<DailyWereCubit>(
-      () => DailyWereCubit(getIt(), getIt(), getIt()));
+      () => DailyWereCubit(getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<CategoryCubit>(() => CategoryCubit(
       getIt(), getIt(), getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<EsnadsCubit>(
@@ -65,6 +67,10 @@ Future<void> initializationContainer() async {
   getIt.registerSingleton<AddDhakerUseCase>(AddDhakerUseCase(getIt()));
   getIt
       .registerSingleton<DoneDailyWeredUsecase>(DoneDailyWeredUsecase(getIt()));
+  getIt.registerSingleton<UpdateDailyWeredRepetationUsecase>(
+      UpdateDailyWeredRepetationUsecase(getIt()));
+  // getIt.registerSingleton<DeleteDailyWeredUsecase>(
+  //     DeleteDailyWeredUsecase(getIt()));
 
   // getIt.registerSingleton<GetTotalDailyWereUseCase>(
   //     GetTotalDailyWereUseCase(getIt()));
