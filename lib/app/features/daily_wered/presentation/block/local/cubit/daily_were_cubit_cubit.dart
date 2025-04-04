@@ -11,18 +11,17 @@ class DailyWereCubit extends Cubit<DailyWeredCubitStates> {
   final AddDhakerUseCase _addDhakerUseCase;
   final DoneDailyWeredUsecase _dailyWeredUsecase;
   final UpdateDailyWeredRepetationUsecase _updateDailyWeredRepetationUsecase;
-  // final DeleteDailyWeredUsecase _deleteDailyWeredUsecase;
+  final DeleteDailyWeredUsecase _deleteDailyWeredUsecase;
   var daily_wered_list;
   //final GetTotalDailyWereUseCase _getTotalDailyWereUseCase;
   DailyWereCubit(
-    this._dailyWereUseCase,
-    this._addDhakerUseCase,
-    this._dailyWeredUsecase,
-    this._updateDailyWeredRepetationUsecase,
-    //  this._deleteDailyWeredUsecase
-  )
-  //  this._getTotalDailyWereUseCase
-  : super(InitialDailyWeredState()) {
+      this._dailyWereUseCase,
+      this._addDhakerUseCase,
+      this._dailyWeredUsecase,
+      this._updateDailyWeredRepetationUsecase,
+      this._deleteDailyWeredUsecase)
+      //  this._getTotalDailyWereUseCase
+      : super(InitialDailyWeredState()) {
     emit(LoadingDailyWeredState());
     FetchData();
   }
@@ -53,7 +52,8 @@ class DailyWereCubit extends Cubit<DailyWeredCubitStates> {
 
   void deleteDekher(int id) async {
     // var athkariList = await _dailyWereUseCase.call();
-    // _deleteDailyWeredUsecase.call(params: id);
+    print(id);
+    _deleteDailyWeredUsecase.call(params: id);
     FetchData();
     // emit(DoneDailyWeredState(athkari: daily_wered_list));
   }

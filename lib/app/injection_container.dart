@@ -46,7 +46,7 @@ Future<void> initializationContainer() async {
   await _AppDataBaseServices.dailyWeredDao.seedDailyWered();
   // State Managment
   getIt.registerFactory<DailyWereCubit>(
-      () => DailyWereCubit(getIt(), getIt(), getIt(), getIt()));
+      () => DailyWereCubit(getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<CategoryCubit>(() => CategoryCubit(
       getIt(), getIt(), getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<EsnadsCubit>(
@@ -69,8 +69,8 @@ Future<void> initializationContainer() async {
       .registerSingleton<DoneDailyWeredUsecase>(DoneDailyWeredUsecase(getIt()));
   getIt.registerSingleton<UpdateDailyWeredRepetationUsecase>(
       UpdateDailyWeredRepetationUsecase(getIt()));
-  // getIt.registerSingleton<DeleteDailyWeredUsecase>(
-  //     DeleteDailyWeredUsecase(getIt()));
+  getIt.registerSingleton<DeleteDailyWeredUsecase>(
+      DeleteDailyWeredUsecase(getIt()));
 
   // getIt.registerSingleton<GetTotalDailyWereUseCase>(
   //     GetTotalDailyWereUseCase(getIt()));

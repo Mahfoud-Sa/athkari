@@ -149,8 +149,8 @@ class _DekarDailyWereCardWidgetState extends State<DekarDailyWereCardWidget> {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        // showDeleteDhkarBottomSheet(
-                                        //     context, widget.dhkar.id!);
+                                        showDeleteDhkarBottomSheet(
+                                            context, widget.dhkar.id!);
                                       },
                                       child: const Text(
                                         "حذف من الورد اليومي",

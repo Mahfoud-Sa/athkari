@@ -21,7 +21,8 @@ Future<void> main() async {
     builder: (context) => MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (_) => DailyWereCubit(getIt(), getIt(), getIt(), getIt())),
+            create: (_) =>
+                DailyWereCubit(getIt(), getIt(), getIt(), getIt(), getIt())),
         BlocProvider(
             create: (_) => CategoryCubit(
                 getIt(), getIt(), getIt(), getIt(), getIt(), getIt(), getIt())),
