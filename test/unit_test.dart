@@ -19,7 +19,7 @@ void main() async {
   await _appDataBaseServices.db;
 
   // Seed your data
-  await _appDataBaseServices.adhkaiDao.seedEsnads();
+  // await _appDataBaseServices.adhkaiDao.seedEsnads();
 
   // Fetch the data
   var value = await _appDataBaseServices.esnadDao.getAllEsnadsWithDekars();

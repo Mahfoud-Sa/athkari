@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:athkari/app/features/daily_wered/data/modules/dhkar_model.dart';
 import 'package:athkari/app/features/esnaad/data/modules/esnad_model.dart';
+import 'package:flutter/services.dart';
 import 'package:sqflite_common/sqlite_api.dart';
 import 'package:flutter_lorem/flutter_lorem.dart';
 
@@ -93,24 +96,16 @@ class EsnadDao {
   // }
 
   Future<void> seedEsnads() async {
-    List<String> esnadsList = [
-      "*«بِسْمِ اللَّهِ الَّذِي لا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ ثَلاثَ مَرَّاتٍ، ثلاثًا » من قالها لَمْ يَضُرَّهُ شَيْءٌ. رواه أبو داود (5088). وهو في الصحيح المسند للإمام الوادعي رحمه الله.",
-      "اللَّهُمَّ أَنْتَ رَبِّي لا إِلَهَ إِلا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ لَكَ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لا يَغْفِرُ الذُّنُوبَ إِلا أَنْتَ » قَالَ ﷺ : مَنْ قَالَهَا مِنْ النَّهَارِ مُوقِنًا بِهَا فَمَاتَ مِنْ يَوْمِهِ قَبْلَ أَنْ يُمْسِيَ فَهُوَ مِنْ أَهْلِ الْجَنَّةِ وَمَنْ قَالَهَا مِنْ اللَّيْلِ وَهُوَ مُوقِنٌ بِهَا فَمَاتَ قَبْلَ أَنْ يُصْبِحَ فَهُوَ مِنْ أَهْلِ الْجَنَّةِ» أخرجه البخاري عن شداد بن أوس (6306)."
-    ];
+    String jsonString = await rootBundle.loadString('assets/jsons/esnads.json');
+    var esnadsList = jsonDecode(jsonString);
+
     for (int i = 0; i < esnadsList.length; i++) {
       // var EsnadText = lorem(paragraphs: 1, words: 20);
       await database.insert(
         'Esnads', // Table name
-        {'name': esnadsList[i]}, // Data to insert
+        {'name': esnadsList[i]['name']}, // Data to insert
         conflictAlgorithm: ConflictAlgorithm.replace, // Handle conflicts
       );
     }
-    // await database.insert(
-    //   'Categories', // Table name
-    //   {'name': lorem(words: 1)}, // Data to insert
-    //   conflictAlgorithm: ConflictAlgorithm.replace, // Handle conflicts
-    // );
-    var temp = await getAllEsnads();
-    print(temp);
   }
 }

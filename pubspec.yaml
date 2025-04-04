@@ -68,6 +68,7 @@ flutter:
   assets:
     - assets/images/
     - assets/svgs/
+    - assets/jsons/
 
   fonts:
     - family: IBMPlexSansArabic

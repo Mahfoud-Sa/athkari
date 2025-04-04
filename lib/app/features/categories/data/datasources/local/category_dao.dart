@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:athkari/app/features/categories/data/modules/category_models.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/daily_wered/data/modules/dhkar_model.dart';
+import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter_lorem/flutter_lorem.dart';
 
@@ -127,20 +130,19 @@ class CategoryDao {
   }
 
   Future<void> seedCategory() async {
-    for (int i = 0; i < 50; i++) {
-      var categoryName = lorem(words: 1);
+    String jsonString =
+        await rootBundle.loadString('assets/jsons/categories.json');
+    var categoryList = jsonDecode(jsonString);
+
+    for (int i = 0; i < categoryList.length; i++) {
       await database.insert(
         'Categories', // Table name
-        {'name': categoryName}, // Data to insert
+        {'name': categoryList[i]['name']}, // Data to insert
         conflictAlgorithm: ConflictAlgorithm.replace, // Handle conflicts
       );
     }
-    // await database.insert(
-    //   'Categories', // Table name
-    //   {'name': lorem(words: 1)}, // Data to insert
-    //   conflictAlgorithm: ConflictAlgorithm.replace, // Handle conflicts
-    // );
-    var temp = await getCategories();
+
+    // var temp = await getCategories();
     //  print(temp);
   }
 }
