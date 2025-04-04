@@ -1,8 +1,10 @@
 import 'dart:ui';
 
+import 'package:athkari/app/core/app_database.dart';
 import 'package:athkari/app/features/home/presentation/widgets/DrawerTitleWidet.dart';
 import 'package:athkari/app/features/home/presentation/widgets/ForwardedTitleWidget.dart';
 import 'package:athkari/app/features/home/presentation/widgets/MyExpansionRadioTile.dart';
+import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -118,6 +120,38 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               title: 'ضبط الاشعارات',
               onPressed: () {
                 buildShowModalBottomSheet(context);
+              },
+            ),
+            ForwardedTitleWidget(
+              title: 'إعاده ضبط الاذكار',
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    actionsAlignment: MainAxisAlignment.end,
+                    alignment: Alignment.centerRight,
+                    title: Text("إعاده ضبط الاذكار"),
+                    content: Text(
+                        "سيتم اعاده ضبط الاذكار في التطبيق الى الاعدادات الافتراضية"),
+                    actions: [
+                      TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Text("الغاء")),
+                      TextButton(
+                          onPressed: () async {
+                            var _AppDataBaseServices =
+                                await getIt.get<AppDataBaseServices>();
+                            //_AppDataBaseServices.db.
+                            _AppDataBaseServices.categoryDao.seedCategory();
+                            _AppDataBaseServices.esnadDao.seedEsnads();
+                            await _AppDataBaseServices.adhkaiDao.seedAdhkars();
+                          },
+                          child: Text("موافق")),
+                    ],
+                  ),
+                );
               },
             ),
             DrawerTitleWidet(
