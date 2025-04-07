@@ -36,13 +36,13 @@ Future<void> initializationContainer() async {
   showOnBordingPages = localStorage.getBool('showOnBordingPages') ?? true;
 
 //Database
-  final _appDataBaseServices = await AppDataBaseServices();
-  await _appDataBaseServices.db;
-  getIt.registerSingleton<AppDataBaseServices>(_appDataBaseServices);
-  var _AppDataBaseServices = await getIt.get<AppDataBaseServices>();
-  _AppDataBaseServices.categoryDao.seedCategory();
-  _AppDataBaseServices.esnadDao.seedEsnads();
-  await _AppDataBaseServices.adhkaiDao.seedAdhkars();
+  final appDataBaseServices = await AppDataBaseServices();
+  await appDataBaseServices.db;
+  getIt.registerSingleton<AppDataBaseServices>(appDataBaseServices);
+  // var _AppDataBaseServices = await getIt.get<AppDataBaseServices>();
+  // _AppDataBaseServices.categoryDao.seedCategory();
+  // _AppDataBaseServices.esnadDao.seedEsnads();
+  // await _AppDataBaseServices.adhkaiDao.seedAdhkars();
   //await _AppDataBaseServices.dailyWeredDao.seedDailyWered();
   // State Managment
   getIt.registerFactory<DailyWereCubit>(

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:athkari/app/core/app_database.dart';
@@ -135,18 +136,44 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                         "سيتم اعاده ضبط الاذكار في التطبيق الى الاعدادات الافتراضية"),
                     actions: [
                       TextButton(
-                          onPressed: () {
+                          onPressed: () async {
+                            final _AppDataBaseServices =
+                                getIt.get<AppDataBaseServices>();
+
+                            // 1. First reset the database
+                            // await _AppDataBaseServices.resetDatabase();
+
+                            // 2. Then seed the categories
+                            await _AppDataBaseServices.esnadDao.seedEsnads();
                             Navigator.pop(context);
                           },
                           child: Text("الغاء")),
                       TextButton(
                           onPressed: () async {
-                            var _AppDataBaseServices =
-                                await getIt.get<AppDataBaseServices>();
-                            //_AppDataBaseServices.db.
-                            _AppDataBaseServices.categoryDao.seedCategory();
-                            _AppDataBaseServices.esnadDao.seedEsnads();
-                            await _AppDataBaseServices.adhkaiDao.seedAdhkars();
+                            try {
+                              final _AppDataBaseServices =
+                                  getIt.get<AppDataBaseServices>();
+
+                              // 1. First reset the database
+                              await _AppDataBaseServices.resetDatabase();
+                              await _AppDataBaseServices.db;
+                              // 2. Then seed the categories
+                              await _AppDataBaseServices.esnadDao.seedEsnads();
+                              Navigator.pop(context);
+
+                              // Optional: Show success message
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text(
+                                        'Database reset and seeded successfully')),
+                              );
+                            } catch (e) {
+                              // Handle errors
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text('Error: ${e.toString()}')),
+                              );
+                            }
                           },
                           child: Text("موافق")),
                     ],

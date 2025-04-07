@@ -98,7 +98,7 @@ class EsnadDao {
   Future<void> seedEsnads() async {
     String jsonString = await rootBundle.loadString('assets/jsons/esnads.json');
     var esnadsList = jsonDecode(jsonString);
-
+    print(database.isOpen);
     for (int i = 0; i < esnadsList.length; i++) {
       // var EsnadText = lorem(paragraphs: 1, words: 20);
       await database.insert(
@@ -107,5 +107,7 @@ class EsnadDao {
         conflictAlgorithm: ConflictAlgorithm.replace, // Handle conflicts
       );
     }
+    var temp = await getAllEsnads();
+    print(temp);
   }
 }

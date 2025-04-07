@@ -142,7 +142,7 @@ class CategoryDao {
       );
     }
 
-    // var temp = await getCategories();
-    //  print(temp);
+    var temp = await getCategories();
+    print(temp);
   }
 }

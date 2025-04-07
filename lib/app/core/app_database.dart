@@ -75,16 +75,33 @@ class AppDataBaseServices {
     );
   }
 
-  // Future<Database> _initializeDb() async {
-  //   String databasePath = await getDatabasesPath();
-  //   String path = join(databasePath, 'database.db');
-  //   return await openDatabase(
-  //     path,
-  //     version: 1,
-  //     onCreate: _onCreate,
-  //     onUpgrade: _onUpgrade,
-  //   );
-  // }
+  Future<void> resetDatabase() async {
+    String path;
+
+    if (Platform.environment.containsKey('FLUTTER_TEST')) {
+      // Use an in-memory database for tests
+      path = ':memory:';
+    } else {
+      // Use the real database path
+      String databasePath = await getDatabasesPath();
+      path = join(databasePath, 'database.db');
+    }
+    print(_database!.isOpen);
+    if (_database != null) deleteDatabase(path);
+    print("delete database successfully");
+    print(_database!.isOpen);
+
+    openDatabase(
+      path,
+      version: 1,
+      onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
+    );
+    print(_database!.isOpen);
+
+    //_instance._initializeDb();
+    //print("database successfully");
+  }
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     // Handle database upgrades if needed
@@ -130,108 +147,3 @@ class AppDataBaseServices {
     print("Tables created successfully.");
   }
 }
-
-/*
-  Future<List<NoteModel>> getAll(Database? mydb) async {
-    var response = await mydb!.query("Notes");
-    //print(response);
-    List<NoteModel> notes =
-        response.map((json) => NoteModel.fromJson(json)).toList();
-    //print(notes);
-
-    return notes;
-  }
-
-  
-
-  deleteData(Database? mydb, int id) async {
-    await mydb!.delete("Notes", where: "id=?", whereArgs: [id]);
-  }
-
-  get(Database? mydb, String search) async {
-    var response = await mydb!.query('Notes',
-        // columns: ["id", "title", "content", "date"],
-        where: "title LIKE ? or content LIKE ?",
-        whereArgs: ["%$search%", "%$search%"]);
-    List<NoteModel> notes =
-        response.map((json) => NoteModel.fromJson(json)).toList();
-    return notes;
-  }
-
-  update(Database? mydb, NoteEntity note, int id) async {
-    //Database? mydb = await db;
-    await mydb!.update(
-        'Notes',
-        {
-          'title': note.title,
-          'content': note.content,
-          'date': DateTime.now().toIso8601String()
-        },
-        where: "id=?",
-        whereArgs: [id]);
-    // return response;
-  }
-
-
-  get(String userName, String password) async {
-    Database? mydb = await db;
-
-    List<Map> response = await mydb!.query('students',
-        columns: [
-          "id",
-          "fullName",
-          "lastName",
-          "country",
-          "city",
-          "neighborhood",
-          "borthDay",
-          "gender",
-          "userName",
-          "password"
-        ],
-        where: "userName=? and password=?",
-        whereArgs: [userName, password]);
-    return response;
-  }
-
-  getById(int id) async {
-    Database? mydb = await db;
-
-    List<Map> response = await mydb!.query('students',
-        columns: [
-          "id",
-          "fullName",
-          "lastName",
-          "country",
-          "city",
-          "neighborhood",
-          "borthDay",
-          "gender",
-          "userName",
-          "password"
-        ],
-        where: "id=? ",
-        whereArgs: [id]);
-    return response;
-  }
-
-  create(User user) async {
-    Database? mydb = await db;
-    int response = await mydb!.insert('students', user.toJson());
-    return response;
-  }
-
-  
-
-  
-
-  deleteData(int id) async {
-    Database? mydb = await db;
-    int response =
-        await mydb!.delete("students", where: "id=?", whereArgs: [id]);
-
-    return response;
-  }
-
-}
-*/
