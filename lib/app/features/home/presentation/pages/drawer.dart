@@ -144,22 +144,23 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                    //okey button
                       TextButton(
                           onPressed: () async {
+                            
                             try {
-                              final _AppDataBaseServices =
+                              final appDataBaseServices =
                                   getIt.get<AppDataBaseServices>();
 
-                              // 1. First reset the database
-                              // await _AppDataBaseServices.resetDatabase();
-                              // await _AppDataBaseServices.db;
-                              // 2. Then seed the categories
-                              await _AppDataBaseServices.esnadDao.seedEsnads();
+                              
+                              await appDataBaseServices.esnadDao.seedEsnads();
+                              await appDataBaseServices.categoryDao.seedCategory();
+                              await appDataBaseServices.adhkaiDao.seedAdhkars();
+
                               Navigator.pop(context);
 
                               // Optional: Show success message
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                     content: Text(
-                                        'Database reset and seeded successfully')),
+                                        'تم اعاده ضبط الاذكار')),
                               );
                             } catch (e) {
                               // Handle errors

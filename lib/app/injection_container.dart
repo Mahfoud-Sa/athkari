@@ -40,7 +40,7 @@ Future<void> initializationContainer() async {
 
 //Database
    databaseFactory = databaseFactoryFfi;
-  final appDataBaseServices = await AppDataBaseServices();
+  final appDataBaseServices =  AppDataBaseServices();
   await appDataBaseServices.db;
   getIt.registerSingleton<AppDataBaseServices>(appDataBaseServices);
   // var _AppDataBaseServices = await getIt.get<AppDataBaseServices>();

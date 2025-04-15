@@ -96,7 +96,18 @@ class EsnadDao {
   // }
 
   Future<void> seedEsnads() async {
-   //s database.op
+    database.execute('DROP TABLE IF EXISTS Esnads');
+    database.execute('''
+      CREATE TABLE Esnads (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT 
+      )
+    ''');
+    // database.delete("Esnads");
+    // database.rawUpdate(
+    //   'DELETE FROM sqlite_sequence WHERE name = ?',
+    //   ["Esnads"],
+    // );
     String jsonString = await rootBundle.loadString('assets/jsons/esnads.json');
     var esnadsList = jsonDecode(jsonString);
     print(database.isOpen);
@@ -108,7 +119,7 @@ class EsnadDao {
         conflictAlgorithm: ConflictAlgorithm.replace, // Handle conflicts
       );
     }
-    var temp = await getAllEsnads();
-    print(temp);
+    // var temp = await getAllEsnads();
+    // print(temp);
   }
 }

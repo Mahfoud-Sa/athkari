@@ -62,12 +62,30 @@ class DhkarDao {
   }
 
   Future<void> seedAdhkars() async {
+    database.execute('DROP TABLE IF EXISTS Adhkars');
+    database.execute('''
+      CREATE TABLE Adhkars (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        dhaker TEXT ,
+        repetitions INTEGER,
+        category_id,
+        esnads_id,
+        FOREIGN KEY (category_id) REFERENCES Categories(id) ON DELETE CASCADE,
+        FOREIGN KEY (esnads_id) REFERENCES Esnads(id) ON DELETE CASCADE
+
+      )
+    ''');
+    // database.delete('Adhkars');
+    // database.rawUpdate(
+    //   'DELETE FROM sqlite_sequence WHERE name = ?',
+    //   ["Adhkars"],
+    // );
     String jsonString =
         await rootBundle.loadString('assets/jsons/adhkars.json');
     var adhkarsList = jsonDecode(jsonString);
 
     for (int i = 0; i < adhkarsList.length; i++) {
-      await database.insert(
+      var temp=await database.insert(
         'Adhkars', // Table name
         {
           'dhaker': adhkarsList[i]['dhaker'],
@@ -77,6 +95,7 @@ class DhkarDao {
         }, // Data to insert
         conflictAlgorithm: ConflictAlgorithm.replace, // Handle conflicts
       );
+      print(temp);
     }
   }
 }

@@ -130,6 +130,16 @@ class CategoryDao {
   }
 
   Future<void> seedCategory() async {
+    database.execute('DROP TABLE IF EXISTS Categories');
+    database.execute('''
+      CREATE TABLE Categories (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT 
+      )
+    ''');
+//     database.delete('categories');
+// var temp_= database.execute('DELETE FROM sqlite_sequence WHERE name="categories"');
+//     print(temp_);
     String jsonString =
         await rootBundle.loadString('assets/jsons/categories.json');
     var categoryList = jsonDecode(jsonString);
