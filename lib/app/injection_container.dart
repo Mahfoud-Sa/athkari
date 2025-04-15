@@ -43,12 +43,10 @@ Future<void> initializationContainer() async {
   final appDataBaseServices =  AppDataBaseServices();
   await appDataBaseServices.db;
   getIt.registerSingleton<AppDataBaseServices>(appDataBaseServices);
-  // var _AppDataBaseServices = await getIt.get<AppDataBaseServices>();
-  // _AppDataBaseServices.categoryDao.seedCategory();
-  // _AppDataBaseServices.esnadDao.seedEsnads();
-  // await _AppDataBaseServices.adhkaiDao.seedAdhkars();
-  //await _AppDataBaseServices.dailyWeredDao.seedDailyWered();
+  
   // State Managment
+  getIt.registerFactory<HomepageCubit>(
+      () => HomepageCubit(getIt()));
   getIt.registerFactory<DailyWereCubit>(
       () => DailyWereCubit(getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<CategoryCubit>(() => CategoryCubit(

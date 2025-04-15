@@ -1,19 +1,12 @@
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
-import 'package:athkari/app/features/categories/domain/usecase/add_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/get_catogories_usecase.dart';
-import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
-import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
-import 'package:athkari/app/features/esnaad/domain/usecase/add_esnade_usecase.dart';
-import 'package:athkari/app/features/esnaad/domain/usecase/delete_esnad_usecase.dart';
-import 'package:athkari/app/features/esnaad/domain/usecase/get_all_esnad_usecase.dart';
-import 'package:athkari/app/features/esnaad/domain/usecase/update_esnade_usecase.dart';
-import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit_state.dart';
+import 'package:athkari/app/features/home/domain/usecase/reset_database_usecase.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit_states.dart';
 import 'package:bloc/bloc.dart';
 
 class HomepageCubit extends Cubit<HomePageCubitStates> {
   final GetCatogoriesUseCase _getCatogoriesUseCase;
-
+  //final ResetDatabaseUsecase _resetDatabaseUsecase;
   List<CategoryEntity> categoriesList = [];
 
   HomepageCubit(this._getCatogoriesUseCase) : super(InitialHomePageState()) {
