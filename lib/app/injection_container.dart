@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:athkari/app/features/categories/data/repository/category_repository_imp.dart';
 import 'package:athkari/app/features/categories/domain/usecase/add_category_with_esnade_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/add_catogories_usecase.dart';
@@ -24,6 +26,7 @@ import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 String applicationLanguage = 'en';
 
@@ -36,6 +39,9 @@ Future<void> initializationContainer() async {
   showOnBordingPages = localStorage.getBool('showOnBordingPages') ?? true;
 
 //Database
+
+
+   databaseFactory = databaseFactoryFfi;
   final appDataBaseServices = await AppDataBaseServices();
   await appDataBaseServices.db;
   getIt.registerSingleton<AppDataBaseServices>(appDataBaseServices);

@@ -91,8 +91,8 @@ class CategoryDao {
         })
         .values
         .toList();
-    var temp_ = (temp[0]);
-    print(temp[0]);
+    // var temp_ = (temp[0]);
+    // print(temp[0]);
     return temp;
   }
 

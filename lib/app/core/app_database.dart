@@ -5,7 +5,7 @@ import 'package:athkari/app/features/daily_wered/data/datasources/local/dhkar_da
 import 'package:athkari/app/features/esnaad/data/datasources/esnad_dto.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 class AppDataBaseServices {
   static final AppDataBaseServices _instance = AppDataBaseServices._internal();
   Database? _database;
@@ -56,6 +56,11 @@ class AppDataBaseServices {
   }
 
   Future<Database> _initializeDb() async {
+    if(Platform.isWindows || Platform.isLinux){
+  sqfliteFfiInit();
+  
+   databaseFactory = databaseFactoryFfi;
+}
     String path;
 
     if (Platform.environment.containsKey('FLUTTER_TEST')) {
