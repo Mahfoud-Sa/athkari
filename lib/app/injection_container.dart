@@ -39,8 +39,6 @@ Future<void> initializationContainer() async {
   showOnBordingPages = localStorage.getBool('showOnBordingPages') ?? true;
 
 //Database
-
-
    databaseFactory = databaseFactoryFfi;
   final appDataBaseServices = await AppDataBaseServices();
   await appDataBaseServices.db;

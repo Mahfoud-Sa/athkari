@@ -96,6 +96,7 @@ class EsnadDao {
   // }
 
   Future<void> seedEsnads() async {
+   //s database.op
     String jsonString = await rootBundle.loadString('assets/jsons/esnads.json');
     var esnadsList = jsonDecode(jsonString);
     print(database.isOpen);

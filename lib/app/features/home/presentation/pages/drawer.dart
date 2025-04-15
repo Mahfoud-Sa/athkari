@@ -137,17 +137,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     actions: [
                       TextButton(
                           onPressed: () async {
-                            final _AppDataBaseServices =
-                                getIt.get<AppDataBaseServices>();
-
-                            // 1. First reset the database
-                            // await _AppDataBaseServices.resetDatabase();
-
-                            // 2. Then seed the categories
-                            await _AppDataBaseServices.esnadDao.seedEsnads();
+                            
                             Navigator.pop(context);
                           },
                           child: Text("الغاء")),
+                   //okey button
                       TextButton(
                           onPressed: () async {
                             try {
@@ -155,8 +149,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                                   getIt.get<AppDataBaseServices>();
 
                               // 1. First reset the database
-                              await _AppDataBaseServices.resetDatabase();
-                              await _AppDataBaseServices.db;
+                              // await _AppDataBaseServices.resetDatabase();
+                              // await _AppDataBaseServices.db;
                               // 2. Then seed the categories
                               await _AppDataBaseServices.esnadDao.seedEsnads();
                               Navigator.pop(context);
@@ -349,7 +343,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 width: 300,
                 height: 50,
                 child: const Center(
-                  child: Text(
+                  child:  Text(
                     'الغاء',
                     style: TextStyle(
                         color: Color.fromARGB(255, 128, 188, 189),
