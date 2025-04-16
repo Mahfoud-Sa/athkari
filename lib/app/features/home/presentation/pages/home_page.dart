@@ -6,6 +6,7 @@ import 'package:athkari/app/features/esnaad/presentation/pages/esnad_index_page.
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit_states.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
+import 'package:athkari/app/features/home/presentation/widgets/dekaar_container_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -21,105 +22,121 @@ class HomePage extends StatelessWidget {
     return Scaffold(
         appBar: _buildAppBar(context),
         drawer: DrawerWidget(),
-        body: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: [
-                _buildDailyDkeer(context),
-                const SizedBox(
-                  height: 20,
-                ),
-                // section of show all
-                SizedBox(
-                  width: MediaQuery.of(context).size.width - 60,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => CategoryIndexPage(),
-                              ));
-                        },
-                        child: Text(
-                          'عرض الكل',
-                          style:
-                              Theme.of(context).textTheme.titleLarge!.copyWith(
-                                    color: Colors.black,
-                                    fontSize: 14,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                        ),
-                      ),
-                      Text(
-                        'أقسام الأذكار',
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              color: Colors.black,
-                              fontSize: 14,
+        body: 
+             SingleChildScrollView(
+              child: Center(
+                child: Column(
+                  children: [
+                    _buildDailyDkeer(context),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    // section of show all
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 60,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => CategoryIndexPage(),
+                                  ));
+                            },
+                            child: Text(
+                              'عرض الكل',
+                              style:
+                                  Theme.of(context).textTheme.titleLarge!.copyWith(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        decoration: TextDecoration.underline,
+                                      ),
                             ),
+                          ),
+                          Text(
+                            'أقسام الأذكار',
+                            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+            
+                    BlocBuilder<HomepageCubit, HomePageCubitStates>(
+                      builder: (context, state) {
+                        if (state is LoadingHomePageState) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (state is DoneHomePageState) {
+                          return _buildDekarSection(state);
+                        } else if (state is EmptyHomePageState) {
+                          return Center(
+                            child: Text(state.message),
+                          );
+                        }
+                        return Container();
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width - 60,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: FaIcon(FontAwesomeIcons.share),
+                          ),
+                          Text(
+                            'ذكر اليوم',
+                            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    BlocBuilder<HomepageCubit, HomePageCubitStates>(
+                      buildWhen: (previous, current) => current is doneDekkharState,
+                      builder: (context,state) {
+                        if(state is doneDekkharState){
+                          return _buildTodayDekarSection(context,state);
 
-                BlocBuilder<HomepageCubit, HomePageCubitStates>(
-                  builder: (context, state) {
-                    if (state is LoadingHomePageState) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (state is DoneHomePageState) {
-                      return _buildDekarSection(state);
-                    } else if (state is EmptyHomePageState) {
-                      return Center(
-                        child: Text(state.message),
-                      );
-                    }
-                    return Container();
-                  },
+                        }else{
+                          return CircularProgressIndicator();
+                        }
+                        
+                      }
+                     
+                      )
+                    ,
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    _buildEsnadatSection(context),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                  ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width - 60,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: FaIcon(FontAwesomeIcons.share),
-                      ),
-                      Text(
-                        'ذكر اليوم',
-                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              color: Colors.black,
-                              fontSize: 14,
-                            ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                _buildTodayDekarSection(context),
-                const SizedBox(
-                  height: 20,
-                ),
-                _buildEsnadatSection(context),
-                const SizedBox(
-                  height: 20,
-                ),
-              ],
-            ),
-          ),
-        ));
+              ),
+            )
+          
+        );
   }
 
   Container _buildEsnadatSection(BuildContext context) {
@@ -171,7 +188,7 @@ class HomePage extends StatelessWidget {
         ));
   }
 
-  Container _buildTodayDekarSection(BuildContext context) {
+  Container _buildTodayDekarSection(BuildContext context,doneDekkharState state) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 25),
@@ -186,7 +203,7 @@ class HomePage extends StatelessWidget {
       child: Center(
         child: Text(
             textAlign: TextAlign.center,
-            'بسم الله الذي لا يضر مع اسمه شيء في الارض ولا في السماء وهو السميع العليم',
+            state.message,
             style: Theme.of(context)
                 .textTheme
                 .titleMedium!
@@ -338,32 +355,6 @@ class HomePage extends StatelessWidget {
               ),
             ],
           )),
-    );
-  }
-}
-
-class DekaarContainerWidget extends StatelessWidget {
-  const DekaarContainerWidget({super.key, required this.text});
-  final String text;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(25)),
-          border: GradientBoxBorder(
-              width: 1,
-              gradient: LinearGradient(colors: [
-                Color.fromARGB(255, 90, 202, 165),
-                Color.fromARGB(255, 178, 231, 93),
-              ]))),
-      child: Center(
-        child: Text(text,
-            style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                  color: const Color.fromARGB(255, 157, 199, 168),
-                )),
-      ),
     );
   }
 }

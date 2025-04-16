@@ -20,7 +20,7 @@ class EsnaadsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(context, "الإسنادات"),
-      drawer: DrawerWidget(),
+    //  drawer: DrawerWidget(),
       floatingActionButton: FloatingActionButton.small(
           child: Icon(Icons.add),
           onPressed: () {

@@ -23,6 +23,8 @@ import 'package:athkari/app/features/esnaad/domain/usecase/delete_esnad_usecase.
 import 'package:athkari/app/features/esnaad/domain/usecase/get_all_esnad_usecase.dart';
 import 'package:athkari/app/features/esnaad/domain/usecase/update_esnade_usecase.dart';
 import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
+import 'package:athkari/app/features/home/data/repository/home_repository_imp.dart';
+import 'package:athkari/app/features/home/domain/repository/home_repository.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,7 +55,6 @@ Future<void> initializationContainer() async {
       getIt(), getIt(), getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<EsnadsCubit>(
       () => EsnadsCubit(getIt(), getIt(), getIt(), getIt()));
-  getIt.registerFactory<HomepageCubit>(() => HomepageCubit(getIt()));
 
   // repositories
   getIt.registerSingleton<DhkarRepositoryImpl>(DhkarRepositoryImpl(getIt()));
@@ -62,6 +63,8 @@ Future<void> initializationContainer() async {
   getIt.registerSingleton<EsnadRepositoryImp>(EsnadRepositoryImp(getIt()));
   getIt.registerSingleton<DailyWeredRepositoryImpl>(
       DailyWeredRepositoryImpl(getIt()));
+      getIt.registerSingleton<HomeRepositoryImp>(
+      HomeRepositoryImp());
 
   // use cases
   //daily use case

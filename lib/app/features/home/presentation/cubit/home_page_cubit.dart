@@ -12,6 +12,7 @@ class HomepageCubit extends Cubit<HomePageCubitStates> {
   HomepageCubit(this._getCatogoriesUseCase) : super(InitialHomePageState()) {
     emit(LoadingHomePageState());
     fetchData();
+    getTodayDekhar();
   }
 
   void fetchData() async {
@@ -24,12 +25,10 @@ class HomepageCubit extends Cubit<HomePageCubitStates> {
       emit(DoneHomePageState(categoriesList));
     }
   }
-
-  // void addEsnad(String name) async {
-  //   await _addEsnadeUsecase(params: EsnadEntity(name: name));
-  //   emit(NotifeyEsnadState("تم"));
-  //   fetchData();
-  // }
+  
+  getTodayDekhar(){
+    emit(doneDekkharState("بسم الله الذي لا يضر مع اسمه شيء في الارض ولا في السماء وهو السميع العليم"));
+  }
 
   // void deleteEsnad(int esnadId) async {
   //   await _deleteEsnadeUsecase(params: esnadId);
