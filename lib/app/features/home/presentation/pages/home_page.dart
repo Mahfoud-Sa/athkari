@@ -5,6 +5,8 @@ import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_
 import 'package:athkari/app/features/esnaad/presentation/pages/esnad_index_page.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit_states.dart';
+import 'package:athkari/app/features/home/presentation/cubit/today_dekhar_cubit.dart';
+import 'package:athkari/app/features/home/presentation/cubit/today_dekhar_cubit_states.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
 import 'package:athkari/app/features/home/presentation/widgets/dekaar_container_widget.dart';
 import 'package:flutter/material.dart';
@@ -110,8 +112,8 @@ class HomePage extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    BlocBuilder<HomepageCubit, HomePageCubitStates>(
-                      buildWhen: (previous, current) => current is doneDekkharState,
+                    BlocBuilder<TodayDekharCubit, TodayDekharCubitStates>(
+                     
                       builder: (context,state) {
                         if(state is doneDekkharState){
                           return _buildTodayDekarSection(context,state);

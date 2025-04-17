@@ -1,6 +1,5 @@
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/domain/usecase/get_catogories_usecase.dart';
-import 'package:athkari/app/features/home/domain/usecase/reset_database_usecase.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit_states.dart';
 import 'package:bloc/bloc.dart';
 
@@ -12,7 +11,7 @@ class HomepageCubit extends Cubit<HomePageCubitStates> {
   HomepageCubit(this._getCatogoriesUseCase) : super(InitialHomePageState()) {
     emit(LoadingHomePageState());
     fetchData();
-    getTodayDekhar();
+   
   }
 
   void fetchData() async {
@@ -26,9 +25,7 @@ class HomepageCubit extends Cubit<HomePageCubitStates> {
     }
   }
   
-  getTodayDekhar(){
-    emit(doneDekkharState("بسم الله الذي لا يضر مع اسمه شيء في الارض ولا في السماء وهو السميع العليم"));
-  }
+ 
 
   // void deleteEsnad(int esnadId) async {
   //   await _deleteEsnadeUsecase(params: esnadId);

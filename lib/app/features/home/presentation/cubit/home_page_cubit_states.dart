@@ -45,11 +45,4 @@ class NotifeyHomePageState extends HomePageCubitStates {
   List<Object?> get props => [message]; // For state comparison
 }
 
-class doneDekkharState extends HomePageCubitStates {
-  final String message;
-  doneDekkharState(this.message);
 
-  @override
-  // TODO: implement props
-  List<Object?> get props => [message]; // For state comparison
-}

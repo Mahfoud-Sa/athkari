@@ -4,6 +4,7 @@ import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubi
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit.dart';
+import 'package:athkari/app/features/home/presentation/cubit/today_dekhar_cubit.dart';
 import 'package:athkari/app/injection_container.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
@@ -21,6 +22,9 @@ Future<void> main() async {
     enabled: !kReleaseMode,
     builder: (context) => MultiBlocProvider(
       providers: [
+        BlocProvider(
+            create: (_) =>
+                TodayDekharCubit()),
         BlocProvider(
             create: (_) =>
                 DailyWereCubit(getIt(), getIt(), getIt(), getIt(), getIt())),

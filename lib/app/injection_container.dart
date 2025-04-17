@@ -26,6 +26,7 @@ import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart
 import 'package:athkari/app/features/home/data/repository/home_repository_imp.dart';
 import 'package:athkari/app/features/home/domain/repository/home_repository.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit.dart';
+import 'package:athkari/app/features/home/presentation/cubit/today_dekhar_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -49,6 +50,8 @@ Future<void> initializationContainer() async {
   // State Managment
   getIt.registerFactory<HomepageCubit>(
       () => HomepageCubit(getIt()));
+      getIt.registerFactory<TodayDekharCubit>(
+      () => TodayDekharCubit());
   getIt.registerFactory<DailyWereCubit>(
       () => DailyWereCubit(getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<CategoryCubit>(() => CategoryCubit(
