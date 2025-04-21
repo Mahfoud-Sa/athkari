@@ -25,6 +25,7 @@ import 'package:athkari/app/features/esnaad/domain/usecase/update_esnade_usecase
 import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
 import 'package:athkari/app/features/home/data/repository/home_repository_imp.dart';
 import 'package:athkari/app/features/home/domain/repository/home_repository.dart';
+import 'package:athkari/app/features/home/presentation/cubit/daily_wered_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/today_dekhar_cubit.dart';
 import 'package:get_it/get_it.dart';
@@ -58,7 +59,8 @@ Future<void> initializationContainer() async {
       getIt(), getIt(), getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<EsnadsCubit>(
       () => EsnadsCubit(getIt(), getIt(), getIt(), getIt()));
-
+ getIt.registerFactory<DailyWeredCubit_>(
+      () => DailyWeredCubit_());
   // repositories
   getIt.registerSingleton<DhkarRepositoryImpl>(DhkarRepositoryImpl(getIt()));
   getIt

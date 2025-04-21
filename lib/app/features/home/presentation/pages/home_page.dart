@@ -1,8 +1,12 @@
 import 'package:athkari/app/features/categories/data/modules/category_models.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/presentation/pages/category_index_page.dart';
+import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
+import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_state.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_Index_page.dart';
 import 'package:athkari/app/features/esnaad/presentation/pages/esnad_index_page.dart';
+import 'package:athkari/app/features/home/presentation/cubit/daily_wered_cubit.dart';
+import 'package:athkari/app/features/home/presentation/cubit/daily_wered_cubit_status.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit_states.dart';
 import 'package:athkari/app/features/home/presentation/cubit/today_dekhar_cubit.dart';
@@ -29,7 +33,23 @@ class HomePage extends StatelessWidget {
               child: Center(
                 child: Column(
                   children: [
-                    _buildDailyDkeer(context),
+                     BlocBuilder<DailyWeredCubit_, DailyWeredCubitStatus_>(
+                      builder: (context, state) {
+                        if (state is LoadingDailyWeredState) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (state is DoneDailyWeredState_) {
+                          return _buildDailyDkeer(context,state);
+                        } else if (state is EmptyDailyWeredState_) {
+                          return Center(
+                            child: Text("Nothing ..."),
+                          );
+                        }
+                        return Container();
+                      },
+                    ),
+                  //  _buildDailyDkeer(context),
                     const SizedBox(
                       height: 20,
                     ),
@@ -229,7 +249,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Container _buildDailyDkeer(BuildContext context) {
+  Container _buildDailyDkeer(BuildContext context,DoneDailyWeredState_ state) {
     return Container(
       margin: const EdgeInsets.only(top: 20),
       width: MediaQuery.of(context).size.width - 60,
@@ -278,7 +298,7 @@ class HomePage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(50)),
             child: Center(
                 child: Text(
-              "30%",
+              "${state.daily_wered_presentage}%",
               style: Theme.of(context)
                   .textTheme
                   .titleLarge!
@@ -314,7 +334,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "تم اكمال 35 من 50 ذكر",
+                  "تم اكمال ${state.compeleted_wered} من ${state.total_wered} ذكر",
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         fontSize: 12,
                       ),

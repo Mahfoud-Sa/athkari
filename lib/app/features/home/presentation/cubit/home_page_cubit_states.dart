@@ -42,7 +42,8 @@ class NotifeyHomePageState extends HomePageCubitStates {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [message]; // For state comparison
+  List<Object?> get props => [message];// For state comparison
 }
 
 
+ 
