@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
                   children: [
                      BlocBuilder<DailyWeredCubit_, DailyWeredCubitStatus_>(
                       builder: (context, state) {
-                        if (state is LoadingDailyWeredState) {
+                        if (state is LoadingDailyWeredState_) {
                           return Center(
                             child: CircularProgressIndicator(),
                           );

@@ -8,9 +8,10 @@ class InitDailyWeredState_ extends DailyWeredCubitStatus_ {
   List<Object?> get props => throw UnimplementedError();
 }
 class DoneDailyWeredState_ extends DailyWeredCubitStatus_ {
-  int daily_wered_presentage;
-  int total_wered;
-  int compeleted_wered;
+ final int daily_wered_presentage;
+ final int total_wered;
+ final int compeleted_wered;
+
   DoneDailyWeredState_(this.daily_wered_presentage,this.compeleted_wered,this.total_wered);
   @override
   // TODO: implement props

@@ -53,7 +53,18 @@ class DailyWeredDao {
     print(dekars);
     return dekars.map((dekar) => DailyWeredModel.fromDataBase(dekar)).toList();
   }
-
+ Future<int> getTotalDailyWered() async {
+    var dekars = await database
+        .query('DailyWered');
+    print(dekars);
+    return dekars.map((dekar) => DailyWeredModel.fromDataBase(dekar)).toList().length;
+  }
+  Future<int> getCompeletedDailyWered() async {
+    var dekars = await database
+        .query('DailyWered', where: "is_compeleted = ?", whereArgs: ["true"]);
+    print(dekars);
+    return dekars.map((dekar) => DailyWeredModel.fromDataBase(dekar)).toList().length;
+  }
   Future<int> getTotal() async {
     var result = await database.query('Adhkars');
 

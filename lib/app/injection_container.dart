@@ -25,6 +25,7 @@ import 'package:athkari/app/features/esnaad/domain/usecase/update_esnade_usecase
 import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
 import 'package:athkari/app/features/home/data/repository/home_repository_imp.dart';
 import 'package:athkari/app/features/home/domain/repository/home_repository.dart';
+import 'package:athkari/app/features/home/domain/usecase/fetch_daily_wered_usecase.dart';
 import 'package:athkari/app/features/home/presentation/cubit/daily_wered_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/today_dekhar_cubit.dart';
@@ -60,7 +61,7 @@ Future<void> initializationContainer() async {
   getIt.registerFactory<EsnadsCubit>(
       () => EsnadsCubit(getIt(), getIt(), getIt(), getIt()));
  getIt.registerFactory<DailyWeredCubit_>(
-      () => DailyWeredCubit_());
+      () => DailyWeredCubit_(getIt()));
   // repositories
   getIt.registerSingleton<DhkarRepositoryImpl>(DhkarRepositoryImpl(getIt()));
   getIt
@@ -69,7 +70,7 @@ Future<void> initializationContainer() async {
   getIt.registerSingleton<DailyWeredRepositoryImpl>(
       DailyWeredRepositoryImpl(getIt()));
       getIt.registerSingleton<HomeRepositoryImp>(
-      HomeRepositoryImp());
+      HomeRepositoryImp(getIt()));
 
   // use cases
   //daily use case
@@ -81,9 +82,9 @@ Future<void> initializationContainer() async {
       UpdateDailyWeredRepetationUsecase(getIt()));
   getIt.registerSingleton<DeleteDailyWeredUsecase>(
       DeleteDailyWeredUsecase(getIt()));
-
-  // getIt.registerSingleton<GetTotalDailyWereUseCase>(
-  //     GetTotalDailyWereUseCase(getIt()));
+ getIt.registerSingleton<FetchDailyWeredUsecase>(
+      FetchDailyWeredUsecase(getIt()));
+ 
   //category use case
   getIt.registerSingleton<GetCatogoriesUseCase>(GetCatogoriesUseCase(getIt()));
   getIt.registerSingleton<GetCatogoryDetailsUseCase>(

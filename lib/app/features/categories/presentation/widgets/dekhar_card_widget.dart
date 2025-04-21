@@ -22,7 +22,7 @@ class _DekarCardWidgetState extends State<DekharCardWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    
     super.initState();
 
     _no_of_repeating = widget.dekhar.repetitions ?? 0;
