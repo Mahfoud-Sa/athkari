@@ -20,7 +20,8 @@ class DailyWeredCubit_ extends Cubit<DailyWeredCubitStatus_> {
    emit(LoadingDailyWeredState_());
    DailyWeredProgressEntity result= await _fetchDailyWeredUsecase();
    Future.delayed(Duration(seconds: 10),() {
-      int presentage=50;
+      double presentage=(result.totalWered!/result.compeletedWered!)*100;
+      
    emit(DoneDailyWeredState_(presentage,result.totalWered!,result.compeletedWered!));
    },);
   

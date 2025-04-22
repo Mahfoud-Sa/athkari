@@ -83,33 +83,15 @@ class CategoryCubit extends Cubit<CatogeryState> {
     categoryDetails == null
         ? emit(EmptyCategoryState(""))
         : emit(DoneCategoryDetailsState(categoryDetails!));
-    // return categoryDetails;
-    // if(categoryDetails. is null)
-    // emit(LoadingCategoryState());
-    // await Future.delayed(Duration(seconds: 1));
-    // emit(DoneCategoryDetailsState(categoryDetails!));
-    // FetchData();
+    
   }
 
   void fetchEsnadsData() async {
     emit(LoadingCategoryState());
     List<EsnadEntity> categoryiList = await _getallEsnadUseCase.call();
-    // final List<EsnadEntity> esnads = [
-    //   EsnadEntity(id: 1, name: "asdf"),
-    //   EsnadEntity(id: 1, name: "google"),
-    //   EsnadEntity(id: 1, name: "youtube"),
-    //   EsnadEntity(id: 1, name: "amazopn"),
-    //   EsnadEntity(id: 1, name: "asddf"),
-    //   EsnadEntity(id: 1, name: "asdsf"),
-    //   EsnadEntity(id: 1, name: "aasdf"),
-    //   EsnadEntity(id: 1, name: "asdrf"),
-    //   EsnadEntity(id: 1, name: "asd_f"),
-    // ];
-    //  await _deleteCatogoriesUseCase.call(params: id);
-
-    // await Future.delayed(Duration(seconds: 1));
+    
     emit(DoneEsnadsState(categoryiList));
-    //   FetchData();
+   
   }
 
   void addDekharWithEsnad(
@@ -119,25 +101,9 @@ class CategoryCubit extends Cubit<CatogeryState> {
       DhkarModel(dhkar: DekharText, esnad: EsnadModel(id: EsnadId))
     ));
     print(temp);
-    print("hgauf dvd] hsrh' hgkh;lkasjdf;laksjdf;lashd;fjh");
+   
     emit(LoadingCategoryState());
     fetchCategoryDetails(categoryId);
-    // categoryiList = await _getallEsnadUseCase.call();
-    // final List<EsnadEntity> esnads = [
-    //   EsnadEntity(id: 1, name: "asdf"),
-    //   EsnadEntity(id: 1, name: "google"),
-    //   EsnadEntity(id: 1, name: "youtube"),
-    //   EsnadEntity(id: 1, name: "amazopn"),
-    //   EsnadEntity(id: 1, name: "asddf"),
-    //   EsnadEntity(id: 1, name: "asdsf"),
-    //   EsnadEntity(id: 1, name: "aasdf"),
-    //   EsnadEntity(id: 1, name: "asdrf"),
-    //   EsnadEntity(id: 1, name: "asd_f"),
-    // ];
-    //  await _deleteCatogoriesUseCase.call(params: id);
-
-    // await Future.delayed(Duration(seconds: 1));
-    //FetchData();
-    //   FetchData();
+    
   }
 }

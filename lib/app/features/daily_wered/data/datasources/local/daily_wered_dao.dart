@@ -8,44 +8,7 @@ class DailyWeredDao {
   DailyWeredDao(this.database);
   final Database database;
 
-  // AdhkaiDao(this._db);
-  // Future<bool> Insert(DhkarModel dhkar) async {
-  //   var value = {
-  //     'dhaker': dhkar.dhkar,
-  //     'repetitions': dhkar.repetitions,
-  //     'esnads_id': dhkar.esnad!.id!,
-  //   };
-  //   var status = await database.insert("Adhkars", value);
-  //   if (status == 0) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // }
-
-  // // AdhkaiDao(this._db);
-  // Future<int> InsertWitnCategory(int categoryId, DhkarModel dhkar) async {
-  //   var value = {
-  //     'dhaker': dhkar.dhkar,
-  //     'repetitions': dhkar.repetitions,
-  //     'esnads_id': dhkar.esnad!.id!,
-  //     'category_id': categoryId
-  //   };
-  //   var state = await database.insert("Adhkars", value);
-  //   return state;
-  // }
-
-  // Future<int> Update(DhkarModel dhkar) async {
-  //   var value = {
-  //     'dhaker': dhkar.dhkar,
-  //     'repetitions': dhkar.repetitions,
-  //     'esnads_id': 0,
-  //   };
-  //   var status = await database
-  //       .update("Adhkars", value, where: 'id = ?', whereArgs: [dhkar.id]);
-  //   return status;
-  // }
-
+  
   // Example: Get all records
   Future<List<DailyWeredModel>> getAllAdhkai() async {
     var dekars = await database
@@ -112,13 +75,9 @@ class DailyWeredDao {
         'esnads_id': 0,
         'is_compeleted': "false"
       };
-
-      await database.insert("DailyWered", value);
-      // await database.insert(
-      //   'Adhkars', // Table name
-      //   {'name': dhkarName, 'category_id': 1}, // Data to insert
-      //   conflictAlgorithm: ConflictAlgorithm.replace, // Handle conflicts
-      // );
+      var temp=database.insert("DailyWered", value);
+      await temp;
+      
     }
   }
 
