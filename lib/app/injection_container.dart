@@ -44,24 +44,23 @@ Future<void> initializationContainer() async {
   showOnBordingPages = localStorage.getBool('showOnBordingPages') ?? true;
 
 //Database
-   databaseFactory = databaseFactoryFfi;
-  final appDataBaseServices =  AppDataBaseServices();
+// if (!Platform.isAndroid) {
+//  databaseFactory = databaseFactoryFfi; // Android-specific code
+// }
+  final appDataBaseServices = AppDataBaseServices();
   await appDataBaseServices.db;
   getIt.registerSingleton<AppDataBaseServices>(appDataBaseServices);
-  
+
   // State Managment
-  getIt.registerFactory<HomepageCubit>(
-      () => HomepageCubit(getIt()));
-      getIt.registerFactory<TodayDekharCubit>(
-      () => TodayDekharCubit());
+  getIt.registerFactory<HomepageCubit>(() => HomepageCubit(getIt()));
+  getIt.registerFactory<TodayDekharCubit>(() => TodayDekharCubit());
   getIt.registerFactory<DailyWereCubit>(
       () => DailyWereCubit(getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<CategoryCubit>(() => CategoryCubit(
       getIt(), getIt(), getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<EsnadsCubit>(
       () => EsnadsCubit(getIt(), getIt(), getIt(), getIt()));
- getIt.registerFactory<DailyWeredCubit_>(
-      () => DailyWeredCubit_(getIt()));
+  getIt.registerFactory<DailyWeredCubit_>(() => DailyWeredCubit_(getIt()));
   // repositories
   getIt.registerSingleton<DhkarRepositoryImpl>(DhkarRepositoryImpl(getIt()));
   getIt
@@ -69,8 +68,7 @@ Future<void> initializationContainer() async {
   getIt.registerSingleton<EsnadRepositoryImp>(EsnadRepositoryImp(getIt()));
   getIt.registerSingleton<DailyWeredRepositoryImpl>(
       DailyWeredRepositoryImpl(getIt()));
-      getIt.registerSingleton<HomeRepositoryImp>(
-      HomeRepositoryImp(getIt()));
+  getIt.registerSingleton<HomeRepositoryImp>(HomeRepositoryImp(getIt()));
 
   // use cases
   //daily use case
@@ -82,9 +80,9 @@ Future<void> initializationContainer() async {
       UpdateDailyWeredRepetationUsecase(getIt()));
   getIt.registerSingleton<DeleteDailyWeredUsecase>(
       DeleteDailyWeredUsecase(getIt()));
- getIt.registerSingleton<FetchDailyWeredUsecase>(
+  getIt.registerSingleton<FetchDailyWeredUsecase>(
       FetchDailyWeredUsecase(getIt()));
- 
+
   //category use case
   getIt.registerSingleton<GetCatogoriesUseCase>(GetCatogoriesUseCase(getIt()));
   getIt.registerSingleton<GetCatogoryDetailsUseCase>(
