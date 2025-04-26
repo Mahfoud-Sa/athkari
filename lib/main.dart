@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 Future<void> main() async {
-  
   WidgetsFlutterBinding.ensureInitialized();
   await initializationContainer();
   runApp(
@@ -23,9 +22,7 @@ Future<void> main() async {
     enabled: !kReleaseMode,
     builder: (context) => MultiBlocProvider(
       providers: [
-        BlocProvider(
-            create: (_) =>
-                TodayDekharCubit()),
+        BlocProvider(create: (_) => TodayDekharCubit()),
         BlocProvider(
             create: (_) =>
                 DailyWereCubit(getIt(), getIt(), getIt(), getIt(), getIt())),
@@ -35,7 +32,7 @@ Future<void> main() async {
         BlocProvider(
             create: (_) => EsnadsCubit(getIt(), getIt(), getIt(), getIt())),
         BlocProvider(create: (_) => HomepageCubit(getIt())),
-         BlocProvider(create: (_) => DailyWeredCubit_(getIt())),
+        BlocProvider(create: (_) => DailyWeredCubit_(getIt())),
       ],
       child: App(),
     ),

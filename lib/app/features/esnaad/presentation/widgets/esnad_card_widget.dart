@@ -143,26 +143,26 @@ class EsnadCardWidget extends StatelessWidget {
 
   PopupMenuItem<dynamic> _buildPopupMenuUpdateMethod(BuildContext context) {
     return PopupMenuItem(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          InkWell(
-            onTap: () {
-              buildUpdateEsnadModalBottomSheet(
-                  context, formKey, esnadUpdatedValueController, esnad.id!);
-            },
-            child: Text(
+      child: InkWell(
+        onTap: () {
+          buildUpdateEsnadModalBottomSheet(
+              context, formKey, esnadUpdatedValueController, esnad.id!);
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
               "تعديل النص",
               style: TextStyle(
                 color: Color.fromARGB(255, 90, 202, 165),
               ),
             ),
-          ),
-          Icon(
-            Icons.update,
-            color: Color.fromARGB(255, 90, 202, 165),
-          ),
-        ],
+            Icon(
+              Icons.update,
+              color: Color.fromARGB(255, 90, 202, 165),
+            ),
+          ],
+        ),
       ),
     );
   }
