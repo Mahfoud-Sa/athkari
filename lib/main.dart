@@ -18,24 +18,25 @@ Future<void> main() async {
   runApp(
 
       //for testing purposes
-      DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => TodayDekharCubit()),
-        BlocProvider(
-            create: (_) =>
-                DailyWereCubit(getIt(), getIt(), getIt(), getIt(), getIt())),
-        BlocProvider(
-            create: (_) => CategoryCubit(
-                getIt(), getIt(), getIt(), getIt(), getIt(), getIt(), getIt())),
-        BlocProvider(
-            create: (_) => EsnadsCubit(getIt(), getIt(), getIt(), getIt())),
-        BlocProvider(create: (_) => HomepageCubit(getIt())),
-        BlocProvider(create: (_) => DailyWeredCubit_(getIt())),
-      ],
-      child: App(),
-    ),
+      //  DevicePreview(
+      //  enabled: !kReleaseMode,
+      //builder: (context) =>
+      MultiBlocProvider(
+    providers: [
+      BlocProvider(create: (_) => TodayDekharCubit()),
+      BlocProvider(
+          create: (_) =>
+              DailyWereCubit(getIt(), getIt(), getIt(), getIt(), getIt())),
+      BlocProvider(
+          create: (_) => CategoryCubit(
+              getIt(), getIt(), getIt(), getIt(), getIt(), getIt(), getIt())),
+      BlocProvider(
+          create: (_) => EsnadsCubit(getIt(), getIt(), getIt(), getIt())),
+      BlocProvider(create: (_) => HomepageCubit(getIt())),
+      BlocProvider(create: (_) => DailyWeredCubit_(getIt())),
+    ],
+    child: App(),
+    // ),
   ));
 }
 
