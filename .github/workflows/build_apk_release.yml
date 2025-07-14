@@ -30,7 +30,7 @@ jobs:
       - name: Find APK file
         id: find_apk
         run: |
-          APK_PATH=$(find build/app/outputs/flutter/apk/ -name "*.apk" | head -n 1)
+          APK_PATH=$(find build -name "*.apk" | head -n 1)
           if [ -f "$APK_PATH" ]; then
             echo "APK_PATH=$APK_PATH" >> $GITHUB_OUTPUT
           else
