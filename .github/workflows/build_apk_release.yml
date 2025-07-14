@@ -54,7 +54,17 @@ jobs:
     steps:
       - name: Get tag name
         id: get_tag
-        run: echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+        run: |
+          if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            # For workflow_dispatch, if no tag is provided as input, use a default
+            # You might want to add an input for tag_name in workflow_dispatch
+            echo "tag_name=manual-release-${{ github.run_number }}" >> $GITHUB_OUTPUT
+          else
+            # Fallback for other triggers, or if not a tag push
+            echo "tag_name=untagged-release-${{ github.run_number }}" >> $GITHUB_OUTPUT
+          fi
 
       - name: Download APK artifact
         uses: actions/download-artifact@v4
