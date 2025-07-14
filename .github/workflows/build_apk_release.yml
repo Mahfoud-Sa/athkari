@@ -15,39 +15,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK
-        uses: actions/setup-java@v3
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          flutter-version: '3.x'
+          channel: 'stable'
 
-      - name: Find Gradle Wrapper
-        id: find_gradlew
-        run: |
-          if [ -f "./gradlew" ]; then
-            echo "GRADLEW_PATH=./gradlew" >> $GITHUB_OUTPUT
-          elif [ -f "./app/gradlew" ]; then
-            echo "GRADLEW_PATH=./app/gradlew" >> $GITHUB_OUTPUT
-          else
-            echo "Could not find gradlew file"
-            exit 1
-          fi
-
-      - name: Make gradlew executable
-        run: chmod +x ${{ steps.find_gradlew.outputs.GRADLEW_PATH }}
+      - name: Get Flutter packages
+        run: flutter pub get
 
       - name: Build APK
-        run: ${{ steps.find_gradlew.outputs.GRADLEW_PATH }} assembleRelease
+        run: flutter build apk --release
 
       - name: Find APK file
         id: find_apk
         run: |
-          if [ -f "app/build/outputs/apk/release/app-release.apk" ]; then
-            echo "APK_PATH=app/build/outputs/apk/release/app-release.apk" >> $GITHUB_OUTPUT
-          elif [ -f "app/build/outputs/apk/release/*.apk" ]; then
-            echo "APK_PATH=app/build/outputs/apk/release/*.apk" >> $GITHUB_OUTPUT
+          APK_PATH=$(find build/app/outputs/flutter/apk/ -name "*.apk" | head -n 1)
+          if [ -f "$APK_PATH" ]; then
+            echo "APK_PATH=$APK_PATH" >> $GITHUB_OUTPUT
           else
-            echo "Could not find APK file"
+            echo "Could not find APK file" >> $GITHUB_OUTPUT
             exit 1
           fi
 
@@ -81,3 +68,5 @@ jobs:
           files: app-release.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
