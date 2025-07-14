@@ -48,6 +48,8 @@ jobs:
     name: Publish Release
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # Grant write permission for GITHUB_TOKEN to create releases
 
     steps:
       - name: Get tag name
