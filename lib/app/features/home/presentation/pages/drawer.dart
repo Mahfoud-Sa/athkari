@@ -13,6 +13,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 // import 'package:rating/rating.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class DrawerWidget extends StatefulWidget {
   DrawerWidget({
@@ -137,30 +138,26 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     actions: [
                       TextButton(
                           onPressed: () async {
-                            
                             Navigator.pop(context);
                           },
                           child: Text("الغاء")),
-                   //okey button
+                      //okey button
                       TextButton(
                           onPressed: () async {
-                            
                             try {
                               final appDataBaseServices =
                                   getIt.get<AppDataBaseServices>();
 
-                              
                               await appDataBaseServices.esnadDao.seedEsnads();
-                              await appDataBaseServices.categoryDao.seedCategory();
+                              await appDataBaseServices.categoryDao
+                                  .seedCategory();
                               await appDataBaseServices.adhkaiDao.seedAdhkars();
 
                               Navigator.pop(context);
 
                               // Optional: Show success message
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                    content: Text(
-                                        'تم اعاده ضبط الاذكار')),
+                                SnackBar(content: Text('تم اعاده ضبط الاذكار')),
                               );
                             } catch (e) {
                               // Handle errors
@@ -186,6 +183,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               },
             ),
             ForwardedTitleWidget(
+              title: 'تحقق من التحديثات',
+              onPressed: () async {
+                PackageInfo packageInfo = await PackageInfo.fromPlatform();
+
+                _showUpdateAlert(context, packageInfo);
+              },
+            ),
+            ForwardedTitleWidget(
               title: 'تقييم التطبيق',
               onPressed: () {
                 // showModalBottomSheet(
@@ -200,6 +205,19 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               onPressed: () {
                 showAboutDialog(context: context);
               },
+            ),
+            Spacer(),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'الإصدار ${1.5}',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.grey,
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
           ],
         ),
@@ -344,7 +362,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 width: 300,
                 height: 50,
                 child: const Center(
-                  child:  Text(
+                  child: Text(
                     'الغاء',
                     style: TextStyle(
                         color: Color.fromARGB(255, 128, 188, 189),
@@ -404,3 +422,23 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 //     ],
 //   ),
 // );
+void _showUpdateAlert(BuildContext context, PackageInfo packageInfo) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('تحديث متاح', textAlign: TextAlign.right),
+        content: Text(packageInfo.version, textAlign: TextAlign.right),
+        actionsAlignment: MainAxisAlignment.start, // For RTL
+        actions: <Widget>[
+          TextButton(
+            child: Text('موافق'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
+}
