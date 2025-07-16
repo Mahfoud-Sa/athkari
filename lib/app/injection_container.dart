@@ -50,7 +50,7 @@ Future<void> initializationContainer() async {
   final appDataBaseServices = AppDataBaseServices();
   await appDataBaseServices.db;
   getIt.registerSingleton<AppDataBaseServices>(appDataBaseServices);
-
+  appDataBaseServices.adhkaiDao.seedAdhkars();
   // State Managment
   getIt.registerFactory<HomepageCubit>(() => HomepageCubit(getIt()));
   getIt.registerFactory<TodayDekharCubit>(() => TodayDekharCubit());

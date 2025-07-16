@@ -1,4 +1,3 @@
-
 import 'package:athkari/app/features/home/data/model/daily.dart';
 import 'package:athkari/app/features/home/domain/entity/daily_wered_progress_entity.dart';
 import 'package:athkari/app/features/home/domain/usecase/fetch_daily_wered_usecase.dart';
@@ -10,23 +9,16 @@ class DailyWeredCubit_ extends Cubit<DailyWeredCubitStatus_> {
   //final ResetDatabaseUsecase _resetDatabaseUsecase;
   //List<CategoryEntity> categoriesList = [];
 
-  DailyWeredCubit_(this._fetchDailyWeredUsecase) : super(InitDailyWeredState_())  {
-   
+  DailyWeredCubit_(this._fetchDailyWeredUsecase)
+      : super(InitDailyWeredState_()) {
     fetchData();
-   
   }
 
-  fetchData()async{
-   emit(LoadingDailyWeredState_());
-   DailyWeredProgressEntity result= await _fetchDailyWeredUsecase();
-   Future.delayed(Duration(seconds: 10),() {
-      double presentage=(result.totalWered!/result.compeletedWered!)*100;
-      
-   emit(DoneDailyWeredState_(presentage,result.totalWered!,result.compeletedWered!));
-   },);
-  
-  }
+  fetchData() async {
+    emit(LoadingDailyWeredState_());
+    DailyWeredProgressEntity result = await _fetchDailyWeredUsecase();
+    double presentage = (result.totalWered! / result.compeletedWered!) * 100;
 
+    emit(DoneDailyWeredState_(10, result.totalWered!, result.compeletedWered!));
+  }
 }
- 
-  
