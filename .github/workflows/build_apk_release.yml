@@ -1,94 +1,103 @@
-name: Build APK and Publish Release
+name: Flutter Build and Release
 
 on:
   push:
     tags:
-      - 'v*' # Trigger on new version tags (e.g., v1.0.0)
-  workflow_dispatch: # Allows manual triggering
+      - 'v*'
+  workflow_dispatch:
 
 jobs:
   build:
-    name: Build APK
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Locate Flutter project root
+        id: locate_project
+        run: |
+          PUBSPEC_PATH=$(find . -name pubspec.yaml -type f -print -quit)
+          if [ -z "$PUBSPEC_PATH" ]; then
+            echo "::error::No pubspec.yaml found in repository!"
+            echo "Repository structure:"
+            find . -type d | sed 's|[^/]*/|- |g'
+            exit 1
+          fi
+          echo "PROJECT_ROOT=$(dirname "$PUBSPEC_PATH")" >> $GITHUB_ENV
+          echo "Found pubspec.yaml at: $PUBSPEC_PATH"
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.x'
           channel: 'stable'
+        working-directory: ${{ env.PROJECT_ROOT }}
 
-      - name: Get Flutter packages
+      - name: Get dependencies
         run: flutter pub get
+        working-directory: ${{ env.PROJECT_ROOT }}
 
       - name: Build APK
         run: flutter build apk --release
+        working-directory: ${{ env.PROJECT_ROOT }}
 
-      - name: Find APK file
-        id: find_apk
-        run: |
-          APK_PATH=$(find build -name "*.apk" | head -n 1)
-          if [ -f "$APK_PATH" ]; then
-            echo "APK_PATH=$APK_PATH" >> $GITHUB_OUTPUT
-          else
-            echo "Could not find APK file" >> $GITHUB_OUTPUT
-            exit 1
-          fi
-
-      - name: Upload APK artifact
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: ${{ steps.find_apk.outputs.APK_PATH }}
+          path: ${{ env.PROJECT_ROOT }}/build/app/outputs/flutter-apk/app-release.apk
 
-  publish-release:
-    name: Publish Release
+  publish:
     needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
     steps:
-      - name: Get version from pubspec.yaml
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Locate Flutter project root
+        id: locate_project
+        run: |
+          PUBSPEC_PATH=$(find . -name pubspec.yaml -type f -print -quit)
+          echo "PROJECT_ROOT=$(dirname "$PUBSPEC_PATH")" >> $GITHUB_ENV
+          echo "Found pubspec.yaml at: $PUBSPEC_PATH"
+
+      - name: Extract version
         id: version
         run: |
-          # Extract version (format: 1.0.0+1)
+          cd ${{ env.PROJECT_ROOT }}
           FULL_VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}' | tr -d '"' | tr -d "'")
-          # Remove build number if exists (after +)
           BASE_VERSION=$(echo "$FULL_VERSION" | cut -d'+' -f1)
           echo "version=$BASE_VERSION" >> $GITHUB_OUTPUT
+          echo "Extracted version: $BASE_VERSION"
 
-      - name: Create tag name
-        id: tag_name
+      - name: Create release tag
+        id: tag
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            # Manual release format: v1.0.5m13
             echo "tag_name=v${{ steps.version.outputs.version }}m${{ github.run_number }}" >> $GITHUB_OUTPUT
           else
-            # Automatic release format: v1.0.5
             echo "tag_name=v${{ steps.version.outputs.version }}" >> $GITHUB_OUTPUT
           fi
+          echo "Using tag: $(cat $GITHUB_OUTPUT | grep tag_name)"
 
-      - name: Get app name from pubspec.yaml
-        id: app_name
-        run: |
-          APP_NAME=$(grep '^name:' pubspec.yaml | awk '{print $2}' | tr -d '"' | tr -d "'")
-          echo "app_name=$APP_NAME" >> $GITHUB_OUTPUT
-
-      - name: Download APK artifact
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: app-release
 
-      - name: Create Release
+      - name: Create GitHub release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.tag_name.outputs.tag_name }}
-          name: ${{ steps.app_name.outputs.app_name }} ${{ steps.tag_name.outputs.tag_name }}
-          body: "Automated release for ${{ steps.app_name.outputs.app_name }} version ${{ steps.tag_name.outputs.tag_name }}"
+          tag_name: ${{ steps.tag.outputs.tag_name }}
+          name: Release ${{ steps.tag.outputs.tag_name }}
+          body: |
+            Flutter APK release
+            Version: ${{ steps.tag.outputs.tag_name }}
+            Build: ${{ github.run_number }}
           files: app-release.apk
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
