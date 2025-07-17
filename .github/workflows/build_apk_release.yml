@@ -81,6 +81,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.get_tag.outputs.tag_name }}
+          name: Release ${{ steps.get_tag.outputs.tag_name }}
+          body: "Automated release for version ${{ steps.get_tag.outputs.tag_name }}"
           name: ${{ steps.app_name.outputs.app_name }} ${{ steps.get_tag.outputs.tag_name }}
           body: "Automated release for ${{ steps.app_name.outputs.app_name }} version ${{ steps.get_tag.outputs.tag_name }}"
           files: app-release.apk
