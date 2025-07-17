@@ -1,8 +1,14 @@
 import 'package:equatable/equatable.dart';
 
-abstract class DrawerCubitStatus extends Equatable {}
+abstract class DrawerCubitState extends Equatable {}
 
-class InitialDrawerPageState extends DrawerCubitStatus {
+class InitialDrawerPageState extends DrawerCubitState {
+  @override
+  // TODO: implement props
+  List<Object?> get props => throw UnimplementedError();
+}
+
+class CheckUpdatesState extends DrawerCubitState {
   @override
   // TODO: implement props
   List<Object?> get props => throw UnimplementedError();

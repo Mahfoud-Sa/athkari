@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:athkari/app/core/services/github_releses_services.dart';
 import 'package:athkari/app/features/categories/data/repository/category_repository_imp.dart';
 import 'package:athkari/app/features/categories/domain/usecase/add_category_with_esnade_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/add_catogories_usecase.dart';
@@ -8,7 +9,7 @@ import 'package:athkari/app/features/categories/domain/usecase/get_catogories_us
 import 'package:athkari/app/features/categories/domain/usecase/get_catogory_details_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/update_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
-import 'package:athkari/app/core/app_database.dart';
+import 'package:athkari/app/core/services/app_database_services.dart';
 import 'package:athkari/app/features/daily_wered/data/repository/daily_wered_repository_impl.dart';
 import 'package:athkari/app/features/daily_wered/data/repository/dhkar_repository_impl.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/add_dhaker_usecase.dart';
@@ -25,8 +26,10 @@ import 'package:athkari/app/features/esnaad/domain/usecase/update_esnade_usecase
 import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
 import 'package:athkari/app/features/home/data/repository/home_repository_imp.dart';
 import 'package:athkari/app/features/home/domain/repository/home_repository.dart';
+import 'package:athkari/app/features/home/domain/usecase/check_updates_usecase.dart';
 import 'package:athkari/app/features/home/domain/usecase/fetch_daily_wered_usecase.dart';
 import 'package:athkari/app/features/home/presentation/cubit/daily_wered_cubit.dart';
+import 'package:athkari/app/features/home/presentation/cubit/drawer_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/today_dekhar_cubit.dart';
 import 'package:get_it/get_it.dart';
@@ -49,11 +52,16 @@ Future<void> initializationContainer() async {
 // }
   final appDataBaseServices = AppDataBaseServices();
   await appDataBaseServices.db;
+  final gitHubApiService =
+      GitHubApiService(githubToken: "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");
+  getIt.registerSingleton<GitHubApiService>(gitHubApiService);
   getIt.registerSingleton<AppDataBaseServices>(appDataBaseServices);
-  appDataBaseServices.categoryDao.seedCategory();
-  appDataBaseServices.adhkaiDao.seedAdhkars();
+  // appDataBaseServices.categoryDao.seedCategory();
+//  appDataBaseServices.adhkaiDao.seedAdhkars();
   // State Managment
   getIt.registerFactory<HomepageCubit>(() => HomepageCubit(getIt()));
+  getIt.registerFactory<DrawerCubit>(() => DrawerCubit(getIt()));
+
   getIt.registerFactory<TodayDekharCubit>(() => TodayDekharCubit());
   getIt.registerFactory<DailyWereCubit>(
       () => DailyWereCubit(getIt(), getIt(), getIt(), getIt(), getIt()));
@@ -69,7 +77,8 @@ Future<void> initializationContainer() async {
   getIt.registerSingleton<EsnadRepositoryImp>(EsnadRepositoryImp(getIt()));
   getIt.registerSingleton<DailyWeredRepositoryImpl>(
       DailyWeredRepositoryImpl(getIt()));
-  getIt.registerSingleton<HomeRepositoryImp>(HomeRepositoryImp(getIt()));
+  getIt.registerSingleton<HomeRepositoryImp>(
+      HomeRepositoryImp(getIt(), getIt()));
 
   // use cases
   //daily use case
@@ -101,4 +110,7 @@ Future<void> initializationContainer() async {
   getIt.registerSingleton<AddEsnadeUsecase>(AddEsnadeUsecase(getIt()));
   getIt.registerSingleton<UpdateEsnadeUsecase>(UpdateEsnadeUsecase(getIt()));
   getIt.registerSingleton<DeleteEsnadeUsecase>(DeleteEsnadeUsecase(getIt()));
+
+  //Home usecase
+  getIt.registerSingleton<CheckUpdatesUsecase>(CheckUpdatesUsecase(getIt()));
 }

@@ -1,4 +1,4 @@
-import 'package:athkari/app/core/app_database.dart';
+import 'package:athkari/app/core/services/app_database_services.dart';
 import 'package:athkari/app/features/daily_wered/data/modules/daily_werel_model.dart';
 import 'package:athkari/app/features/daily_wered/domain/repository/daily_wered_repository.dart';
 

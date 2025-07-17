@@ -1,4 +1,4 @@
-import 'package:athkari/app/core/app_database.dart';
+import 'package:athkari/app/core/services/app_database_services.dart';
 import 'package:athkari/app/features/esnaad/data/modules/esnad_model.dart';
 import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 import 'package:athkari/app/features/esnaad/domain/repository/esnads_repository.dart';

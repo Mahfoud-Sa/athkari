@@ -1,24 +1,23 @@
 import 'package:athkari/app/features/home/data/model/daily.dart';
 import 'package:athkari/app/features/home/domain/entity/daily_wered_progress_entity.dart';
+import 'package:athkari/app/features/home/domain/usecase/check_updates_usecase.dart';
 import 'package:athkari/app/features/home/domain/usecase/fetch_daily_wered_usecase.dart';
 import 'package:athkari/app/features/home/presentation/cubit/daily_wered_cubit_status.dart';
 import 'package:athkari/app/features/home/presentation/cubit/drawer_cubit_status.dart';
 import 'package:bloc/bloc.dart';
 
-class DrawerCubit extends Cubit<DrawerCubitStatus> {
-  final FetchDailyWeredUsecase _fetchDailyWeredUsecase;
-  //final ResetDatabaseUsecase _resetDatabaseUsecase;
+class DrawerCubit extends Cubit<DrawerCubitState> {
+  final CheckUpdatesUsecase _checkUpdatesUsecase;
   //List<CategoryEntity> categoriesList = [];
 
-  DrawerCubit(this._fetchDailyWeredUsecase) : super(InitialDrawerPageState()) {
-    //  fetchData();
+  DrawerCubit(this._checkUpdatesUsecase) : super(InitialDrawerPageState()) {
+    checkUpdate();
   }
 
-  // fetchData() async {
-  //   emit(LoadingDailyWeredState_());
-  //   DailyWeredProgressEntity result = await _fetchDailyWeredUsecase();
-  //   double presentage = (result.totalWered! / result.compeletedWered!) * 100;
+  checkUpdate() async {
+    emit(InitialDrawerPageState());
+    bool result = await _checkUpdatesUsecase();
 
-  //   emit(DoneDailyWeredState_(0, result.totalWered!, result.compeletedWered!));
-  // }
+    // emit(DoneDailyWeredState_(0, result.totalWered!, result.compeletedWered!));
+  }
 }

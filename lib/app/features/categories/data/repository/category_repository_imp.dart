@@ -1,7 +1,7 @@
 import 'package:athkari/app/features/categories/data/modules/category_models.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/domain/repository/category_repository.dart';
-import 'package:athkari/app/core/app_database.dart';
+import 'package:athkari/app/core/services/app_database_services.dart';
 
 class CategoryRepositoryImp implements CategoryRepository {
   final AppDataBaseServices _appDataBaseServices;

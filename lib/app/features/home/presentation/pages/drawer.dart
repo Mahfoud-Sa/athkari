@@ -1,14 +1,17 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:athkari/app/core/app_database.dart';
+import 'package:athkari/app/core/services/app_database_services.dart';
+import 'package:athkari/app/features/home/presentation/cubit/drawer_cubit.dart';
+import 'package:athkari/app/features/home/presentation/cubit/drawer_cubit_status.dart';
 import 'package:athkari/app/features/home/presentation/widgets/DrawerTitleWidet.dart';
 import 'package:athkari/app/features/home/presentation/widgets/ForwardedTitleWidget.dart';
 import 'package:athkari/app/features/home/presentation/widgets/MyExpansionRadioTile.dart';
-import 'package:athkari/app/github_releses.dart';
+import 'package:athkari/app/core/services/github_releses_services.dart';
 import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
@@ -187,12 +190,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 Share.share('check out my website https://example.com');
               },
             ),
-            ForwardedTitleWidget(
-              title: 'تحقق من التحديثات',
-              onPressed: () async {
-                PackageInfo packageInfo = await PackageInfo.fromPlatform();
-
-                _showUpdateAlert(context, packageInfo);
+            BlocBuilder<DrawerCubit, DrawerCubitState>(
+              builder: (context, state) {
+                return ForwardedTitleWidget(
+                  title: 'تحقق من التحديثات',
+                  onPressed: () {
+                    _showUpdateAlert(context);
+                  },
+                );
               },
             ),
             ForwardedTitleWidget(
@@ -214,18 +219,47 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             SizedBox(
               height: 10,
             ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Text(
-                  'الإصدار ${1.5}',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.grey,
+            FutureBuilder(
+              future:
+                  PackageInfo.fromPlatform(), // Future that gets package info
+              builder: (context, snapshot) {
+                // Handle different connection states
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      'فشل في تحميل معلومات التطبيق',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Colors.grey,
+                          ),
+                    ),
+                  );
+                }
+
+                // When data is available
+                if (snapshot.hasData) {
+                  final packageInfo = snapshot.data as PackageInfo;
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        'الإصدار ${packageInfo.version}', // Display actual version
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Colors.grey,
+                            ),
+                        textAlign: TextAlign.center,
                       ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
+                    ),
+                  );
+                }
+
+                // Fallback (shouldn't reach here)
+                return const SizedBox.shrink();
+              },
+            )
           ],
         ),
       ),
@@ -429,7 +463,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 //     ],
 //   ),
 // );
-void _showUpdateAlert(BuildContext context, PackageInfo packageInfo) {
+void _showUpdateAlert(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -438,16 +472,11 @@ void _showUpdateAlert(BuildContext context, PackageInfo packageInfo) {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('الإصدار الحالي: ${packageInfo.version}',
-                textAlign: TextAlign.right),
-            SizedBox(height: 16),
-
             // ✅ Fetch latest release automatically when dialog opens
             FutureBuilder<String>(
-              future: GitHubApiService.getLatestReleaseVersion(
-                "Mahfoud-Sa",
-                "athkari",
-              ),
+              future: GitHubApiService(
+                      githubToken: "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")
+                  .getLatestReleaseWithApk(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Row(
@@ -484,7 +513,6 @@ void _showUpdateAlert(BuildContext context, PackageInfo packageInfo) {
           TextButton(
             child: Text('تحديث'),
             onPressed: () async {
-              //https://github.com/Mahfoud-Sa/athkari/releases/download/v1.0.5m19/app-release.apk
               if (!await launchUrl(_url)) {
                 throw Exception('Could not launch $_url');
               }
