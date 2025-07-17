@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Needed to get all tags for manual runs
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -56,14 +58,16 @@ jobs:
         id: get_tag
         run: |
           if [[ "${{ github.ref }}" == refs/tags/* ]]; then
+            # For tag pushes - use exact tag (e.g., V123)
             echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            # For workflow_dispatch, if no tag is provided as input, use a default
-            # You might want to add an input for tag_name in workflow_dispatch
-            echo "tag_name=manual-release-${{ github.run_number }}" >> $GITHUB_OUTPUT
-          else
-            # Fallback for other triggers, or if not a tag push
-            echo "tag_name=untagged-release-${{ github.run_number }}" >> $GITHUB_OUTPUT
+            # For manual runs - latest tag + _m + run_number (e.g., V123_m456)
+            LATEST_TAG=$(git describe --tags --abbrev=0)
+            if [ -z "$LATEST_TAG" ]; then
+              echo "::error::No existing tag found to base manual release on"
+              exit 1
+            fi
+            echo "tag_name=${LATEST_TAG}_m${{ github.run_number }}" >> $GITHUB_OUTPUT
           fi
 
       - name: Get app name from pubspec.yaml
