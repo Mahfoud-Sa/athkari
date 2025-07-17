@@ -15,6 +15,10 @@ import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 // import 'package:rating/rating.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+final Uri _url = Uri.parse(
+    'https://github.com/Mahfoud-Sa/athkari/releases/download/v1.0.5m19/app-release.apk');
 
 class DrawerWidget extends StatefulWidget {
   DrawerWidget({
@@ -479,8 +483,11 @@ void _showUpdateAlert(BuildContext context, PackageInfo packageInfo) {
           ),
           TextButton(
             child: Text('تحديث'),
-            onPressed: () {
-              // هنا تضع الكود الذي يفتح رابط التحديث مثلا
+            onPressed: () async {
+              //https://github.com/Mahfoud-Sa/athkari/releases/download/v1.0.5m19/app-release.apk
+              if (!await launchUrl(_url)) {
+                throw Exception('Could not launch $_url');
+              }
             },
           ),
         ],
