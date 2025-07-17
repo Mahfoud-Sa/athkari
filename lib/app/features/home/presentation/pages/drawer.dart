@@ -5,6 +5,7 @@ import 'package:athkari/app/core/app_database.dart';
 import 'package:athkari/app/features/home/presentation/widgets/DrawerTitleWidet.dart';
 import 'package:athkari/app/features/home/presentation/widgets/ForwardedTitleWidget.dart';
 import 'package:athkari/app/features/home/presentation/widgets/MyExpansionRadioTile.dart';
+import 'package:athkari/app/github_releses.dart';
 import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -206,7 +207,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 showAboutDialog(context: context);
               },
             ),
-            Spacer(),
+            SizedBox(
+              height: 10,
+            ),
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -428,13 +431,56 @@ void _showUpdateAlert(BuildContext context, PackageInfo packageInfo) {
     builder: (BuildContext context) {
       return AlertDialog(
         title: Text('تحديث متاح', textAlign: TextAlign.right),
-        content: Text(packageInfo.version, textAlign: TextAlign.right),
-        actionsAlignment: MainAxisAlignment.start, // For RTL
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('الإصدار الحالي: ${packageInfo.version}',
+                textAlign: TextAlign.right),
+            SizedBox(height: 16),
+
+            // ✅ Fetch latest release automatically when dialog opens
+            FutureBuilder<String>(
+              future: GitHubApiService.getLatestReleaseVersion(
+                "Mahfoud-Sa",
+                "athkari",
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(width: 10),
+                      Text("جارِ جلب الإصدار الجديد..."),
+                    ],
+                  );
+                } else if (snapshot.hasError) {
+                  return Text(
+                    "حدث خطأ أثناء جلب التحديث",
+                    style: TextStyle(color: Colors.red),
+                  );
+                } else {
+                  return Text(
+                    "آخر إصدار متاح: ${snapshot.data}",
+                    textAlign: TextAlign.right,
+                  );
+                }
+              },
+            ),
+          ],
+        ),
+        actionsAlignment: MainAxisAlignment.start,
         actions: <Widget>[
           TextButton(
-            child: Text('موافق'),
+            child: Text('الغاء'),
             onPressed: () {
               Navigator.of(context).pop();
+            },
+          ),
+          TextButton(
+            child: Text('تحديث'),
+            onPressed: () {
+              // هنا تضع الكود الذي يفتح رابط التحديث مثلا
             },
           ),
         ],
