@@ -9,7 +9,12 @@ class InitialDrawerPageState extends DrawerCubitState {
 }
 
 class CheckUpdatesState extends DrawerCubitState {
+  //final List<CategoryEntity> categories;
+  // final String message;
+
+  CheckUpdatesState();
+
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => []; // For
 }

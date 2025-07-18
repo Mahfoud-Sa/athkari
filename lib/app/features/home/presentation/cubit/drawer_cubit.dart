@@ -5,10 +5,12 @@ import 'package:athkari/app/features/home/domain/usecase/fetch_daily_wered_useca
 import 'package:athkari/app/features/home/presentation/cubit/daily_wered_cubit_status.dart';
 import 'package:athkari/app/features/home/presentation/cubit/drawer_cubit_status.dart';
 import 'package:bloc/bloc.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class DrawerCubit extends Cubit<DrawerCubitState> {
   final CheckUpdatesUsecase _checkUpdatesUsecase;
   //List<CategoryEntity> categoriesList = [];
+  String appVersion = "V1.2.7";
 
   DrawerCubit(this._checkUpdatesUsecase) : super(InitialDrawerPageState()) {
     checkUpdate();
@@ -19,5 +21,10 @@ class DrawerCubit extends Cubit<DrawerCubitState> {
     bool result = await _checkUpdatesUsecase();
 
     // emit(DoneDailyWeredState_(0, result.totalWered!, result.compeletedWered!));
+  }
+
+  checkVersion() async {
+    PackageInfo _packageInfo = await PackageInfo.fromPlatform();
+    appVersion = _packageInfo.version;
   }
 }

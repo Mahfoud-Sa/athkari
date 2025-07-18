@@ -219,47 +219,64 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             SizedBox(
               height: 10,
             ),
-            FutureBuilder(
-              future:
-                  PackageInfo.fromPlatform(), // Future that gets package info
-              builder: (context, snapshot) {
-                // Handle different connection states
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text(
-                      'فشل في تحميل معلومات التطبيق',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Colors.grey,
-                          ),
-                    ),
-                  );
-                }
-
-                // When data is available
-                if (snapshot.hasData) {
-                  final packageInfo = snapshot.data as PackageInfo;
-                  return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'الإصدار ${packageInfo.version}', // Display actual version
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Colors.grey,
-                            ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  );
-                }
-
-                // Fallback (shouldn't reach here)
-                return const SizedBox.shrink();
+            GestureDetector(
+              onTap: () {
+                context.read<DrawerCubit>().checkVersion();
               },
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Text(
+                    'الإصدار ${context.watch<DrawerCubit>().appVersion}', // Display actual version
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.grey,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
             )
+            // FutureBuilder(
+            //   future:
+            //       PackageInfo.fromPlatform(), // Future that gets package info
+            //   builder: (context, snapshot) {
+            //     // Handle different connection states
+            //     if (snapshot.connectionState == ConnectionState.waiting) {
+            //       return const Center(child: CircularProgressIndicator());
+            //     }
+
+            //     if (snapshot.hasError) {
+            //       return Center(
+            //         child: Text(
+            //           'فشل في تحميل معلومات التطبيق',
+            //           style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            //                 color: Colors.grey,
+            //               ),
+            //         ),
+            //       );
+            //     }
+
+            //     // When data is available
+            //     if (snapshot.hasData) {
+            //       final packageInfo = snapshot.data as PackageInfo;
+            //       return Center(
+            //         child: Padding(
+            //           padding: const EdgeInsets.all(16.0),
+            //           child: Text(
+            //             'الإصدار ${packageInfo.version}', // Display actual version
+            //             style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            //                   color: Colors.grey,
+            //                 ),
+            //             textAlign: TextAlign.center,
+            //           ),
+            //         ),
+            //       );
+            //     }
+
+            //     // Fallback (shouldn't reach here)
+            //     return const SizedBox.shrink();
+            //   },
+            // )
           ],
         ),
       ),
