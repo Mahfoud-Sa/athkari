@@ -3,9 +3,10 @@ import 'package:equatable/equatable.dart';
 abstract class DrawerCubitState extends Equatable {}
 
 class InitialDrawerPageState extends DrawerCubitState {
+  InitialDrawerPageState();
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 class CheckUpdatesState extends DrawerCubitState {
