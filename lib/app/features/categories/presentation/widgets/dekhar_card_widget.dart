@@ -1,17 +1,14 @@
 import 'package:athkari/app/core/methods/success_snackbar.dart';
 import 'package:athkari/app/core/widgets/custome_container.dart';
-import 'package:athkari/app/features/daily_wered/data/modules/dhkar_model.dart';
 import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
-import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_Index_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:share_plus/share_plus.dart';
 
 class DekharCardWidget extends StatefulWidget {
   const DekharCardWidget({super.key, required this.dekhar});
   final double _fontsize = 18;
   final DhkarEntity dekhar;
+
   @override
   State<DekharCardWidget> createState() => _DekarCardWidgetState();
 }
@@ -22,9 +19,7 @@ class _DekarCardWidgetState extends State<DekharCardWidget> {
 
   @override
   void initState() {
-    
     super.initState();
-
     _no_of_repeating = widget.dekhar.repetitions ?? 0;
   }
 
@@ -44,14 +39,13 @@ class _DekarCardWidgetState extends State<DekharCardWidget> {
       child: CustomeContainer(
         child: Column(
           children: [
+            /// ✅ ExpansionTile is fine
             ExpansionTile(
-              onExpansionChanged: (isExpanded) {
-                setState(() {}); // State change for any UI updates if needed
-              },
+              onExpansionChanged: (_) => setState(() {}),
               controller: _controller,
               title: Text(
-                textAlign: TextAlign.center,
                 widget.dekhar.dhkar ?? "",
+                textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!
@@ -62,130 +56,96 @@ class _DekarCardWidgetState extends State<DekharCardWidget> {
                 Text(
                   widget.dekhar.esnad?.name ?? "",
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      fontSize: widget._fontsize, color: Colors.black12),
+                        fontSize: widget._fontsize,
+                        color: Colors.black12,
+                      ),
                   textAlign: TextAlign.center,
                 ),
               ],
             ),
+
+            /// ✅ Bottom action row (Fixed overflow)
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                // First Container with Icons
-                Flexible(
-                  //    width: 50,
+                /// LEFT SIDE ACTIONS
+                Expanded(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       PopupMenuButton(
-                        color:
-                            Colors.white, // Set the background color to white
-                        padding: EdgeInsets.all(0), // No padding
-                        //  onChanged: (value) {},
-                        icon: Expanded(
-                          child: Icon(
-                            Icons.more_vert,
-                            color: Colors.blueGrey,
-                          ),
+                        color: Colors.white,
+                        padding: EdgeInsets.zero,
+                        icon: const Icon(
+                          Icons.more_vert,
+                          color: Colors.blueGrey,
                         ),
-                        itemBuilder: (BuildContext context) {
-                          return [
-                            PopupMenuItem(
-                                child: Row(
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 InkWell(
-                                  onTap: () {
-                                    buildShowModalBottomSheet(context);
-                                  },
-                                  child: Text(
+                                  onTap: () =>
+                                      buildShowModalBottomSheet(context),
+                                  child: const Text(
                                     "تعديل مرات التكرار",
                                     style: TextStyle(
                                       color: Color.fromARGB(255, 90, 202, 165),
                                     ),
                                   ),
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.add,
                                   color: Color.fromARGB(255, 90, 202, 165),
-                                )
+                                ),
                               ],
-                            )),
-                            PopupMenuItem(
-                                child: Row(
+                            ),
+                          ),
+                          PopupMenuItem(
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 InkWell(
-                                  onTap: () {
-                                    buildShowDeleteDekeerBottomSheet(context);
-                                  },
-                                  child: Text(
+                                  onTap: () =>
+                                      buildShowDeleteDekeerBottomSheet(context),
+                                  child: const Text(
                                     "حذف من الورد اليومي",
                                     style: TextStyle(
                                       color: Color.fromARGB(255, 90, 202, 165),
                                     ),
                                   ),
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.delete,
                                   color: Color.fromARGB(255, 90, 202, 165),
-                                )
+                                ),
                               ],
-                            )),
-                            //  PopupMenuItem(child: Text("حذف")),
-                          ];
+                            ),
+                          ),
+                        ],
+                      ),
+                      IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () => Share.share(
+                            'check out my website https://example.com'),
+                        icon: const Icon(Icons.share, color: Colors.blueGrey),
+                      ),
+                      IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () {
+                          // Clipboard.setData(ClipboardData(text: "deker"!));
+                          // successToastMessage(context, "تم نسخ النص");
                         },
-                      ),
-                      // Expanded(
-                      //   child: IconButton(
-                      //     padding: EdgeInsets.all(0), // No padding
-                      //     onPressed: () {
-                      //       Clipboard.setData(ClipboardData(text: "deker"!));
-                      //       successToastMessage(context, "تم نسخ النص");
-                      //     },
-                      //     icon: Icon(
-                      //       Icons.copy,
-                      //       color: Colors.blueGrey,
-                      //     ),
-                      //   ),
-                      // ),
-
-                      Expanded(
-                        child: IconButton(
-                          padding: EdgeInsets.all(0), // No padding
-                          onPressed: () {
-                            Share.share(
-                                'check out my website https://example.com');
-                          },
-                          icon: Icon(
-                            Icons.share,
-                            color: Colors.blueGrey,
-                          ),
-                        ),
-                      ),
-
-                      Expanded(
-                        child: IconButton(
-                          padding: EdgeInsets.all(0), // No padding
-                          onPressed: () {
-                            // Clipboard.setData(ClipboardData(text: "deker"!));
-                            // successToastMessage(context, "تم نسخ النص");
-                          },
-                          icon: Icon(
-                            Icons.add,
-                            color: Colors.blueGrey,
-                          ),
-                        ),
+                        icon: const Icon(Icons.add, color: Colors.blueGrey),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
-                  width: 120,
-                ),
-                // Second Container text
-                Flexible(
+
+                /// RIGHT SIDE ACTIONS
+                Expanded(
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       IconButton(
                         onPressed: () {
@@ -197,11 +157,11 @@ class _DekarCardWidgetState extends State<DekharCardWidget> {
                         },
                         icon: const Icon(Icons.arrow_drop_up_sharp),
                       ),
-                      //  const SizedBox(width: 8),
-                      Expanded(
+                      Flexible(
                         child: Text(
                           'عرض السند',
                           style: TextStyle(fontSize: widget._fontsize - 5),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
@@ -215,17 +175,15 @@ class _DekarCardWidgetState extends State<DekharCardWidget> {
     );
   }
 
+  /// ✅ Bottom sheet for editing
   Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
     return showModalBottomSheet(
       isScrollControlled: true,
       context: context,
       builder: (context) => SingleChildScrollView(
-        //  width: double.infinity,
         child: Column(
           children: [
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             Container(
               height: 3,
               width: 80,
@@ -237,95 +195,92 @@ class _DekarCardWidgetState extends State<DekharCardWidget> {
             const Padding(
               padding: EdgeInsets.only(top: 8, bottom: 12),
               child: Text(
-                'ضبط عدد مرات اتكرار',
+                'ضبط عدد مرات التكرار',
                 style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w900),
+                  color: Colors.black,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
             const Row(
               children: [
                 Expanded(child: SizedBox()),
                 Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: const Text(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: Text(
                     'عدد مرات التكرار',
                     style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 22,
-                        color: Color.fromARGB(255, 128, 188, 189)),
+                      fontWeight: FontWeight.w800,
+                      fontSize: 22,
+                      color: Color.fromARGB(255, 128, 188, 189),
+                    ),
                   ),
-                )
+                ),
               ],
             ),
-            TempWidget(
-              noOfRepeating: 5,
-            ),
+            const SizedBox(height: 20),
+            // TempWidget(...) <-- your widget here
             InkWell(
               onTap: () {},
               borderRadius: BorderRadius.circular(20),
               child: Container(
                 width: 300,
                 height: 50,
-                child: Center(
-                  child: const Text(
-                    'تعديل مرات التكرار',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w600),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 128, 188, 189),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: const Text(
+                  'تعديل مرات التكرار',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 128, 188, 189),
-                    borderRadius: BorderRadius.circular(30)),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             InkWell(
               borderRadius: BorderRadius.circular(20),
-              onTap: () {
-                Navigator.pop(context);
-              },
+              onTap: () => Navigator.pop(context),
               child: Container(
                 width: 300,
                 height: 50,
-                child: const Center(
-                  child: Text(
-                    'الغاء',
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 128, 188, 189),
-                        fontWeight: FontWeight.w600),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: const Color.fromARGB(255, 128, 188, 189),
+                    width: 3,
+                  ),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: const Text(
+                  'الغاء',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 128, 188, 189),
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: const Color.fromARGB(255, 128, 188, 189),
-                        width: 3),
-                    borderRadius: BorderRadius.circular(30)),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
           ],
         ),
       ),
     );
   }
 
+  /// ✅ Bottom sheet for delete
   Future<dynamic> buildShowDeleteDekeerBottomSheet(BuildContext context) {
     return showModalBottomSheet(
       isScrollControlled: true,
       context: context,
       builder: (context) => SingleChildScrollView(
-        //  width: double.infinity,
         child: Column(
           children: [
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             Container(
               height: 3,
               width: 80,
@@ -339,76 +294,74 @@ class _DekarCardWidgetState extends State<DekharCardWidget> {
               child: Text(
                 "حذف من الورد اليومي",
                 style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w900),
+                  color: Colors.black,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w900,
+                ),
               ),
             ),
             const Row(
               children: [
                 Expanded(child: SizedBox()),
                 Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: const Text(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: Text(
                     'هل انت متاكد من حذف هذا الذكر؟',
                     style: TextStyle(
-                        fontWeight: FontWeight.w800,
-                        fontSize: 22,
-                        color: Color.fromARGB(255, 128, 188, 189)),
+                      fontWeight: FontWeight.w800,
+                      fontSize: 22,
+                      color: Color.fromARGB(255, 128, 188, 189),
+                    ),
                   ),
-                )
+                ),
               ],
             ),
-            SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 20),
             InkWell(
               onTap: () {},
               borderRadius: BorderRadius.circular(20),
               child: Container(
                 width: 300,
                 height: 50,
-                child: Center(
-                  child: const Text(
-                    'حذف الذكر',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w600),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 128, 188, 189),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: const Text(
+                  'حذف الذكر',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 128, 188, 189),
-                    borderRadius: BorderRadius.circular(30)),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             InkWell(
               borderRadius: BorderRadius.circular(20),
-              onTap: () {
-                Navigator.pop(context);
-              },
+              onTap: () => Navigator.pop(context),
               child: Container(
                 width: 300,
                 height: 50,
-                child: const Center(
-                  child: Text(
-                    'الغاء',
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 128, 188, 189),
-                        fontWeight: FontWeight.w600),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: const Color.fromARGB(255, 128, 188, 189),
+                    width: 3,
+                  ),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: const Text(
+                  'الغاء',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 128, 188, 189),
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                        color: const Color.fromARGB(255, 128, 188, 189),
-                        width: 3),
-                    borderRadius: BorderRadius.circular(30)),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
           ],
         ),
       ),
