@@ -190,15 +190,29 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 Share.share('check out my website https://example.com');
               },
             ),
-            BlocBuilder<DrawerCubit, DrawerCubitState>(
-              builder: (context, state) {
-                return ForwardedTitleWidget(
-                  title: 'تحقق من التحديثات',
-                  onPressed: () {
-                    _showUpdateAlert(context);
-                  },
-                );
+            
+            BlocListener<DrawerCubit, DrawerCubitState>(
+              listener: (BuildContext context, DrawerCubitState state) {
+                if (state is CheckUpdatesState) {
+                  //   _showUpdateAlert(context);
+                  showLoader(context);
+                } else if (state is UpdateAvailableState) {
+                  // Overlay.of(context).
+                  //Navigator.pop(context);
+                  _showUpdateAlert(context);
+                } else if (state is NoUpdateState) {
+                  // Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(state.message)),
+                  );
+                }
               },
+              child: ForwardedTitleWidget(
+                title: 'تحقق من التحديثات',
+                onPressed: () {
+                  context.read<DrawerCubit>().checkUpdate();
+                },
+              ),
             ),
             ForwardedTitleWidget(
               title: 'تقييم التطبيق',
@@ -223,19 +237,15 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               onTap: () {
                 context.read<DrawerCubit>().checkVersion();
               },
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Text(
-                    'الإصدار ${context.watch<DrawerCubit>().appVersion}', // Display actual version
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Colors.grey,
-                        ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+              child: Text(
+                'الإصدار ${context.watch<DrawerCubit>().appVersion}',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Colors.grey,
+                    ),
+                textAlign: TextAlign.center,
               ),
-            )
+            ),
+
             // FutureBuilder(
             //   future:
             //       PackageInfo.fromPlatform(), // Future that gets package info
@@ -480,43 +490,41 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 //     ],
 //   ),
 // );
+
 void _showUpdateAlert(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('تحديث متاح', textAlign: TextAlign.right),
+        title: Text('', textAlign: TextAlign.right),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             // ✅ Fetch latest release automatically when dialog opens
-            FutureBuilder<String>(
-              future: GitHubApiService(
-                      githubToken: "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")
-                  .getLatestReleaseWithApk(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircularProgressIndicator(),
-                      SizedBox(width: 10),
-                      Text("جارِ جلب الإصدار الجديد..."),
-                    ],
-                  );
-                } else if (snapshot.hasError) {
-                  return Text(
-                    "حدث خطأ أثناء جلب التحديث",
-                    style: TextStyle(color: Colors.red),
-                  );
-                } else {
-                  return Text(
-                    "آخر إصدار متاح: ${snapshot.data}",
-                    textAlign: TextAlign.right,
-                  );
-                }
-              },
-            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(width: 10),
+                Text(
+                  "...جارِ جلب الإصدار الجديد",
+                  style: TextStyle(fontSize: 16),
+                ),
+                Spacer(),
+                CircularProgressIndicator(),
+              ],
+            )
+            // } else if (snapshot.hasError) {
+            //   return Text(
+            //     "حدث خطأ أثناء جلب التحديث",
+            //     style: TextStyle(color: Colors.red),
+            //   );
+            // } else {
+            //   return Text(
+            //     "آخر إصدار متاح: ${snapshot.data}",
+            //     textAlign: TextAlign.right,
+            //   );
+            // }
           ],
         ),
         actionsAlignment: MainAxisAlignment.start,
@@ -539,4 +547,20 @@ void _showUpdateAlert(BuildContext context) {
       );
     },
   );
+}
+
+void showLoader(BuildContext context) {
+  OverlayEntry overlayEntry = OverlayEntry(
+    builder: (context) => Container(
+      color: Colors.black.withOpacity(0.5),
+      child: Center(
+        child: CircularProgressIndicator(),
+      ),
+    ),
+  );
+
+  Overlay.of(context).insert(overlayEntry);
+
+  // To hide later:
+  // overlayEntry.remove();
 }

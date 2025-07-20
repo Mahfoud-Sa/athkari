@@ -4,7 +4,7 @@ description: "athkari project."
 publish_to: 'none' 
 
 
-version: 1.1.9
+version: 1.1.11
 
 environment:
   sdk: '>=3.3.0 <4.0.0'

@@ -17,10 +17,14 @@ class DrawerCubit extends Cubit<DrawerCubitState> {
   }
 
   checkUpdate() async {
-    emit(InitialDrawerPageState());
-    bool result = await _checkUpdatesUsecase();
-
-    // emit(DoneDailyWeredState_(0, result.totalWered!, result.compeletedWered!));
+    emit(CheckUpdatesState());
+    // if (true) {
+    //   appVersion = "V2.0.0";
+    //   emit(UpdateAvailableState(appVersion));
+    //   //UpdateAvailableState();
+    // } else {
+    //   emit((NoUpdateState("لا يوجد تحديثات متاحة")));
+    // }
   }
 
   checkVersion() async {

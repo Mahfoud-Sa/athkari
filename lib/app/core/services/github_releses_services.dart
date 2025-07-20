@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class GitHubApiService {
   final String githubToken;
-  final String owner = "athkari";
+  final String owner = "Mahfoud-Sa";
   final String repo = "athkari";
 
   GitHubApiService({required this.githubToken});
