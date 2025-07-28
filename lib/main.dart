@@ -34,7 +34,7 @@ Future<void> main() async {
       BlocProvider(
           create: (_) => EsnadsCubit(getIt(), getIt(), getIt(), getIt())),
       BlocProvider(create: (_) => HomepageCubit(getIt())),
-      BlocProvider(create: (_) => DrawerCubit(getIt())),
+      BlocProvider(create: (_) => DrawerCubit(getIt(),getIt())),
       BlocProvider(create: (_) => DailyWeredCubit_(getIt())),
     ],
     child: App(),

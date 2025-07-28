@@ -13,7 +13,7 @@ class GitHubApiService {
       Uri.parse('https://api.github.com/repos/$owner/$repo/releases'),
       headers: {
         'Accept': 'application/vnd.github.v3+json',
-        'Authorization': 'token $githubToken',
+     //   'Authorization': 'token $githubToken',
       },
     );
 
@@ -30,7 +30,7 @@ class GitHubApiService {
       Uri.parse('https://api.github.com/repos/$owner/$repo/releases/latest'),
       headers: {
         'Accept': 'application/vnd.github.v3+json',
-        'Authorization': 'token $githubToken',
+      //  'Authorization': 'token $githubToken',
       },
     );
 
@@ -48,7 +48,7 @@ class GitHubApiService {
       Uri.parse('https://api.github.com/repos/$owner/$repo/releases/latest'),
       headers: {
         'Accept': 'application/vnd.github.v3+json',
-        'Authorization': 'token $githubToken',
+      //  'Authorization': 'token $githubToken',
       },
     );
 

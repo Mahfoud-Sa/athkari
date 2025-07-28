@@ -28,11 +28,13 @@ import 'package:athkari/app/features/home/data/repository/home_repository_imp.da
 import 'package:athkari/app/features/home/domain/repository/home_repository.dart';
 import 'package:athkari/app/features/home/domain/usecase/check_updates_usecase.dart';
 import 'package:athkari/app/features/home/domain/usecase/fetch_daily_wered_usecase.dart';
+import 'package:athkari/app/features/home/domain/usecase/get_latest_apk_usecase.dart';
 import 'package:athkari/app/features/home/presentation/cubit/daily_wered_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/drawer_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/today_dekhar_cubit.dart';
 import 'package:get_it/get_it.dart';
+import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
@@ -60,7 +62,7 @@ Future<void> initializationContainer() async {
 //  appDataBaseServices.adhkaiDao.seedAdhkars();
   // State Managment
   getIt.registerFactory<HomepageCubit>(() => HomepageCubit(getIt()));
-  getIt.registerFactory<DrawerCubit>(() => DrawerCubit(getIt()));
+  getIt.registerFactory<DrawerCubit>(() => DrawerCubit(getIt(),getIt()));
 
   getIt.registerFactory<TodayDekharCubit>(() => TodayDekharCubit());
   getIt.registerFactory<DailyWereCubit>(
@@ -113,4 +115,5 @@ Future<void> initializationContainer() async {
 
   //Home usecase
   getIt.registerSingleton<CheckUpdatesUsecase>(CheckUpdatesUsecase(getIt()));
+  getIt.registerSingleton<GetLatestAPKUsecase>(GetLatestAPKUsecase(getIt()));
 }

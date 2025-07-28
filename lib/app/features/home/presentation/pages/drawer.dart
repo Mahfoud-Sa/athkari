@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:ui';
-
 import 'package:athkari/app/core/services/app_database_services.dart';
 import 'package:athkari/app/features/home/presentation/cubit/drawer_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/drawer_cubit_status.dart';
@@ -24,7 +23,7 @@ final Uri _url = Uri.parse(
     'https://github.com/Mahfoud-Sa/athkari/releases/download/v1.0.5m19/app-release.apk');
 
 class DrawerWidget extends StatefulWidget {
-  DrawerWidget({
+  const DrawerWidget({
     super.key,
   });
 
@@ -190,30 +189,46 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 Share.share('check out my website https://example.com');
               },
             ),
-            
-            BlocListener<DrawerCubit, DrawerCubitState>(
-              listener: (BuildContext context, DrawerCubitState state) {
-                if (state is CheckUpdatesState) {
-                  //   _showUpdateAlert(context);
-                  showLoader(context);
-                } else if (state is UpdateAvailableState) {
-                  // Overlay.of(context).
-                  //Navigator.pop(context);
-                  _showUpdateAlert(context);
-                } else if (state is NoUpdateState) {
-                  // Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text(state.message)),
-                  );
-                }
-              },
-              child: ForwardedTitleWidget(
-                title: 'تحقق من التحديثات',
-                onPressed: () {
-                  context.read<DrawerCubit>().checkUpdate();
-                },
-              ),
-            ),
+           BlocListener<DrawerCubit, DrawerCubitState>(
+  listener: (BuildContext context, DrawerCubitState state) {
+    if (state is CheckUpdatesState) {
+      // Show loading indicator
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(child: CircularProgressIndicator()),
+      );
+    } 
+    else if (state is UpdateAvailableState) {
+      // Dismiss any loading dialog first
+      Navigator.of(context).pop(); 
+      // Then show update alert
+      _showUpdateAlert(context,state.link);
+    } 
+    else if (state is NoUpdateState) {
+      // Dismiss any loading dialog
+      Navigator.of(context).pop();
+      // Show snackbar message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(state.message)),
+      );
+    }
+    else if (state is CheckUpdateErrorState) {
+      // Dismiss any loading dialog
+      Navigator.of(context).pop();
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(state.errorMessage)),
+      );
+    }
+  },
+  child: ForwardedTitleWidget(
+    title: 'تحقق من التحديثات',
+    onPressed: () {
+      context.read<DrawerCubit>().checkUpdate();
+    },
+  ),
+),
             ForwardedTitleWidget(
               title: 'تقييم التطبيق',
               onPressed: () {
@@ -231,62 +246,23 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               },
             ),
             SizedBox(
-              height: 10,
+              height: 30,
             ),
-            GestureDetector(
-              onTap: () {
-                context.read<DrawerCubit>().checkVersion();
-              },
-              child: Text(
-                'الإصدار ${context.watch<DrawerCubit>().appVersion}',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.grey,
-                    ),
-                textAlign: TextAlign.center,
+            Center(
+              child: GestureDetector(
+                onTap: () {
+             //     context.read<DrawerCubit>().checkVersion();
+                },
+                child:context.watch<DrawerCubit>().appVersion!=null? Text(
+                  '${context.watch<DrawerCubit>().appVersion}الإصدار ',
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Colors.grey,
+                      ),
+                  textAlign: TextAlign.center,
+                ):CircularProgressIndicator(),
               ),
             ),
 
-            // FutureBuilder(
-            //   future:
-            //       PackageInfo.fromPlatform(), // Future that gets package info
-            //   builder: (context, snapshot) {
-            //     // Handle different connection states
-            //     if (snapshot.connectionState == ConnectionState.waiting) {
-            //       return const Center(child: CircularProgressIndicator());
-            //     }
-
-            //     if (snapshot.hasError) {
-            //       return Center(
-            //         child: Text(
-            //           'فشل في تحميل معلومات التطبيق',
-            //           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            //                 color: Colors.grey,
-            //               ),
-            //         ),
-            //       );
-            //     }
-
-            //     // When data is available
-            //     if (snapshot.hasData) {
-            //       final packageInfo = snapshot.data as PackageInfo;
-            //       return Center(
-            //         child: Padding(
-            //           padding: const EdgeInsets.all(16.0),
-            //           child: Text(
-            //             'الإصدار ${packageInfo.version}', // Display actual version
-            //             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            //                   color: Colors.grey,
-            //                 ),
-            //             textAlign: TextAlign.center,
-            //           ),
-            //         ),
-            //       );
-            //     }
-
-            //     // Fallback (shouldn't reach here)
-            //     return const SizedBox.shrink();
-            //   },
-            // )
           ],
         ),
       ),
@@ -326,8 +302,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               children: [
                 Expanded(child: SizedBox()),
                 Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: const Text(
+                  padding:  EdgeInsets.only(right: 8.0),
+                  child:  Text(
                     'حدد موعد ظهور اشعارات الورد اليومي',
                     style: TextStyle(
                         fontWeight: FontWeight.w800,
@@ -491,7 +467,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 //   ),
 // );
 
-void _showUpdateAlert(BuildContext context) {
+void _showUpdateAlert(BuildContext context, String link) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -538,8 +514,8 @@ void _showUpdateAlert(BuildContext context) {
           TextButton(
             child: Text('تحديث'),
             onPressed: () async {
-              if (!await launchUrl(_url)) {
-                throw Exception('Could not launch $_url');
+              if (!await launchUrl(Uri.parse(link))) {
+                throw Exception('Could not launch $link');
               }
             },
           ),
