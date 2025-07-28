@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:athkari/app/core/services/github_releses_services.dart';
+import 'package:athkari/app/features/home/data/datasources/release_remote_datasources.dart';
 import 'package:athkari/app/features/categories/data/repository/category_repository_imp.dart';
 import 'package:athkari/app/features/categories/domain/usecase/add_category_with_esnade_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/add_catogories_usecase.dart';
@@ -24,8 +24,11 @@ import 'package:athkari/app/features/esnaad/domain/usecase/delete_esnad_usecase.
 import 'package:athkari/app/features/esnaad/domain/usecase/get_all_esnad_usecase.dart';
 import 'package:athkari/app/features/esnaad/domain/usecase/update_esnade_usecase.dart';
 import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
+import 'package:athkari/app/features/home/data/datasources/release_remote_datasources_imp.dart';
 import 'package:athkari/app/features/home/data/repository/home_repository_imp.dart';
+import 'package:athkari/app/features/home/data/repository/releases_repository_imp.dart';
 import 'package:athkari/app/features/home/domain/repository/home_repository.dart';
+import 'package:athkari/app/features/home/domain/repository/releases_repository.dart';
 import 'package:athkari/app/features/home/domain/usecase/check_updates_usecase.dart';
 import 'package:athkari/app/features/home/domain/usecase/fetch_daily_wered_usecase.dart';
 import 'package:athkari/app/features/home/domain/usecase/get_latest_apk_usecase.dart';
@@ -55,8 +58,8 @@ Future<void> initializationContainer() async {
   final appDataBaseServices = AppDataBaseServices();
   await appDataBaseServices.db;
   final gitHubApiService =
-      GitHubApiService(githubToken: "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");
-  getIt.registerSingleton<GitHubApiService>(gitHubApiService);
+      ReleaseRemoteDataSorcesImp(githubToken: "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");
+  getIt.registerSingleton<ReleaseRemoteDataSorcesImp>(gitHubApiService);
   getIt.registerSingleton<AppDataBaseServices>(appDataBaseServices);
   // appDataBaseServices.categoryDao.seedCategory();
 //  appDataBaseServices.adhkaiDao.seedAdhkars();
@@ -81,6 +84,8 @@ Future<void> initializationContainer() async {
       DailyWeredRepositoryImpl(getIt()));
   getIt.registerSingleton<HomeRepositoryImp>(
       HomeRepositoryImp(getIt(), getIt()));
+      getIt.registerSingleton<ReleaseRepositoryImp>(
+      ReleaseRepositoryImp(getIt()));
 
   // use cases
   //daily use case

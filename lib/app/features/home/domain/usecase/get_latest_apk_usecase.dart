@@ -1,9 +1,10 @@
 import 'package:athkari/app/core/usecase/usecase.dart';
 import 'package:athkari/app/features/home/data/repository/home_repository_imp.dart';
+import 'package:athkari/app/features/home/domain/repository/releases_repository.dart';
 
 
 class GetLatestRelease implements UseCase<String, void> {
-  final HomeRepositoryImp _homeRepository;
+  final ReleasesRepository _homeRepository;
   GetLatestRelease(this._homeRepository);
   @override
   Future<String> call({params}) async {

@@ -6,7 +6,7 @@ import 'package:athkari/app/features/home/presentation/cubit/drawer_cubit_status
 import 'package:athkari/app/features/home/presentation/widgets/DrawerTitleWidet.dart';
 import 'package:athkari/app/features/home/presentation/widgets/ForwardedTitleWidget.dart';
 import 'package:athkari/app/features/home/presentation/widgets/MyExpansionRadioTile.dart';
-import 'package:athkari/app/core/services/github_releses_services.dart';
+import 'package:athkari/app/features/home/data/datasources/release_remote_datasources.dart';
 import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';

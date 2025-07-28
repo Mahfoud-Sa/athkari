@@ -1,18 +1,34 @@
-import 'package:athkari/app/features/home/data/model/releases_assest_model.dart';
+import 'package:athkari/app/features/home/data/model/assest_model.dart';
+import 'package:athkari/app/features/home/data/model/auther_model.dart';
 import 'package:athkari/app/features/home/domain/entity/release_entity.dart';
 
 
-class ReleaseModel extends ReleaseEntity {
+
+class ReleaseModel {
+  final int id;
+  final String tagName;
+  final String name;
+  final String htmlUrl;
+  final bool draft;
+  final bool prerelease;
+  final DateTime createdAt;
+  final DateTime publishedAt;
+  final String body;
+  final AuthorModel author;
+  final List<AssetsModel> assets;
+
   ReleaseModel({
-    required super.id,
-    required super.tagName,
-    required super.name,
-    required super.htmlUrl,
-    required super.body,
-    required super.createdAt,
-    required super.publishedAt,
-    required super.targetCommitish,
-    required List<ReleaseAssetModel> super.assets,
+    required this.id,
+    required this.tagName,
+    required this.name,
+    required this.htmlUrl,
+    required this.draft,
+    required this.prerelease,
+    required this.createdAt,
+    required this.publishedAt,
+    required this.body,
+    required this.author,
+    required this.assets,
   });
 
   factory ReleaseModel.fromJson(Map<String, dynamic> json) {
@@ -21,15 +37,31 @@ class ReleaseModel extends ReleaseEntity {
       tagName: json['tag_name'],
       name: json['name'],
       htmlUrl: json['html_url'],
-      body: json['body'],
+      draft: json['draft'],
+      prerelease: json['prerelease'],
       createdAt: DateTime.parse(json['created_at']),
       publishedAt: DateTime.parse(json['published_at']),
-      targetCommitish: json['target_commitish'],
+      body: json['body'],
+      author: AuthorModel.fromJson(json['author']),
       assets: (json['assets'] as List)
-          .map((a) => ReleaseAssetModel.fromJson(a))
+          .map((a) => AssetsModel.fromJson(a))
           .toList(),
     );
   }
+
+  ReleasesEntity toEntity() {
+    return ReleasesEntity(
+      id: id,
+      tagName: tagName,
+      name: name,
+      htmlUrl: htmlUrl,
+      draft: draft,
+      prerelease: prerelease,
+      createdAt: createdAt,
+      publishedAt: publishedAt,
+      body: body,
+      author: author.toEntity(),
+      assets: assets.map((e) => e.toEntity()).toList(),
+    );
+  }
 }
-
-

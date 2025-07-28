@@ -5,6 +5,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 abstract class ReleasesRepository {
   Future<PackageInfo> getCurrentPackageInfo();
-  Future<bool> isUpdateAvailable();
+  Future<bool> isUpdateAvailable(String currentVersion);
   Future<String> getUpdateAPK();
 }
