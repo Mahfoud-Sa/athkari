@@ -254,7 +254,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
              //     context.read<DrawerCubit>().checkVersion();
                 },
                 child:context.watch<DrawerCubit>().appVersion!=null? Text(
-                  '${context.watch<DrawerCubit>().appVersion}الإصدار ',
+                  'v${context.watch<DrawerCubit>().appVersion} الإصدار',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                         color: Colors.grey,
                       ),
@@ -483,11 +483,11 @@ void _showUpdateAlert(BuildContext context, String link) {
               children: [
                 SizedBox(width: 10),
                 Text(
-                  "...جارِ جلب الإصدار الجديد",
+                  "اضغط على زر التحديث ليبدا تنزيل الاصدار الجديد",
                   style: TextStyle(fontSize: 16),
                 ),
-                Spacer(),
-                CircularProgressIndicator(),
+               // Spacer(),
+            //    CircularProgressIndicator(),
               ],
             )
             // } else if (snapshot.hasError) {
