@@ -251,7 +251,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             Center(
               child: GestureDetector(
                 onTap: () {
-             //     context.read<DrawerCubit>().checkVersion();
+                 // context.read<DrawerCubit>().checkVersion();
                 },
                 child:context.watch<DrawerCubit>().appVersion!=null? Text(
                   'v${context.watch<DrawerCubit>().appVersion} الإصدار',

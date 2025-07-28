@@ -68,4 +68,6 @@ class GitHubApiService {
       throw Exception('Failed to load latest release: ${response.statusCode}');
     }
   }
+
+
 }

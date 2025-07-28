@@ -115,5 +115,5 @@ Future<void> initializationContainer() async {
 
   //Home usecase
   getIt.registerSingleton<CheckUpdatesUsecase>(CheckUpdatesUsecase(getIt()));
-  getIt.registerSingleton<GetLatestAPKUsecase>(GetLatestAPKUsecase(getIt()));
+  getIt.registerSingleton<GetLatestRelease>(GetLatestRelease(getIt()));
 }
