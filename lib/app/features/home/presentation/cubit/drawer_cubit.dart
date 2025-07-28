@@ -22,7 +22,7 @@ class DrawerCubit extends Cubit<DrawerCubitState> {
       try {
         final updateAvailable = await _checkUpdatesUsecase();
         if (updateAvailable) {
-        final apkLink=await _getLatestAPKUsecase();
+        final apkLink=await _getLatestAPKUsecase(params: '1.2.7');
           emit(UpdateAvailableState(apkLink));
         } else {
           emit(NoUpdateState('لا يوجد تحديثات متاحة'));

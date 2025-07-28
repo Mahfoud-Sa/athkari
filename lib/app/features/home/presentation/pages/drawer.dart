@@ -33,8 +33,11 @@ class DrawerWidget extends StatefulWidget {
 
 class _DrawerWidgetState extends State<DrawerWidget> {
   bool _value = false;
+  
   @override
   Widget build(BuildContext context) {
+     // Watch appVersion once here:
+    final appVersion = context.watch<DrawerCubit>().appVersion;
     return Drawer(
       width: double.infinity,
       child: SingleChildScrollView(
@@ -248,20 +251,23 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             SizedBox(
               height: 30,
             ),
+
             Center(
-              child: GestureDetector(
-                onTap: () {
-                 // context.read<DrawerCubit>().checkVersion();
-                },
-                child:context.watch<DrawerCubit>().appVersion!=null? Text(
-                  'v${context.watch<DrawerCubit>().appVersion} الإصدار',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Colors.grey,
-                      ),
-                  textAlign: TextAlign.center,
-                ):CircularProgressIndicator(),
-              ),
-            ),
+  child: GestureDetector(
+    onTap: () {
+      // context.read<DrawerCubit>().checkVersion();
+    },
+    child: appVersion != null
+        ? Text(
+            'v$appVersion الإصدار',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Colors.grey,
+                ),
+            textAlign: TextAlign.center,
+          )
+        : CircularProgressIndicator(),
+  ),
+)
 
           ],
         ),
