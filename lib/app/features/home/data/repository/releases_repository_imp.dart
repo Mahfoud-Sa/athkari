@@ -10,9 +10,9 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 class ReleaseRepositoryImp implements ReleasesRepository {
   // final AppDataBaseServices _appDataBaseServices;
-  final ReleaseRemoteDataSorcesImp _releaseRemoteDataSoucesImp;
+  final ReleaseRemoteDataSorcesImp _releaseRemoteDataSoucesImp=ReleaseRemoteDataSorcesImp(githubToken: '');
 
-  ReleaseRepositoryImp( this._releaseRemoteDataSoucesImp);
+  //ReleaseRepositoryImp();
    @override
   Future<PackageInfo> getCurrentPackageInfo() async {
     return await PackageInfo.fromPlatform();

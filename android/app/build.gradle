@@ -58,7 +58,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-        ndkVersion "25.1.8937393" // Add this line
+        ndkVersion "27.0.12077973" // Add this line
 
 }
 

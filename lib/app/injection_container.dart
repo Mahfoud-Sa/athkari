@@ -85,7 +85,7 @@ Future<void> initializationContainer() async {
   getIt.registerSingleton<HomeRepositoryImp>(
       HomeRepositoryImp(getIt(), getIt()));
       getIt.registerSingleton<ReleaseRepositoryImp>(
-      ReleaseRepositoryImp(getIt()));
+      ReleaseRepositoryImp());
 
   // use cases
   //daily use case
@@ -119,6 +119,6 @@ Future<void> initializationContainer() async {
   getIt.registerSingleton<DeleteEsnadeUsecase>(DeleteEsnadeUsecase(getIt()));
 
   //Home usecase
-  getIt.registerSingleton<CheckUpdatesUsecase>(CheckUpdatesUsecase(getIt()));
-  getIt.registerSingleton<GetLatestRelease>(GetLatestRelease(getIt()));
+ getIt.registerSingleton<CheckUpdatesUsecase>(CheckUpdatesUsecase(getIt()));
+ getIt.registerSingleton<GetLatestRelease>(GetLatestRelease(getIt()));
 }
