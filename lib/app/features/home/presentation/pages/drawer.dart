@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:athkari/app/core/services/app_database_services.dart';
+import 'package:athkari/app/features/home/data/model/release_model.dart';
 import 'package:athkari/app/features/home/presentation/cubit/drawer_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/drawer_cubit_status.dart';
 import 'package:athkari/app/features/home/presentation/widgets/DrawerTitleWidet.dart';
@@ -12,12 +13,15 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
 // import 'package:rating/rating.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:ui' as ui; // Add this import
+
 
 final Uri _url = Uri.parse(
     'https://github.com/Mahfoud-Sa/athkari/releases/download/v1.0.5m19/app-release.apk');
@@ -206,7 +210,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       // Dismiss any loading dialog first
       Navigator.of(context).pop(); 
       // Then show update alert
-      _showUpdateAlert(context,state.link);
+      _showUpdateAlert(context,state.releaseModel);
     } 
     else if (state is NoUpdateState) {
       // Dismiss any loading dialog
@@ -473,59 +477,93 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 //   ),
 // );
 
-void _showUpdateAlert(BuildContext context, String link) {
+
+void _showUpdateAlert(BuildContext context, ReleaseModel release) {
+  final dateFormat = DateFormat('yyyy/MM/dd'); // Date formatter
+  final size = MediaQuery.of(context).size;
+
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('', textAlign: TextAlign.right),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // ✅ Fetch latest release automatically when dialog opens
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      return Directionality(
+       // textDirection: TextDirection.RTL,
+        textDirection:ui.TextDirection.rtl,
+        child: AlertDialog(
+          title: Text(
+            'تحديث جديد متاح',
+            textAlign: TextAlign.right,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: SizedBox(
+            width: size.width * 0.8,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(width: 10),
+                // Version Info
                 Text(
-                  "اضغط على زر التحديث ليبدا تنزيل الاصدار الجديد",
-                  style: TextStyle(fontSize: 16),
+                  'الإصدار: ${release.tagName}',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                 ),
-               // Spacer(),
-            //    CircularProgressIndicator(),
+                SizedBox(height: 8),
+                
+                // Release Date
+                Text(
+                  'تاريخ النشر: ${dateFormat.format(release.publishedAt)}',
+                  style: TextStyle(fontSize: 14, color: Colors.grey[600]),
+                ),
+                SizedBox(height: 12),
+                
+                // Release Notes
+                if (release.body.isNotEmpty) ...[
+                  Text(
+                    'ملاحظات الإصدار:',
+                    style: TextStyle(fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    release.body,
+                    textAlign: TextAlign.right,
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  SizedBox(height: 16),
+                ],
+                
+                // Download Instructions
+                Text(
+                  "اضغط على زر التحديث لبدء تنزيل الإصدار الجديد",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
               ],
-            )
-            // } else if (snapshot.hasError) {
-            //   return Text(
-            //     "حدث خطأ أثناء جلب التحديث",
-            //     style: TextStyle(color: Colors.red),
-            //   );
-            // } else {
-            //   return Text(
-            //     "آخر إصدار متاح: ${snapshot.data}",
-            //     textAlign: TextAlign.right,
-            //   );
-            // }
+            ),
+          ),
+          actionsAlignment: MainAxisAlignment.start,
+          actions: <Widget>[
+            TextButton(
+              child: Text('الغاء'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColor,
+              ),
+              child: Text('تحديث الآن'),
+              onPressed: () async {
+                if (release.assets.isNotEmpty) {
+                  final url = release.assets.first.browserDownloadUrl;
+                  if (!await launchUrl(Uri.parse(url))) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('فشل فتح رابط التحديث')),
+                    );
+                  }
+                }
+              },
+            ),
           ],
         ),
-        actionsAlignment: MainAxisAlignment.start,
-        actions: <Widget>[
-          TextButton(
-            child: Text('الغاء'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-          TextButton(
-            child: Text('تحديث'),
-            onPressed: () async {
-              if (!await launchUrl(Uri.parse(link))) {
-                throw Exception('Could not launch $link');
-              }
-            },
-          ),
-        ],
       );
     },
   );

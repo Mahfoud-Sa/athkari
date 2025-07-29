@@ -19,8 +19,8 @@ class ReleaseRepositoryImp implements ReleasesRepository {
   }
 
   @override
-  Future<String> getUpdateAPK() {
-    return _releaseRemoteDataSoucesImp.getLatestReleaseWithApk();
+  Future<ReleaseModel> getUpdateAPK() {
+    return _releaseRemoteDataSoucesImp.getLatestRelease();
   }
 
   @override
