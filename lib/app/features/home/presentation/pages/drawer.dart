@@ -7,7 +7,7 @@ import 'package:athkari/app/features/home/presentation/cubit/drawer_cubit_status
 import 'package:athkari/app/features/home/presentation/widgets/DrawerTitleWidet.dart';
 import 'package:athkari/app/features/home/presentation/widgets/ForwardedTitleWidget.dart';
 import 'package:athkari/app/features/home/presentation/widgets/MyExpansionRadioTile.dart';
-import 'package:athkari/app/features/home/data/datasources/release_remote_datasources.dart';
+import 'package:athkari/app/features/home/presentation/widgets/drawer_app_bar_widget.dart';
 import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -15,16 +15,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
-// import 'package:rating/rating.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:ui' as ui; // Add this import
+import 'dart:ui' as ui; 
 
 
-final Uri _url = Uri.parse(
-    'https://github.com/Mahfoud-Sa/athkari/releases/download/v1.0.5m19/app-release.apk');
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({
@@ -48,46 +43,14 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Container(
-              height: 100,
-              decoration: const BoxDecoration(
-                  borderRadius:
-                      BorderRadius.vertical(bottom: Radius.circular(30)),
-                  image: DecorationImage(
-                      fit: BoxFit.fitWidth,
-                      image: AssetImage("assets/images/patteren.png"))),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  // First widget aligned to the right
-                  const SizedBox(
-                    width: 50,
-                  ),
-                  // Second widget centered
-                  Text(
-                    'إعدادات التطبيق',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(color: Colors.white, fontSize: 24),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Builder(builder: (context) {
-                      return IconButton(
-                        onPressed: () {
-                          Scaffold.of(context).closeDrawer();
-                        },
-                        icon: SvgPicture.asset('assets/svgs/back_button.svg'),
-                      );
-                    }),
-                  ),
-                ],
-              ),
-            ),
+            //custome app bar
+            DrawerAppBar(),
+           
+           
             DrawerTitleWidet(
               title: 'إعدادات التطبيق',
             ),
+
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -114,6 +77,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ],
               ),
             ),
+          
             MyExpansionRadioTile(
               title: 'ضبط الوقت والتاريخ',
               selected: true,
@@ -197,32 +161,39 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               },
             ),
            BlocListener<DrawerCubit, DrawerCubitState>(
-  listener: (BuildContext context, DrawerCubitState state) {
-    if (state is CheckUpdatesState) {
-      // Show loading indicator
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(child: CircularProgressIndicator()),
-      );
-    } 
-    else if (state is UpdateAvailableState) {
-      // Dismiss any loading dialog first
-      Navigator.of(context).pop(); 
-      // Then show update alert
-      _showUpdateAlert(context,state.releaseModel);
-    } 
-    else if (state is NoUpdateState) {
-      // Dismiss any loading dialog
-      Navigator.of(context).pop();
-      // Show snackbar message
+                listener: (BuildContext context, DrawerCubitState state) async {
+                    if (state is CheckUpdatesState) {
+                      // Show loading indicator
+                      showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => const Center(child: CircularProgressIndicator()),
+  );
+                    } 
+                  else if (state is UpdateAvailableState) {
+                   
+                    _showUpdateAlert(context,state.releaseModel);
+                  } 
+                 else if (state is NoUpdateState) {
+  if (Navigator.of(context).canPop()) {
+    Navigator.of(context).pop();
+  }
+  if (context.mounted) {
+  try {
+    showOkayAlert(context,state.message) ; } catch (e) {
+    debugPrint('Error showing dialog: $e');
+    if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(state.message)),
+        const SnackBar(content: Text('حدث خطأ في عرض التنبيه')),
       );
     }
+  }
+}
+}
     else if (state is CheckUpdateErrorState) {
       // Dismiss any loading dialog
-      Navigator.of(context).pop();
+    //  Navigator.of(context).pop();
+      
       // Show error message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(state.errorMessage)),
@@ -438,6 +409,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       ),
     );
   }
+
 }
 
 // class PrintRatingController extends RatingController {
@@ -569,18 +541,62 @@ void _showUpdateAlert(BuildContext context, ReleaseModel release) {
   );
 }
 
-void showLoader(BuildContext context) {
-  OverlayEntry overlayEntry = OverlayEntry(
-    builder: (context) => Container(
-      color: Colors.black.withOpacity(0.5),
-      child: Center(
-        child: CircularProgressIndicator(),
-      ),
-    ),
+void _showLoading(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => const Center(child: CircularProgressIndicator()),
   );
+}
+void showOkayAlert(BuildContext context, String message) {
+  final size = MediaQuery.of(context).size;
 
-  Overlay.of(context).insert(overlayEntry);
-
-  // To hide later:
-  // overlayEntry.remove();
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Directionality(
+        textDirection: ui.TextDirection.rtl,
+        child: AlertDialog(
+          title: const Text(
+            'تنبيه',
+            textAlign: TextAlign.right,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            ),
+          ),
+          content: SizedBox(
+            width: size.width * 0.8,
+            child: Text(
+              message,
+              textAlign: TextAlign.right,
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text(
+                'موافق',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+          actionsAlignment: MainAxisAlignment.end,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+        ),
+      );
+    },
+  );
 }

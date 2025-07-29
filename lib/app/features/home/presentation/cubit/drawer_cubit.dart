@@ -20,10 +20,14 @@ class DrawerCubit extends Cubit<DrawerCubitState> {
     void checkUpdate() async {
       emit(CheckUpdatesState());
       try {
-        final updateAvailable = await _checkUpdatesUsecase();
+         if(appVersion==null){
+            checkVersion();
+          }
+        final updateAvailable = await _checkUpdatesUsecase(params: appVersion);
         if (updateAvailable) {
-        final apkLink=await _getLatestAPKUsecase(params: '1.2.7');
-          emit(UpdateAvailableState(apkLink));
+         
+        final apkLink=await _getLatestAPKUsecase();
+        emit(UpdateAvailableState(apkLink));
         } else {
           emit(NoUpdateState('لا يوجد تحديثات متاحة'));
         }
