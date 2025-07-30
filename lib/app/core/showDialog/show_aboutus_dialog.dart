@@ -29,7 +29,8 @@ Future<dynamic> showAboutUsDialog(BuildContext context) {
                   ),
                   const SizedBox(height: 12),
                   _buildContactItem('• GID tEAM'),
-                  _buildContactItem('• م. محفوظ بن صباح - مطور ومصمم التطبيق'),
+                  _buildContactItem('• م. محفوظ بن سباح'),
+                  
                  
                   
                   const SizedBox(height: 20),
@@ -41,6 +42,7 @@ Future<dynamic> showAboutUsDialog(BuildContext context) {
                   const SizedBox(height: 12),
                   _buildContactItem('البريد الإلكتروني: binsabbah2013@gmail.com'),
                   _buildContactItem('رقم الهاتف: 770266408'),
+                 // _buildContactItem('linkedIn:https://www.linkedin.com/in/mahfoud-sa/'),
                 ],
               ),
             ),
