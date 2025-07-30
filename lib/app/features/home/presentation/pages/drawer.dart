@@ -1,3 +1,5 @@
+import 'package:athkari/app/core/showDialog/show_aboutus_dialog.dart';
+import 'package:athkari/app/core/showDialog/show_okay_dialog.dart';
 import 'package:athkari/app/features/home/data/model/release_model.dart';
 import 'package:athkari/app/features/home/presentation/cubit/app_update_drawer_cubit_status.dart';
 import 'package:athkari/app/features/home/presentation/widgets/DrawerTitleWidet.dart';
@@ -127,9 +129,9 @@ class DrawerWidget extends StatelessWidget {
           },
         ),
         ForwardedTitleWidget(
-          title: 'تواصل معنا',
-          onPressed: () => showAboutDialog(context: context),
-        ),
+  title: 'تواصل معنا',
+  onPressed: () => showAboutUsDialog(context),
+),
       ],
     );
   }
@@ -148,7 +150,7 @@ class DrawerWidget extends StatelessWidget {
           _showUpdateDialog(context, state.releaseModel);
         } else if (state is NoUpdateState) {
           Navigator.pop(context);
-          _showOkayAlert(context, state.message);
+          showOkayAlert(context, state.message);
         } else if (state is CheckUpdateErrorState) {
           Navigator.pop(context);
           ScaffoldMessenger.of(context).showSnackBar(
@@ -427,49 +429,4 @@ class DrawerWidget extends StatelessWidget {
     );
   }
 
-  void _showOkayAlert(BuildContext context, String message) {
-    final size = MediaQuery.of(context).size;
-
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Directionality(
-          textDirection: ui.TextDirection.rtl,
-          child: AlertDialog(
-            title: const Text(
-              'تنبيه',
-              textAlign: TextAlign.right,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            content: SizedBox(
-              width: size.width * 0.8,
-              child: Text(
-                message,
-                textAlign: TextAlign.right,
-                style: const TextStyle(fontSize: 16),
-              ),
-            ),
-            actions: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                ),
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text(
-                  'موافق',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ],
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-          ),
-        );
-      },
-    );
-  }
+  
