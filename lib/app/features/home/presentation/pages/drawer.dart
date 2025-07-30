@@ -71,7 +71,8 @@ class DrawerWidget extends StatelessWidget {
                 activeColor: const Color.fromARGB(255, 157, 199, 168),
                 value: false,
                 onChanged: (value) {
-                 context.read<AppUpdateCubit>().toggleDarkMode(value);
+                  value=!value;
+                // context.read<AppUpdateCubit>().toggleDarkMode(value);
                 },
               ),
               Text(

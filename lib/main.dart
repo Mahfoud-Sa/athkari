@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:athkari/app/config/routes/routes.dart';
 import 'package:athkari/app/config/thems/light_thems.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
@@ -15,7 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
- //   await Isolate.run(() => initializationContainer());
+   // await Isolate.run(() => initializationContainer());
 
   await initializationContainer();
   runApp(
@@ -39,7 +41,7 @@ Future<void> main() async {
       BlocProvider(
       create: (context) {
         final cubit = AppUpdateCubit(getIt(), getIt());
-        cubit.checkVersion();
+        cubit.checkUpdate();
         return cubit;
       },
     ),
@@ -57,7 +59,6 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        useInheritedMediaQuery: true,
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder,
         title: 'أذكاري',

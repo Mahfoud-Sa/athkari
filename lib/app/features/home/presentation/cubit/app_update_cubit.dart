@@ -7,36 +7,42 @@ import 'package:package_info_plus/package_info_plus.dart';
 class AppUpdateCubit extends Cubit<AppUpdateCubitState> {
   final CheckUpdatesUsecase _checkUpdatesUsecase;
   final GetLatestRelease _getLatestAPKUsecase;
-  //List<CategoryEntity> categoriesList = [];
-  String? appVersion ;
+  String? appVersion;
 
-  AppUpdateCubit(this._checkUpdatesUsecase, this._getLatestAPKUsecase) : super(AppUpdateCubitState()) {
-    checkVersion();
+  AppUpdateCubit(this._checkUpdatesUsecase, this._getLatestAPKUsecase) 
+      : super(AppUpdateCubitState()) {
+    _initializeVersion();
   }
-    void checkUpdate() async {
-      emit(CheckUpdatesState());
-      try {
-         if(appVersion==null){
-            checkVersion();
-          }
-        final updateAvailable = await _checkUpdatesUsecase(params: appVersion);
-        if (updateAvailable) {
-         
-        final apkLink=await _getLatestAPKUsecase();
-        emit(UpdateAvailableState(apkLink));
-        } else {
-          emit(NoUpdateState('لا يوجد تحديثات متاحة'));
-        }
-      } catch (e) {
-        emit(CheckUpdateErrorState('فشل في التحقق من التحديثات'));
+
+  Future<void> _initializeVersion() async {
+    try {
+      final _packageInfo = await PackageInfo.fromPlatform();
+      appVersion = _packageInfo.version;
+    } catch (e) {
+      emit(CheckUpdateErrorState('فشل في الحصول على إصدار التطبيق'));
+    }
+  }
+
+  Future<void> checkUpdate() async {
+    if (appVersion == null) {
+      await _initializeVersion();
+      if (appVersion == null) {
+        emit(CheckUpdateErrorState('لا يمكن التحقق من التحديثات'));
+        return;
       }
     }
-  checkVersion() async {
-    PackageInfo _packageInfo = await PackageInfo.fromPlatform();
-    appVersion = _packageInfo.version;
-  }
-
-  toggleDarkMode(value){
-return false;
+    
+    emit(CheckUpdatesState());
+    try {
+      final updateAvailable = await _checkUpdatesUsecase(params: appVersion);
+      if (updateAvailable) {
+        final apkLink = await _getLatestAPKUsecase();
+        emit(UpdateAvailableState(apkLink));
+      } else {
+        emit(NoUpdateState('لا يوجد تحديثات متاحة'));
+      }
+    } catch (e) {
+      emit(CheckUpdateErrorState('فشل في التحقق من التحديثات'));
+    }
   }
 }
