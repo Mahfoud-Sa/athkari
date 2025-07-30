@@ -47,11 +47,14 @@ class _ExpandableRadioGroupState extends State<ExpandableRadioGroup> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 widget.title,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(fontSize: 22),
-                textAlign: widget.isRTL ? TextAlign.right : TextAlign.left,
+                style: const TextStyle(
+                    color: Color(0xff3a3a3a),
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "IBMPlexSansArabic",
+                    fontStyle:  FontStyle.normal,
+                    fontSize: 16.0
+                ),
+                //textAlign: widget.isRTL ? TextAlign.right : TextAlign.left,
               ),
             ),
             
@@ -81,11 +84,15 @@ class _ExpandableRadioGroupState extends State<ExpandableRadioGroup> {
   Widget _buildSelectedOptionText() {
     return Text(
       _selectedValue ? widget.options[0] : widget.options[1],
-      style: Theme.of(context)
-          .textTheme
-          .titleMedium!
-          .copyWith(fontSize: 18, fontWeight: FontWeight.normal),
-      textAlign: widget.isRTL ? TextAlign.right : TextAlign.left,
+      style:   TextStyle(
+    color:   Color(0xff3a3a3a),
+    fontWeight: FontWeight.w400,
+    fontFamily: "IBMPlexSansArabic",
+    fontStyle:  FontStyle.normal,
+    fontSize: 16.0
+),
+textAlign: TextAlign.right
+     // textAlign: widget.isRTL ? TextAlign.right : TextAlign.left,
     );
   }
 

@@ -74,7 +74,14 @@ class DrawerWidget extends StatelessWidget {
               ),
               Text(
                 'الوضع الليلي',
-                style: Theme.of(context).textTheme.titleMedium,
+                  style: const TextStyle(
+                          color:   Color(0xff3a3a3a),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "IBMPlexSansArabic",
+                          fontStyle:  FontStyle.normal,
+                          fontSize: 16.0
+                      ),
+                      textAlign: TextAlign.right 
               )
             ],
           ),
