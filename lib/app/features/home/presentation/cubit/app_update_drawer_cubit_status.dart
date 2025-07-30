@@ -1,16 +1,18 @@
  import 'package:athkari/app/features/home/data/model/release_model.dart';
 
-class DrawerCubitState {}
-class CheckUpdatesState extends DrawerCubitState {}
-class UpdateAvailableState extends DrawerCubitState {
+class AppUpdateCubitState {
+  get darkModeEnabled => false;
+}
+class CheckUpdatesState extends AppUpdateCubitState {}
+class UpdateAvailableState extends AppUpdateCubitState {
   final ReleaseModel releaseModel;
   UpdateAvailableState(this.releaseModel);
 }
-class NoUpdateState extends DrawerCubitState {
+class NoUpdateState extends AppUpdateCubitState {
   final String message;
   NoUpdateState(this.message);
 }
-class CheckUpdateErrorState extends DrawerCubitState {
+class CheckUpdateErrorState extends AppUpdateCubitState {
   final String errorMessage;
   CheckUpdateErrorState(this.errorMessage);
 }

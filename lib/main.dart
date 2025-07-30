@@ -4,7 +4,7 @@ import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubi
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/daily_wered_cubit.dart';
-import 'package:athkari/app/features/home/presentation/cubit/drawer_cubit.dart';
+import 'package:athkari/app/features/home/presentation/cubit/app_update_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/today_dekhar_cubit.dart';
 import 'package:athkari/app/injection_container.dart';
@@ -38,7 +38,7 @@ Future<void> main() async {
       BlocProvider(create: (_) => HomepageCubit(getIt())),
       BlocProvider(
       create: (context) {
-        final cubit = DrawerCubit(getIt(), getIt());
+        final cubit = AppUpdateCubit(getIt(), getIt());
         cubit.checkVersion();
         return cubit;
       },
@@ -56,6 +56,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+        debugShowCheckedModeBanner: false,
         useInheritedMediaQuery: true,
         locale: DevicePreview.locale(context),
         builder: DevicePreview.appBuilder,

@@ -1,20 +1,16 @@
-import 'package:athkari/app/features/home/data/model/daily.dart';
-import 'package:athkari/app/features/home/domain/entity/daily_wered_progress_entity.dart';
 import 'package:athkari/app/features/home/domain/usecase/check_updates_usecase.dart';
-import 'package:athkari/app/features/home/domain/usecase/fetch_daily_wered_usecase.dart';
 import 'package:athkari/app/features/home/domain/usecase/get_latest_apk_usecase.dart';
-import 'package:athkari/app/features/home/presentation/cubit/daily_wered_cubit_status.dart';
-import 'package:athkari/app/features/home/presentation/cubit/drawer_cubit_status.dart';
+import 'package:athkari/app/features/home/presentation/cubit/app_update_drawer_cubit_status.dart';
 import 'package:bloc/bloc.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-class DrawerCubit extends Cubit<DrawerCubitState> {
+class AppUpdateCubit extends Cubit<AppUpdateCubitState> {
   final CheckUpdatesUsecase _checkUpdatesUsecase;
   final GetLatestRelease _getLatestAPKUsecase;
   //List<CategoryEntity> categoriesList = [];
   String? appVersion ;
 
-  DrawerCubit(this._checkUpdatesUsecase, this._getLatestAPKUsecase) : super(DrawerCubitState()) {
+  AppUpdateCubit(this._checkUpdatesUsecase, this._getLatestAPKUsecase) : super(AppUpdateCubitState()) {
     checkVersion();
   }
     void checkUpdate() async {
@@ -38,5 +34,9 @@ class DrawerCubit extends Cubit<DrawerCubitState> {
   checkVersion() async {
     PackageInfo _packageInfo = await PackageInfo.fromPlatform();
     appVersion = _packageInfo.version;
+  }
+
+  toggleDarkMode(value){
+return false;
   }
 }
