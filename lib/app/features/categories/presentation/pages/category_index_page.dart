@@ -11,13 +11,32 @@ import 'package:athkari/app/features/categories/presentation/widgets/category_wi
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:athkari/app/core/methods/build_appbar_method.dart";
-
-class CategoryIndexPage extends StatelessWidget {
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController addCategoryText = TextEditingController();
-  final TextEditingController updateCategoryText = TextEditingController();
-
+class CategoryIndexPage extends StatefulWidget {
   CategoryIndexPage({super.key});
+
+  @override
+  State<CategoryIndexPage> createState() => _CategoryIndexPageState();
+}
+
+class _CategoryIndexPageState extends State<CategoryIndexPage> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  late final TextEditingController addCategoryText;
+  late final TextEditingController updateCategoryText;
+
+  @override
+  void initState() {
+    super.initState();
+    addCategoryText = TextEditingController();
+    updateCategoryText = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    addCategoryText.dispose();  // Dispose add category controller
+    updateCategoryText.dispose();  // Dispose update category controller
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget searchMethod = buildSearchBar(context, (query) {
@@ -29,45 +48,49 @@ class CategoryIndexPage extends StatelessWidget {
     });
 
     return Scaffold(
-        appBar: buildAppBar(context, "تصنيفات الأذكار"),
-        floatingActionButton: buildFloatingActionMethod(context),
-        body: Column(children: [
-          searchMethod,
-          BlocListener<CategoryCubit, CatogeryState>(
-            listener: (context, state) {
-              if (state is NotifeyCategoryState) {
-                successToastMessage(context, state.message);
-              }
-            },
-            child: BlocBuilder<CategoryCubit, CatogeryState>(
-                builder: (context, state) {
-              if (state is LoadingCategoryState) {
-                return buildWaitingState();
-              } else if (state is DoneCategoryState) {
-                return _buildDoneState(state);
-              } else if (state is ErrorCategoryState) {
-                return ErrorStateWidget(state: state);
-              } else if (state is EmptyCategoryState) {
-                return NoResultWidget(state.message);
-              }
-              return Center(child: Text("Nothing ..."));
-            }),
-          )
-        ]));
+      appBar: buildAppBar(context, "تصنيفات الأذكار"),
+      floatingActionButton: buildFloatingActionMethod(context),
+      body: Column(children: [
+        searchMethod,
+        BlocListener<CategoryCubit, CatogeryState>(
+          listener: (context, state) {
+            if (state is NotifeyCategoryState) {
+              successToastMessage(context, state.message);
+            }
+          },
+          child: BlocBuilder<CategoryCubit, CatogeryState>(
+              builder: (context, state) {
+            if (state is LoadingCategoryState) {
+              return buildWaitingState();
+            } else if (state is DoneCategoryState) {
+              return _buildDoneState(state);
+            } else if (state is ErrorCategoryState) {
+              return ErrorStateWidget(state: state);
+            } else if (state is EmptyCategoryState) {
+              return NoResultWidget(state.message);
+            }
+            return Center(child: Text("Nothing ..."));
+          }),
+        )
+      ]),
+    );
   }
 
   FloatingActionButton buildFloatingActionMethod(BuildContext context) {
     return FloatingActionButton(
-        foregroundColor: Colors.white,
-        backgroundColor: Color.fromARGB(255, 128, 188, 189),
-        child: Center(
-          child: Icon(
-            Icons.add,
-          ),
-        ),
-        onPressed: () {
-          buildAddCategoryModalBottomSheet(context, formKey, addCategoryText);
-        });
+      foregroundColor: Colors.white,
+      backgroundColor: Color.fromARGB(255, 128, 188, 189),
+      child: Center(
+        child: Icon(Icons.add),
+      ),
+      onPressed: () {
+        buildAddCategoryModalBottomSheet(context, formKey, addCategoryText)
+          .then((_) {
+            // Clear the text after modal is closed
+            addCategoryText.clear();
+          });
+      },
+    );
   }
 
   Expanded _buildDoneState(DoneCategoryState state) {
@@ -76,19 +99,17 @@ class CategoryIndexPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, // Two columns
-            crossAxisSpacing: 10, // Space between columns
-            mainAxisSpacing: 1, // Space between rows
-            childAspectRatio: 1.4, // Adjust this value to fit your design
+            crossAxisCount: 2,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 1,
+            childAspectRatio: 1.4,
           ),
           itemCount: state.catogories.length,
           itemBuilder: (context, index) {
             final category = state.catogories[index];
-
             return CategoryWidget(
               category: category,
               formKey: formKey,
-              //  categoryName: categoryNameController,
             );
           },
         ),
