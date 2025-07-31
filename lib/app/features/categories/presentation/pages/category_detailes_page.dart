@@ -29,14 +29,19 @@ class _CatogoryDetailesPageState extends State<CatogoryDetailesPage> {
     super.initState();
     context.read<CategoryCubit>().fetchCategoryDetails(widget.category.id!);
   }
-
+@override
+void dispose() {
+  addCategoryText.dispose();
+  editCategoryText.dispose();
+  super.dispose();
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: buildFloatingActionMethod(context),
       appBar: buildAppBar(
         context,
-        widget.category.name ?? 'Category Details',
+        widget.category.name ?? 'تفاصيل التصنيف',
         popMethod: () {
           Navigator.pop(context);
           context.read<CategoryCubit>().FetchData();

@@ -1,12 +1,9 @@
-import 'package:athkari/app/core/methods/build_waiting_state.dart';
 import 'package:athkari/app/core/widgets/add_button_widget.dart';
 import 'package:athkari/app/core/widgets/cancel_button_widget.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
-import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
-import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,204 +13,230 @@ Future<dynamic> buildAddDhaderWithEsnadBottomSheet(
   final CategoryEntity category,
   TextEditingController textEditingController_1,
 ) {
-  int esnadId = 0;
+  int? esnadId;
+  final ValueNotifier<bool> esnadValid = ValueNotifier<bool>(false);
+
   return showModalBottomSheet(
     isScrollControlled: true,
     context: context,
-    builder: (context) => Padding(
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom, // Adjust for keyboard
-      ),
-      child: Form(
-        key: formKey,
-        onChanged: () {},
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize:
-                MainAxisSize.min, // Ensure the Column takes minimal space
-            children: [
-              const SizedBox(height: 10),
-              Container(
-                height: 3,
-                width: 80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                  color: Colors.black,
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 8, bottom: 12),
-                child: Text(
-                  'اضافة ذكر',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
+    builder: (context) {
+      return Directionality(
+        textDirection: TextDirection.rtl,
+        child: Container(
+          constraints: BoxConstraints(
+            maxHeight: MediaQuery.of(context).size.height * 0.85,
+          ),
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+            left: 15,
+            right: 15,
+          ),
+          child: Form(
+            key: formKey,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            child: ListView(
+              shrinkWrap: true,
+              physics: const ClampingScrollPhysics(),
+              children: [
+                const SizedBox(height: 10),
+                Center(
+                  child: Container(
+                    height: 3,
+                    width: 80,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                      color: Colors.black,
+                    ),
                   ),
                 ),
-              ),
-              Row(
-                children: [
-                  Expanded(child: SizedBox()),
-                  Padding(
-                    padding: EdgeInsets.only(right: 8.0),
+                const Padding(
+                  padding: EdgeInsets.only(top: 8, bottom: 12),
+                  child: Center(
                     child: Text(
-                      'نص الذكر (المتن)',
+                      'إضافة ذكر',
                       style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 24,
                         fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                   ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  controller: textEditingController_1,
-                  maxLines: 5, // Allows the field to expand as the user types
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'لايمكن اضافة سند فارغ, جرب كتابة نص الإسناد';
-                    }
-                    if (value.length == 150) {
-                      return 'لا يجب ان يحتوي نص الاصناد على اكثر من 150 حرف';
-                    }
-                    return null;
-                  },
-                  keyboardType: TextInputType.text,
-                  textAlign: TextAlign.right,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25),
-                      borderSide: BorderSide.none, // Remove the visible border
+                ),
+                
+                // Text Field Section
+                const Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'نص الذكر (المتن)',
+                    
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      color: Colors.black87,
+                      
                     ),
-                    hintText: '...ادخل النص هنا',
-                    filled: true, // Enable background color
-                    fillColor:
-                        Color.fromARGB(255, 214, 214, 213), // Background color
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20), // Horizontal padding
                   ),
                 ),
-              ),
-              Row(
-                children: [
-                  Expanded(child: SizedBox()),
-                  Padding(
-                    padding: EdgeInsets.only(right: 8.0),
-                    child: Text(
-                      'السند',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                        color: Theme.of(context).primaryColor,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    controller: textEditingController_1,
+                    maxLines: 5,
+                    minLines: 1,
+                    textDirection: TextDirection.rtl,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'الرجاء إدخال نص الذكر';
+                      }
+                      if (value.length > 150) {
+                        return 'يجب ألا يتجاوز النص 150 حرفاً';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: BorderSide.none,
+                      ),
+                      hintText: '...أدخل النص هنا',
+                      hintTextDirection: TextDirection.rtl,
+                      filled: true,
+                      fillColor: const Color.fromARGB(255, 214, 214, 213),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20,
+                        vertical: 15,
                       ),
                     ),
                   ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: BlocBuilder<CategoryCubit, CatogeryState>(
-                  builder: (context, state) {
-                    if (state is LoadingCategoryState) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (state is DoneEsnadsState) {
-                      return DropdownButtonFormField<int>(
-                        itemHeight: 120,
-                        isExpanded:
-                            true, // Ensure the dropdown takes full width
-                        items: state.EsandsList.map((EsnadEntity? esnad) {
-                          // Ensure esnad is not null
-                          return DropdownMenuItem<int>(
-                            value: esnad!.id!,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical:
-                                      8), // Add padding for better spacing
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment
-                                    .start, // Align text to the start
-                                children: [
-                                  Text(
-                                    esnad.name.toString(),
-                                    overflow: TextOverflow
-                                        .ellipsis, // Handle long text
-                                    style: const TextStyle(
-                                        fontSize: 16), // Customize text style
+                ),
+                
+                // Esnad Dropdown Section
+                const Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'اختر السند',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16,
+                      color: Colors.black87,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: BlocBuilder<CategoryCubit, CatogeryState>(
+                    builder: (context, state) {
+                      if (state is LoadingCategoryState) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (state is DoneEsnadsState) {
+                        return ValueListenableBuilder<bool>(
+                          valueListenable: esnadValid,
+                          builder: (context, isValid, child) {
+                            return DropdownButtonFormField<int>(
+                              validator: (value) {
+                                if (value == null) {
+                                  esnadValid.value = false;
+                                  return 'الرجاء اختيار سند';
+                                }
+                                esnadValid.value = true;
+                                return null;
+                              },
+                              dropdownColor: Colors.white,
+                              isExpanded: true,
+                              items: state.EsandsList.map((EsnadEntity? esnad) {
+                                return DropdownMenuItem<int>(
+                                  value: esnad?.id,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(vertical: 4),
+                                    child: Text(
+                                      esnad?.name ?? '',
+                                      textDirection: TextDirection.rtl,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1, // Changed to 1 line to prevent overflow
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
                                   ),
-                                  const Divider(
-                                      height: 1, thickness: 1), // Add a divider
-                                ],
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                esnadId = value;
+                                formKey.currentState?.validate();
+                              },
+                              value: esnadId,
+                              style: const TextStyle(
+                                color: Colors.black87,
+                                fontSize: 16,
                               ),
-                            ),
-                          );
-                        })
-                            .where((item) => item != null)
-                            .toList(), // Filter out null items
-                        onChanged: (value) {
-                          // Handle the selected value
-                          if (value != null) {
-                            esnadId = value;
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                  borderSide: BorderSide.none,
+                                ),
+                                hintText: "اختر من القائمة",
+                                hintTextDirection: TextDirection.rtl,
+                                filled: true,
+                                fillColor: const Color.fromARGB(255, 214, 214, 213),
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 16,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }
+                      return const SizedBox(height: 35, width: 120);
+                    },
+                  ),
+                ),
+                
+                // Buttons Section
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AddButtonWidget(
+                        formKey: formKey,
+                        esnadValue: textEditingController_1,
+                        buttonText: 'إضافة الذكر',
+                        onTap: () {
+                          final isFormValid = formKey.currentState!.validate();
+                          final isEsnadValid = esnadId != null;
+                          
+                          if (isFormValid && isEsnadValid) {
+                            context.read<CategoryCubit>().addDekharWithEsnad(
+                              category.id!,
+                              esnadId!,
+                              textEditingController_1.text,
+                            );
+                            Navigator.pop(context);
+                          } else if (!isEsnadValid) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'الرجاء اختيار سند قبل الإضافة',
+                                  textDirection: TextDirection.rtl,
+                                ),
+                                duration: Duration(seconds: 2),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
                           }
                         },
-                        value: state.EsandsList.isNotEmpty
-                            ? state.EsandsList[0].id
-                            : null, // Handle empty list
-                        icon: const Icon(Icons.keyboard_arrow_down,
-                            size: 24), // Customize dropdown icon
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25),
-                            borderSide: BorderSide.none, // Remove border
-                          ),
-                          hintText: "اختر من قائمة الاسنادات", // Hint text
-                          filled: true, // Enable background color
-                          //   fillColor: Colors.grey[200], // Set background color
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 16), // Add padding
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25),
-                            borderSide:
-                                BorderSide.none, // Remove border when enabled
-                          ),
-                        ),
-                      );
-                    }
-                    return SizedBox(height: 35, width: 120, child: InkWell());
-                  },
+                      ),
+                      const SizedBox(height: 10),
+                      const CancelButtonWidget(),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              AddButtonWidget(
-                formKey: formKey,
-                esnadValue: textEditingController_1,
-                buttonText: 'أضافة ذكر',
-                onTap: () {
-                  formKey.currentState!.validate();
-                  if (formKey.currentState!.validate()) {
-                    context.read<CategoryCubit>().addDekharWithEsnad(
-                          category.id!,
-                          esnadId,
-                          textEditingController_1.text,
-                        );
-                    Navigator.pop(context);
-                  }
-                },
-              ),
-              const SizedBox(height: 10),
-              CancelButtonWidget(),
-              const SizedBox(height: 20),
-            ],
+              ],
+            ),
           ),
         ),
-      ),
-    ),
+      );
+    },
   );
 }
+
