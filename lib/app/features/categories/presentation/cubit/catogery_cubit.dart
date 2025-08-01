@@ -31,43 +31,46 @@ class CategoryCubit extends Cubit<CatogeryState> {
       this._getallEsnadUseCase,
       this._addDekharWithEsnadUsecase)
       : super(InitialCategoryState()) {
-    emit(LoadingCategoryState());
-    emit(NotifeyCategoryState("تم"));
+   
     fetchData();
   }
 
   void fetchData() async {
+    emit(LoadingCategoryState());
     categoryiList = await _getCatogoriesUseCase.call();
-
+    if(categoryiList.isEmpty){
+      emit(EmptyCategoryState("لا توجد اي تصفيفات اذكر جرب كتابة تصنيفك الخاص,او اعد ضبط الاذكار من الاعدادات"));
+    }
     emit(DoneCategoryState(categoryiList));
   }
 
   void addCategory(String name) async {
-    var state = await _addCatogoriesUseCase(params: CategoryEntity(name: name));
+    await _addCatogoriesUseCase(params: CategoryEntity(name: name));
     emit(NotifeyCategoryState("تم"));
-    //print(state);
+    
     fetchData();
   }
 
   void updateCategory(int id, String name) async {
     await _updateCatogoriesUseCase(params: CategoryEntity(name: name, id: id));
     emit(NotifeyCategoryState("تم"));
-    //print(state);
+    
     fetchData();
   }
 
-  void loading() async {
-    emit(LoadingCategoryState());
-  }
+ 
 
   void search(String query) async {
-    categoryiList =
-        categoryiList.where((x) => x.name!.contains(query)).toList();
-    if (categoryiList.length == 0) {
-      emit(EmptyCategoryState(
-          "لا توجد نتيجة لبحثك جرب البحث باستخدام كلمات اخرئ ..."));
+   
+
+      final filteredCategories = categoryiList
+        .where((category) => category.name!.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    if (filteredCategories.isEmpty) {
+      emit(EmptyCategoryState("لا توجد نتيجة لبحثك جرب البحث باستخدام كلمات اخرئ ..."));
     } else {
-      emit(DoneCategoryState(categoryiList));
+      emit(DoneCategoryState(filteredCategories));
     }
   }
 

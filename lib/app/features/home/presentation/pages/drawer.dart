@@ -1,6 +1,7 @@
 import 'package:athkari/app/core/services/app_database_services.dart';
 import 'package:athkari/app/core/showDialog/show_aboutus_dialog.dart';
 import 'package:athkari/app/core/showDialog/show_okay_dialog.dart';
+import 'package:athkari/app/core/showDialog/show_warning_dialog.dart';
 import 'package:athkari/app/features/home/data/model/release_model.dart';
 import 'package:athkari/app/features/home/presentation/cubit/app_update_drawer_cubit_status.dart';
 import 'package:athkari/app/features/home/presentation/widgets/DrawerTitleWidet.dart';
@@ -316,40 +317,34 @@ class DrawerWidget extends StatelessWidget {
       ),
     );
   }
-
-  void _showResetConfirmationDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("إعاده ضبط الاذكار"),
-        content: const Text(
-            "سيتم اعاده ضبط الاذكار في التطبيق الى الاعدادات الافتراضية"),
-        actions: [
-          TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text("الغاء")),
-          TextButton(
-              onPressed: () async {
-                try {
-                  //await context.read<DrawerCubit>().resetAdhkars();
-                  // getappDataBaseServices.categoryDao.seedCategory();
-//getIt.registerSingleton<AppDataBaseServices>(appDataBaseServices);
-                  getIt<AppDataBaseServices>().categoryDao.resetCategory();
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('تم اعاده ضبط الاذكار')),
-                  );
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error: ${e.toString()}')),
-                  );
-                }
-              },
-              child: const Text("موافق")),
-        ],
-      ),
-    );
-  }
+void _showResetConfirmationDialog(BuildContext context) {
+  showWarningDialog(
+    context: context,
+    message: "سيتم اعادة ضبط الاذكار في التطبيق الى الاعدادات الافتراضية",
+   // title: "إعادة ضبط الاذكار",
+    okButtonText: "موافق",
+    cancelButtonText: "الغاء",
+    onOkPressed: () async {
+      try {
+        //await context.read<DrawerCubit>().resetAdhkars();
+       await getIt<AppDataBaseServices>().categoryDao.resetCategory().then((value) => 
+       Navigator.pop(context)
+       ,);
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('تم اعادة ضبط الاذكار')),
+          );
+        }
+      } catch (e) {
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error: ${e.toString()}')),
+          );
+        }
+      }
+    },
+  );
+}
 
   void _showUpdateDialog(BuildContext context, ReleaseModel release) {
     final dateFormat = DateFormat('yyyy/MM/dd');

@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import "package:athkari/app/core/methods/build_appbar_method.dart";
 class CategoryIndexPage extends StatefulWidget {
-  CategoryIndexPage({super.key});
+  const CategoryIndexPage({super.key});
 
   @override
   State<CategoryIndexPage> createState() => _CategoryIndexPageState();
@@ -32,8 +32,8 @@ class _CategoryIndexPageState extends State<CategoryIndexPage> {
 
   @override
   void dispose() {
-    addCategoryText.dispose();  // Dispose add category controller
-    updateCategoryText.dispose();  // Dispose update category controller
+    addCategoryText.dispose();  
+    updateCategoryText.dispose();  
     super.dispose();
   }
 
@@ -69,7 +69,7 @@ class _CategoryIndexPageState extends State<CategoryIndexPage> {
             } else if (state is EmptyCategoryState) {
               return NoResultWidget(state.message);
             }
-            return Center(child: Text("Nothing ..."));
+            return Center(child: Text("... لا يوجد"));
           }),
         )
       ]),

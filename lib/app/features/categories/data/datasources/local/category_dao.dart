@@ -1,11 +1,8 @@
 import 'dart:convert';
-
 import 'package:athkari/app/features/categories/data/modules/category_models.dart';
-import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/daily_wered/data/modules/dhkar_model.dart';
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:flutter_lorem/flutter_lorem.dart';
 
 class CategoryDao {
   CategoryDao(this.database);
@@ -20,19 +17,7 @@ class CategoryDao {
     //  await database.insert('Dekhar', {"name": category.});
     return await database.insert('Categories', {"name": category.name});
   }
-//  Future<int> insertCategoryWithDekar(CategoryModel category) async {
 
-//     int categoryIndex= await database.insert('categories', category.toDatabase());
-
-//     var value = {
-//       'dhaker': dhkar.dhkar,
-//       'repetitions': dhkar.repetitions,
-//       'esnaad_id': 0,
-//     };
-//     var status = await database.insert("Adhkars", value);
-
-//      await database.insert('Adhkars', category.toDatabase());
-//   }
   Future<int> updateCategory(int id, CategoryModel category) async {
     return await database.update('categories', {"name": category.name},
         where: 'id = ?', whereArgs: [id]);
@@ -44,11 +29,7 @@ class CategoryDao {
   }
 
   Future<List<CategoryModel>> getCategories() async {
-    // Query the 'categories' table
-
     var categories = await database.query('categories');
-
-    // Map the query result to a list of CategoryModel instances
     return categories
         .map((category) => CategoryModel.fromDataBase(category))
         .toList();
@@ -114,19 +95,14 @@ class CategoryDao {
     LEFT JOIN Esnads ON Adhkars.esnads_id = Esnads.id
     WHERE Adhkars.category_id = ?
   ''', [id]);
-    print("temp");
-    print(result);
-    // var result = await database
-    //     .query('Adhkars', where: 'category_id = ?', whereArgs: [id]);
+   
 
     List<DhkarModel> dekhars =
         result.map((dekar) => DhkarModel.fromDataBase_1(dekar)).toList();
 
-    print(dekhars);
+  
     return CategoryModel(name: categoryName!.name, dhkars: dekhars);
-    // return result
-    //     .map((category) => CategoryModel.fromDataBase(category))
-    //     .toList()[0];
+   
   }
 
   Future<void> seedCategory() async {
@@ -163,11 +139,7 @@ class CategoryDao {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT 
       )
-    ''');
-//     
-
-    var temp = await getCategories();
-    print(temp);
+    ''');     
     seedCategory();
   }
 }
