@@ -65,7 +65,7 @@ Future<dynamic> buildAddCategoryModalBottomSheet(
                 esnadValue: textEditingController_1,
                 onTap: () {
                   if (formKey.currentState!.validate()) {
-                    context.read<CategoryCubit>().AddCategory(
+                    context.read<CategoryCubit>().addCategory(
                           textEditingController_1.text,
                         );
                     Navigator.pop(context);

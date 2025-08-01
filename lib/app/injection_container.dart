@@ -61,7 +61,7 @@ Future<void> initializationContainer() async {
       ReleaseRemoteDataSorcesImp(githubToken: "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");
   getIt.registerSingleton<ReleaseRemoteDataSorcesImp>(gitHubApiService);
   getIt.registerSingleton<AppDataBaseServices>(appDataBaseServices);
-  // appDataBaseServices.categoryDao.seedCategory();
+  appDataBaseServices.categoryDao.seedCategory();
 //  appDataBaseServices.adhkaiDao.seedAdhkars();
   // State Managment
   getIt.registerFactory<HomepageCubit>(() => HomepageCubit(getIt()));

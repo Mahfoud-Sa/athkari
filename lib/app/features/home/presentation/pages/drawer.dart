@@ -1,3 +1,4 @@
+import 'package:athkari/app/core/services/app_database_services.dart';
 import 'package:athkari/app/core/showDialog/show_aboutus_dialog.dart';
 import 'package:athkari/app/core/showDialog/show_okay_dialog.dart';
 import 'package:athkari/app/features/home/data/model/release_model.dart';
@@ -6,6 +7,7 @@ import 'package:athkari/app/features/home/presentation/widgets/DrawerTitleWidet.
 import 'package:athkari/app/features/home/presentation/widgets/ForwardedTitleWidget.dart';
 import 'package:athkari/app/features/home/presentation/widgets/expandable_radio_group_widget.dart';
 import 'package:athkari/app/features/home/presentation/widgets/drawer_app_bar_widget.dart';
+import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:athkari/app/features/home/presentation/cubit/app_update_cubit.dart';
@@ -45,7 +47,6 @@ class DrawerWidget extends StatelessWidget {
          ExpandableRadioGroup(
           title: 'ضبط الوقت والتاريخ',
           initialSelected: true,
-         
           options: ['تلقائي', 'مخصص'],
         ),
          ExpandableRadioGroup(
@@ -331,6 +332,9 @@ class DrawerWidget extends StatelessWidget {
               onPressed: () async {
                 try {
                   //await context.read<DrawerCubit>().resetAdhkars();
+                  // getappDataBaseServices.categoryDao.seedCategory();
+//getIt.registerSingleton<AppDataBaseServices>(appDataBaseServices);
+                  getIt<AppDataBaseServices>().categoryDao.resetCategory();
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('تم اعاده ضبط الاذكار')),

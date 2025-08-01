@@ -41,9 +41,9 @@ class _CategoryIndexPageState extends State<CategoryIndexPage> {
   Widget build(BuildContext context) {
     Widget searchMethod = buildSearchBar(context, (query) {
       if (query.isNotEmpty) {
-        context.read<CategoryCubit>().Search(query);
+        context.read<CategoryCubit>().search(query);
       } else {
-        context.read<CategoryCubit>().FetchData();
+        context.read<CategoryCubit>().fetchData();
       }
     });
 

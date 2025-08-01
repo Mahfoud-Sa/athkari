@@ -57,7 +57,7 @@ Future<dynamic> buildShowDeleteDekeerBottomSheet(
           ),
           DeleteButtonWidget(
             onTap: () {
-              context.read<CategoryCubit>().DeleteCategory(
+              context.read<CategoryCubit>().deleteCategory(
                     categoryId,
                   );
               Navigator.pop(context);

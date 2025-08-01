@@ -44,7 +44,7 @@ void dispose() {
         widget.category.name ?? 'تفاصيل التصنيف',
         popMethod: () {
           Navigator.pop(context);
-          context.read<CategoryCubit>().FetchData();
+          context.read<CategoryCubit>().fetchData();
         },
       ),
       body: BlocListener<CategoryCubit, CatogeryState>(

@@ -69,7 +69,7 @@ Future<dynamic> buildShowUpdateCategoryModalBottomSheet(
                 esnadValue: categoryName,
                 onTap: () {
                   if (formKey.currentState!.validate()) {
-                    context.read<CategoryCubit>().UpdateCategory(
+                    context.read<CategoryCubit>().updateCategory(
                           categoryId,
                           categoryName.text,
                         );

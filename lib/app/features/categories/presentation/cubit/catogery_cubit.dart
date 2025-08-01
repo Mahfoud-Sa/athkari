@@ -33,34 +33,34 @@ class CategoryCubit extends Cubit<CatogeryState> {
       : super(InitialCategoryState()) {
     emit(LoadingCategoryState());
     emit(NotifeyCategoryState("تم"));
-    FetchData();
+    fetchData();
   }
 
-  void FetchData() async {
+  void fetchData() async {
     categoryiList = await _getCatogoriesUseCase.call();
 
     emit(DoneCategoryState(categoryiList));
   }
 
-  void AddCategory(String name) async {
+  void addCategory(String name) async {
     var state = await _addCatogoriesUseCase(params: CategoryEntity(name: name));
     emit(NotifeyCategoryState("تم"));
     //print(state);
-    FetchData();
+    fetchData();
   }
 
-  void UpdateCategory(int id, String name) async {
+  void updateCategory(int id, String name) async {
     await _updateCatogoriesUseCase(params: CategoryEntity(name: name, id: id));
     emit(NotifeyCategoryState("تم"));
     //print(state);
-    FetchData();
+    fetchData();
   }
 
-  void Loading() async {
+  void loading() async {
     emit(LoadingCategoryState());
   }
 
-  void Search(String query) async {
+  void search(String query) async {
     categoryiList =
         categoryiList.where((x) => x.name!.contains(query)).toList();
     if (categoryiList.length == 0) {
@@ -71,10 +71,10 @@ class CategoryCubit extends Cubit<CatogeryState> {
     }
   }
 
-  void DeleteCategory(int id) async {
+  void deleteCategory(int id) async {
     await _deleteCatogoriesUseCase.call(params: id);
     emit(NotifeyCategoryState("تم"));
-    FetchData();
+    fetchData();
   }
 
   fetchCategoryDetails(int id) async {

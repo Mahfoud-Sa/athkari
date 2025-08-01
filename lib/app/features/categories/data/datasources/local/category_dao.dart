@@ -155,4 +155,19 @@ class CategoryDao {
     var temp = await getCategories();
     print(temp);
   }
+ 
+  Future<void> resetCategory() async {
+    database.execute('DROP TABLE IF EXISTS Categories');
+    database.execute('''
+      CREATE TABLE Categories (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT 
+      )
+    ''');
+//     
+
+    var temp = await getCategories();
+    print(temp);
+    seedCategory();
+  }
 }
