@@ -1,3 +1,4 @@
+import 'package:athkari/app/core/widgets/empty_data_widget.dart';
 import 'package:athkari/app/features/categories/data/modules/category_models.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
@@ -95,16 +96,14 @@ class HomePage extends StatelessWidget {
             
                     BlocBuilder<CategoryCubit, CatogeryState>(
                       builder: (context, state) {
-                        if (state is LoadingHomePageState) {
+                        if (state is LoadingCategoryState) {
                           return Center(
                             child: CircularProgressIndicator(),
                           );
                         } else if (state is DoneCategoryState) {
                           return _buildDekarSection(state);
                         } else if (state is EmptyCategoryState) {
-                          return Center(
-                            child: Text(state.message),
-                          );
+                          return emptyDataWidget(smallSize: true);
                         }
                         return Container();
                       },
