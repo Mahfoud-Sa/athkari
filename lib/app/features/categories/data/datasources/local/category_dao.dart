@@ -140,6 +140,6 @@ class CategoryDao {
         name TEXT 
       )
     ''');     
-   // seedCategory();
+    seedCategory();
   }
 }

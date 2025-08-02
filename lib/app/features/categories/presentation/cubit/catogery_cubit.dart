@@ -14,22 +14,19 @@ import 'package:bloc/bloc.dart';
 
 class CategoryCubit extends Cubit<CatogeryState> {
   final GetCatogoriesUseCase _getCatogoriesUseCase;
-  final GetCatogoryDetailsUseCase _getCatogoryDetailsUseCase;
   final AddCatogoriesUseCase _addCatogoriesUseCase;
   final UpdateCatogoriesUseCase _updateCatogoriesUseCase;
   final DeleteCatogoriesUseCase _deleteCatogoriesUseCase;
   final GetAllEsnadUseCase _getallEsnadUseCase;
-  final AddDekharWithEsnadUsecase _addDekharWithEsnadUsecase;
   List<CategoryEntity> categoryiList = [];
 
   CategoryCubit(
       this._getCatogoriesUseCase,
-      this._getCatogoryDetailsUseCase,
       this._addCatogoriesUseCase,
       this._updateCatogoriesUseCase,
       this._deleteCatogoriesUseCase,
       this._getallEsnadUseCase,
-      this._addDekharWithEsnadUsecase)
+     )
       : super(InitialCategoryState()) {
    
     fetchData();
@@ -39,9 +36,12 @@ class CategoryCubit extends Cubit<CatogeryState> {
     emit(LoadingCategoryState());
     categoryiList = await _getCatogoriesUseCase.call();
     if(categoryiList.isEmpty){
-      emit(EmptyCategoryState("لا توجد اي تصفيفات اذكر جرب كتابة تصنيفك الخاص,او اعد ضبط الاذكار من الاعدادات"));
+      
+      emit(EmptyCategoryState());
+    }else{
+      emit(DoneCategoryState(categoryiList));
     }
-    emit(DoneCategoryState(categoryiList));
+    
   }
 
   void addCategory(String name) async {
@@ -68,7 +68,7 @@ class CategoryCubit extends Cubit<CatogeryState> {
         .toList();
 
     if (filteredCategories.isEmpty) {
-      emit(EmptyCategoryState("لا توجد نتيجة لبحثك جرب البحث باستخدام كلمات اخرئ ..."));
+      emit(NoResultCategoryState());
     } else {
       emit(DoneCategoryState(filteredCategories));
     }

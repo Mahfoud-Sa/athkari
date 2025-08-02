@@ -74,7 +74,7 @@ Future<void> initializationContainer() async {
   getIt.registerFactory<CategoryDetailsCubit>(
       () => CategoryDetailsCubit(getIt(), getIt()));
   getIt.registerFactory<CategoryCubit>(() => CategoryCubit(
-      getIt(), getIt(), getIt(), getIt(), getIt(), getIt(), getIt()));
+      getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<EsnadsCubit>(
       () => EsnadsCubit(getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<DailyWeredCubit_>(() => DailyWeredCubit_(getIt()));

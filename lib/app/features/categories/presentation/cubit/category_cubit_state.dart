@@ -6,7 +6,6 @@ abstract class CatogeryState extends Equatable {}
 
 class InitialCategoryState extends CatogeryState {
   @override
-  // TODO: implement props
   List<Object?> get props => throw UnimplementedError();
 }
 
@@ -39,14 +38,21 @@ class DoneEsnadsState extends CatogeryState {
 }
 
 class EmptyCategoryState extends CatogeryState {
-  final String message;
-  EmptyCategoryState(this.message);
+ 
+  EmptyCategoryState();
 
   @override
-  // TODO: implement props
-  List<Object?> get props => []; // For state comparison
+  
+  List<Object?> get props => []; 
 }
+class NoResultCategoryState extends CatogeryState {
+ 
+  NoResultCategoryState();
 
+  @override
+  
+  List<Object?> get props => []; 
+}
 class ErrorCategoryState extends CatogeryState {
   final String message;
   ErrorCategoryState(this.message);

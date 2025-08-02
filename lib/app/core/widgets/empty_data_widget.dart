@@ -19,7 +19,7 @@ Widget emptyDataWidget({bool smallSize = false}) {
           ),
           Flexible(
             child: Text(
-              "لاتوجد اي بيانات حاليا جرب اضافة بيانات باستخدام زر الاضافة",
+          "لاتوجد اي بيانات حاليا جرب اضافة بيانات باستخدام زر الاضافة\nاو عبر اعاده ضبط بيانات التطبيق من اعدادات الاذكار",
               style: TextStyle(fontSize: 12, color: Colors.black38),
               textAlign: TextAlign.center,
               maxLines: 2,

@@ -68,6 +68,8 @@ class _CategoryIndexPageState extends State<CategoryIndexPage> {
             } else if (state is ErrorCategoryState) {
               return ErrorStateWidget(message: state.message);
             } else if (state is EmptyCategoryState) {
+              return emptyDataWidget();
+            }else if (state is NoResultCategoryState) {
               return noResultWidget();
             }
             return Center(child: Text("... لا يوجد"));

@@ -35,7 +35,7 @@ Future<void> main() async {
               DailyWereCubit(getIt(), getIt(), getIt(), getIt(), getIt())),
       BlocProvider(
           create: (_) => CategoryCubit(
-              getIt(), getIt(), getIt(), getIt(), getIt(), getIt(), getIt())),
+              getIt(), getIt(), getIt(), getIt(), getIt(),)),
                BlocProvider(
           create: (_) => CategoryDetailsCubit(
               getIt(), getIt())),
