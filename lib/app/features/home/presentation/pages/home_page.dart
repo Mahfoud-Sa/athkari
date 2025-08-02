@@ -1,5 +1,7 @@
 import 'package:athkari/app/features/categories/data/modules/category_models.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
+import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
+import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/features/categories/presentation/pages/category_index_page.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_state.dart';
@@ -91,15 +93,15 @@ class HomePage extends StatelessWidget {
                       height: 10,
                     ),
             
-                    BlocBuilder<HomepageCubit, HomePageCubitStates>(
+                    BlocBuilder<CategoryCubit, CatogeryState>(
                       builder: (context, state) {
                         if (state is LoadingHomePageState) {
                           return Center(
                             child: CircularProgressIndicator(),
                           );
-                        } else if (state is DoneHomePageState) {
+                        } else if (state is DoneCategoryState) {
                           return _buildDekarSection(state);
-                        } else if (state is EmptyHomePageState) {
+                        } else if (state is EmptyCategoryState) {
                           return Center(
                             child: Text(state.message),
                           );
@@ -234,13 +236,13 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  SingleChildScrollView _buildDekarSection(DoneHomePageState categoriesList) {
+  SingleChildScrollView _buildDekarSection(DoneCategoryState categoriesList) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
           // Text(categoriesList.categories.length.toString()),
-          for (CategoryEntity category in categoriesList.categories)
+          for (CategoryEntity category in categoriesList.catogories)
             DekaarContainerWidget(
               text: category.name!,
             ),
