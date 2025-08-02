@@ -2,11 +2,11 @@ import 'package:athkari/app/features/categories/presentation/cubit/category_cubi
 import 'package:flutter/material.dart';
 
 class ErrorStateWidget extends StatelessWidget {
-  final ErrorCategoryState state;
+  final String message;
   final VoidCallback? onTap; // Custom onTap (optional)
   const ErrorStateWidget({
     super.key,
-    required this.state,
+    required this.message,
     this.onTap,
   });
 
@@ -15,7 +15,7 @@ class ErrorStateWidget extends StatelessWidget {
     return Center(
       child: ElevatedButton(
         onPressed: onTap,
-        child: Text(state.message.toString()),
+        child: Text(message.toString()),
       ),
     );
   }

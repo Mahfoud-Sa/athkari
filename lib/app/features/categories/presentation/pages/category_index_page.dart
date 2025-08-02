@@ -3,8 +3,9 @@ import 'package:athkari/app/core/methods/build_searchbae_method.dart';
 import 'package:athkari/app/core/methods/build_waiting_state.dart';
 import 'package:athkari/app/core/methods/success_snackbar.dart';
 import 'package:athkari/app/core/widgets/custom_floating_action_button.dart';
-import 'package:athkari/app/core/widgets/empty_state_widget.dart';
+import 'package:athkari/app/core/widgets/empty_data_widget.dart';
 import 'package:athkari/app/core/widgets/error_state_widget.dart';
+import 'package:athkari/app/core/widgets/no_result_widget.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/features/categories/presentation/widgets/category_widget.dart';
@@ -65,9 +66,9 @@ class _CategoryIndexPageState extends State<CategoryIndexPage> {
             } else if (state is DoneCategoryState) {
               return _buildDoneState(state);
             } else if (state is ErrorCategoryState) {
-              return ErrorStateWidget(state: state);
+              return ErrorStateWidget(message: state.message);
             } else if (state is EmptyCategoryState) {
-              return NoResultWidget(state.message);
+              return noResultWidget();
             }
             return Center(child: Text("... لا يوجد"));
           }),

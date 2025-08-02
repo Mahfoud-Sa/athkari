@@ -26,15 +26,7 @@ class DoneCategoryState extends CatogeryState {
   List<Object?> get props => [catogories]; // For state comparison
 }
 
-class DoneCategoryDetailsState extends CatogeryState {
-  final CategoryEntity catogory;
 
-  DoneCategoryDetailsState(this.catogory);
-
-  @override
-  // TODO: implement props
-  List<Object?> get props => [catogory]; // For state comparison
-}
 
 class DoneEsnadsState extends CatogeryState {
   final List<EsnadEntity> EsandsList;

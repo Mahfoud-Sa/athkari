@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:athkari/app/features/categories/presentation/cubit/category_details_cubit.dart';
 import 'package:athkari/app/features/home/data/datasources/release_remote_datasources.dart';
 import 'package:athkari/app/features/categories/data/repository/category_repository_imp.dart';
 import 'package:athkari/app/features/categories/domain/usecase/add_category_with_esnade_usecase.dart';
@@ -70,6 +71,8 @@ Future<void> initializationContainer() async {
   getIt.registerFactory<TodayDekharCubit>(() => TodayDekharCubit());
   getIt.registerFactory<DailyWereCubit>(
       () => DailyWereCubit(getIt(), getIt(), getIt(), getIt(), getIt()));
+  getIt.registerFactory<CategoryDetailsCubit>(
+      () => CategoryDetailsCubit(getIt(), getIt()));
   getIt.registerFactory<CategoryCubit>(() => CategoryCubit(
       getIt(), getIt(), getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<EsnadsCubit>(

@@ -2,6 +2,7 @@ import 'dart:isolate';
 
 import 'package:athkari/app/config/routes/routes.dart';
 import 'package:athkari/app/config/thems/light_thems.dart';
+import 'package:athkari/app/features/categories/presentation/cubit/category_details_cubit.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
@@ -35,6 +36,9 @@ Future<void> main() async {
       BlocProvider(
           create: (_) => CategoryCubit(
               getIt(), getIt(), getIt(), getIt(), getIt(), getIt(), getIt())),
+               BlocProvider(
+          create: (_) => CategoryDetailsCubit(
+              getIt(), getIt())),
       BlocProvider(
           create: (_) => EsnadsCubit(getIt(), getIt(), getIt(), getIt())),
       BlocProvider(create: (_) => HomepageCubit(getIt())),

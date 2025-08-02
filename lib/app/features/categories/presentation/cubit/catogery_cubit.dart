@@ -80,14 +80,14 @@ class CategoryCubit extends Cubit<CatogeryState> {
     fetchData();
   }
 
-  fetchCategoryDetails(int id) async {
-    CategoryEntity? categoryDetails;
-    categoryDetails = await _getCatogoryDetailsUseCase.call(params: id);
-    categoryDetails == null
-        ? emit(EmptyCategoryState(""))
-        : emit(DoneCategoryDetailsState(categoryDetails!));
+  // fetchCategoryDetails(int id) async {
+  //   CategoryEntity? categoryDetails;
+  //   categoryDetails = await _getCatogoryDetailsUseCase.call(params: id);
+  //   categoryDetails == null
+  //       ? emit(EmptyCategoryState(""))
+  //       : emit(DoneCategoryDetailsState(categoryDetails!));
     
-  }
+  // }
 
   void fetchEsnadsData() async {
     emit(LoadingCategoryState());
@@ -97,16 +97,16 @@ class CategoryCubit extends Cubit<CatogeryState> {
    
   }
 
-  void addDekharWithEsnad(
-      int categoryId, int EsnadId, String DekharText) async {
-    var temp = _addDekharWithEsnadUsecase.call(params: (
-      categoryId,
-      DhkarModel(dhkar: DekharText, esnad: EsnadModel(id: EsnadId))
-    ));
-    print(temp);
+  // void addDekharWithEsnad(
+  //     int categoryId, int EsnadId, String DekharText) async {
+  //   var temp = _addDekharWithEsnadUsecase.call(params: (
+  //     categoryId,
+  //     DhkarModel(dhkar: DekharText, esnad: EsnadModel(id: EsnadId))
+  //   ));
+  //   print(temp);
    
-    emit(LoadingCategoryState());
-    fetchCategoryDetails(categoryId);
+  //   emit(LoadingCategoryState());
+  //   fetchCategoryDetails(categoryId);
     
-  }
+  // }
 }

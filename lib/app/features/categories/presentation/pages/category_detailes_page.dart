@@ -2,9 +2,12 @@ import 'package:athkari/app/core/ModelBottomSheet/add_dhkar_with_esnad_modelbott
 import 'package:athkari/app/core/methods/build_appbar_method.dart';
 import 'package:athkari/app/core/methods/build_waiting_state.dart';
 import 'package:athkari/app/core/methods/success_snackbar.dart';
+import 'package:athkari/app/core/widgets/empty_data_widget.dart';
 import 'package:athkari/app/core/widgets/error_state_widget.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
+import 'package:athkari/app/features/categories/presentation/cubit/category_details_cubit.dart';
+import 'package:athkari/app/features/categories/presentation/cubit/category_details_cubit_states.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/features/categories/presentation/widgets/dekhar_card_widget.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/side_title_widget.dart';
@@ -27,7 +30,7 @@ class _CatogoryDetailesPageState extends State<CatogoryDetailesPage> {
   @override
   void initState() {
     super.initState();
-    context.read<CategoryCubit>().fetchCategoryDetails(widget.category.id!);
+   // context.read<CategoryCubit>().fetchCategoryDetails(widget.category.id!);
   }
 @override
 void dispose() {
@@ -44,27 +47,27 @@ void dispose() {
         widget.category.name ?? 'تفاصيل التصنيف',
         popMethod: () {
           Navigator.pop(context);
-          context.read<CategoryCubit>().fetchData();
+        //  context.read<CategoryCubit>().fetchData();
         },
       ),
-      body: BlocListener<CategoryCubit, CatogeryState>(
+      body: BlocListener<CategoryDetailsCubit, CategoryDetailsState>(
         listener: (context, state) {
-          if (state is NotifeyCategoryState) {
+          if (state is NotifyCategoryDetailsState) {
             successToastMessage(context, state.message);
           }
         },
-        child: BlocBuilder<CategoryCubit, CatogeryState>(
+        child: BlocBuilder<CategoryDetailsCubit, CategoryDetailsState>(
           builder: (context, state) {
-            if (state is LoadingCategoryState) {
+            if (state is LoadingCategoryDetailsState) {
               return buildWaitingState();
             } else if (state is DoneCategoryDetailsState) {
               return _buildDoneState(state);
-            } else if (state is ErrorCategoryState) {
-              return ErrorStateWidget(state: state);
-            } else if (state is EmptyCategoryState) {
-              return buildEmptyState(state.message);
+            } else if (state is ErrorCategoryDetailsState) {
+              return ErrorStateWidget(message: state.message);
+            } else if (state is EmptyCategoryDetailsState) {
+              return emptyDataWidget();
             }
-            return buildEmptyState("Nothing ...");
+            return  emptyDataWidget();
           },
         ),
       ),
@@ -90,20 +93,20 @@ void dispose() {
     );
   }
 
-  Center buildEmptyState(String message) => Center(child: Text(message));
+  //Center buildEmptyState(String message) => Center(child: Text(message));
 
   Widget _buildDoneState(DoneCategoryDetailsState state) {
     return Column(
       children: [
         SideTitle(
-          count: state.catogory.dhkars?.length ?? 0,
+          count: state.categoryDetails.dhkars?.length ?? 0,
           title: "عدد الاذكار",
         ),
         Expanded(
           child: ListView.builder(
-            itemCount: state.catogory.dhkars?.length ?? 0,
+            itemCount: state.categoryDetails.dhkars?.length ?? 0,
             itemBuilder: (context, index) {
-              final dekhar = state.catogory.dhkars![index];
+              final dekhar = state.categoryDetails.dhkars![index];
               return DekharCardWidget(dekhar: dekhar);
             },
           ),

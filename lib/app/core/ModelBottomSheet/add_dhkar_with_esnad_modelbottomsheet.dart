@@ -2,6 +2,7 @@ import 'package:athkari/app/core/widgets/add_button_widget.dart';
 import 'package:athkari/app/core/widgets/cancel_button_widget.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
+import 'package:athkari/app/features/categories/presentation/cubit/category_details_cubit.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 import 'package:flutter/material.dart';
@@ -205,7 +206,7 @@ Future<dynamic> buildAddDhaderWithEsnadBottomSheet(
                           final isEsnadValid = esnadId != null;
                           
                           if (isFormValid && isEsnadValid) {
-                            context.read<CategoryCubit>().addDekharWithEsnad(
+                            context.read<CategoryDetailsCubit>().addDekharWithEsnad(
                               category.id!,
                               esnadId!,
                               textEditingController_1.text,
