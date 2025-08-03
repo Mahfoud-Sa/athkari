@@ -2,6 +2,7 @@ import 'package:athkari/app/core/services/app_database_services.dart';
 import 'package:athkari/app/core/showDialog/show_aboutus_dialog.dart';
 import 'package:athkari/app/core/showDialog/show_okay_dialog.dart';
 import 'package:athkari/app/core/showDialog/show_warning_dialog.dart';
+import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/features/home/data/model/release_model.dart';
 import 'package:athkari/app/features/home/presentation/cubit/app_update_drawer_cubit_status.dart';
 import 'package:athkari/app/features/home/presentation/widgets/DrawerTitleWidet.dart';
@@ -326,10 +327,11 @@ void _showResetConfirmationDialog(BuildContext context) {
     cancelButtonText: "الغاء",
     onOkPressed: () async {
       try {
-        //await context.read<DrawerCubit>().resetAdhkars();
-       await getIt<AppDataBaseServices>().categoryDao.resetCategory().then((value) => 
-       Navigator.pop(context)
-       ,);
+        await getIt<AppDataBaseServices>().categoryDao.resetCategory();
+  await context.read<CategoryCubit>().fetchData();
+    Navigator.pop(context);
+
+      // ,);
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('تم اعادة ضبط الاذكار')),

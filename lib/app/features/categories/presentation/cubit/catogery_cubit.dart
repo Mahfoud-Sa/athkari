@@ -32,7 +32,7 @@ class CategoryCubit extends Cubit<CatogeryState> {
     fetchData();
   }
 
-  void fetchData() async {
+  Future<void> fetchData() async {
     emit(LoadingCategoryState());
     categoryiList = await _getCatogoriesUseCase.call();
     if(categoryiList.isEmpty){

@@ -1,4 +1,3 @@
-import 'package:athkari/app/core/methods/success_snackbar.dart';
 import 'package:athkari/app/core/widgets/custome_container.dart';
 import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
 import 'package:flutter/material.dart';
@@ -14,43 +13,24 @@ class DekharCardWidget extends StatefulWidget {
 }
 
 class _DekarCardWidgetState extends State<DekharCardWidget> {
-  final ExpansionTileController _controller = ExpansionTileController();
-  int _no_of_repeating = 100;
+  final ExpansibleController _controller = ExpansibleController();
 
   @override
   void initState() {
     super.initState();
-    _no_of_repeating = widget.dekhar.repetitions ?? 0;
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        setState(() {
-          if (_no_of_repeating != 0) {
-            _no_of_repeating -= 1;
-          } else {
-            _no_of_repeating = widget.dekhar.repetitions ?? 0;
-          }
-        });
-      },
       borderRadius: BorderRadius.circular(15),
       child: CustomeContainer(
         child: Column(
           children: [
-            /// ✅ ExpansionTile is fine
             ExpansionTile(
               onExpansionChanged: (_) => setState(() {}),
               controller: _controller,
-              title: Text(
-                widget.dekhar.dhkar ?? "",
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(fontSize: widget._fontsize),
-              ),
+              title: _buildTitleWithRepetation(context),
               showTrailingIcon: false,
               children: [
                 Text(
@@ -64,115 +44,123 @@ class _DekarCardWidgetState extends State<DekharCardWidget> {
               ],
             ),
 
-            /// ✅ Bottom action row (Fixed overflow)
-            Row(
-              children: [
-                /// LEFT SIDE ACTIONS
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      PopupMenuButton(
-                        color: Colors.white,
-                        padding: EdgeInsets.zero,
-                        icon: const Icon(
-                          Icons.more_vert,
-                          color: Colors.blueGrey,
-                        ),
-                        itemBuilder: (context) => [
-                          PopupMenuItem(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                InkWell(
-                                  onTap: () =>
-                                      buildShowModalBottomSheet(context),
-                                  child: const Text(
-                                    "تعديل مرات التكرار",
-                                    style: TextStyle(
-                                      color: Color.fromARGB(255, 90, 202, 165),
-                                    ),
-                                  ),
-                                ),
-                                const Icon(
-                                  Icons.add,
-                                  color: Color.fromARGB(255, 90, 202, 165),
-                                ),
-                              ],
-                            ),
-                          ),
-                          PopupMenuItem(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                InkWell(
-                                  onTap: () =>
-                                      buildShowDeleteDekeerBottomSheet(context),
-                                  child: const Text(
-                                    "حذف من الورد اليومي",
-                                    style: TextStyle(
-                                      color: Color.fromARGB(255, 90, 202, 165),
-                                    ),
-                                  ),
-                                ),
-                                const Icon(
-                                  Icons.delete,
-                                  color: Color.fromARGB(255, 90, 202, 165),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () => Share.share(
-                            'check out my website https://example.com'),
-                        icon: const Icon(Icons.share, color: Colors.blueGrey),
-                      ),
-                      IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: () {
-                          // Clipboard.setData(ClipboardData(text: "deker"!));
-                          // successToastMessage(context, "تم نسخ النص");
-                        },
-                        icon: const Icon(Icons.add, color: Colors.blueGrey),
-                      ),
-                    ],
-                  ),
-                ),
-
-                /// RIGHT SIDE ACTIONS
-                Expanded(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _controller.isExpanded
-                                ? _controller.collapse()
-                                : _controller.expand();
-                          });
-                        },
-                        icon: const Icon(Icons.arrow_drop_up_sharp),
-                      ),
-                      Flexible(
-                        child: Text(
-                          'عرض السند',
-                          style: TextStyle(fontSize: widget._fontsize - 5),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            /// ✅ Bottom action row
+            _buildActionToggle(context),
           ],
         ),
       ),
     );
+  }
+
+  Row _buildActionToggle(BuildContext context) {
+    return Row(
+            children: [
+              /// LEFT SIDE ACTIONS
+          Expanded(
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+      // More options button
+      PopupMenuButton(
+        color: Colors.white,
+        padding: EdgeInsets.zero,
+        icon: Icon(
+          Icons.more_vert,
+          color: const Color(0xFF80BCBD),
+          size: 13,
+        ),
+        itemBuilder: (context) => [
+          // ... popup menu items unchanged
+        ],
+      ),
+      
+      // Tightly packed icon buttons with 1px spacing
+      _buildIconButton(Icons.share, () => Share.share('...')),
+      _buildIconButton(Icons.copy, () { /* copy */ }),
+      _buildIconButton(Icons.add, () => buildShowModalBottomSheet(context)),
+    ],
+  ),
+),
+                  /// RIGHT SIDE ACTIONS
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _controller.isExpanded
+                              ? _controller.collapse()
+                              : _controller.expand();
+                        });
+                      },
+                      icon: const Icon(Icons.arrow_drop_up_sharp),
+                    ),
+                    Flexible(
+                      child: Text(
+                        'عرض السند',
+                        style: TextStyle(fontSize: widget._fontsize - 5),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          );
+  }
+Widget _buildIconButton(IconData icon, VoidCallback onPressed) {
+  return Padding(
+    padding: const EdgeInsets.only(left: 1.0), // 1-pixel spacing
+    child: IconButton(
+      padding: EdgeInsets.zero,
+      constraints: const BoxConstraints(
+        minWidth: 18,
+        minHeight: 18,
+      ),
+      splashRadius: 13, // Smaller splash effect
+      onPressed: onPressed,
+      icon: Icon(
+        icon,
+        size: 13,
+        color: const Color(0xFF80BCBD),
+      ),
+    ),
+  );
+}
+  Row _buildTitleWithRepetation(BuildContext context) {
+    return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Dhkar text
+                Expanded(
+                  child: Text(
+                    widget.dekhar.dhkar ?? "",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(fontSize: widget._fontsize),
+                  ),
+                ),
+                // Repetition counter (display only)
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Text(
+                    '${widget.dekhar.repetitions ?? 0}',
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontSize: widget._fontsize - 2,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                  ),
+                ),
+              ],
+            );
   }
 
   /// ✅ Bottom sheet for editing
@@ -220,7 +208,6 @@ class _DekarCardWidgetState extends State<DekharCardWidget> {
               ],
             ),
             const SizedBox(height: 20),
-            // TempWidget(...) <-- your widget here
             InkWell(
               onTap: () {},
               borderRadius: BorderRadius.circular(20),

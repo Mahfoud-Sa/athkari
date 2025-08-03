@@ -40,7 +40,7 @@ class CategoryWidget extends StatelessWidget {
               left: 0,
               top: 0,
               child: PopupMenuButton(
-                color: Colors.white, // Set the background color to white
+                color: Colors.white, 
                 icon: const Icon(
                   Icons.more_vert,
                   color: Colors.blueGrey,

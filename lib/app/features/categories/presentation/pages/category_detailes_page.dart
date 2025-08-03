@@ -5,7 +5,6 @@ import 'package:athkari/app/core/methods/success_snackbar.dart';
 import 'package:athkari/app/core/widgets/empty_data_widget.dart';
 import 'package:athkari/app/core/widgets/error_state_widget.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
-import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_details_cubit.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_details_cubit_states.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
@@ -30,7 +29,7 @@ class _CatogoryDetailesPageState extends State<CatogoryDetailesPage> {
   @override
   void initState() {
     super.initState();
-   // context.read<CategoryCubit>().fetchCategoryDetails(widget.category.id!);
+    context.read<CategoryDetailsCubit>().fetchCategoryDetails(widget.category.id!);
   }
 @override
 void dispose() {

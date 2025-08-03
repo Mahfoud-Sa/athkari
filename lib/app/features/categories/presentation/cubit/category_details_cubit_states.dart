@@ -18,8 +18,8 @@ class ErrorCategoryDetailsState extends CategoryDetailsState {
   ErrorCategoryDetailsState(this.message);
 }
 class EmptyCategoryDetailsState extends CategoryDetailsState {
-  final String message;
-  EmptyCategoryDetailsState(this.message);
+  
+  EmptyCategoryDetailsState();
 }
 class NotifyCategoryDetailsState extends CategoryDetailsState {
   final String message;

@@ -20,8 +20,8 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
     emit(LoadingCategoryDetailsState());
     try {
       final categoryDetails = await _getCatogoryDetailsUseCase.call(params: id);
-      if (categoryDetails == null) {
-        emit(ErrorCategoryDetailsState("لا يمكن العثور على تفاصيل التصنيف"));
+      if (categoryDetails!.dhkars!.length == 0) {
+        emit(EmptyCategoryDetailsState());
       } else {
         emit(DoneCategoryDetailsState(categoryDetails));
       }
@@ -43,5 +43,18 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
     } catch (e) {
       emit(ErrorCategoryDetailsState("حدث خطأ أثناء الإضافة"));
     }
+  }
+    Future<void> addToDailyWered() async {
+    // emit(LoadingCategoryDetailsState());
+    // try {
+    //   await _addDekharWithEsnadUsecase.call(params: (
+    //     categoryId,
+    //     DhkarModel(dhkar: dekharText, esnad: EsnadModel(id: esnadId))
+    //   ));
+    //   emit(NotifyCategoryDetailsState("تمت الإضافة بنجاح"));
+    //   await fetchCategoryDetails(categoryId);
+    // } catch (e) {
+    //   emit(ErrorCategoryDetailsState("حدث خطأ أثناء الإضافة"));
+    // }
   }
 }
