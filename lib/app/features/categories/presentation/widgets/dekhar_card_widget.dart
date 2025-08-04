@@ -96,11 +96,14 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
                 },
                 child: Text(
                   widget.dekhar.esnad?.name ?? "",
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontSize: widget._fontsize - 2,
-                        color: Colors.black54,
-                      ),
-                  textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color:  const Color(0xffc8c8c8),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: "IBMPlexSansArabic",
+                        fontStyle:  FontStyle.normal,
+                        fontSize: 12.0
+                    ),
+                  textAlign: TextAlign.right,
                 ),
               ),
               
