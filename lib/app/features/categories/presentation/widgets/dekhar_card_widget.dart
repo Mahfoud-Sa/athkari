@@ -13,345 +13,211 @@ class DekharCardWidget extends StatefulWidget {
 }
 
 class _DekarCardWidgetState extends State<DekharCardWidget> {
-  final ExpansibleController _controller = ExpansibleController();
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  bool _expanded = false;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(15),
-      child: CustomeContainer(
-        child: Column(
-          children: [
-            ExpansionTile(
-              onExpansionChanged: (_) => setState(() {}),
-              controller: _controller,
-              title: _buildTitleWithRepetation(context),
-              showTrailingIcon: false,
-              children: [
-                Text(
-                  widget.dekhar.esnad?.name ?? "",
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontSize: widget._fontsize,
-                        color: Colors.black12,
-                      ),
-                  textAlign: TextAlign.center,
+    return CustomeContainer(
+      child: Stack(
+        children: [
+          // Main content column
+          Column(
+            children: [
+              // Title and repetition
+              _buildTitleWithRepetation(context),
+              
+              // Esnad text (appears when expanded)
+              if (_expanded) ...[
+                const SizedBox(height: 6),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    widget.dekhar.esnad?.name ?? "",
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontSize: widget._fontsize - 2,
+                          color: Colors.black54,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ],
-            ),
-
-            /// ✅ Bottom action row
-            _buildActionToggle(context),
-          ],
-        ),
+              
+              // Spacer for action buttons
+              const SizedBox(height: 28),
+            ],
+          ),
+          
+          // Action buttons positioned at bottom with tight spacing
+          Positioned(
+            bottom: 4,
+            left: 0,
+            right: 0,
+            child: _buildActionToggle(context),
+          ),
+        ],
       ),
     );
   }
 
-  Row _buildActionToggle(BuildContext context) {
-    return Row(
-            children: [
-              /// LEFT SIDE ACTIONS
-          Expanded(
-  child: Row(
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: [
-      // More options button
-      PopupMenuButton(
+  Widget _buildActionToggle(BuildContext context) {
+    return SizedBox(
+      height: 30,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // Left actions - using Stack for precise positioning
+          SizedBox(
+            width: 96, // Fixed width for the action buttons area
+            height: 24,
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                // More options button
+                Positioned(
+                  left: 0,
+                  child: _buildPopupMenuButton(),
+                ),
+                
+                // Share button
+                Positioned(
+                  left: 24,
+                  child: _buildIconButton(Icons.share, 
+                    () => Share.share('${widget.dekhar.dhkar}\n\n${widget.dekhar.esnad?.name ?? ""}')
+                  ),
+                ),
+                
+                // Copy button
+                Positioned(
+                  left: 48,
+                  child: _buildIconButton(Icons.copy, () {}),
+                ),
+                
+                // Add button
+                Positioned(
+                  left: 72,
+                  child: _buildIconButton(Icons.add, () {}),
+                ),
+              ],
+            ),
+          ),
+          
+          // Right actions - expand/collapse with tight spacing
+          InkWell(
+            onTap: () => setState(() => _expanded = !_expanded),
+            borderRadius: BorderRadius.circular(20),
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    _expanded ? Icons.expand_less : Icons.expand_more,
+                    color: const Color(0xFF80BCBD),
+                    size: 18,
+                  ),
+                  const SizedBox(width: 2),
+                  Text(
+                    'عرض السند',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: const Color(0xFF80BCBD),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPopupMenuButton() {
+    return SizedBox(
+      width: 24,
+      height: 24,
+      child: PopupMenuButton(
         color: Colors.white,
         padding: EdgeInsets.zero,
         icon: Icon(
           Icons.more_vert,
           color: const Color(0xFF80BCBD),
-          size: 13,
+          size: 18,
         ),
         itemBuilder: (context) => [
-          // ... popup menu items unchanged
+          PopupMenuItem(
+            child: ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.delete, size: 20),
+              title: const Text('حذف من الورد اليومي'),
+              onTap: () {
+                Navigator.pop(context);
+                // buildShowDeleteDekeerBottomSheet(context);
+              },
+            ),
+          ),
+          PopupMenuItem(
+            child: ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.edit, size: 20),
+              title: const Text('تعديل الذكر'),
+              onTap: () {
+                Navigator.pop(context);
+                // buildShowModalBottomSheet(context);
+              },
+            ),
+          ),
         ],
       ),
-      
-      // Tightly packed icon buttons with 1px spacing
-      _buildIconButton(Icons.share, () => Share.share('...')),
-      _buildIconButton(Icons.copy, () { /* copy */ }),
-      _buildIconButton(Icons.add, () => buildShowModalBottomSheet(context)),
-    ],
-  ),
-),
-                  /// RIGHT SIDE ACTIONS
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          _controller.isExpanded
-                              ? _controller.collapse()
-                              : _controller.expand();
-                        });
-                      },
-                      icon: const Icon(Icons.arrow_drop_up_sharp),
-                    ),
-                    Flexible(
-                      child: Text(
-                        'عرض السند',
-                        style: TextStyle(fontSize: widget._fontsize - 5),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
-  }
-Widget _buildIconButton(IconData icon, VoidCallback onPressed) {
-  return Padding(
-    padding: const EdgeInsets.only(left: 1.0), // 1-pixel spacing
-    child: IconButton(
-      padding: EdgeInsets.zero,
-      constraints: const BoxConstraints(
-        minWidth: 18,
-        minHeight: 18,
-      ),
-      splashRadius: 13, // Smaller splash effect
-      onPressed: onPressed,
-      icon: Icon(
-        icon,
-        size: 13,
-        color: const Color(0xFF80BCBD),
-      ),
-    ),
-  );
-}
-  Row _buildTitleWithRepetation(BuildContext context) {
-    return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Dhkar text
-                Expanded(
-                  child: Text(
-                    widget.dekhar.dhkar ?? "",
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium!
-                        .copyWith(fontSize: widget._fontsize),
-                  ),
-                ),
-                // Repetition counter (display only)
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withOpacity(0.1),
-                    shape: BoxShape.circle,
-                  ),
-                  child: Text(
-                    '${widget.dekhar.repetitions ?? 0}',
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          fontSize: widget._fontsize - 2,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
-                        ),
-                  ),
-                ),
-              ],
-            );
+    );
   }
 
-  /// ✅ Bottom sheet for editing
-  Future<dynamic> buildShowModalBottomSheet(BuildContext context) {
-    return showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => SingleChildScrollView(
-        child: Column(
+  Widget _buildIconButton(IconData icon, VoidCallback onPressed) {
+    return SizedBox(
+      width: 24,
+      height: 24,
+      child: IconButton(
+        padding: EdgeInsets.zero,
+        constraints: const BoxConstraints(),
+        splashRadius: 16,
+        onPressed: onPressed,
+        icon: Icon(
+          icon,
+          size: 16,
+          color: const Color(0xFF80BCBD),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTitleWithRepetation(BuildContext context) {
+    return InkWell(
+      onTap: () => setState(() => _expanded = !_expanded),
+      borderRadius: BorderRadius.circular(12),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const SizedBox(height: 10),
-            Container(
-              height: 3,
-              width: 80,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.black,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 8, bottom: 12),
+            // Dhkar text
+            Expanded(
               child: Text(
-                'ضبط عدد مرات التكرار',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w900,
-                ),
+                widget.dekhar.dhkar ?? "",
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(fontSize: widget._fontsize),
               ),
             ),
-            const Row(
-              children: [
-                Expanded(child: SizedBox()),
-                Padding(
-                  padding: EdgeInsets.only(right: 8.0),
-                  child: Text(
-                    'عدد مرات التكرار',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 22,
-                      color: Color.fromARGB(255, 128, 188, 189),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            InkWell(
-              onTap: () {},
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                width: 300,
-                height: 50,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 128, 188, 189),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: const Text(
-                  'تعديل مرات التكرار',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            InkWell(
-              borderRadius: BorderRadius.circular(20),
-              onTap: () => Navigator.pop(context),
-              child: Container(
-                width: 300,
-                height: 50,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: const Color.fromARGB(255, 128, 188, 189),
-                    width: 3,
-                  ),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: const Text(
-                  'الغاء',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 128, 188, 189),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
           ],
         ),
       ),
     );
   }
 
-  /// ✅ Bottom sheet for delete
-  Future<dynamic> buildShowDeleteDekeerBottomSheet(BuildContext context) {
-    return showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-            Container(
-              height: 3,
-              width: 80,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
-                color: Colors.black,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 8, bottom: 12),
-              child: Text(
-                "حذف من الورد اليومي",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-            ),
-            const Row(
-              children: [
-                Expanded(child: SizedBox()),
-                Padding(
-                  padding: EdgeInsets.only(right: 8.0),
-                  child: Text(
-                    'هل انت متاكد من حذف هذا الذكر؟',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 22,
-                      color: Color.fromARGB(255, 128, 188, 189),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            InkWell(
-              onTap: () {},
-              borderRadius: BorderRadius.circular(20),
-              child: Container(
-                width: 300,
-                height: 50,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 128, 188, 189),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: const Text(
-                  'حذف الذكر',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            InkWell(
-              borderRadius: BorderRadius.circular(20),
-              onTap: () => Navigator.pop(context),
-              child: Container(
-                width: 300,
-                height: 50,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: const Color.fromARGB(255, 128, 188, 189),
-                    width: 3,
-                  ),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: const Text(
-                  'الغاء',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 128, 188, 189),
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 10),
-          ],
-        ),
-      ),
-    );
-  }
+  // Keep your existing bottom sheet methods here
+  // Future<dynamic> buildShowModalBottomSheet(BuildContext context) { ... }
+  // Future<dynamic> buildShowDeleteDekeerBottomSheet(BuildContext context) { ... }
+  
 }
