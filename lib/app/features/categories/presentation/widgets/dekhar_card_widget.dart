@@ -160,7 +160,7 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
                 // Add button
                 Positioned(
                   left: 72,
-                  child: _buildIconButton(Icons.add, () {}),
+                  child: _buildIconButton(3>7?Icons.add:Icons.delete, () {}),
                 ),
               ],
             ),
@@ -205,13 +205,28 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
       ),
     );
   }
+Widget _buildPopupMenuButton() {
+  // Define your custom text style
+  const TextStyle customTextStyle = TextStyle(
+    color: Color(0xFF80BCBD), // Using your color value
+    fontWeight: FontWeight.w400,
+    fontFamily: "IBMPlexSansArabic",
+    fontStyle: FontStyle.normal,
+    fontSize: 12.0
+  );
 
-  Widget _buildPopupMenuButton() {
-    return SizedBox(
-      width: 24,
-      height: 24,
+  return SizedBox(
+    width: 24,
+    height: 24,
+    child: Directionality(  // Wrap with Directionality for RTL support
+      textDirection: TextDirection.rtl,
       child: PopupMenuButton(
         color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        elevation: 20,
+        shadowColor: const Color(0x33c8c8c8),
         padding: EdgeInsets.zero,
         icon: Icon(
           Icons.more_vert,
@@ -221,9 +236,12 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
         itemBuilder: (context) => [
           PopupMenuItem(
             child: ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.delete, size: 20),
-              title: const Text('حذف من الورد اليومي'),
+              trailing: const Icon(Icons.delete, size: 20,color: Color(0xFF80BCBD),), // Changed to trailing
+              title: const Text(
+                'حذف',
+                style: customTextStyle,
+                textAlign: TextAlign.right,  // Right align text
+              ),
               onTap: () {
                 Navigator.pop(context);
                 buildShowDeleteDekeerBottomSheet(context);
@@ -232,9 +250,12 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
           ),
           PopupMenuItem(
             child: ListTile(
-              contentPadding: EdgeInsets.zero,
-              leading: const Icon(Icons.edit, size: 20),
-              title: const Text('تعديل الذكر'),
+              trailing: const Icon(Icons.edit, size: 20,color: Color(0xFF80BCBD)), // Changed to trailing
+              title: const Text(
+                'تعديل',
+                style: customTextStyle,
+                textAlign: TextAlign.right,  // Right align text
+              ),
               onTap: () {
                 Navigator.pop(context);
                 buildShowModalBottomSheet(context);
@@ -243,9 +264,10 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
           ),
         ],
       ),
-    );
-  }
-
+    ),
+  );
+}
+  
   Widget _buildIconButton(IconData icon, VoidCallback onPressed) {
     return SizedBox(
       width: 24,
