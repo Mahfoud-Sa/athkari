@@ -52,7 +52,7 @@ jobs:
       contents: write
 
     steps:
-      - name: Checkout code # <--- ADDED THIS STEP
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Get version from pubspec.yaml
@@ -78,6 +78,9 @@ jobs:
         run: |
           APP_NAME=$(grep '^name:' pubspec.yaml | awk '{print $2}' | tr -d '"' | tr -d "'")
           echo "app_name=$APP_NAME" >> $GITHUB_OUTPUT
+          # Create a clean filename (replace spaces with underscores and remove special chars)
+          CLEAN_NAME=$(echo "$APP_NAME" | tr ' ' '_' | tr -cd '[:alnum:]._-')
+          echo "clean_name=$CLEAN_NAME" >> $GITHUB_OUTPUT
 
       - name: Download APK artifact
         uses: actions/download-artifact@v4
@@ -85,13 +88,19 @@ jobs:
           name: app-release
           path: artifacts
 
+      - name: Rename APK file
+        id: rename_apk
+        run: |
+          NEW_FILENAME="${{ steps.app_name.outputs.clean_name }}_${{ steps.tag_name.outputs.tag_name }}.apk"
+          mv artifacts/app-release.apk "artifacts/$NEW_FILENAME"
+          echo "NEW_FILENAME=$NEW_FILENAME" >> $GITHUB_OUTPUT
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.tag_name.outputs.tag_name }}
           name: ${{ steps.app_name.outputs.app_name }} ${{ steps.tag_name.outputs.tag_name }}
           body: "Automated release for ${{ steps.app_name.outputs.app_name }} version ${{ steps.tag_name.outputs.tag_name }}"
-          files: artifacts/app-release.apk
+          files: artifacts/${{ steps.rename_apk.outputs.NEW_FILENAME }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
