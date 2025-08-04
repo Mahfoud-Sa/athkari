@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 
 class DekharCardWidget extends StatefulWidget {
-  const DekharCardWidget({super.key, required this.dekhar});
+  const DekharCardWidget({super.key, required this.dekhar, required this.formKey});
   final double _fontsize = 18;
   final DhkarEntity dekhar;
   final isAddToDailyWered=false;
+   final GlobalKey<FormState> formKey;
   @override
   State<DekharCardWidget> createState() => _DekarCardWidgetState();
 }
@@ -167,7 +168,7 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
                     buildShowRemoveDekeerBottomSheet(context);
                   }:(){
                  
-                    buildAddtoDailyweredModalBottomSheet(context);
+                    buildAddtoDailyweredModalBottomSheet(context,widget.formKey,5);
                   }),
                 ),
               ],

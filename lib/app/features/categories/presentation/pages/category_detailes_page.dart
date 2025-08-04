@@ -106,7 +106,7 @@ void dispose() {
             itemCount: state.categoryDetails.dhkars?.length ?? 0,
             itemBuilder: (context, index) {
               final dekhar = state.categoryDetails.dhkars![index];
-              return DekharCardWidget(dekhar: dekhar);
+              return DekharCardWidget(dekhar: dekhar,formKey: formKey,);
             },
           ),
         ),

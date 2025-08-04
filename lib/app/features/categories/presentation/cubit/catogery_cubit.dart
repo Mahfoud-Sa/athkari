@@ -1,13 +1,9 @@
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
-import 'package:athkari/app/features/categories/domain/usecase/add_category_with_esnade_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/add_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/delete_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/get_catogories_usecase.dart';
-import 'package:athkari/app/features/categories/domain/usecase/get_catogory_details_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/update_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
-import 'package:athkari/app/features/daily_wered/data/modules/dhkar_model.dart';
-import 'package:athkari/app/features/esnaad/data/modules/esnad_model.dart';
 import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 import 'package:athkari/app/features/esnaad/domain/usecase/get_all_esnad_usecase.dart';
 import 'package:bloc/bloc.dart';

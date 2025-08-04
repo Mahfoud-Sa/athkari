@@ -4,7 +4,7 @@ import 'package:athkari/app/features/categories/presentation/cubit/category_deta
 import 'package:athkari/app/features/home/data/datasources/release_remote_datasources.dart';
 import 'package:athkari/app/features/categories/data/repository/category_repository_imp.dart';
 import 'package:athkari/app/features/categories/domain/usecase/add_category_with_esnade_usecase.dart';
-import 'package:athkari/app/features/categories/domain/usecase/add_catogories_usecase.dart';
+import 'package:athkari/app/features/categories/domain/usecase/add_to_dailywered_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/delete_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/get_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/get_catogory_details_usecase.dart';

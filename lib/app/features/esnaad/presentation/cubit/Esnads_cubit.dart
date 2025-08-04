@@ -1,5 +1,5 @@
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
-import 'package:athkari/app/features/categories/domain/usecase/add_catogories_usecase.dart';
+import 'package:athkari/app/features/categories/domain/usecase/add_to_dailywered_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/get_catogories_usecase.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
 import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';

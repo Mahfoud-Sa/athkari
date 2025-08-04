@@ -1,5 +1,6 @@
 // category_details_cubit.dart
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
+import 'package:athkari/app/features/categories/domain/usecase/add_to_dailywered_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/get_catogory_details_usecase.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_details_cubit_states.dart';
 import 'package:athkari/app/features/daily_wered/data/modules/dhkar_model.dart';
@@ -10,10 +11,10 @@ import 'package:bloc/bloc.dart';
 class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
   final GetCatogoryDetailsUseCase _getCatogoryDetailsUseCase;
   final AddDekharWithEsnadUsecase _addDekharWithEsnadUsecase;
-
+final AddToDailyweredUsecase _addToDailyweredUsecase;
   CategoryDetailsCubit(
     this._getCatogoryDetailsUseCase,
-    this._addDekharWithEsnadUsecase,
+    this._addDekharWithEsnadUsecase, this._addToDailyweredUsecase,
   ) : super(InitialCategoryDetailsState());
 
   Future<void> fetchCategoryDetails(int id) async {
@@ -44,17 +45,7 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
       emit(ErrorCategoryDetailsState("حدث خطأ أثناء الإضافة"));
     }
   }
-    Future<void> addToDailyWered() async {
-    // emit(LoadingCategoryDetailsState());
-    // try {
-    //   await _addDekharWithEsnadUsecase.call(params: (
-    //     categoryId,
-    //     DhkarModel(dhkar: dekharText, esnad: EsnadModel(id: esnadId))
-    //   ));
-    //   emit(NotifyCategoryDetailsState("تمت الإضافة بنجاح"));
-    //   await fetchCategoryDetails(categoryId);
-    // } catch (e) {
-    //   emit(ErrorCategoryDetailsState("حدث خطأ أثناء الإضافة"));
-    // }
+    Future<void> addToDailyWered(int dekharId,int repetition) async {
+    _addToDailyweredUsecase.call(params:(dekharId,repetition));
   }
 }
