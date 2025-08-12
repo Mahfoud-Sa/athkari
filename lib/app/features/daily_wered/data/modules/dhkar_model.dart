@@ -4,7 +4,7 @@ import 'package:athkari/app/features/esnaad/data/modules/esnad_model.dart';
 class DhkarModel extends DhkarEntity {
   final int? id;
   final String? dhkar;
-  final int? repetitions;
+  int? repetitions;
   final EsnadModel? esnad;
 
   DhkarModel({
@@ -22,7 +22,7 @@ class DhkarModel extends DhkarEntity {
   }
   factory DhkarModel.fromDataBase_1(Map<String, dynamic> map) {
     return DhkarModel(
-      // id: int.parse(map['id'] ?? 0),
+      id: map['id'],
       dhkar: map['dhaker'] ?? "",
       // repetitions: int.parse(map["repetitions"] ?? 0),
       esnad: EsnadModel(

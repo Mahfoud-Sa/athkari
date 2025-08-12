@@ -12,7 +12,7 @@ class AddToDailyweredUsecase extends UseCase<void, (int, int)> {
   @override
   Future call({(int, int)? params}) {
     // TODO: implement call
-    return _dailyWeredRepositoryImpl.addDhkar(3,6);
+    return _dailyWeredRepositoryImpl.addDhkar(params!.$1,params.$2);
   }
 
   

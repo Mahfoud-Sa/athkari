@@ -47,7 +47,24 @@ class DhkarDao {
         .update("Adhkars", value, where: 'id = ?', whereArgs: [dhkar.id]);
     return status;
   }
+Future<DhkarModel?> getDhkarById(int id) async {
+  try {
+    final List<Map<String, dynamic>> results = await database.query(
+      'Adhkars',
+      where: 'id = ?',
+      whereArgs: [id],
+      limit: 1,
+    );
 
+    if (results.isNotEmpty) {
+      return DhkarModel.fromDataBase(results.first);
+    }
+    return null; // Return null if no record found with this ID
+  } catch (e) {
+    print('Error getting dhkar by id: $e');
+    rethrow; // or handle the error as appropriate
+  }
+}
   // Example: Get all records
   Future<List<DhkarModel>> getAllAdhkai() async {
     var dekars = await database.query('Adhkars');

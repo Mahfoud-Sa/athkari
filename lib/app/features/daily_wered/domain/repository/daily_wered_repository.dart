@@ -8,6 +8,7 @@ abstract class DailyWeredRepository {
   Future<void> doneDailyWered(int id);
   Future<void> updateDailyWeredRepertation(int id, int repetation);
   Future<int> deleteDailyWered(int id);
+  Future<int> addDhkar(int dekharId,int repetitions);
   // Future<int> addDhkar(
   //     String dheer, int repetitions, int esnaad, EsnadEntity esnad);
   // Future<int> addDhkarWithCategory(int categoryId, DhkarEntity dhkar);

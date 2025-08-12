@@ -168,7 +168,7 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
                     buildShowRemoveDekeerBottomSheet(context);
                   }:(){
                  
-                    buildAddtoDailyweredModalBottomSheet(context,widget.formKey,5);
+                    buildAddtoDailyweredModalBottomSheet(context,widget.formKey,widget.dekhar.id!);
                   }),
                 ),
               ],

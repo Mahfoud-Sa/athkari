@@ -29,9 +29,9 @@ class DedherIndexPage extends StatelessWidget {
             context,
             (query) {
               if (query.isNotEmpty) {
-                //context.read<EsnadsCubit>().search(query);
+                 context.read<DailyWereCubit>().Search(query);
               } else {
-                // context.read<EsnadsCubit>().fetchData();
+                 context.read<DailyWereCubit>().FetchData();
               }
             },
           ),

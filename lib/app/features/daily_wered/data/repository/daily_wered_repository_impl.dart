@@ -1,5 +1,6 @@
 import 'package:athkari/app/core/services/app_database_services.dart';
 import 'package:athkari/app/features/daily_wered/data/modules/daily_werel_model.dart';
+import 'package:athkari/app/features/daily_wered/data/modules/dhkar_model.dart';
 import 'package:athkari/app/features/daily_wered/domain/repository/daily_wered_repository.dart';
 import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 
@@ -37,10 +38,13 @@ class DailyWeredRepositoryImpl implements DailyWeredRepository {
   // }
 
   @override
-  Future<int> addDhkar(int dekharId,int repetitions) {
+  Future<int> addDhkar(int dekharId,int repetitions) async{
     //return _appDataBaseServices.adhkaiDao.Insert(dheer, esnaad);
     // TODO: implement updateDhkar
-    throw UnimplementedError();
+    DhkarModel? _dhkarModel=await _appDataBaseServices.adhkaiDao.getDhkarById(dekharId);
+var temp=await _appDataBaseServices.dailyWeredDao.createDailyWered(DailyWeredModel(dhkar: _dhkarModel!.dhkar!,esnad: _dhkarModel.esnad,repetitions: repetitions,id: _dhkarModel.id));
+print(temp);
+return(temp);
   }
 
   // @override

@@ -11,8 +11,10 @@ class DailyWeredDao {
   
   // Example: Get all records
   Future<List<DailyWeredModel>> getAllAdhkai() async {
+    // var dekars = await database
+    //     .query('DailyWered', where: "is_compeleted = ?", whereArgs: ["false"]);
     var dekars = await database
-        .query('DailyWered', where: "is_compeleted = ?", whereArgs: ["false"]);
+        .query('DailyWered');
     print(dekars);
     return dekars.map((dekar) => DailyWeredModel.fromDataBase(dekar)).toList();
   }
@@ -87,4 +89,15 @@ class DailyWeredDao {
     print(state);
     return state;
   }
+
+    Future<int> createDailyWered(DailyWeredModel dailyWered) async {
+  var state = await database.insert('DailyWered', {
+    "dhaker": dailyWered.dhkar,
+    "repetitions": dailyWered.repetitions,
+    "esnads_id": dailyWered.esnad!.id,
+    "is_compeleted": 0, 
+  });
+  print(state);
+  return state;
+}
 }
