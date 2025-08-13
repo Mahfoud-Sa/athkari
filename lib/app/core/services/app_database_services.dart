@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:athkari/app/features/categories/data/datasources/local/category_dao.dart';
 import 'package:athkari/app/features/daily_wered/data/datasources/local/daily_wered_dao.dart';
 import 'package:athkari/app/features/daily_wered/data/datasources/local/dhkar_dao.dart';
 import 'package:athkari/app/features/esnaad/data/datasources/esnad_dto.dart';
+import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -150,5 +152,115 @@ class AppDataBaseServices {
       )
     ''');
     print("Tables created successfully.");
+  }
+ 
+ Future<void> clearAllTables() async {
+  if (_database == null || !_database!.isOpen) {
+    throw Exception("Database is not initialized");
+  }
+
+  // Perform in a transaction for atomicity
+  await _database!.transaction((txn) async {
+    // Clear all tables
+    await txn.delete('DailyWered');
+    await txn.delete('Adhkars');
+    await txn.delete('Categories');
+    await txn.delete('Esnads');
+    
+    // Reset auto-increment counters for all tables
+    await txn.rawDelete('DELETE FROM sqlite_sequence');
+  });
+
+  // Reseed the database
+  await seedDatabaseFromJson();
+} 
+
+Future<void> _seedAdhkars() async {
+  try {
+    // Load and parse JSON
+    final jsonString = await rootBundle.loadString('assets/jsons/adhkars.json');
+    final adhkarsList = jsonDecode(jsonString) as List<dynamic>;
+
+    // Get database instance
+    final db = await AppDataBaseServices().db;
+    if (db == null) throw Exception('Database not initialized');
+
+    // Use transaction for better performance and atomicity
+    await db.transaction((txn) async {
+      for (final adhkar in adhkarsList) {
+        await txn.insert(
+          'Adhkars',
+          _mapAdhkarToDbRow(adhkar),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+    });
+    
+    print('Successfully seeded ${adhkarsList.length} adhkars');
+  } catch (e) {
+    throw Exception('Failed to seed adhkars: $e');
+  }
+}
+
+Map<String, dynamic> _mapAdhkarToDbRow(dynamic adhkar) {
+  return {
+    'dhaker': adhkar['dhaker'] as String,
+    'repetitions': adhkar['repetitions'] as int,
+    'category_id': adhkar['category_id'] as int,
+    'esnads_id': adhkar['esnads_id'] as int,
+  };
+}
+
+Future<void> seedDatabaseFromJson() async {
+  try {
+    // Load and parse categories
+    await _seedEsnads();
+    await _seedCategories();
+    await _seedAdhkars();
+    
+    
+    
+    // await _seedDailyWered();
+  } catch (e) {
+    throw Exception('Failed to seed database: $e');
+  }
+}
+
+Future<void> _seedCategories() async {
+  final jsonString = await rootBundle.loadString('assets/jsons/categories.json');
+  final categoryList = jsonDecode(jsonString) as List<dynamic>;
+
+  final db = await AppDataBaseServices().db;
+  if (db == null) throw Exception('Database not initialized');
+
+  await db.transaction((txn) async {
+    for (final category in categoryList) {
+      await txn.insert(
+        'Categories',
+        {'name': category['name']},
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+  });
+}
+
+  Future<void> _seedEsnads() async {
+    final jsonString = await rootBundle.loadString('assets/jsons/esnads.json');
+    final esnads = jsonDecode(jsonString) as List;
+
+    final db = await this.db;
+    if (db == null) throw Exception('Database not initialized');
+
+    await db.transaction((txn) async {
+      final batch = txn.batch();
+      for (final esnad in esnads) {
+        batch.insert(
+          'Esnads',
+          {'name': esnad['name'].toString()},
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+      await batch.commit();
+    });
   }
 }

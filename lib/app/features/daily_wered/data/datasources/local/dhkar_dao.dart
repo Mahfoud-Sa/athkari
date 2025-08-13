@@ -78,7 +78,7 @@ Future<DhkarModel?> getDhkarById(int id) async {
     return result.length;
   }
 
-  Future<void> seedAdhkars() async {
+Future<void> resetAdhkars() async {
     database.execute('DROP TABLE IF EXISTS Adhkars');
     database.execute('''
       CREATE TABLE Adhkars (
@@ -91,7 +91,12 @@ Future<DhkarModel?> getDhkarById(int id) async {
         FOREIGN KEY (esnads_id) REFERENCES Esnads(id) ON DELETE CASCADE
 
       )
-    ''');
+    '''); 
+   seedAdhkars();
+  }
+
+  Future<void> seedAdhkars() async {
+   
     // database.delete('Adhkars');
     // database.rawUpdate(
     //   'DELETE FROM sqlite_sequence WHERE name = ?',

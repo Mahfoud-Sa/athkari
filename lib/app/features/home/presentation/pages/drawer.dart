@@ -13,6 +13,7 @@ import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:athkari/app/features/home/presentation/cubit/app_update_cubit.dart';
+import 'package:http/http.dart';
 import 'dart:ui' as ui;
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -327,8 +328,10 @@ void _showResetConfirmationDialog(BuildContext context) {
     cancelButtonText: "الغاء",
     onOkPressed: () async {
       try {
-        await getIt<AppDataBaseServices>().categoryDao.resetCategory();
-  await context.read<CategoryCubit>().fetchData();
+        await getIt<AppDataBaseServices>().clearAllTables();
+
+     //   await getIt<AppDataBaseServices>().adhkaiDao.seedAdhkars();
+       // await context.read<CategoryCubit>().fetchData();
     Navigator.pop(context);
 
       // ,);

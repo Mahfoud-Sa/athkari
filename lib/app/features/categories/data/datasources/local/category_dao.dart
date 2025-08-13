@@ -139,7 +139,20 @@ class CategoryDao {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT 
       )
-    ''');     
+    ''');
+    database.execute('DROP TABLE IF EXISTS Adhkars');
+    database.execute('''
+      CREATE TABLE Adhkars (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        dhaker TEXT ,
+        repetitions INTEGER,
+        category_id,
+        esnads_id,
+        FOREIGN KEY (category_id) REFERENCES Categories(id) ON DELETE CASCADE,
+        FOREIGN KEY (esnads_id) REFERENCES Esnads(id) ON DELETE CASCADE
+
+      )
+    ''');
    seedCategory();
   }
 }
