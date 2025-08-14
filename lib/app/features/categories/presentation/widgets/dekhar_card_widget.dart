@@ -1,4 +1,6 @@
 import 'package:athkari/app/core/ModelBottomSheet/add_to_dailywered_modelbottomsheet.dart';
+import 'package:athkari/app/core/ModelBottomSheet/delete_category_modelbottomsheet.dart';
+import 'package:athkari/app/core/ModelBottomSheet/delete_dhkar_bottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/edit_repetitions_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/remove_dailywered_modelbottomsheet.dart';
 import 'package:athkari/app/core/widgets/custome_container.dart';
@@ -152,7 +154,7 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
                 Positioned(
                   left: 24,
                   child: _buildIconButton(Icons.share, 
-                    () => Share.share('${widget.dekhar.dhkar}\n\n${widget.dekhar.esnad?.name ?? ""}')
+                    shareMethod
                   ),
                 ),
                 
@@ -220,6 +222,8 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
       ),
     );
   }
+
+  void shareMethod() => Share.share('${widget.dekhar.dhkar}\n\n${widget.dekhar.esnad?.name ?? ""}');
   Widget _buildPopupMenuButton() {
   // Define your custom text style
   const TextStyle customTextStyle = TextStyle(
@@ -258,8 +262,8 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
                 textAlign: TextAlign.right,  // Right align text
               ),
               onTap: () {
-                Navigator.pop(context);
-              //  buildShowDeleteDekeerBottomSheet(context);
+                
+                showDeleteDhkarBottomSheet(context,widget.dekhar.id!);
               },
             ),
           ),

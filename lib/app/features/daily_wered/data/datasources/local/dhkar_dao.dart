@@ -24,6 +24,25 @@ class DhkarDao {
       return true;
     }
   }
+// AdhkaiDao(this._db);
+Future<bool> Delete(int id) async {
+  try {
+    // Assuming you have an 'id' field in your DhkarModel
+    // and your table has a primary key column named 'id'
+    int rowsDeleted = await database.delete(
+      "Adhkars",
+      where: 'id = ?',  // Or use your unique identifier column
+      whereArgs: [id],
+    );
+    
+    // Return true if at least one row was deleted
+    return rowsDeleted > 0;
+  } catch (e) {
+    // Handle any errors that might occur during deletion
+    debugPrint('Error deleting dhkar: $e');
+    return false;
+  }
+}
 
   // AdhkaiDao(this._db);
   Future<int> InsertWitnCategory(int categoryId, DhkarModel dhkar) async {

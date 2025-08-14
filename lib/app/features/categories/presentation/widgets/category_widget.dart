@@ -90,7 +90,7 @@ class CategoryWidget extends StatelessWidget {
     return PopupMenuItem(
       child: InkWell(
         onTap: () {
-          buildShowDeleteDekeerBottomSheet(context, category.id!);
+          buildShowDeleteCategoryBottomSheet(context, category.id!);
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,

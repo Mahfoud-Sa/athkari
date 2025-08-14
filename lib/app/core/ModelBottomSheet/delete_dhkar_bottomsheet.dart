@@ -1,6 +1,7 @@
 // Bottom Sheet for Deleting Dhkar
 import 'package:athkari/app/core/widgets/add_button_widget.dart';
 import 'package:athkari/app/core/widgets/cancel_button_widget.dart';
+import 'package:athkari/app/features/categories/presentation/cubit/category_details_cubit.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ Future<void> showDeleteDhkarBottomSheet(BuildContext context, int id) {
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 12),
               child: Text(
-                'حذف من الورد اليومي',
+                'حذف من الورد',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 24,
@@ -55,7 +56,7 @@ Future<void> showDeleteDhkarBottomSheet(BuildContext context, int id) {
             InkWell(
               onTap: () {
                 // Implement delete functionality
-                context.read<DailyWereCubit>().deleteDekher(id);
+                context.read<CategoryDetailsCubit>().deleteDekhar(id);
                 Navigator.pop(context);
               },
               borderRadius: BorderRadius.circular(20),

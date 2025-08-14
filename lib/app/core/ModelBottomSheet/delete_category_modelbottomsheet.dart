@@ -7,7 +7,7 @@ import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubi
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-Future<dynamic> buildShowDeleteDekeerBottomSheet(
+Future<dynamic> buildShowDeleteCategoryBottomSheet(
     BuildContext context, int categoryId) {
   return showModalBottomSheet(
     isScrollControlled: true,

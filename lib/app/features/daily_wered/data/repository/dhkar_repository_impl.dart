@@ -36,9 +36,9 @@ class DhkarRepositoryImpl implements DhkarRepository {
   // }
 
   @override
-  Future<int> deleteDhkar(DhkarEntity dhkar) {
+  Future<bool> deleteDhkar(int id) {
     // TODO: implement deleteDhkar
-    throw UnimplementedError();
+     return _appDataBaseServices.adhkaiDao.Delete(id);
   }
 
   @override
