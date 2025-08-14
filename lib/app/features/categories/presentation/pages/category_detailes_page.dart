@@ -1,6 +1,7 @@
 import 'package:athkari/app/core/ModelBottomSheet/add_dhkar_with_esnad_modelbottomsheet.dart';
 import 'package:athkari/app/core/methods/build_appbar_method.dart';
 import 'package:athkari/app/core/methods/build_waiting_state.dart';
+import 'package:athkari/app/core/methods/error_snakbar.dart';
 import 'package:athkari/app/core/methods/success_snackbar.dart';
 import 'package:athkari/app/core/widgets/empty_data_widget.dart';
 import 'package:athkari/app/core/widgets/error_state_widget.dart';
@@ -28,9 +29,11 @@ class _CatogoryDetailesPageState extends State<CatogoryDetailesPage> {
 
   @override
   void initState() {
-    super.initState();
+  super.initState();
+  WidgetsBinding.instance.addPostFrameCallback((_) {
     context.read<CategoryDetailsCubit>().fetchCategoryDetails(widget.category.id!);
-  }
+  });
+}
 @override
 void dispose() {
   addCategoryText.dispose();
@@ -53,6 +56,9 @@ void dispose() {
         listener: (context, state) {
           if (state is NotifyCategoryDetailsState) {
             successToastMessage(context, state.message);
+          }
+           else if (state is DeleteErrorCategoryDetailsState) {
+            errorToastMessage(context, state.message);
           }
         },
         child: BlocBuilder<CategoryDetailsCubit, CategoryDetailsState>(

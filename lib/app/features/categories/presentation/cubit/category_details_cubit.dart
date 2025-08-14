@@ -14,26 +14,36 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
   final AddDekharWithEsnadUsecase _addDekharWithEsnadUsecase;
   final AddToDailyweredUsecase _addToDailyweredUsecase;
   final DeleteDekharUseCase _deleteDekharUseCase;
-  late final categoryId;
+  int? _currentCategoryId;
   CategoryDetailsCubit(
     this._getCatogoryDetailsUseCase,
     this._addDekharWithEsnadUsecase, this._addToDailyweredUsecase, this._deleteDekharUseCase,
   ) : super(InitialCategoryDetailsState());
 
-  Future<void> fetchCategoryDetails(int id) async {
-    categoryId=id;
-    emit(LoadingCategoryDetailsState());
-    try {
-      final categoryDetails = await _getCatogoryDetailsUseCase.call(params: id);
-      if (categoryDetails!.dhkars!.length == 0) {
-        emit(EmptyCategoryDetailsState());
-      } else {
-        emit(DoneCategoryDetailsState(categoryDetails));
-      }
-    } catch (e) {
-      emit(ErrorCategoryDetailsState("حدث خطأ أثناء جلب التفاصيل"));
+Future<void> fetchCategoryDetails(int id) async {
+  _currentCategoryId = id; // Store the ID for future operations
+  emit(LoadingCategoryDetailsState());
+  
+  try {
+    final categoryDetails = await _getCatogoryDetailsUseCase.call(params: id);
+    
+    // Null and empty checks with better readability
+    if (categoryDetails == null || 
+        categoryDetails.dhkars == null || 
+        categoryDetails.dhkars!.isEmpty) {
+      emit(EmptyCategoryDetailsState());
+    } else {
+      emit(DoneCategoryDetailsState(categoryDetails));
     }
+    
+  } catch (e) {
+    // More detailed error message with actual error
+    emit(ErrorCategoryDetailsState("حدث خطأ أثناء جلب التفاصيل: ${e.toString()}"));
+    
+    // Consider adding error logging here
+    // debugPrint('Error fetching category details: $e');
   }
+}
 
   Future<void> addDekharWithEsnad(
       int categoryId, int esnadId, String dekharText) async {
@@ -52,16 +62,28 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
     Future<void> addToDailyWered(int dekharId,int repetition) async {
     _addToDailyweredUsecase.call(params:(dekharId,repetition));
   }
-   Future<void> deleteDekhar(int dekharId) async {
-  if( await _deleteDekharUseCase.call(params:dekharId)==0){
-        emit(ErrorCategoryDetailsState("حدث خطأ أثناء الحذف"));
-  }else{
-    emit(NotifyCategoryDetailsState("تم"));
-     fetchCategoryDetails(categoryId);
-  }
 
-   
+
+ Future<void> deleteDekhar(int dekharId) async {
+  try {
+  //  emit(LoadingCategoryDetailsState()); // Show loading state
+    
+    final result = await _deleteDekharUseCase.call(params: dekharId);
+    
+    if (result != 0) {
+      emit(DeleteErrorCategoryDetailsState("حدث خطأ أثناء الحذف"));
+    } else {
+      emit(NotifyCategoryDetailsState("تم الحذف بنجاح"));
+     // Refresh the data after successful deletion
+      
+    }
+    if (_currentCategoryId != null) {
+        await fetchCategoryDetails(_currentCategoryId!);
+      }
+  } catch (e) {
+    emit(DeleteErrorCategoryDetailsState("حدث خطأ غير متوقع: ${e.toString()}"));
   }
+}
    Future<void> updateDekhar(int dekharId) async {
     //_deleteDekharUseCase.call(params:dekharId);
    // fetchCategoryDetails(dekharId);

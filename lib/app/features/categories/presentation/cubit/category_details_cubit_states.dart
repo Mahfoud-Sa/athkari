@@ -25,3 +25,8 @@ class NotifyCategoryDetailsState extends CategoryDetailsState {
   final String message;
   NotifyCategoryDetailsState(this.message);
 }
+class DeleteErrorCategoryDetailsState extends CategoryDetailsState {
+  final String message;
+  DeleteErrorCategoryDetailsState(this.message);
+}
+
