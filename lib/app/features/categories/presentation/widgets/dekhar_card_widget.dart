@@ -4,6 +4,7 @@ import 'package:athkari/app/core/ModelBottomSheet/remove_dailywered_modelbottoms
 import 'package:athkari/app/core/widgets/custome_container.dart';
 import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 
 class DekharCardWidget extends StatefulWidget {
@@ -158,13 +159,18 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
                 // Copy button
                 Positioned(
                   left: 48,
-                  child: _buildIconButton(Icons.copy, () {}),
+                  child: _buildIconButton(Icons.copy, () {
+                     Clipboard.setData(ClipboardData(text:'${widget.dekhar.dhkar}\n\n${widget.dekhar.esnad?.name ?? ""}'));
+                 ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('تم نسخ النص')),
+        );
+                  }),
                 ),
                 
                 // Add button
                 Positioned(
                   left: 72,
-                  child: _buildIconButton(3>1?Icons.add:Icons.delete,3>4? () {
+                  child: _buildIconButton(1>3?Icons.add:Icons.delete,3>4? () {
                     buildShowRemoveDekeerBottomSheet(context);
                   }:(){
                  

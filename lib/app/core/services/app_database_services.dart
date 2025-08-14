@@ -82,33 +82,7 @@ class AppDataBaseServices {
     );
   }
 
-  // Future<void> resetDatabase() async {
-  //   String path;
-
-  //   if (Platform.environment.containsKey('FLUTTER_TEST')) {
-  //     // Use an in-memory database for tests
-  //     path = ':memory:';
-  //   } else {
-  //     // Use the real database path
-  //     String databasePath = await getDatabasesPath();
-  //     path = join(databasePath, 'database.db');
-  //   }
-  //   print(_database!.isOpen);
-  //   if (_database != null) deleteDatabase(path);
-  //   print("delete database successfully");
-  //   print(_database!.isOpen);
-
-  //   openDatabase(
-  //     path,
-  //     version: 1,
-  //     onCreate: _onCreate,
-  //     onUpgrade: _onUpgrade,
-  //   );
-  //   print(_database!.isOpen);
-
-  //   //_instance._initializeDb();
-  //   //print("database successfully");
-  // }
+  
 
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     // Handle database upgrades if needed
