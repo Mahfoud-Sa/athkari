@@ -70,7 +70,7 @@ Future<void> fetchCategoryDetails(int id) async {
     
     final result = await _deleteDekharUseCase.call(params: dekharId);
     
-    if (result != 0) {
+    if (!result) {
       emit(DeleteErrorCategoryDetailsState("حدث خطأ أثناء الحذف"));
     } else {
       emit(NotifyCategoryDetailsState("تم الحذف بنجاح"));

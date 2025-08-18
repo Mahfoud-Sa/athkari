@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:athkari/app/features/categories/data/modules/category_models.dart';
 import 'package:athkari/app/features/daily_wered/data/modules/dhkar_model.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -85,25 +86,34 @@ class CategoryDao {
         .toList()[0];
   }
 
-  Future<CategoryModel?> getCategoryDetailes(int id) async {
-    CategoryModel? categoryName = await getCategory(id);
-    final result = await database.rawQuery('''
+Future<CategoryModel?> getCategoryDetailes(int id) async {
+  CategoryModel? categoryName = await getCategory(id);
+  
+  final result = await database.rawQuery('''
     SELECT 
-      Adhkars.*,
-      Esnads.*
+      Adhkars.id AS adhkar_id,
+      Adhkars.dhaker,
+      Adhkars.repetitions,
+      Adhkars.category_id,
+      Adhkars.esnads_id,
+      Esnads.id AS esnad_id,
+      Esnads.name AS esnad_name
     FROM Adhkars
     LEFT JOIN Esnads ON Adhkars.esnads_id = Esnads.id
     WHERE Adhkars.category_id = ?
   ''', [id]);
-   
 
-    List<DhkarModel> dekhars =
-        result.map((dekar) => DhkarModel.fromDataBase_1(dekar)).toList();
-
+  debugPrint(result.toString());
   
-    return CategoryModel(name: categoryName!.name, dhkars: dekhars);
-   
-  }
+  List<DhkarModel> dekhars = result
+      .map((dekar) => DhkarModel.fromDataBase_1(dekar))
+      .toList();
+
+  return CategoryModel(
+    name: categoryName!.name, 
+    dhkars: dekhars,
+  );
+}
 
   Future<void> seedCategory() async {
     database.execute('DROP TABLE IF EXISTS Categories');
