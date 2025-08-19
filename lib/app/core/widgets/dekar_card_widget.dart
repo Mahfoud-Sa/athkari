@@ -1,5 +1,5 @@
 import 'package:athkari/app/core/ModelBottomSheet/delete_dhkar_bottomsheet.dart';
-import 'package:athkari/app/core/ModelBottomSheet/edit_repetitions_modelbottomsheet.dart';
+import 'package:athkari/app/core/ModelBottomSheet/edit_dekhar_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/update_esnad_modelbottomsheet.dart';
 import 'package:athkari/app/features/daily_wered/data/modules/daily_werel_model.dart';
 import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
@@ -117,11 +117,7 @@ class _DekarDailyWereCardWidgetState extends State<DekarDailyWereCardWidget> {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        // buildUpdateEsnadModalBottomSheet(
-                                        //     context,
-                                        //     formKey,
-                                        //     updateRepetation,
-                                        //     0);
+                                       
                                         showEditRepetitionsBottomSheet(
                                             context,
                                             formKey,

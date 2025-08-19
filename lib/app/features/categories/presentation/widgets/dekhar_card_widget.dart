@@ -1,10 +1,13 @@
 import 'package:athkari/app/core/ModelBottomSheet/add_to_dailywered_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/delete_category_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/delete_dhkar_bottomsheet.dart';
-import 'package:athkari/app/core/ModelBottomSheet/edit_repetitions_modelbottomsheet.dart';
+import 'package:athkari/app/core/ModelBottomSheet/edit_dekhar_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/remove_dailywered_modelbottomsheet.dart';
+import 'package:athkari/app/core/ModelBottomSheet/update_dhkar_with_esnad_modelbottomsheet.dart';
 import 'package:athkari/app/core/widgets/custome_container.dart';
+import 'package:athkari/app/features/categories/data/modules/category_models.dart';
 import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
@@ -154,8 +157,7 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
                 Positioned(
                   left: 24,
                   child: _buildIconButton(Icons.share, 
-                    shareMethod
-                  ),
+                    shareMethod                  ),
                 ),
                 
                 // Copy button
@@ -276,8 +278,11 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
                 textAlign: TextAlign.right,  // Right align text
               ),
               onTap: () {
+                TextEditingController updateRepetationController = TextEditingController(
+                  text: widget.dekhar.repetitions.toString(),
+                );
                 Navigator.pop(context);
-               // buildShowModalBottomSheet(context);
+                buildUpdateDhaderWithEsnadBottomSheet(context,widget.formKey,widget.dekhar,updateRepetationController);
               },
             ),
           ),

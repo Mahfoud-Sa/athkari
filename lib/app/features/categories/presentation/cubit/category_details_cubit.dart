@@ -3,6 +3,7 @@ import 'package:athkari/app/features/categories/domain/entities/category_entity.
 import 'package:athkari/app/features/categories/domain/usecase/add_to_dailywered_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/delete_dekhair_usecase.dart';
 import 'package:athkari/app/features/categories/domain/usecase/get_catogory_details_usecase.dart';
+import 'package:athkari/app/features/categories/domain/usecase/update_dekhar_with_esnade_usecase.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_details_cubit_states.dart';
 import 'package:athkari/app/features/daily_wered/data/modules/dhkar_model.dart';
 import 'package:athkari/app/features/esnaad/data/modules/esnad_model.dart';
@@ -13,11 +14,12 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
   final GetCatogoryDetailsUseCase _getCatogoryDetailsUseCase;
   final AddDekharWithEsnadUsecase _addDekharWithEsnadUsecase;
   final AddToDailyweredUsecase _addToDailyweredUsecase;
+  final UpdateDekharWithEsnadUsecase _updateToDailyweredUsecase;
   final DeleteDekharUseCase _deleteDekharUseCase;
   int? _currentCategoryId;
   CategoryDetailsCubit(
     this._getCatogoryDetailsUseCase,
-    this._addDekharWithEsnadUsecase, this._addToDailyweredUsecase, this._deleteDekharUseCase,
+    this._addDekharWithEsnadUsecase, this._addToDailyweredUsecase, this._deleteDekharUseCase, this._updateToDailyweredUsecase,
   ) : super(InitialCategoryDetailsState());
 
 Future<void> fetchCategoryDetails(int id) async {
@@ -84,8 +86,12 @@ Future<void> fetchCategoryDetails(int id) async {
     emit(DeleteErrorCategoryDetailsState("حدث خطأ غير متوقع: ${e.toString()}"));
   }
 }
-   Future<void> updateDekhar(int dekharId) async {
-    //_deleteDekharUseCase.call(params:dekharId);
-   // fetchCategoryDetails(dekharId);
+   Future<void> updateDekhar(int dekharId,String dekhar,int esnadId) async {
+    
+   _updateToDailyweredUsecase.call(params: (_currentCategoryId!, DhkarModel(id:dekharId ,dhkar: dekhar, esnad: EsnadModel(id: esnadId))));
+    emit(NotifyCategoryDetailsState("تم التعديل بنجاح"));
+    if (_currentCategoryId != null) {
+      await fetchCategoryDetails(_currentCategoryId!);
+    }
   }
 }

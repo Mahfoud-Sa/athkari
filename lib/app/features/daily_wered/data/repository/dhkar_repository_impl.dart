@@ -42,9 +42,11 @@ class DhkarRepositoryImpl implements DhkarRepository {
   }
 
   @override
-  Future<int> updateDhkar(DhkarEntity dhkar, EsnadEntity esnad) {
-    // TODO: implement updateDhkar
-    throw UnimplementedError();
+  Future<int> updateDhkar(int categoryId, DhkarEntity dhkar) async{
+     var temp = await _appDataBaseServices.adhkaiDao
+        .Update(categoryId, DhkarModel.fromEntity(dhkar));
+    print(temp);
+    return temp;
   }
 
   @override

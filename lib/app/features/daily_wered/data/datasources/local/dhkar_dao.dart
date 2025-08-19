@@ -56,11 +56,12 @@ Future<bool> Delete(int id) async {
     return state;
   }
 
-  Future<int> Update(DhkarModel dhkar) async {
+  Future<int> Update(int categoryId, DhkarModel dhkar) async {
     var value = {
       'dhaker': dhkar.dhkar,
       'repetitions': dhkar.repetitions,
-      'esnads_id': 0,
+      'esnads_id':  dhkar.esnad!.id!,
+      'category_id': categoryId
     };
     var status = await database
         .update("Adhkars", value, where: 'id = ?', whereArgs: [dhkar.id]);

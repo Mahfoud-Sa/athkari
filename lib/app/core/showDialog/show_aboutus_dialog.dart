@@ -23,22 +23,13 @@ Future<dynamic> showAboutUsDialog(BuildContext context) {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'فريق التطوير',
+                    'ساهم بدعم تطوير التطبيق,حيث يمكنك التواصل مع فريق التطوير أو المساهمة في تحسين التطبيق:',
                     textAlign: TextAlign.right,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  const SizedBox(height: 12),
-                  _buildContactItem('• GID tEAM'),
-                  _buildContactItem('• م. محفوظ بن سباح'),
-                  
                  
-                  
-                  const SizedBox(height: 20),
-                  const Text(
-                    'طرق التواصل',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
+                  _buildContactItem('• م. محفوظ بن سباح'),
+
                   const SizedBox(height: 12),
                   _buildContactItem('البريد الإلكتروني: binsabbah2013@gmail.com'),
                   _buildContactItem('رقم الهاتف: 770266408'),

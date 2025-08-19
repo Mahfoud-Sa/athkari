@@ -32,7 +32,7 @@ class DrawerWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
            const  DrawerAppBar(),
-            _buildAppSettingsSection(context),
+         //   _buildAppSettingsSection(context),
             _buildReminderSettingsSection(context),
             _buildOtherOptionsSection(context),
             _buildVersionInfo(context),
@@ -101,15 +101,15 @@ class DrawerWidget extends StatelessWidget {
     return Column(
       children: [
         const DrawerTitleWidet(title: 'إعدادات الإذكار'),
-         ExpandableRadioGroup(
-          title: 'ضبط الورد اليومي',
-          initialSelected: true,
-          options: ['غير مفعل', 'مفعل'],
-        ),
-        ForwardedTitleWidget(
-          title: 'ضبط الاشعارات',
-          onPressed: () => _showNotificationSettings(context),
-        ),
+        //  ExpandableRadioGroup(
+        //   title: 'ضبط الورد اليومي',
+        //   initialSelected: true,
+        //   options: ['غير مفعل', 'مفعل'],
+        // ),
+        // ForwardedTitleWidget(
+        //   title: 'ضبط الاشعارات',
+        //   onPressed: () => _showNotificationSettings(context),
+        // ),
         ForwardedTitleWidget(
           title: 'إعاده ضبط الاذكار',
           onPressed: () => _showResetConfirmationDialog(context),
