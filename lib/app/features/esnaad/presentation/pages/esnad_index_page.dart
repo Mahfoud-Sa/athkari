@@ -19,13 +19,12 @@ class EsnaadsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: buildAppBar(context, "الإسنادات"),
     //  drawer: DrawerWidget(),
-      floatingActionButton: FloatingActionButton.small(
-          child: Icon(Icons.add),
-          onPressed: () {
-            buildAddEsnadModalBottomSheet(context, formKey, esnadValue);
-          }),
+      floatingActionButton:  buildFloatingActionMethodTemp(context),
+      
+     // newMethod(context),
       body: Column(
         children: [
           buildSearchBar(
@@ -87,6 +86,25 @@ class EsnaadsPage extends StatelessWidget {
           )),
         ],
       ),
+  
+  
+    );
+
+
+
+  }
+    FloatingActionButton buildFloatingActionMethodTemp(BuildContext context) {
+    return FloatingActionButton(
+      foregroundColor: Colors.white,
+      backgroundColor: Color.fromARGB(255, 128, 188, 189),
+      child: Center(
+        child: Icon(Icons.add),
+      ),
+      onPressed: () {
+        buildAddEsnadModalBottomSheet(context, formKey, esnadValue);
+        
+      },
     );
   }
+  
 }
