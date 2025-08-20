@@ -175,7 +175,7 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
                 Positioned(
                   left: 72,
                   child: _buildIconButton(1>3?Icons.add:Icons.delete,3>4? () {
-                    buildShowRemoveDekeerBottomSheet(context);
+                    buildShowRemoveDekeerBottomSheet(context,widget.dekhar.id!);
                   }:(){
                  
                     buildAddtoDailyweredModalBottomSheet(context,widget.formKey,widget.dekhar.id!);

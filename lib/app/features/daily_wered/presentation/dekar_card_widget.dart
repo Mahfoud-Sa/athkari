@@ -1,5 +1,6 @@
 import 'package:athkari/app/core/ModelBottomSheet/delete_dhkar_bottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/edit_dekhar_modelbottomsheet.dart';
+import 'package:athkari/app/core/ModelBottomSheet/update_dhkar_with_esnad_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/update_esnad_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/remove_dailywered_modelbottomsheet.dart';
 import 'package:athkari/app/core/widgets/custome_container.dart';
@@ -224,12 +225,13 @@ class _DekarDailyWereCardWidgetState extends State<DekarDailyWereCardWidget>
                 ),
                 
                 // Remove from daily wered button
-                Positioned(
-                  left: 72,
-                  child: _buildIconButton(Icons.delete, () {
-                    buildShowRemoveDekeerBottomSheet(context);
-                  }),
-                ),
+                // Positioned(
+                //   left: 72,
+                //   child: _buildIconButton(Icons.delete, () {
+                //     buildShowRemoveDekeerBottomSheet(context, widget.dhkar.id!);
+                //   }),
+                // ),
+             
               ],
             ),
           ),
@@ -314,9 +316,12 @@ class _DekarDailyWereCardWidgetState extends State<DekarDailyWereCardWidget>
                 onTap: () {
                   Navigator.pop(context);
                   updateRepetation.text = _noOfRepeating.toString();
+                  // buildUpdateDhaderWithEsnadBottomSheet(context,formKey,DhkarEntity(dhkar: widget.dhkar.dhkar,id: widget.dhkar.id!),updateRepetation);
+
                   showEditRepetitionsBottomSheet(
                     context, formKey, updateRepetation, widget.dhkar.id!);
-                },
+                
+                 },
               ),
             ),
             PopupMenuItem(
@@ -328,8 +333,9 @@ class _DekarDailyWereCardWidgetState extends State<DekarDailyWereCardWidget>
                   textAlign: TextAlign.right,
                 ),
                 onTap: () {
-                  Navigator.pop(context);
-                  showDeleteDhkarBottomSheet(context, widget.dhkar.id!);
+                 // Navigator.pop(context);
+                   buildShowRemoveDekeerBottomSheet(context, widget.dhkar.id!);
+                 // showDeleteDhkarBottomSheet(context, widget.dhkar.id!);
                 },
               ),
             ),

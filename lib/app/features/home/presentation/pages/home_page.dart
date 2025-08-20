@@ -1,17 +1,12 @@
 import 'package:athkari/app/core/widgets/empty_data_widget.dart';
-import 'package:athkari/app/features/categories/data/modules/category_models.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/features/categories/presentation/pages/category_index_page.dart';
-import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
-import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_state.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_Index_page.dart';
 import 'package:athkari/app/features/esnaad/presentation/pages/esnad_index_page.dart';
 import 'package:athkari/app/features/home/presentation/cubit/daily_wered_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/daily_wered_cubit_status.dart';
-import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit.dart';
-import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit_states.dart';
 import 'package:athkari/app/features/home/presentation/cubit/today_dekhar_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/today_dekhar_cubit_states.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';

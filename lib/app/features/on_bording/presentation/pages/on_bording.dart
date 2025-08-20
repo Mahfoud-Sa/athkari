@@ -1,6 +1,9 @@
+import 'package:athkari/app/core/services/app_database_services.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_Index_page.dart';
+import 'package:athkari/app/features/home/domain/usecase/reset_database_usecase.dart';
 import 'package:athkari/app/features/home/presentation/pages/home_page.dart';
 import 'package:athkari/app/features/on_bording/presentation/pages/on_bording_page.dart';
+import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -121,6 +124,8 @@ class _OnbordingState extends State<Onbording> {
                             SharedPreferences localStorage =
                                 await SharedPreferences.getInstance();
                             localStorage.setBool("showOnBordingPages", false);
+                            // Reset the database
+                            await getIt<AppDataBaseServices>().clearAllTables();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

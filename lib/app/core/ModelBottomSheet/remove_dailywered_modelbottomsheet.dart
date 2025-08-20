@@ -1,7 +1,9 @@
- import 'package:flutter/material.dart';
+ import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// ✅ Bottom sheet for delete confirmation
-  Future<dynamic> buildShowRemoveDekeerBottomSheet(BuildContext context) {
+  Future<dynamic> buildShowRemoveDekeerBottomSheet(BuildContext context,int dekharId) {
     return showModalBottomSheet(
       isScrollControlled: true,
       context: context,
@@ -52,7 +54,8 @@
             InkWell(
               onTap: () {
                 // Add your delete logic here
-                Navigator.pop(context);
+                context.read<DailyWereCubit>().deleteDekher(dekharId);
+                // Navigator.pop(context);
               },
               borderRadius: BorderRadius.circular(20),
               child: Container(

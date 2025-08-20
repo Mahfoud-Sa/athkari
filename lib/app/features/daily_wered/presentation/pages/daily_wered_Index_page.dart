@@ -36,23 +36,7 @@ class DedherIndexPage extends StatelessWidget {
             },
           ),
           Expanded(
-            //    child: BlocBuilder<DailyWereCubit, DailyWeredCubitStates>(
-            //  BlocBuilder<CategoryCubit, CatogeryState>
-            // listenWhen: (previous, current) {
-            //   return current == NotifeyDailyWeredCubitState;
-            // },
-            // listener: (context, state) {
-            //   // Show the SnackBar when the state is ShowMessageState
-            //   if (state is NotifeyDailyWeredCubitState) {
-            //     ScaffoldMessenger.of(context).showSnackBar(
-            //       SnackBar(
-            //         content: Text(state.message),
-            //         duration: const Duration(seconds: 3),
-            //         backgroundColor: Colors.blueAccent,
-            //       ),
-            //     );
-            //   }
-            // },
+        
             child: BlocBuilder<DailyWereCubit, DailyWeredCubitStates>(
                 builder: (context, state) {
               if (state is LoadingDailyWeredState) {
