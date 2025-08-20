@@ -1,6 +1,6 @@
 import 'package:athkari/app/core/methods/build_appbar_method.dart';
 import 'package:athkari/app/core/methods/build_searchbae_method.dart';
-import 'package:athkari/app/core/widgets/dekar_card_widget.dart';
+import 'package:athkari/app/features/daily_wered/presentation/dekar_card_widget.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_state.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/side_title_widget.dart';
