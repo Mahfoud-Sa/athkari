@@ -32,7 +32,9 @@ Future<void> main() async {
       BlocProvider(create: (_) => TodayDekharCubit()),
       BlocProvider(
           create: (_) =>
-              DailyWereCubit(getIt(), getIt(), getIt(), getIt(), getIt())),
+              DailyWereCubit(getIt(), getIt(), getIt(), getIt(), getIt()),
+              
+              ),
       BlocProvider(
           create: (_) => CategoryCubit(
               getIt(), getIt(), getIt(), getIt(), getIt(),)),
@@ -49,7 +51,7 @@ Future<void> main() async {
         return cubit;
       },
     ),
-      BlocProvider(create: (_) => DailyWeredCubit_(getIt())),
+      BlocProvider(create: (_) => DailyWeredProgressCubit(getIt())..initialize()),
     ],
     child: App(),
     // ),

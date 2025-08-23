@@ -80,7 +80,7 @@ Future<void> initializationContainer() async {
       getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<EsnadsCubit>(
       () => EsnadsCubit(getIt(), getIt(), getIt(), getIt()));
-  getIt.registerFactory<DailyWeredCubit_>(() => DailyWeredCubit_(getIt()));
+  getIt.registerFactory<DailyWeredProgressCubit>(() => DailyWeredProgressCubit(getIt()));
   // repositories
   getIt.registerSingleton<DhkarRepositoryImpl>(DhkarRepositoryImpl(getIt()));
   getIt

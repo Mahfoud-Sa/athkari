@@ -15,6 +15,7 @@ class DailyWereCubit extends Cubit<DailyWeredCubitStates> {
   var daily_wered_list;
   //final GetTotalDailyWereUseCase _getTotalDailyWereUseCase;
   DailyWereCubit(
+    
       this._dailyWereUseCase,
       this._addDhakerUseCase,
       this._dailyWeredUsecase,

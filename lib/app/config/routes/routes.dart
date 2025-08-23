@@ -33,7 +33,5 @@ class AppRoutes {
     ],
   );
 
-  // static Widget buildRoute (BuildContext, state) {
-  //           return Onbording();
-  //         }
+
 }

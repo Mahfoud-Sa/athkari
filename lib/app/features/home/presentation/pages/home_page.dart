@@ -1,4 +1,5 @@
 import 'package:athkari/app/core/widgets/empty_data_widget.dart';
+import 'package:athkari/app/core/widgets/waiting_animated_widget.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_cubit_state.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
@@ -26,122 +27,20 @@ class HomePage extends StatelessWidget {
     return Scaffold(
         appBar: _buildAppBar(context),
         drawer: DrawerWidget(),
-        body: 
-             SingleChildScrollView(
+        body:SingleChildScrollView(
               child: Center(
                 child: Column(
                   children: [
-                     BlocBuilder<DailyWeredCubit_, DailyWeredCubitStatus_>(
-                      builder: (context, state) {
-                        if (state is LoadingDailyWeredState_) {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else if (state is DoneDailyWeredState_) {
-                          return _buildDailyDkeer(context,state);
-                        } else if (state is EmptyDailyWeredState_) {
-                          return Center(
-                            child: Text("Nothing ..."),
-                          );
-                        }
-                        return Container();
-                      },
-                    ),
-                  //  _buildDailyDkeer(context),
+                     _buildDailyweredProgressSection(),
                     const SizedBox(
                       height: 20,
                     ),
-                    // section of show all
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width - 60,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CategoryIndexPage(),
-                                  ));
-                            },
-                            child: Text(
-                              'عرض الكل',
-                              style:
-                                  Theme.of(context).textTheme.titleLarge!.copyWith(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                            ),
-                          ),
-                          Text(
-                            'أقسام الأذكار',
-                            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-            
-                    BlocBuilder<CategoryCubit, CatogeryState>(
-                      builder: (context, state) {
-                        if (state is LoadingCategoryState) {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else if (state is DoneCategoryState) {
-                          return _buildDekarSection(state);
-                        } else if (state is EmptyCategoryState) {
-                          return emptyDataWidget(smallSize: true);
-                        }
-                        return Container();
-                      },
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width - 60,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: FaIcon(FontAwesomeIcons.share),
-                          ),
-                          Text(
-                            'ذكر اليوم',
-                            style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    BlocBuilder<TodayDekharCubit, TodayDekharCubitStates>(
-                     
-                      builder: (context,state) {
-                        if(state is doneDekkharState){
-                          return _buildTodayDekarSection(context,state);
 
-                        }else{
-                          return CircularProgressIndicator();
-                        }
-                        
-                      }
-                     
-                      )
-                    ,
+                    _buildCategorySection(context),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    _buildTodaydekharSection(),
                     const SizedBox(
                       height: 20,
                     ),
@@ -153,8 +52,128 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             )
-          
         );
+  }
+
+
+
+  BlocBuilder<TodayDekharCubit, TodayDekharCubitStates> _buildTodaydekharSection() {
+    return BlocBuilder<TodayDekharCubit, TodayDekharCubitStates>(
+                   
+                    builder: (context,state) {
+                      if(state is doneDekkharState){
+                        return _buildTodayDekarSection(context,state);
+
+                      }else{
+                        return CircularProgressIndicator();
+                      }
+                      
+                    }
+                   
+                    );
+  }
+
+  Column _buildCategorySection(BuildContext context) {
+    return Column(
+children: [
+  SizedBox(
+    width: MediaQuery.of(context).size.width - 60,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CategoryIndexPage(),
+                ));
+                },
+                child: Text(
+                  'عرض الكل',
+                  style:
+                  Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Colors.black,
+                    fontSize: 14,
+                    decoration: TextDecoration.underline,
+                    ),
+                    ),
+                    ),
+                    Text(
+                      'أقسام الأذكار',
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: Colors.black,
+                         fontSize: 14,
+                         ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                     height: 10,
+                  ),
+                  BlocBuilder<CategoryCubit, CatogeryState>(
+                    builder: (context, state) {
+                      if (state is LoadingCategoryState) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (state is DoneCategoryState) {
+                        return _buildDekarDoneState(state);
+                      } else if (state is EmptyCategoryState) {
+                        return emptyDataWidget(smallSize: true);
+                      }
+                      return Container();
+                    },
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width - 60,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: FaIcon(FontAwesomeIcons.share),
+                        ),
+                        Text(
+                          'ذكر اليوم',
+                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                color: Colors.black,
+                                fontSize: 14,
+                              ),
+                        ),
+                      ],
+                    ),
+                  ),
+                    ],
+                  );
+  }
+
+  BlocBuilder<DailyWeredProgressCubit, DailyWeredCubitStatus> _buildDailyweredProgressSection() {
+    return BlocBuilder<DailyWeredProgressCubit, DailyWeredCubitStatus>(
+                    builder: (context, state) {
+                      if (state is LoadingDailyWeredState) {
+                      return _buildWaitingDailyDekharState(context);
+                      } else if (state is DoneDailyWeredState) {
+                        return _buildDailyDkeer(context,state);
+                      } else if (state is ErrorDailyWeredState) {
+                        return _buildErrorDailyDekharState(
+                          context, 
+                          errorMessage: state.message,
+                          onRetry: () {
+                            // Retry fetching data
+                            context.read<DailyWeredProgressCubit>().fetchData();
+                          },
+                        );
+                      }
+                    
+                        return _buildWaitingDailyDekharState(context);
+                      
+                    },
+                  );
   }
 
   Container _buildEsnadatSection(BuildContext context) {
@@ -230,7 +249,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  SingleChildScrollView _buildDekarSection(DoneCategoryState categoriesList) {
+  SingleChildScrollView _buildDekarDoneState(DoneCategoryState categoriesList) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -245,7 +264,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Container _buildDailyDkeer(BuildContext context,DoneDailyWeredState_ state) {
+  Container _buildDailyDkeer(BuildContext context,DoneDailyWeredState state) {
     return Container(
       margin: const EdgeInsets.only(top: 20),
       width: MediaQuery.of(context).size.width - 60,
@@ -271,7 +290,7 @@ class HomePage extends StatelessWidget {
             height: 10,
           ),
           Text(
-            'سبحان الله والحمدلله \nولا اله  الا الله والله أكبر',
+          state.message ?? "لا يوجد ورد يومي",
             style: Theme.of(context)
                 .textTheme
                 .titleSmall!
@@ -294,7 +313,7 @@ class HomePage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(50)),
             child: Center(
                 child: Text(
-              "${state.daily_wered_presentage}%",
+              "${state.percentage}%",
               style: Theme.of(context)
                   .textTheme
                   .titleLarge!
@@ -330,7 +349,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "تم اكمال ${state.compeleted_wered} من ${state.total_wered} ذكر",
+                  "تم اكمال ${state.completedWered} من ${state.completedWered} ذكر",
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
                         fontSize: 12,
                       ),
@@ -375,4 +394,154 @@ class HomePage extends StatelessWidget {
           )),
     );
   }
+
+
+  Container _buildWaitingDailyDekharState(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(top: 20,right: 10,left: 10),
+      width: MediaQuery.of(context).size.width - 10,
+      decoration: const BoxDecoration(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+          image: DecorationImage(
+              fit: BoxFit.cover,
+              image: AssetImage("assets/images/patteren.png"))),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+         
+         
+          const SizedBox(
+            height: 30,
+          ),
+          Text(
+           "الورد اليومي",
+            style: TextStyle(
+    color:  Colors.white,
+    fontWeight: FontWeight.w600,
+    fontFamily: "IBMPlexSansArabic",
+    fontStyle:  FontStyle.normal,
+    fontSize: 24.0)),
+          const SizedBox(
+            height: 80,
+          ),
+           AnimatedDots(white: true,),
+          const SizedBox(
+            height: 100,
+          ),
+          Container(
+            height: 35,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(25))),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                 Text(
+                    "...جاري التحميل",
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          fontSize: 12,
+                        ),
+                  
+                ),
+              
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+Container _buildErrorDailyDekharState(BuildContext context, {required String errorMessage, required VoidCallback onRetry}) {
+  return Container(
+    margin: const EdgeInsets.only(top: 20, right: 10, left: 10),
+    width: MediaQuery.of(context).size.width - 10,
+    decoration: const BoxDecoration(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+      image: DecorationImage(
+        fit: BoxFit.cover,
+        image: AssetImage("assets/images/patteren.png")
+      ),
+    ),
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const SizedBox(height: 30),
+        Text(
+          "الورد اليومي",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            fontFamily: "IBMPlexSansArabic",
+            fontStyle: FontStyle.normal,
+            fontSize: 24.0,
+          ),
+        ),
+        const SizedBox(height: 40),
+        // Error icon instead of loading animation
+        Icon(
+          Icons.error_outline,
+          color: Colors.white,
+          size: 60,
+        ),
+        const SizedBox(height: 20),
+        // Error message
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Text(
+            errorMessage,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontFamily: "IBMPlexSansArabic",
+            ),
+          ),
+        ),
+        const SizedBox(height: 40),
+        // Retry button
+        ElevatedButton(
+          onPressed: onRetry,
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.red, // Text color
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+          child: Text(
+            "إعادة المحاولة",
+            style: TextStyle(
+              fontFamily: "IBMPlexSansArabic",
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        const SizedBox(height: 60),
+        Container(
+          height: 35,
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "حدث خطأ",
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  fontSize: 12,
+                  color: Colors.red,
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
+    ),
+  );
+}
 }

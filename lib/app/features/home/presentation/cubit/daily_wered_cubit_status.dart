@@ -1,32 +1,19 @@
-import 'package:equatable/equatable.dart';
+abstract class DailyWeredCubitStatus {}
 
-abstract class DailyWeredCubitStatus_ extends Equatable {}
+class InitDailyWeredState extends DailyWeredCubitStatus {}
 
-class InitDailyWeredState_ extends DailyWeredCubitStatus_ {
-  @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
-}
-class DoneDailyWeredState_ extends DailyWeredCubitStatus_ {
- final double daily_wered_presentage;
- final int total_wered;
- final int compeleted_wered;
+class LoadingDailyWeredState extends DailyWeredCubitStatus {}
 
-  DoneDailyWeredState_(this.daily_wered_presentage,this.compeleted_wered,this.total_wered);
-  @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
-}
-class EmptyDailyWeredState_ extends DailyWeredCubitStatus_ {
+class DoneDailyWeredState extends DailyWeredCubitStatus {
+  final double percentage;
+  final int totalWered;
+  final int completedWered;
   final String message;
-  EmptyDailyWeredState_(this.message);
-
-  @override
-  // TODO: implement props
-  List<Object?> get props => [message];// For state comparison
+  
+  DoneDailyWeredState(this.percentage, this.totalWered, this.completedWered, this.message);
 }
-class LoadingDailyWeredState_ extends DailyWeredCubitStatus_ {
-  @override
-  // TODO: implement props
-  List<Object?> get props => [];
+
+class ErrorDailyWeredState extends DailyWeredCubitStatus {
+  final String message;
+  ErrorDailyWeredState(this.message);
 }
