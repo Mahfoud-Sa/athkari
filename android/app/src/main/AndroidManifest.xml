@@ -1,6 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Network permissions -->
     <uses-permission android:name="android.permission.INTERNET"/>
     
+    <!-- Storage permissions (for older Android versions) -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    
+    <!-- For Android 10+ (API 29+) consider using Scoped Storage -->
     <application
         android:enableOnBackInvokedCallback="true"
         android:label="اذكاري"
@@ -9,6 +15,7 @@
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true">
         
+        <!-- Your existing activities and metadata -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -27,18 +34,15 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
             
-            <!-- Add this for Flutter splash screen -->
             <meta-data
                 android:name="io.flutter.embedding.android.SplashScreenDrawable"
                 android:resource="@drawable/launch_background"/>
         </activity>
         
-        <!-- Flutter embedding -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2"/>
             
-        <!-- Add this for newer Flutter versions -->
         <meta-data
             android:name="io.flutter.app.android.SplashScreenUntilFirstFrame"
             android:value="true"/>
