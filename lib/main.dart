@@ -9,6 +9,7 @@ import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart
 import 'package:athkari/app/features/home/presentation/cubit/daily_wered_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/app_update_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit.dart';
+import 'package:athkari/app/features/home/presentation/cubit/reset_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/today_dekhar_cubit.dart';
 import 'package:athkari/app/injection_container.dart';
 import 'package:device_preview/device_preview.dart';
@@ -51,7 +52,8 @@ Future<void> main() async {
         return cubit;
       },
     ),
-      BlocProvider(create: (_) => DailyWeredProgressCubit(getIt())..initialize()),
+      BlocProvider(create: (_) => DailyWeredProgressCubit(getIt())),//..initialize()),
+      BlocProvider(create: (_) => ResetCubit()),
     ],
     child: App(),
     // ),

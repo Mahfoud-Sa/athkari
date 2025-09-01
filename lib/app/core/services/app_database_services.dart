@@ -135,7 +135,7 @@ class AppDataBaseServices {
   if (_database == null || !_database!.isOpen) {
     throw Exception("Database is not initialized");
   }
-
+ print("seeding tables .");
   // Perform in a transaction for atomicity
   await _database!.transaction((txn) async {
     // Clear all tables

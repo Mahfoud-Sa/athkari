@@ -24,9 +24,13 @@ class AppUpdateCubit extends Cubit<AppUpdateCubitState> {
   }
 
   Future<void> checkUpdate() async {
+    emit(UpdateWaitingState());
+     await Future.delayed(const Duration(seconds: 5));
     if (appVersion == null) {
       await _initializeVersion();
       if (appVersion == null) {
+        
+        
         emit(CheckUpdateErrorState('لا يمكن التحقق من التحديثات'));
         return;
       }

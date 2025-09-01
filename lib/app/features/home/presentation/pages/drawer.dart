@@ -2,9 +2,12 @@ import 'package:athkari/app/core/services/app_database_services.dart';
 import 'package:athkari/app/core/showDialog/show_aboutus_dialog.dart';
 import 'package:athkari/app/core/showDialog/show_okay_dialog.dart';
 import 'package:athkari/app/core/showDialog/show_warning_dialog.dart';
+import 'package:athkari/app/core/widgets/waiting_animated_widget.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/features/home/data/model/release_model.dart';
 import 'package:athkari/app/features/home/presentation/cubit/app_update_drawer_cubit_status.dart';
+import 'package:athkari/app/features/home/presentation/cubit/reset_cubit.dart';
+import 'package:athkari/app/features/home/presentation/cubit/reset_cubit_states.dart';
 import 'package:athkari/app/features/home/presentation/widgets/DrawerTitleWidet.dart';
 import 'package:athkari/app/features/home/presentation/widgets/ForwardedTitleWidget.dart';
 import 'package:athkari/app/features/home/presentation/widgets/expandable_radio_group_widget.dart';
@@ -19,24 +22,74 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_time_picker_spinner/flutter_time_picker_spinner.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      width: double.infinity,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-           const  DrawerAppBar(),
-         //   _buildAppSettingsSection(context),
-            _buildReminderSettingsSection(context),
-            _buildOtherOptionsSection(context),
-            _buildVersionInfo(context),
-          ],
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<AppUpdateCubit, AppUpdateCubitState>(
+          listener: (context, state) {
+            if (state is UpdateWaitingState) {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) =>
+                    const Center(child: AnimatedDots()),
+              );
+            } else if (state is UpdateAvailableState) {
+              Navigator.pop(context);
+              _showUpdateDialog(context, state.releaseModel);
+            } else if (state is NoUpdateState) {
+              
+              Navigator.pop(context);
+              showOkayAlert(context, state.message);
+            } else if (state is CheckUpdateErrorState) {
+              Navigator.pop(context);
+                    
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.errorMessage)),
+              );
+            }
+          },
+      
+      
+        ),
+        //reset cubit
+         BlocListener<ResetCubit, ResetCubitState>(
+          listener: (context, state) {
+            if (state is WaitingState) {
+              
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) =>
+                    const Center(child: AnimatedDots()),
+              );
+            } else if (state is DoneState) {
+              Navigator.pop(context);
+              showOkayAlert(context, 'تم اعادة ضبط الاذكار');}
+            
+          },
+      
+      
+        ),
+      ],
+      child: Drawer(
+        width: double.infinity,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+             const  DrawerAppBar(),
+           //   _buildAppSettingsSection(context),
+              _buildReminderSettingsSection(context),
+              _buildOtherOptionsSection(context),
+              _buildVersionInfo(context),
+            ],
+          ),
         ),
       ),
     );
@@ -126,7 +179,11 @@ class DrawerWidget extends StatelessWidget {
           title: 'مشاركة التطبيق',
           onPressed: () => Share.share('check out my website https://example.com'),
         ),
-        _buildUpdateCheckTile(context),
+        ForwardedTitleWidget(
+        title: 'تحقق من التحديثات',
+        onPressed: () => context.read<AppUpdateCubit>().checkUpdate(),
+      ),
+       // _buildUpdateCheckTile(context),
         ForwardedTitleWidget(
           title: 'تقييم التطبيق',
           onPressed: () {
@@ -134,9 +191,9 @@ class DrawerWidget extends StatelessWidget {
           },
         ),
         ForwardedTitleWidget(
-  title: 'تواصل معنا',
-  onPressed: () => showAboutUsDialog(context),
-),
+          title: 'تواصل معنا',
+          onPressed: () => showAboutUsDialog(context),
+        ),
       ],
     );
   }
@@ -319,36 +376,39 @@ class DrawerWidget extends StatelessWidget {
       ),
     );
   }
-void _showResetConfirmationDialog(BuildContext context) {
-  showWarningDialog(
-    context: context,
-    message: "سيتم اعادة ضبط الاذكار في التطبيق الى الاعدادات الافتراضية",
-   // title: "إعادة ضبط الاذكار",
-    okButtonText: "موافق",
-    cancelButtonText: "الغاء",
-    onOkPressed: () async {
-      try {
-        await getIt<AppDataBaseServices>().clearAllTables();
 
-     //   await getIt<AppDataBaseServices>().adhkaiDao.seedAdhkars();
-       // await context.read<CategoryCubit>().fetchData();
-    Navigator.pop(context);
+  void _showResetConfirmationDialog(BuildContext context) {
+    final resetCubit = context.read<ResetCubit>();
 
-      // ,);
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('تم اعادة ضبط الاذكار')),
-          );
-        }
-      } catch (e) {
-        if (context.mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Error: ${e.toString()}')),
-          );
-        }
-      }
-    },
-  );
+    showWarningDialog(
+      context: context,
+      message: "سيتم اعادة ضبط الاذكار في التطبيق الى الاعدادات الافتراضية",
+    // title: "إعادة ضبط الاذكار",
+      okButtonText: "موافق",
+      cancelButtonText: "الغاء",
+      onOkPressed: () async {
+        //  try {
+        Navigator.pop(context);
+        // await getIt<AppDataBaseServices>().clearAllTables();
+        await resetCubit.clearAllTables();
+        
+     // Navigator.pop(context);
+
+      
+        //   if (context.mounted) {
+        //     ScaffoldMessenger.of(context).showSnackBar(
+        //       const SnackBar(content: Text('تم اعادة ضبط الاذكار')),
+        //     );
+        //   }
+        // } catch (e) {
+        //   if (context.mounted) {
+        //     ScaffoldMessenger.of(context).showSnackBar(
+        //       SnackBar(content: Text('Error: ${e.toString()}')),
+        //     );
+        //   }
+      //  }
+      },
+    );
 }
 
   void _showUpdateDialog(BuildContext context, ReleaseModel release) {

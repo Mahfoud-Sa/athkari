@@ -16,3 +16,7 @@ class CheckUpdateErrorState extends AppUpdateCubitState {
   final String errorMessage;
   CheckUpdateErrorState(this.errorMessage);
 }
+class UpdateWaitingState extends AppUpdateCubitState {
+  
+  UpdateWaitingState();
+}

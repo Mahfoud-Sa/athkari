@@ -125,7 +125,7 @@ class _OnbordingState extends State<Onbording> {
                                 await SharedPreferences.getInstance();
                             localStorage.setBool("showOnBordingPages", false);
                             // Reset the database
-                            await getIt<AppDataBaseServices>().clearAllTables();
+                           // await getIt<AppDataBaseServices>().clearAllTables();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

@@ -39,6 +39,7 @@ import 'package:athkari/app/features/home/domain/usecase/get_latest_apk_usecase.
 import 'package:athkari/app/features/home/presentation/cubit/daily_wered_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/app_update_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit.dart';
+import 'package:athkari/app/features/home/presentation/cubit/reset_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/today_dekhar_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
@@ -133,4 +134,5 @@ Future<void> initializationContainer() async {
   //Home usecase
  getIt.registerSingleton<CheckUpdatesUsecase>(CheckUpdatesUsecase(getIt()));
  getIt.registerSingleton<GetLatestRelease>(GetLatestRelease(getIt()));
+ getIt.registerSingleton<ResetCubit>(ResetCubit());//Drawer 
 }
