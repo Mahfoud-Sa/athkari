@@ -1,5 +1,3 @@
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
-
 import 'package:athkari/app/core/services/app_database_services.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_Index_page.dart';
 import 'package:athkari/app/features/home/domain/usecase/reset_database_usecase.dart';
