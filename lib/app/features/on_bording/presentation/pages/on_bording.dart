@@ -1,3 +1,5 @@
+import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
+
 import 'package:athkari/app/core/services/app_database_services.dart';
 import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_Index_page.dart';
 import 'package:athkari/app/features/home/domain/usecase/reset_database_usecase.dart';
@@ -125,7 +127,7 @@ class _OnbordingState extends State<Onbording> {
                                 await SharedPreferences.getInstance();
                             localStorage.setBool("showOnBordingPages", false);
                             // Reset the database
-                           // await getIt<AppDataBaseServices>().clearAllTables();
+                            await getIt<ResetDatabaseUsecase>.call();
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
