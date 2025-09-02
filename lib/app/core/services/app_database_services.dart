@@ -223,33 +223,7 @@ Future<void> _seedAdhkarsFromInternet() async {
   }
 }
 
-Future<void> _seedAdhkars() async {
-  try {
-    // Load and parse JSON
-    final jsonString = await rootBundle.loadString('assets/jsons/adhkars.json');
-    final adhkarsList = jsonDecode(jsonString) as List<dynamic>;
-    
 
-    // Get database instance
-    final db = await AppDataBaseServices().db;
-    if (db == null) throw Exception('Database not initialized');
-
-    // Use transaction for better performance and atomicity
-    await db.transaction((txn) async {
-      for (final adhkar in adhkarsList) {
-        await txn.insert(
-          'Adhkars',
-          _mapAdhkarToDbRow(adhkar),
-          conflictAlgorithm: ConflictAlgorithm.replace,
-        );
-      }
-    });
-    
-    print('Successfully seeded ${adhkarsList.length} adhkars');
-  } catch (e) {
-    throw Exception('Failed to seed adhkars: $e');
-  }
-}
 Map<String, dynamic> _mapAdhkarToDbRow(dynamic adhkar) {
   return {
     'dhaker': adhkar['dhaker'] as String,
@@ -262,9 +236,9 @@ Map<String, dynamic> _mapAdhkarToDbRow(dynamic adhkar) {
 Future<void> seedDatabaseFromJson() async {
   try {
     // Load and parse categories
-    await _seedEsnads();
-    await _seedCategories();
-    await _seedAdhkars();
+    await _seedEsnadsFromJson();
+    await _seedCategoriesFromJson();
+    await _seedAdhkarsFromJson();
     
     
     
@@ -329,27 +303,8 @@ Future<void> _seedCategoriesFromInternet() async {
     }
   });
 }
-Future<void> _seedCategories() async {
-  final jsonString = await rootBundle.loadString('assets/jsons/categories.json');
-  final categoryList = jsonDecode(jsonString) as List<dynamic>;
-   
-  // final jsonString = await file.readAsString();
-  // final categoryList = jsonDecode(jsonString) as List;
 
-  final db = await AppDataBaseServices().db;
-  if (db == null) throw Exception('Database not initialized');
-
-  await db.transaction((txn) async {
-    for (final category in categoryList) {
-      await txn.insert(
-        'Categories',
-        {'name': category['name']},
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
-    }
-  });
-}
-  Future<void> _seedEsnadsFromInternet() async {
+Future<void> _seedEsnadsFromInternet() async {
  const String jsonUrl = 'https://raw.githubusercontent.com/Mahfoud-Sa/athkari/main/assets/jsons/esnads.json';
     
     String downloadPath = '';
@@ -390,8 +345,9 @@ Future<void> _seedCategories() async {
       await batch.commit();
     });
   }
-
- Future<void> _seedEsnads() async {
+  
+  
+Future<void> _seedEsnadsFromJson() async {
 
     
     final jsonString = await rootBundle.loadString('assets/jsons/esnads.json');
@@ -413,6 +369,51 @@ Future<void> _seedCategories() async {
       await batch.commit();
     });
   }
+Future<void> _seedCategoriesFromJson() async {
+  final jsonString = await rootBundle.loadString('assets/jsons/categories.json');
+  final categoryList = jsonDecode(jsonString) as List<dynamic>;
+   
+  // final jsonString = await file.readAsString();
+  // final categoryList = jsonDecode(jsonString) as List;
 
+  final db = await AppDataBaseServices().db;
+  if (db == null) throw Exception('Database not initialized');
 
+  await db.transaction((txn) async {
+    for (final category in categoryList) {
+      await txn.insert(
+        'Categories',
+        {'name': category['name']},
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+  });
+}
+Future<void> _seedAdhkarsFromJson() async {
+  try {
+    // Load and parse JSON
+    final jsonString = await rootBundle.loadString('assets/jsons/adhkars.json');
+    final adhkarsList = jsonDecode(jsonString) as List<dynamic>;
+    
+
+    // Get database instance
+    final db = await AppDataBaseServices().db;
+    if (db == null) throw Exception('Database not initialized');
+
+    // Use transaction for better performance and atomicity
+    await db.transaction((txn) async {
+      for (final adhkar in adhkarsList) {
+        await txn.insert(
+          'Adhkars',
+          _mapAdhkarToDbRow(adhkar),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+    });
+    
+    print('Successfully seeded ${adhkarsList.length} adhkars');
+  } catch (e) {
+    throw Exception('Failed to seed adhkars: $e');
+  }
+}
 }

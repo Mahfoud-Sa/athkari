@@ -31,7 +31,7 @@ class ResetCubit extends Cubit<ResetCubitState> {
    var state=await _resetDatabaseUsecase.call();
     if(state){
       getIt<CategoryCubit>().fetchData();
-      getIt<DailyWereCubit>().FetchData();
+     // getIt<DailyWereCubit>().FetchData();
       getIt<EsnadsCubit>().fetchData();
       
       emit(DoneState());
