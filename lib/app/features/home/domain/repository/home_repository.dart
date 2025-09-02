@@ -4,7 +4,8 @@ import 'package:athkari/app/features/home/domain/entity/daily_wered_progress_ent
 import 'package:package_info_plus/package_info_plus.dart';
 
 abstract class HomeRepository {
-  Future<int> resetDatabase(EsnadEntity esnad);
+  Future<bool> resetDatabase();
   Future<DailyWeredProgressEntity> getDailyWeredProgress();
- 
+  //Future<bool> resetDatabase();
+  //Future<String?> getLatestApkUrl();
 }

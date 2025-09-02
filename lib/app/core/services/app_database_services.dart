@@ -131,7 +131,27 @@ class AppDataBaseServices {
     print("Tables created successfully.");
   }
  
- Future<void> clearAllTables() async {
+ Future<void> clearAllTablesFromInternet() async {
+  if (_database == null || !_database!.isOpen) {
+    throw Exception("Database is not initialized");
+  }
+ print("seeding tables .");
+  // Perform in a transaction for atomicity
+  await _database!.transaction((txn) async {
+    // Clear all tables
+    await txn.delete('DailyWered');
+    await txn.delete('Adhkars');
+    await txn.delete('Categories');
+    await txn.delete('Esnads');
+    
+    // Reset auto-increment counters for all tables
+    await txn.rawDelete('DELETE FROM sqlite_sequence');
+  });
+
+  // Reseed the database
+  await seedDatabaseInternet();
+} 
+ Future<void> clearAllTablesFromJson() async {
   if (_database == null || !_database!.isOpen) {
     throw Exception("Database is not initialized");
   }
@@ -152,7 +172,7 @@ class AppDataBaseServices {
   await seedDatabaseFromJson();
 } 
 
-Future<void> _seedAdhkars() async {
+Future<void> _seedAdhkarsFromInternet() async {
   try {
     // Load and parse JSON
     // final jsonString = await rootBundle.loadString('assets/jsons/adhkars.json');
@@ -179,8 +199,8 @@ Future<void> _seedAdhkars() async {
     });
     
     final file = File(downloadPath);
-  final jsonString = await file.readAsString();
-  final adhkarsList = jsonDecode(jsonString) as List;
+    final jsonString = await file.readAsString();
+    final adhkarsList = jsonDecode(jsonString) as List;
 
     // Get database instance
     final db = await AppDataBaseServices().db;
@@ -203,6 +223,33 @@ Future<void> _seedAdhkars() async {
   }
 }
 
+Future<void> _seedAdhkars() async {
+  try {
+    // Load and parse JSON
+    final jsonString = await rootBundle.loadString('assets/jsons/adhkars.json');
+    final adhkarsList = jsonDecode(jsonString) as List<dynamic>;
+    
+
+    // Get database instance
+    final db = await AppDataBaseServices().db;
+    if (db == null) throw Exception('Database not initialized');
+
+    // Use transaction for better performance and atomicity
+    await db.transaction((txn) async {
+      for (final adhkar in adhkarsList) {
+        await txn.insert(
+          'Adhkars',
+          _mapAdhkarToDbRow(adhkar),
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+    });
+    
+    print('Successfully seeded ${adhkarsList.length} adhkars');
+  } catch (e) {
+    throw Exception('Failed to seed adhkars: $e');
+  }
+}
 Map<String, dynamic> _mapAdhkarToDbRow(dynamic adhkar) {
   return {
     'dhaker': adhkar['dhaker'] as String,
@@ -226,8 +273,22 @@ Future<void> seedDatabaseFromJson() async {
     throw Exception('Failed to seed database: $e');
   }
 }
+Future<void> seedDatabaseInternet() async {
+  try {
+    // Load and parse categories
+    await _seedEsnadsFromInternet();
+    await _seedCategoriesFromInternet();
+    await _seedAdhkarsFromInternet();
+    
+    
+    
+    // await _seedDailyWered();
+  } catch (e) {
+    throw Exception('Failed to seed database: $e');
+  }
+}
 
-Future<void> _seedCategories() async {
+Future<void> _seedCategoriesFromInternet() async {
   // final jsonString = await rootBundle.loadString('assets/jsons/categories.json');
   // final categoryList = jsonDecode(jsonString) as List<dynamic>;
    const String jsonUrl = 'https://raw.githubusercontent.com/Mahfoud-Sa/athkari/main/assets/jsons/categories.json';
@@ -268,8 +329,27 @@ Future<void> _seedCategories() async {
     }
   });
 }
+Future<void> _seedCategories() async {
+  final jsonString = await rootBundle.loadString('assets/jsons/categories.json');
+  final categoryList = jsonDecode(jsonString) as List<dynamic>;
+   
+  // final jsonString = await file.readAsString();
+  // final categoryList = jsonDecode(jsonString) as List;
 
-  Future<void> _seedEsnads() async {
+  final db = await AppDataBaseServices().db;
+  if (db == null) throw Exception('Database not initialized');
+
+  await db.transaction((txn) async {
+    for (final category in categoryList) {
+      await txn.insert(
+        'Categories',
+        {'name': category['name']},
+        conflictAlgorithm: ConflictAlgorithm.replace,
+      );
+    }
+  });
+}
+  Future<void> _seedEsnadsFromInternet() async {
  const String jsonUrl = 'https://raw.githubusercontent.com/Mahfoud-Sa/athkari/main/assets/jsons/esnads.json';
     
     String downloadPath = '';
@@ -310,4 +390,29 @@ Future<void> _seedCategories() async {
       await batch.commit();
     });
   }
+
+ Future<void> _seedEsnads() async {
+
+    
+    final jsonString = await rootBundle.loadString('assets/jsons/esnads.json');
+  
+  final esnads = jsonDecode(jsonString) as List;
+
+    final db = await this.db;
+    if (db == null) throw Exception('Database not initialized');
+
+    await db.transaction((txn) async {
+      final batch = txn.batch();
+      for (final esnad in esnads) {
+        batch.insert(
+          'Esnads',
+          {'name': esnad['name'].toString()},
+          conflictAlgorithm: ConflictAlgorithm.replace,
+        );
+      }
+      await batch.commit();
+    });
+  }
+
+
 }

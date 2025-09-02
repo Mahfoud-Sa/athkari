@@ -6,8 +6,10 @@ import 'package:athkari/app/features/home/data/datasources/release_remote_dataso
 import 'package:athkari/app/features/home/domain/entity/daily_wered_progress_entity.dart';
 import 'package:athkari/app/features/home/domain/repository/home_repository.dart';
 import 'package:flutter/foundation.dart';
-import 'package:package_info_plus/package_info_plus.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 class HomeRepositoryImp implements HomeRepository {
   final AppDataBaseServices _appDataBaseServices;
   final ReleaseRemoteDataSorcesImp _gitHubApiService;
@@ -23,11 +25,25 @@ class HomeRepositoryImp implements HomeRepository {
         totalWered: totalWered, compeletedWered: compeletedWered);
   }
 
-  @override
-  Future<int> resetDatabase(EsnadEntity esnad) {
-    // TODO: implement resetDatabase
-    throw UnimplementedError();
-  }
-
  
+  @override
+  Future<bool> resetDatabase() async {
+    try{
+       bool result = await InternetConnection().hasInternetAccess;
+    if(result){
+      await  _appDataBaseServices.clearAllTablesFromInternet();
+    }else{
+      await  _appDataBaseServices.clearAllTablesFromJson();
+    }}
+    catch(e){
+      if(kDebugMode){
+        print(e);
+      }
+      return false;
+    }
+   
+    return true;
+    
+  }
 }
+ 

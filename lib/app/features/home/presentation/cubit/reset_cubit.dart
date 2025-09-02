@@ -1,15 +1,16 @@
 import 'dart:math';
-
-import 'package:athkari/app/core/services/app_database_services.dart';
+import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
+import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
+import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
+import 'package:athkari/app/features/home/domain/usecase/reset_database_usecase.dart';
 import 'package:athkari/app/features/home/presentation/cubit/reset_cubit_states.dart';
 import 'package:athkari/app/injection_container.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ResetCubit extends Cubit<ResetCubitState> {
-
-  String? appVersion;
-
-  ResetCubit() 
+  final ResetDatabaseUsecase _resetDatabaseUsecase;
+  
+  ResetCubit(this._resetDatabaseUsecase) 
       : super(InitState()) {
     _initializeVersion();
   }
@@ -25,10 +26,20 @@ class ResetCubit extends Cubit<ResetCubitState> {
 
   Future<void> clearAllTables() async {
     emit(WaitingState());
-    await Future.delayed(const Duration(seconds: 5));
-    emit(DoneState());
-    //await getIt<AppDataBaseServices>().clearAllTables();
+    //await Future.delayed(const Duration(seconds: 5));
+    // getIt<AppDataBaseServices>().clearAllTables();
+   var state=await _resetDatabaseUsecase.call();
+    if(state){
+      getIt<CategoryCubit>().fetchData();
+      getIt<DailyWereCubit>().FetchData();
+      getIt<EsnadsCubit>().fetchData();
+      
+      emit(DoneState());
+    //emit(DoneState());
     }
+    else{
+      emit(ErrorState('فشل في إعادة ضبط قاعدة البيانات'));
+    }}
     
 //   //   emit(CheckUpdatesState());
 //   //   try {

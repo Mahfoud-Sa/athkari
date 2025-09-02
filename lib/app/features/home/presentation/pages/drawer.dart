@@ -44,8 +44,9 @@ class DrawerWidget extends StatelessWidget {
               _showUpdateDialog(context, state.releaseModel);
             } else if (state is NoUpdateState) {
               
-              Navigator.pop(context);
+               Navigator.pop(context);
               showOkayAlert(context, state.message);
+              
             } else if (state is CheckUpdateErrorState) {
               Navigator.pop(context);
                     
@@ -184,46 +185,17 @@ class DrawerWidget extends StatelessWidget {
         onPressed: () => context.read<AppUpdateCubit>().checkUpdate(),
       ),
        // _buildUpdateCheckTile(context),
-        ForwardedTitleWidget(
-          title: 'تقييم التطبيق',
-          onPressed: () {
-            // Implement rating functionality
-          },
-        ),
+        // ForwardedTitleWidget(
+        //   title: 'تقييم التطبيق',
+        //   onPressed: () {
+        //     // Implement rating functionality
+        //   },
+        // ),
         ForwardedTitleWidget(
           title: 'تواصل معنا',
           onPressed: () => showAboutUsDialog(context),
         ),
       ],
-    );
-  }
-
-  Widget _buildUpdateCheckTile(BuildContext context) {
-    return BlocListener<AppUpdateCubit, AppUpdateCubitState>(
-      listener: (context, state) {
-        if (state is CheckUpdatesState) {
-          showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) => const Center(child: CircularProgressIndicator()),
-          );
-        } else if (state is UpdateAvailableState) {
-          Navigator.pop(context);
-          _showUpdateDialog(context, state.releaseModel);
-        } else if (state is NoUpdateState) {
-          Navigator.pop(context);
-          showOkayAlert(context, state.message);
-        } else if (state is CheckUpdateErrorState) {
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.errorMessage)),
-          );
-        }
-      },
-      child: ForwardedTitleWidget(
-        title: 'تحقق من التحديثات',
-        onPressed: () => context.read<AppUpdateCubit>().checkUpdate(),
-      ),
     );
   }
 
@@ -386,27 +358,9 @@ class DrawerWidget extends StatelessWidget {
     // title: "إعادة ضبط الاذكار",
       okButtonText: "موافق",
       cancelButtonText: "الغاء",
-      onOkPressed: () async {
-        //  try {
+      onOkPressed: () async {        
         Navigator.pop(context);
-        // await getIt<AppDataBaseServices>().clearAllTables();
         await resetCubit.clearAllTables();
-        
-     // Navigator.pop(context);
-
-      
-        //   if (context.mounted) {
-        //     ScaffoldMessenger.of(context).showSnackBar(
-        //       const SnackBar(content: Text('تم اعادة ضبط الاذكار')),
-        //     );
-        //   }
-        // } catch (e) {
-        //   if (context.mounted) {
-        //     ScaffoldMessenger.of(context).showSnackBar(
-        //       SnackBar(content: Text('Error: ${e.toString()}')),
-        //     );
-        //   }
-      //  }
       },
     );
 }

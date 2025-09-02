@@ -123,7 +123,7 @@ class MockAppDataBaseServices extends _i1.Mock
       ) as _i5.EsnadDao);
 
   @override
-  _i7.Future<void> clearAllTables() => (super.noSuchMethod(
+  _i7.Future<void> clearAllTablesFromInternet() => (super.noSuchMethod(
         Invocation.method(
           #clearAllTables,
           [],

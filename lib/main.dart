@@ -53,7 +53,7 @@ Future<void> main() async {
       },
     ),
       BlocProvider(create: (_) => DailyWeredProgressCubit(getIt())),//..initialize()),
-      BlocProvider(create: (_) => ResetCubit()),
+      BlocProvider(create: (_) => ResetCubit(getIt())),
     ],
     child: App(),
     // ),

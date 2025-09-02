@@ -15,3 +15,8 @@ class DoneState extends ResetCubitState {
   
   DoneState();
 }
+class ErrorState extends ResetCubitState {
+  final String message;
+  ErrorState(this.message);
+  
+}

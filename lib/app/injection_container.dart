@@ -36,6 +36,7 @@ import 'package:athkari/app/features/home/domain/repository/releases_repository.
 import 'package:athkari/app/features/home/domain/usecase/check_updates_usecase.dart';
 import 'package:athkari/app/features/home/domain/usecase/fetch_daily_wered_usecase.dart';
 import 'package:athkari/app/features/home/domain/usecase/get_latest_apk_usecase.dart';
+import 'package:athkari/app/features/home/domain/usecase/reset_database_usecase.dart';
 import 'package:athkari/app/features/home/presentation/cubit/daily_wered_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/app_update_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/home_page_cubit.dart';
@@ -71,7 +72,7 @@ Future<void> initializationContainer() async {
   // State Managment
   getIt.registerFactory<HomepageCubit>(() => HomepageCubit(getIt()));
   getIt.registerFactory<AppUpdateCubit>(() => AppUpdateCubit(getIt(),getIt()));
-
+  getIt.registerFactory<ResetCubit>(() =>ResetCubit(getIt()));//Drawer 
   getIt.registerFactory<TodayDekharCubit>(() => TodayDekharCubit());
   getIt.registerFactory<DailyWereCubit>(
       () => DailyWereCubit(getIt(), getIt(), getIt(), getIt(), getIt()));
@@ -134,5 +135,6 @@ Future<void> initializationContainer() async {
   //Home usecase
  getIt.registerSingleton<CheckUpdatesUsecase>(CheckUpdatesUsecase(getIt()));
  getIt.registerSingleton<GetLatestRelease>(GetLatestRelease(getIt()));
- getIt.registerSingleton<ResetCubit>(ResetCubit());//Drawer 
+ getIt.registerSingleton<ResetDatabaseUsecase>(ResetDatabaseUsecase(getIt()));
+
 }
