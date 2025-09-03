@@ -48,7 +48,7 @@ Future<void> main() async {
       BlocProvider(
       create: (context) {
         final cubit = AppUpdateCubit(getIt(), getIt());
-        cubit.checkUpdate();
+        //cubit.checkUpdate();
         return cubit;
       },
     ),
