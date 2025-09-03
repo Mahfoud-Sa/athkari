@@ -44,7 +44,7 @@ class EsnadDao {
     Esnads.name AS name,  
     Adhkars.dhaker AS dhaker
   FROM Esnads 
-  LEFT JOIN Adhkars ON Esnads.id = Adhkars.category_id
+  LEFT JOIN Adhkars ON Esnads.id = Adhkars.esnads_id
 ''';
 
     final List<Map<String, dynamic>> result = await database.rawQuery(query);
