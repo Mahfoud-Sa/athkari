@@ -2,6 +2,7 @@ import 'package:athkari/app/core/ModelBottomSheet/add_esnad_modelbottomsheet.dar
 import 'package:athkari/app/core/methods/build_appbar_method.dart';
 import 'package:athkari/app/core/methods/build_searchbae_method.dart';
 import 'package:athkari/app/core/methods/success_snackbar.dart';
+import 'package:athkari/app/core/widgets/empty_data_widget.dart';
 import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
 import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit_state.dart';
 import 'package:athkari/app/features/esnaad/presentation/widgets/esnad_card_widget.dart';
@@ -21,10 +22,10 @@ class EsnaadsPage extends StatelessWidget {
     return Scaffold(
 
       appBar: buildAppBar(context, "الإسنادات"),
-    //  drawer: DrawerWidget(),
+    
       floatingActionButton:  buildFloatingActionMethodTemp(context),
       
-     // newMethod(context),
+     
       body: Column(
         children: [
           buildSearchBar(
@@ -67,9 +68,7 @@ class EsnaadsPage extends StatelessWidget {
                     },
                   );
                 } else if (state is EmptyEsnadState) {
-                  return Center(
-                    child: Text(state.message),
-                  );
+                  return emptyDataWidget();
                 } else {
                   return Center(
                     child: ElevatedButton(

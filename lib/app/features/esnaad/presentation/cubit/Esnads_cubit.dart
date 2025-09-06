@@ -26,7 +26,7 @@ class EsnadsCubit extends Cubit<EsnadState> {
 
   void fetchData() async {
     esnadsList = await _getAllEsnadUseCase.call();
-    if (esnadsList.length == 0) {
+    if (esnadsList.isEmpty) {
       emit(EmptyEsnadState("لاتوجد بيانات"));
     } else {
       emit(DoneEsnadState(esnadsList));
@@ -54,7 +54,7 @@ class EsnadsCubit extends Cubit<EsnadState> {
   void search(String query) async {
     esnadsList =
         esnadsList = esnadsList.where((x) => x.name!.contains(query)).toList();
-    if (esnadsList.length == 0) {
+    if (esnadsList.isEmpty) {
       emit(EmptyEsnadState("لاتوجد نتيجة لبحثك"));
     } else {
       emit(DoneEsnadState(esnadsList));
