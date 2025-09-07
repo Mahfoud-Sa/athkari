@@ -35,19 +35,19 @@ class EsnadsCubit extends Cubit<EsnadState> {
 
   void addEsnad(String name) async {
     await _addEsnadeUsecase(params: EsnadEntity(name: name));
-    emit(NotifeyEsnadState("تم"));
+    emit(NotifeyEsnadState("تم اضافة الاسناد"));
     fetchData();
   }
 
   void deleteEsnad(int esnadId) async {
     await _deleteEsnadeUsecase(params: esnadId);
-    emit(NotifeyEsnadState("تم"));
+    emit(NotifeyEsnadState("تم حذف الاسناد"));
     fetchData();
   }
 
   void updateEsnad(int id, String name) async {
     await _updateEsnadeUsecase(params: EsnadEntity(id: id, name: name));
-    emit(NotifeyEsnadState("تم"));
+    emit(NotifeyEsnadState("تم تعديل الاسناد"));
     fetchData();
   }
 

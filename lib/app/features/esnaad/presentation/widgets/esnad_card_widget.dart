@@ -1,14 +1,13 @@
-import 'package:athkari/app/core/ModelBottomSheet/delete_esnad_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/update_esnad_modelbottomsheet.dart';
 import 'package:athkari/app/core/methods/success_snackbar.dart';
-import 'package:athkari/app/core/widgets/add_button_widget.dart';
-import 'package:athkari/app/core/widgets/cancel_button_widget.dart';
 import 'package:athkari/app/core/widgets/custome_container.dart';
 import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
+import 'package:athkari/app/features/esnaad/presentation/widgets/esnad_menu_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:share_plus/share_plus.dart';
 
 class EsnadCardWidget extends StatelessWidget {
@@ -38,7 +37,6 @@ class EsnadCardWidget extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                   child: Text(
-                    
                     esnad.name!,
                     textAlign: TextAlign.center,
                     maxLines: 6,
@@ -96,7 +94,7 @@ class EsnadCardWidget extends StatelessWidget {
                 // More options button
                 Positioned(
                   left: 0,
-                  child: _buildPopupMenuButton(context),
+                  child: EsnadMenuButtonWidget(formKey: formKey, esnadUpdatedValueController: esnadUpdatedValueController, esnad: esnad, context: context),
                 ),
                 
                 // Share button
@@ -123,74 +121,7 @@ class EsnadCardWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildPopupMenuButton(BuildContext context) {
-    const TextStyle customTextStyle = TextStyle(
-      color: Color(0xFF80BCBD),
-      fontWeight: FontWeight.w400,
-      fontFamily: "IBMPlexSansArabic",
-      fontStyle: FontStyle.normal,
-      fontSize: 12.0
-    );
-
-    return SizedBox(
-      width: 24,
-      height: 24,
-      child: Directionality(
-        textDirection: TextDirection.rtl,
-        child: PopupMenuButton(
-          color: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          elevation: 20,
-          shadowColor: const Color(0x33c8c8c8),
-          padding: EdgeInsets.zero,
-          icon: Icon(
-            Icons.more_vert,
-            color: const Color(0xFF80BCBD),
-            size: 18,
-          ),
-          itemBuilder: (context) => [
-            PopupMenuItem(
-              child: ListTile(
-                trailing: const Icon(Icons.update, size: 20, color: Color(0xFF80BCBD)),
-                title: const Text(
-                  'تعديل النص',
-                  style: customTextStyle,
-                  textAlign: TextAlign.right,
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  buildUpdateEsnadModalBottomSheet(
-                    context, formKey, esnadUpdatedValueController, esnad.id!
-                  );
-                },
-              ),
-            ),
-            PopupMenuItem(
-              child: ListTile(
-                trailing: const Icon(Icons.delete, size: 20, color: Color(0xFF80BCBD)),
-                title: const Text(
-                  'حذف',
-                  style: customTextStyle,
-                  textAlign: TextAlign.right,
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  buildShowDeleteBottomSheet(
-                    context,
-                    () {
-                      context.read<EsnadsCubit>().deleteEsnad(esnad.id!);
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  
 
   Widget _buildIconButton(IconData icon, VoidCallback onPressed) {
     return SizedBox(

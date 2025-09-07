@@ -1,0 +1,7 @@
+<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" fill-rule="evenodd">
+    <!-- Mathematical brackets with empty space -->
+    <path d="M7,7 L7,17 L5,17 L5,7 L7,7 Z" fill="#4285F4"/>
+    <path d="M19,7 L19,17 L17,17 L17,7 L19,7 Z" fill="#4285F4"/>
+  </g>
+</svg>
