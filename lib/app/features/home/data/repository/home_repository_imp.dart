@@ -32,6 +32,7 @@ class HomeRepositoryImp implements HomeRepository {
        bool result = await InternetConnection().hasInternetAccess;
     if(result){
       await  _appDataBaseServices.clearAllTablesFromInternet();
+      
     }else{
       await  _appDataBaseServices.clearAllTablesFromJson();
     }}

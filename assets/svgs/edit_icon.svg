@@ -1,7 +1,2 @@
-<svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-  <g fill="none" fill-rule="evenodd">
-    <!-- Mathematical brackets with empty space -->
-    <path d="M7,7 L7,17 L5,17 L5,7 L7,7 Z" fill="#4285F4"/>
-    <path d="M19,7 L19,17 L17,17 L17,7 L19,7 Z" fill="#4285F4"/>
-  </g>
-</svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools --><svg height="800px" viewBox="0 0 20 20" width="800px" xmlns="http://www.w3.org/2000/svg"><path d="M14.846 1.403l3.752 3.753.625-.626A2.653 2.653 0 0015.471.778l-.625.625zm2.029 5.472l-3.752-3.753L1.218 15.028 0 19.998l4.97-1.217L16.875 6.875z" fill="#9DC7A8"/></svg>
