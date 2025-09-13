@@ -24,22 +24,18 @@ class ResetCubit extends Cubit<ResetCubitState> {
     // }
   }
 
-  Future<void> clearAllTables() async {
-    emit(WaitingState());
-    //await Future.delayed(const Duration(seconds: 5));
-    // getIt<AppDataBaseServices>().clearAllTables();
-   var state=await _resetDatabaseUsecase.call();
-    if(state){
-      getIt<CategoryCubit>().fetchData();
-     // getIt<DailyWereCubit>().FetchData();
-      getIt<EsnadsCubit>().fetchData();
-      
-      emit(DoneState());
-    //emit(DoneState());
-    }
-    else{
-      emit(ErrorState('فشل في إعادة ضبط قاعدة البيانات'));
-    }}
+ Future<void> clearAllTables() async {
+  emit(WaitingState());
+  var state = await _resetDatabaseUsecase.call();
+  if (state) {
+    // getIt<CategoryCubit>().fetchData();
+    // getIt<DailyWereCubit>().FetchData();
+    getIt<EsnadsCubit>().fetchData(); // <-- Remove 'await'
+    emit(DoneState());
+  } else {
+    emit(ErrorState('فشل في إعادة ضبط قاعدة البيانات'));
+  }
+}
     
 //   //   emit(CheckUpdatesState());
 //   //   try {

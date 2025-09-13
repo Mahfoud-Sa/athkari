@@ -3,10 +3,10 @@ import 'package:athkari/app/features/esnaad/data/modules/esnad_model.dart';
 import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 import 'package:athkari/app/features/esnaad/domain/repository/esnads_repository.dart';
 
-class EsnadRepositoryImp implements EsnadRepository {
+class EsnadsRepositoryImp implements EsnadsRepository {
   final AppDataBaseServices _appDataBaseServices;
 
-  EsnadRepositoryImp(this._appDataBaseServices);
+  EsnadsRepositoryImp(this._appDataBaseServices);
 
   @override
   Future<int> addEsnad(EsnadEntity esnad) async {

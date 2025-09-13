@@ -19,9 +19,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-   // await Isolate.run(() => initializationContainer());
-
-  await initializationContainer();
+  await initializationContainer(); // <-- Must be awaited before runApp!
   runApp(
 
       //for testing purposes
@@ -43,7 +41,7 @@ Future<void> main() async {
           create: (_) => CategoryDetailsCubit(
               getIt(), getIt(),getIt(),getIt(),getIt())),
       BlocProvider(
-          create: (_) => EsnadsCubit(getIt(), getIt(), getIt(), getIt())),
+    create: (_) => getIt<EsnadsCubit>()),
       BlocProvider(create: (_) => HomepageCubit(getIt())),
       BlocProvider(
       create: (context) {
@@ -74,3 +72,5 @@ class App extends StatelessWidget {
         theme: lightTheme);
   }
 }
+  
+
