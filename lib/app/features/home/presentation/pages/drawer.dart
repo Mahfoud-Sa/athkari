@@ -1,10 +1,7 @@
-import 'package:athkari/app/core/services/app_database_services.dart';
 import 'package:athkari/app/core/showDialog/show_aboutus_dialog.dart';
 import 'package:athkari/app/core/showDialog/show_okay_dialog.dart';
 import 'package:athkari/app/core/showDialog/show_warning_dialog.dart';
 import 'package:athkari/app/core/widgets/waiting_animated_widget.dart';
-import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
-import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
 import 'package:athkari/app/features/home/data/model/release_model.dart';
 import 'package:athkari/app/features/home/presentation/cubit/app_update_drawer_cubit_status.dart';
 import 'package:athkari/app/features/home/presentation/cubit/reset_cubit.dart';
@@ -13,7 +10,6 @@ import 'package:athkari/app/features/home/presentation/widgets/DrawerTitleWidet.
 import 'package:athkari/app/features/home/presentation/widgets/ForwardedTitleWidget.dart';
 import 'package:athkari/app/features/home/presentation/widgets/expandable_radio_group_widget.dart';
 import 'package:athkari/app/features/home/presentation/widgets/drawer_app_bar_widget.dart';
-import 'package:athkari/app/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:athkari/app/features/home/presentation/cubit/app_update_cubit.dart';

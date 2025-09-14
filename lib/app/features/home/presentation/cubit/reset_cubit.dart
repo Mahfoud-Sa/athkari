@@ -28,26 +28,12 @@ class ResetCubit extends Cubit<ResetCubitState> {
   emit(WaitingState());
   var state = await _resetDatabaseUsecase.call();
   if (state) {
-    // getIt<CategoryCubit>().fetchData();
-    // getIt<DailyWereCubit>().FetchData();
-    getIt<EsnadsCubit>().fetchData(); // <-- Remove 'await'
     emit(DoneState());
   } else {
     emit(ErrorState('فشل في إعادة ضبط قاعدة البيانات'));
   }
 }
     
-//   //   emit(CheckUpdatesState());
-//   //   try {
-//   //     final updateAvailable = await _checkUpdatesUsecase(params: appVersion);
-//   //     if (updateAvailable) {
-//   //       final apkLink = await _getLatestAPKUsecase();
-//   //       emit(UpdateAvailableState(apkLink));
-//   //     } else {
-//   //       emit(NoUpdateState('لا يوجد تحديثات متاحة'));
-//   //     }
-//   //   } catch (e) {
-//   //     emit(CheckUpdateErrorState('فشل في التحقق من التحديثات'));
-//   //   }
-//   // }
+   
+  
 }

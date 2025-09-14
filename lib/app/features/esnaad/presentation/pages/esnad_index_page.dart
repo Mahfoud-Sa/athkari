@@ -19,13 +19,10 @@ class EsnaadsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<EsnadsCubit>().initialize();
     return Scaffold(
-
       appBar: buildAppBar(context, "الإسنادات"),
-    
       floatingActionButton:  buildFloatingActionMethodTemp(context),
-      
-     
       body: Column(
         children: [
           buildSearchBar(

@@ -20,12 +20,14 @@ class EsnadsCubit extends Cubit<EsnadState> {
   EsnadsCubit(this._getAllEsnadUseCase, this._addEsnadeUsecase,
       this._updateEsnadeUsecase, this._deleteEsnadeUsecase)
       : super(InitialEsnadState()) {
-    //emit(LoadingEsnadState());
+   // initialize();
+  }
+  void initialize(){
+    emit(LoadingEsnadState());
     fetchData();
   }
-
   void fetchData() async {
-    emit(LoadingEsnadState());
+    
     esnadsList = await _getAllEsnadUseCase.call();
     if (esnadsList.isEmpty) {
       emit(EmptyEsnadState("لاتوجد بيانات"));
