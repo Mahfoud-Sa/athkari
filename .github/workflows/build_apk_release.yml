@@ -5,6 +5,12 @@ on:
     tags:
       - 'v*' # Trigger on new version tags (e.g., v1.0.0)
   workflow_dispatch: # Allows manual triggering
+    inputs:
+      version:
+        description: 'Release version (e.g., 1.4.9)'
+        required: true
+        default: ''
+        type: string
 
 jobs:
   build:
@@ -54,32 +60,64 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for tags
 
       - name: Get version from pubspec.yaml
-        id: version
+        id: pubspec_version
         run: |
-          FULL_VERSION=$(grep 'version:' pubspec.yaml | awk '{print $2}' | tr -d '"' | tr -d "'")
-          BASE_VERSION=$(echo "$FULL_VERSION" | cut -d'+' -f1)
-          echo "version=$BASE_VERSION" >> $GITHUB_OUTPUT
+          VERSION=$(grep -E '^version:' pubspec.yaml | sed -E 's/version:[[:space:]]*//' | tr -d "'\"" | cut -d'+' -f1)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Pubspec version: $VERSION"
 
-      - name: Create tag name
-        id: tag_name
+      - name: Validate tag vs pubspec version
+        if: github.event_name == 'push'
+        id: validate_version
+        run: |
+          PUBSPEC_VERSION="${{ steps.pubspec_version.outputs.version }}"
+          TAG_VERSION="${{ github.ref_name }}"  # e.g., v1.4.7
+          TAG_VERSION_NUMBER="${TAG_VERSION#v}" # Remove 'v' prefix
+          
+          echo "Pubspec version: $PUBSPEC_VERSION"
+          echo "Tag version: $TAG_VERSION_NUMBER"
+          
+          if [ "$PUBSPEC_VERSION" != "$TAG_VERSION_NUMBER" ]; then
+            echo "❌ ERROR: Version mismatch!"
+            echo "Pubspec.yaml version: $PUBSPEC_VERSION"
+            echo "Git tag version: $TAG_VERSION_NUMBER"
+            echo "These versions must match for tag-triggered releases."
+            exit 1
+          fi
+          
+          echo "✅ Version validation passed"
+
+      - name: Determine final version and tag
+        id: version_info
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            # Manual release format: v1.0.5m13
-            echo "tag_name=v${{ steps.version.outputs.version }}m${{ github.run_number }}" >> $GITHUB_OUTPUT
+            # Manual dispatch - use input version
+            FINAL_VERSION="${{ github.event.inputs.version }}"
+            TAG_NAME="v$FINAL_VERSION"
+            SOURCE="manual"
           else
-            # Automatic release format: v1.0.5
-            echo "tag_name=v${{ steps.version.outputs.version }}" >> $GITHUB_OUTPUT
+            # Tag push - use pubspec version (already validated)
+            FINAL_VERSION="${{ steps.pubspec_version.outputs.version }}"
+            TAG_NAME="${{ github.ref_name }}"
+            SOURCE="tag"
           fi
+          
+          echo "final_version=$FINAL_VERSION" >> $GITHUB_OUTPUT
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+          echo "source=$SOURCE" >> $GITHUB_OUTPUT
+          echo "Using version: $FINAL_VERSION"
+          echo "Using tag: $TAG_NAME"
 
       - name: Get app name from pubspec.yaml
         id: app_name
         run: |
-          APP_NAME=$(grep '^name:' pubspec.yaml | awk '{print $2}' | tr -d '"' | tr -d "'")
-          echo "app_name=$APP_NAME" >> $GITHUB_OUTPUT
-          # Create a clean filename (replace spaces with underscores and remove special chars)
+          APP_NAME=$(grep -E '^name:' pubspec.yaml | sed -E 's/name:[[:space:]]*//' | tr -d "'\"")
           CLEAN_NAME=$(echo "$APP_NAME" | tr ' ' '_' | tr -cd '[:alnum:]._-')
+          echo "app_name=$APP_NAME" >> $GITHUB_OUTPUT
           echo "clean_name=$CLEAN_NAME" >> $GITHUB_OUTPUT
 
       - name: Download APK artifact
@@ -91,16 +129,33 @@ jobs:
       - name: Rename APK file
         id: rename_apk
         run: |
-          NEW_FILENAME="${{ steps.app_name.outputs.clean_name }}_${{ steps.tag_name.outputs.tag_name }}.apk"
+          NEW_FILENAME="${{ steps.app_name.outputs.clean_name }}_${{ steps.version_info.outputs.tag_name }}.apk"
           mv artifacts/app-release.apk "artifacts/$NEW_FILENAME"
           echo "NEW_FILENAME=$NEW_FILENAME" >> $GITHUB_OUTPUT
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ steps.tag_name.outputs.tag_name }}
-          name: ${{ steps.app_name.outputs.app_name }} ${{ steps.tag_name.outputs.tag_name }}
-          body: "Automated release for ${{ steps.app_name.outputs.app_name }} version ${{ steps.tag_name.outputs.tag_name }}"
+          tag_name: ${{ steps.version_info.outputs.tag_name }}
+          name: ${{ steps.app_name.outputs.app_name }} ${{ steps.version_info.outputs.tag_name }}
+          body: |
+            Automated release for ${{ steps.app_name.outputs.app_name }}
+            
+            **Version**: ${{ steps.version_info.outputs.final_version }}
+            **Tag**: ${{ steps.version_info.outputs.tag_name }}
+            **Source**: ${{ steps.version_info.outputs.source }}
+            **Build date**: $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+            
+            Built with GitHub Actions 🚀
           files: artifacts/${{ steps.rename_apk.outputs.NEW_FILENAME }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Show release info
+        run: |
+          echo "🎉 Release created successfully!"
+          echo "App: ${{ steps.app_name.outputs.app_name }}"
+          echo "Version: ${{ steps.version_info.outputs.final_version }}"
+          echo "Tag: ${{ steps.version_info.outputs.tag_name }}"
+          echo "Source: ${{ steps.version_info.outputs.source }}"
+          echo "Filename: ${{ steps.rename_apk.outputs.NEW_FILENAME }}"
