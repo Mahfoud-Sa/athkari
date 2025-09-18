@@ -115,35 +115,35 @@ children: [
                      height: 10,
                   ),
                   BlocListener<ResetCubit, ResetCubitState>(
-  listener: (context, state) {
-    if (state is DoneState) {
-      // 👉 Tell CategoryCubit to refresh its stream
-      context.read<CategoryCubit>().fetchData();
-    }
-  },
-  child: StreamBuilder<List<CategoryEntity>>(
-    stream: context.read<CategoryCubit>().categoriesStream,
-    builder: (context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.waiting) {
-        return const Center(child: CircularProgressIndicator());
-      }
+                      listener: (context, state) {
+                        if (state is DoneState) {
+                          // 👉 Tell CategoryCubit to refresh its stream
+                          context.read<CategoryCubit>().fetchData();
+                        }
+                      },
+                      child: StreamBuilder<List<CategoryEntity>>(
+                        stream: context.read<CategoryCubit>().categoriesStream,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return const Center(child: CircularProgressIndicator());
+                          }
 
-      if (!snapshot.hasData) {
-        return const Center(child: CircularProgressIndicator());
-      }
+                          if (!snapshot.hasData) {
+                            return const Center(child: CircularProgressIndicator());
+                          }
 
-      final categories = snapshot.data!;
+                          final categories = snapshot.data!;
 
-      if (categories.isEmpty) {
-        return emptyDataWidget(smallSize: true);
-      }
+                          if (categories.isEmpty) {
+                            return emptyDataWidget(smallSize: true);
+                          }
 
-      return _buildDekarDoneState(
-        DoneCategoryState(categories), // ✅ reuse your existing widget builder
-      );
-    },
-  ),
-),
+                          return _buildDekarDoneState(
+                            DoneCategoryState(categories), // ✅ reuse your existing widget builder
+                          );
+                        },
+                      ),
+                    ),
 
                   const SizedBox(
                     height: 20,
@@ -171,29 +171,37 @@ children: [
                   );
   }
 
-  BlocBuilder<DailyWeredProgressCubit, DailyWeredCubitStatus> _buildDailyweredProgressSection() {
-    return BlocBuilder<DailyWeredProgressCubit, DailyWeredCubitStatus>(
-                    builder: (context, state) {
-                      if (state is LoadingDailyWeredState) {
-                      return _buildWaitingDailyDekharState(context);
-                      } else if (state is DoneDailyWeredState) {
-                        return _buildDailyDkeer(context,state);
-                      } else if (state is ErrorDailyWeredState) {
-                        return _buildErrorDailyDekharState(
-                          context, 
-                          errorMessage: state.message,
-                          onRetry: () {
-                            // Retry fetching data
-                            context.read<DailyWeredProgressCubit>().fetchData();
-                          },
-                        );
-                      }
-                    
-                        return _buildWaitingDailyDekharState(context);
-                      
-                    },
-                  );
-  }
+  Widget _buildDailyweredProgressSection() {
+  return BlocListener<ResetCubit, ResetCubitState>(
+    listener: (context, state) {
+      if (state is DoneState) {
+        // 👉 Tell DailyWeredProgressCubit to refresh
+        context.read<DailyWeredProgressCubit>().fetchData();
+      }
+    },
+    child: BlocBuilder<DailyWeredProgressCubit, DailyWeredCubitStatus>(
+      builder: (context, state) {
+        if (state is LoadingDailyWeredState) {
+          return _buildWaitingDailyDekharState(context);
+        } else if (state is DoneDailyWeredState) {
+          return _buildDailyDkeer(context, state);
+        } else if (state is ErrorDailyWeredState) {
+          return _buildErrorDailyDekharState(
+            context,
+            errorMessage: state.message,
+            onRetry: () {
+              // Retry fetching data
+              context.read<DailyWeredProgressCubit>().fetchData();
+            },
+          );
+        }
+
+        return _buildWaitingDailyDekharState(context);
+      },
+    ),
+  );
+}
+
 
   Container _buildEsnadatSection(BuildContext context) {
     return Container(
