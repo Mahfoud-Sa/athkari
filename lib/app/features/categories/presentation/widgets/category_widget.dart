@@ -3,6 +3,7 @@ import 'package:athkari/app/core/ModelBottomSheet/update_category_modelbottomshe
 import 'package:athkari/app/core/widgets/custome_container.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/presentation/pages/category_detailes_page.dart';
+import 'package:athkari/app/features/categories/presentation/widgets/temp.dart';
 import 'package:flutter/material.dart';
 
 class CategoryWidget extends StatelessWidget {
@@ -36,23 +37,17 @@ class CategoryWidget extends StatelessWidget {
         child: Stack(
           alignment: Alignment.topLeft,
           children: [
-            Positioned(
-              left: 0,
-              top: 0,
-              child: PopupMenuButton(
-                color: Colors.white, 
-                icon: const Icon(
-                  Icons.more_vert,
-                  color: Colors.blueGrey,
-                ),
-                itemBuilder: (BuildContext context) {
-                  return [
-                    _popUpEditButton(context, category.name!),
-                    _popupDeleteButton(context),
-                  ];
-                },
+           Positioned(
+                left: 0, // small offset from the left
+                top: 0,  // small offset from the top
+                child: SizedBox(
+                  width: 32, // smaller width
+                  height: 32, // smaller height
+                  child:
+                  EsnadMenuButtonWidgetTemp(formKey: formKey, entity: category, context: context)
+               
+                 ),
               ),
-            ),
             // Center the first Text widget
             Center(
               child: Column(
@@ -86,58 +81,5 @@ class CategoryWidget extends StatelessWidget {
     );
   }
 
-  PopupMenuItem<dynamic> _popupDeleteButton(BuildContext context) {
-    return PopupMenuItem(
-      child: InkWell(
-        onTap: () {
-          buildShowDeleteCategoryBottomSheet(context, category.id!);
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              "حذف",
-              style: TextStyle(
-                color: Color.fromARGB(255, 90, 202, 165),
-              ),
-            ),
-            Icon(
-              Icons.delete,
-              color: Color.fromARGB(255, 90, 202, 165),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  PopupMenuItem<dynamic> _popUpEditButton(
-      BuildContext context, String updatedValue) {
-    return PopupMenuItem(
-      child: InkWell(
-        onTap: () {
-          final updatecategoryNameController =
-              TextEditingController(text: updatedValue);
-
-          buildShowUpdateCategoryModalBottomSheet(
-              context, formKey, updatecategoryNameController, category.id!);
-        },
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Text(
-              "تعديل",
-              style: TextStyle(
-                color: Color.fromARGB(255, 90, 202, 165),
-              ),
-            ),
-            Icon(
-              Icons.add,
-              color: Color.fromARGB(255, 90, 202, 165),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+ 
 }
