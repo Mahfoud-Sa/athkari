@@ -14,7 +14,7 @@ class CategoryWidget extends StatelessWidget {
     //  required this.categoryName,
   });
 
-  final double _fontsize = 18;
+  final double _fontsize = 16;
   final CategoryEntity category;
   final GlobalKey<FormState> formKey;
   // final TextEditingController categoryName;
@@ -53,11 +53,12 @@ class CategoryWidget extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  SizedBox(height: 15,),
                   Text(
                     textAlign: TextAlign.center,
                     '${category.name}',
+                   overflow: TextOverflow.ellipsis,
                     maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         fontSize: _fontsize,
                         color: Color.fromARGB(255, 128, 188, 189)),
