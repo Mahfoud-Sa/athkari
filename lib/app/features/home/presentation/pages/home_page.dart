@@ -8,6 +8,8 @@ import 'package:athkari/app/features/daily_wered/presentation/pages/daily_wered_
 import 'package:athkari/app/features/esnaad/presentation/pages/esnad_index_page.dart';
 import 'package:athkari/app/features/home/presentation/cubit/daily_wered_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/daily_wered_cubit_status.dart';
+import 'package:athkari/app/features/home/presentation/cubit/reset_cubit.dart';
+import 'package:athkari/app/features/home/presentation/cubit/reset_cubit_states.dart';
 import 'package:athkari/app/features/home/presentation/cubit/today_dekhar_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/today_dekhar_cubit_states.dart';
 import 'package:athkari/app/features/home/presentation/pages/drawer.dart';
@@ -112,20 +114,37 @@ children: [
                   const SizedBox(
                      height: 10,
                   ),
-                  BlocBuilder<CategoryCubit, CatogeryState>(
-                    builder: (context, state) {
-                      if (state is LoadingCategoryState) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      } else if (state is DoneCategoryState) {
-                        return _buildDekarDoneState(state);
-                      } else if (state is EmptyCategoryState) {
-                        return emptyDataWidget(smallSize: true);
-                      }
-                      return Container();
-                    },
-                  ),
+                  BlocListener<ResetCubit, ResetCubitState>(
+  listener: (context, state) {
+    if (state is DoneState) {
+      // 👉 Tell CategoryCubit to refresh its stream
+      context.read<CategoryCubit>().fetchData();
+    }
+  },
+  child: StreamBuilder<List<CategoryEntity>>(
+    stream: context.read<CategoryCubit>().categoriesStream,
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return const Center(child: CircularProgressIndicator());
+      }
+
+      if (!snapshot.hasData) {
+        return const Center(child: CircularProgressIndicator());
+      }
+
+      final categories = snapshot.data!;
+
+      if (categories.isEmpty) {
+        return emptyDataWidget(smallSize: true);
+      }
+
+      return _buildDekarDoneState(
+        DoneCategoryState(categories), // ✅ reuse your existing widget builder
+      );
+    },
+  ),
+),
+
                   const SizedBox(
                     height: 20,
                   ),

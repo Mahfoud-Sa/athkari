@@ -27,6 +27,8 @@ class ResetCubit extends Cubit<ResetCubitState> {
  Future<void> clearAllTables() async {
   emit(WaitingState());
   var state = await _resetDatabaseUsecase.call();
+    
+
   if (state) {
     emit(DoneState());
   } else {
