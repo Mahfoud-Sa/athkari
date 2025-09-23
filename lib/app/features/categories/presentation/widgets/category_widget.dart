@@ -1,9 +1,10 @@
 import 'package:athkari/app/core/ModelBottomSheet/delete_category_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/update_category_modelbottomsheet.dart';
+import 'package:athkari/app/core/ModelBottomSheet/update_esnad_modelbottomsheet.dart';
 import 'package:athkari/app/core/widgets/custome_container.dart';
+import 'package:athkari/app/core/widgets/esnad_menu_button_widget.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/presentation/pages/category_detailes_page.dart';
-import 'package:athkari/app/features/categories/presentation/widgets/temp.dart';
 import 'package:flutter/material.dart';
 
 class CategoryWidget extends StatelessWidget {
@@ -43,9 +44,7 @@ class CategoryWidget extends StatelessWidget {
                 child: SizedBox(
                   width: 32, // smaller width
                   height: 32, // smaller height
-                  child:
-                  EsnadMenuButtonWidgetTemp(formKey: formKey, entity: category, context: context)
-               
+                  child:MenuButtonWidget(formKey: formKey,entity: category, context: context, updateMethod: buildShowUpdateCategoryModalBottomSheet,),              
                  ),
               ),
             // Center the first Text widget
