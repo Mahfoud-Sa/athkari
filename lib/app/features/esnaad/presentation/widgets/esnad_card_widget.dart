@@ -1,3 +1,6 @@
+import 'package:athkari/app/core/ModelBottomSheet/delete_category_modelbottomsheet.dart';
+import 'package:athkari/app/core/ModelBottomSheet/delete_esand_modelbottomsheet.dart';
+import 'package:athkari/app/core/ModelBottomSheet/delete_general_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/update_esnad_modelbottomsheet.dart';
 import 'package:athkari/app/core/methods/success_snackbar.dart';
 import 'package:athkari/app/core/widgets/custome_container.dart';
@@ -35,7 +38,8 @@ class EsnadCardWidget extends StatelessWidget {
               // Esnad text
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
                   child: Text(
                     esnad.name!,
                     textAlign: TextAlign.center,
@@ -48,12 +52,12 @@ class EsnadCardWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              
+
               // Spacer for action buttons
               const SizedBox(height: 28),
             ],
           ),
-          
+
           // Related Dekres text positioned at bottom right
           Positioned(
             bottom: 8,
@@ -66,7 +70,7 @@ class EsnadCardWidget extends StatelessWidget {
                   .copyWith(fontSize: 12, color: Colors.black12),
             ),
           ),
-          
+
           // Action buttons positioned at bottom left with tight spacing
           Positioned(
             bottom: 4,
@@ -94,9 +98,16 @@ class EsnadCardWidget extends StatelessWidget {
                 // More options button
                 Positioned(
                   left: 0,
-                  child: MenuButtonWidget(formKey: formKey,entity: esnad, context: context, updateMethod: buildUpdateEsnadModalBottomSheet,),
+                  child: MenuButtonWidget(
+                    formKey: formKey,
+                    entity: esnad,
+                    context: context,
+                    updateMethod: buildUpdateEsnadModalBottomSheet,
+                    deleteMethod: buildEsnadShowDeleteBottomSheet,
+                    entityName: 'الاسناد',
+                  ),
                 ),
-                
+
                 // Share button
                 Positioned(
                   left: 24,
@@ -104,7 +115,7 @@ class EsnadCardWidget extends StatelessWidget {
                     Share.share(esnad.name!);
                   }),
                 ),
-                
+
                 // Copy button
                 Positioned(
                   left: 48,
@@ -120,8 +131,6 @@ class EsnadCardWidget extends StatelessWidget {
       ),
     );
   }
-
-  
 
   Widget _buildIconButton(IconData icon, VoidCallback onPressed) {
     return SizedBox(

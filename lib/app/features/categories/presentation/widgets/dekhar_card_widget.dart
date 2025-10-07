@@ -5,6 +5,7 @@ import 'package:athkari/app/core/ModelBottomSheet/edit_dekhar_modelbottomsheet.d
 import 'package:athkari/app/core/ModelBottomSheet/remove_dailywered_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/update_dhkar_with_esnad_modelbottomsheet.dart';
 import 'package:athkari/app/core/widgets/custome_container.dart';
+import 'package:athkari/app/core/widgets/esnad_menu_button_widget.dart';
 import 'package:athkari/app/features/categories/data/modules/category_models.dart';
 import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
 import 'package:flutter/foundation.dart';
@@ -13,16 +14,18 @@ import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 
 class DekharCardWidget extends StatefulWidget {
-  const DekharCardWidget({super.key, required this.dekhar, required this.formKey});
+  const DekharCardWidget(
+      {super.key, required this.dekhar, required this.formKey});
   final double _fontsize = 18;
   final DhkarEntity dekhar;
-  final isAddToDailyWered=false;
-   final GlobalKey<FormState> formKey;
+  final isAddToDailyWered = false;
+  final GlobalKey<FormState> formKey;
   @override
   State<DekharCardWidget> createState() => _DekarCardWidgetState();
 }
 
-class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerProviderStateMixin {
+class _DekarCardWidgetState extends State<DekharCardWidget>
+    with SingleTickerProviderStateMixin {
   bool _expanded = false;
   late AnimationController _controller;
   late Animation<double> _heightAnimation;
@@ -32,12 +35,12 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
   @override
   void initState() {
     super.initState();
-    
+
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    
+
     _heightAnimation = Tween<double>(
       begin: 0,
       end: 50, // Estimated height of esnad text
@@ -45,7 +48,7 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
       parent: _controller,
       curve: Curves.easeInOut,
     ));
-    
+
     _opacityAnimation = Tween<double>(
       begin: 0,
       end: 1,
@@ -53,7 +56,7 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
       parent: _controller,
       curve: Curves.easeIn,
     ));
-    
+
     _rotationAnimation = Tween<double>(
       begin: 0,
       end: 0.5, // 180 degrees in radians (π ≈ 3.14, 0.5 is half rotation)
@@ -90,7 +93,7 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
             children: [
               // Title and repetition
               _buildTitleWithRepetation(context),
-              
+
               // Animated esnad text
               AnimatedBuilder(
                 animation: _controller,
@@ -106,22 +109,21 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
                 },
                 child: Text(
                   widget.dekhar.esnad?.name ?? "",
-                    style: TextStyle(
-                        color:  const Color(0xffc8c8c8),
-                        fontWeight: FontWeight.w400,
-                        fontFamily: "IBMPlexSansArabic",
-                        fontStyle:  FontStyle.normal,
-                        fontSize: 12.0
-                    ),
+                  style: TextStyle(
+                      color: const Color(0xffc8c8c8),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "IBMPlexSansArabic",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 12.0),
                   textAlign: TextAlign.right,
                 ),
               ),
-              
+
               // Spacer for action buttons
               const SizedBox(height: 28),
             ],
           ),
-          
+
           // Action buttons positioned at bottom with tight spacing
           Positioned(
             bottom: 4,
@@ -148,43 +150,50 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
               clipBehavior: Clip.none,
               children: [
                 // More options button
-                Positioned(
-                  left: 0,
-                  child: _buildPopupMenuButton(),
-                ),
-                
+                // Positioned(
+                //   left: 0,
+                //  // context,widget.formKey,widget.dekhar,updateRepetationController
+                //   child: MenuButtonWidget(formKey: widget.formKey, entity: widget.dekhar, context: context, updateMethod: buildUpdateDhaderWithEsnadBottomSheet, deleteMethod: null, entityName: '',)//_buildPopupMenuButton(),
+                // ),
+
                 // Share button
                 Positioned(
                   left: 24,
-                  child: _buildIconButton(Icons.share, 
-                    shareMethod                  ),
+                  child: _buildIconButton(Icons.share, shareMethod),
                 ),
-                
+
                 // Copy button
                 Positioned(
                   left: 48,
                   child: _buildIconButton(Icons.copy, () {
-                     Clipboard.setData(ClipboardData(text:'${widget.dekhar.dhkar}\n\n${widget.dekhar.esnad?.name ?? ""}'));
-                 ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('تم نسخ النص')),
-        );
+                    Clipboard.setData(ClipboardData(
+                        text:
+                            '${widget.dekhar.dhkar}\n\n${widget.dekhar.esnad?.name ?? ""}'));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('تم نسخ النص')),
+                    );
                   }),
                 ),
-                
+
                 // Add button
                 Positioned(
                   left: 72,
-                  child: _buildIconButton(1>3?Icons.add:Icons.delete,3>4? () {
-                    buildShowRemoveDekeerBottomSheet(context,widget.dekhar.id!);
-                  }:(){
-                 
-                    buildAddtoDailyweredModalBottomSheet(context,widget.formKey,widget.dekhar.id!);
-                  }),
+                  child: _buildIconButton(
+                      1 > 3 ? Icons.add : Icons.delete,
+                      3 > 4
+                          ? () {
+                              buildShowRemoveDekeerBottomSheet(
+                                  context, widget.dekhar.id!);
+                            }
+                          : () {
+                              buildAddtoDailyweredModalBottomSheet(
+                                  context, widget.formKey, widget.dekhar.id!);
+                            }),
                 ),
               ],
             ),
           ),
-          
+
           // Right actions - expand/collapse with animation
           InkWell(
             onTap: _toggleExpanded,
@@ -198,7 +207,8 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
                     animation: _rotationAnimation,
                     builder: (context, child) {
                       return Transform.rotate(
-                        angle: _rotationAnimation.value * 3.14, // Convert to radians (π)
+                        angle: _rotationAnimation.value *
+                            3.14, // Convert to radians (π)
                         child: child,
                       );
                     },
@@ -225,73 +235,75 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
     );
   }
 
-  void shareMethod() => Share.share('${widget.dekhar.dhkar}\n\n${widget.dekhar.esnad?.name ?? ""}');
-  Widget _buildPopupMenuButton() {
-  // Define your custom text style
-  const TextStyle customTextStyle = TextStyle(
-    color: Color(0xFF80BCBD), // Using your color value
-    fontWeight: FontWeight.w400,
-    fontFamily: "IBMPlexSansArabic",
-    fontStyle: FontStyle.normal,
-    fontSize: 12.0
-  );
+  void shareMethod() => Share.share(
+      '${widget.dekhar.dhkar}\n\n${widget.dekhar.esnad?.name ?? ""}');
 
-  return SizedBox(
-    width: 24,
-    height: 24,
-    child: Directionality(  // Wrap with Directionality for RTL support
-      textDirection: TextDirection.rtl,
-      child: PopupMenuButton(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        elevation: 20,
-        shadowColor: const Color(0x33c8c8c8),
-        padding: EdgeInsets.zero,
-        icon: Icon(
-          Icons.more_vert,
-          color: const Color(0xFF80BCBD),
-          size: 18,
-        ),
-        itemBuilder: (context) => [
-          PopupMenuItem(
-            child: ListTile(
-              trailing: const Icon(Icons.delete, size: 20,color: Color(0xFF80BCBD),), // Changed to trailing
-              title: const Text(
-                'حذف',
-                style: customTextStyle,
-                textAlign: TextAlign.right,  // Right align text
-              ),
-              onTap: () {
-                
-                showDeleteDhkarBottomSheet(context,widget.dekhar.id!);
-              },
-            ),
-          ),
-          PopupMenuItem(
-            child: ListTile(
-              trailing: const Icon(Icons.edit, size: 20,color: Color(0xFF80BCBD)), // Changed to trailing
-              title: const Text(
-                'تعديل',
-                style: customTextStyle,
-                textAlign: TextAlign.right,  // Right align text
-              ),
-              onTap: () {
-                TextEditingController updateRepetationController = TextEditingController(
-                  text: widget.dekhar.repetitions.toString(),
-                );
-                Navigator.pop(context);
-                buildUpdateDhaderWithEsnadBottomSheet(context,widget.formKey,widget.dekhar,updateRepetationController);
-              },
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
-  
+//   Widget _buildPopupMenuButton() {
+//   // Define your custom text style
+//   const TextStyle customTextStyle = TextStyle(
+//     color: Color(0xFF80BCBD), // Using your color value
+//     fontWeight: FontWeight.w400,
+//     fontFamily: "IBMPlexSansArabic",
+//     fontStyle: FontStyle.normal,
+//     fontSize: 12.0
+//   );
+
+//   return SizedBox(
+//     width: 24,
+//     height: 24,
+//     child: Directionality(  // Wrap with Directionality for RTL support
+//       textDirection: TextDirection.rtl,
+//       child: PopupMenuButton(
+//         color: Colors.white,
+//         shape: RoundedRectangleBorder(
+//           borderRadius: BorderRadius.circular(10),
+//         ),
+//         elevation: 20,
+//         shadowColor: const Color(0x33c8c8c8),
+//         padding: EdgeInsets.zero,
+//         icon: Icon(
+//           Icons.more_vert,
+//           color: const Color(0xFF80BCBD),
+//           size: 18,
+//         ),
+//         itemBuilder: (context) => [
+//           PopupMenuItem(
+//             child: ListTile(
+//               trailing: const Icon(Icons.delete, size: 20,color: Color(0xFF80BCBD),), // Changed to trailing
+//               title: const Text(
+//                 'حذف',
+//                 style: customTextStyle,
+//                 textAlign: TextAlign.right,  // Right align text
+//               ),
+//               onTap: () {
+
+//                 showDeleteDhkarBottomSheet(context,widget.dekhar.id!);
+//               },
+//             ),
+//           ),
+//           PopupMenuItem(
+//             child: ListTile(
+//               trailing: const Icon(Icons.edit, size: 20,color: Color(0xFF80BCBD)), // Changed to trailing
+//               title: const Text(
+//                 'تعديل',
+//                 style: customTextStyle,
+//                 textAlign: TextAlign.right,  // Right align text
+//               ),
+//               onTap: () {
+//                 TextEditingController updateRepetationController = TextEditingController(
+//                   text: widget.dekhar.repetitions.toString(),
+//                 );
+//                 Navigator.pop(context);
+//                 buildUpdateDhaderWithEsnadBottomSheet(context,widget.formKey,widget.dekhar,updateRepetationController);
+//               },
+//             ),
+//           ),
+//         ],
+//       ),
+//     ),
+//   );
+// }
+
   Widget _buildIconButton(IconData icon, VoidCallback onPressed) {
     return SizedBox(
       width: 24,
@@ -335,6 +347,4 @@ class _DekarCardWidgetState extends State<DekharCardWidget> with SingleTickerPro
       ),
     );
   }
-
- 
 }

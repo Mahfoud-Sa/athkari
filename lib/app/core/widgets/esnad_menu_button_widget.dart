@@ -1,4 +1,4 @@
-import 'package:athkari/app/core/ModelBottomSheet/delete_esnad_modelbottomsheet.dart';
+import 'package:athkari/app/core/ModelBottomSheet/delete_general_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/update_esnad_modelbottomsheet.dart';
 import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
@@ -7,28 +7,34 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MenuButtonWidget extends StatelessWidget {
-  const MenuButtonWidget({
-    super.key,
-    required this.formKey,
-    required this.entity,
-    required this.context,
-    required this.updateMethod, // Changed to lowercase (convention)
-  });
+  const MenuButtonWidget(
+      {super.key,
+      required this.formKey,
+      required this.entity,
+      required this.context,
+      required this.updateMethod,
+      required this.deleteMethod,
+      required this.entityName});
 
   final GlobalKey<FormState> formKey;
   final entity;
   final BuildContext context;
-  final Future<void> Function(BuildContext, GlobalKey<FormState>, TextEditingController, int) updateMethod;
+  final Future<void> Function(
+          BuildContext, GlobalKey<FormState>, TextEditingController, int)
+      updateMethod;
+
+  final Future<void> Function(BuildContext context, int esnadId) deleteMethod;
+
+  final String entityName;
 
   @override
   Widget build(BuildContext context) {
     const TextStyle customTextStyle = TextStyle(
-      color: Color(0xFF80BCBD),
-      fontWeight: FontWeight.w400,
-      fontFamily: "IBMPlexSansArabic",
-      fontStyle: FontStyle.normal,
-      fontSize: 12.0
-    );
+        color: Color(0xFF80BCBD),
+        fontWeight: FontWeight.w400,
+        fontFamily: "IBMPlexSansArabic",
+        fontStyle: FontStyle.normal,
+        fontSize: 12.0);
 
     return SizedBox(
       width: 24,
@@ -58,12 +64,8 @@ class MenuButtonWidget extends StatelessWidget {
                       TextEditingController(text: entity.name!);
 
                   // Use the passed updateMethod variable
-                  updateMethod(
-                    context, 
-                    formKey, 
-                    esnadUpdatedValueController, 
-                    entity.id!
-                  );
+                  updateMethod(context, formKey, esnadUpdatedValueController,
+                      entity.id!);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -74,7 +76,7 @@ class MenuButtonWidget extends StatelessWidget {
                         'تعديل النص',
                         style: customTextStyle,
                         textAlign: TextAlign.right,
-                      ), 
+                      ),
                       const SizedBox(width: 8),
                       SvgPicture.asset(
                         "assets/svgs/edit_icon.svg",
@@ -86,20 +88,12 @@ class MenuButtonWidget extends StatelessWidget {
                 ),
               ),
             ),
-            
             PopupMenuItem(
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
               child: InkWell(
                 onTap: () {
                   Navigator.pop(context);
-                  buildGeneralShowDeleteBottomSheet(
-                    context,
-                    () {
-                      context.read<EsnadsCubit>().deleteEsnad(entity.id!);
-                    },
-                    "حذف الاسناد",
-                    'هل انت متاكد من حذف هذا الاسناد؟',
-                  );
+                  deleteMethod(context, entity.id!);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -110,7 +104,7 @@ class MenuButtonWidget extends StatelessWidget {
                         'حذف',
                         style: customTextStyle,
                         textAlign: TextAlign.right,
-                      ), 
+                      ),
                       const SizedBox(width: 8),
                       SvgPicture.asset(
                         "assets/svgs/error_icon.svg",

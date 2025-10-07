@@ -38,25 +38,27 @@ class CategoryWidget extends StatelessWidget {
         child: Stack(
           alignment: Alignment.topLeft,
           children: [
-           Positioned(
-                left: 0, // small offset from the left
-                top: 0,  // small offset from the top
-                child: SizedBox(
-                  width: 32, // smaller width
-                  height: 32, // smaller height
-                  child:MenuButtonWidget(formKey: formKey,entity: category, context: context, updateMethod: buildShowUpdateCategoryModalBottomSheet,),              
-                 ),
-              ),
+            //  Positioned(
+            //       left: 0, // small offset from the left
+            //       top: 0,  // small offset from the top
+            //       child: SizedBox(
+            //         width: 32, // smaller width
+            //         height: 32, // smaller height
+            //         child:MenuButtonWidget(formKey: formKey,entity: category, context: context, updateMethod: buildShowUpdateCategoryModalBottomSheet, deleteMethod: null, entityName: '',),
+            //        ),
+            //     ),
             // Center the first Text widget
             Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(height: 15,),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Text(
                     textAlign: TextAlign.center,
                     '${category.name}',
-                   overflow: TextOverflow.ellipsis,
+                    overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         fontSize: _fontsize,
@@ -80,6 +82,4 @@ class CategoryWidget extends StatelessWidget {
       ),
     );
   }
-
- 
 }

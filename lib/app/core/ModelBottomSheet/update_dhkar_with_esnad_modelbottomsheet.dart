@@ -11,11 +11,12 @@ import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-Future<dynamic> buildUpdateDhaderWithEsnadBottomSheet(
+Future<void> buildUpdateDhaderWithEsnadBottomSheet(
   BuildContext context,
   GlobalKey<FormState> formKey,
-  final DhkarEntity dekhair,
   TextEditingController textEditingController_1,
+  final dekhair,
+
 ) {
   textEditingController_1.text = dekhair.dhkar!;
   int? esnadId=dekhair.esnad?.id;
