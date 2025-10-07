@@ -150,11 +150,17 @@ class _DekarCardWidgetState extends State<DekharCardWidget>
               clipBehavior: Clip.none,
               children: [
                 // More options button
-                // Positioned(
-                //   left: 0,
-                //  // context,widget.formKey,widget.dekhar,updateRepetationController
-                //   child: MenuButtonWidget(formKey: widget.formKey, entity: widget.dekhar, context: context, updateMethod: buildUpdateDhaderWithEsnadBottomSheet, deleteMethod: null, entityName: '',)//_buildPopupMenuButton(),
-                // ),
+                Positioned(
+                    left: 0,
+                    // context,widget.formKey,widget.dekhar,updateRepetationController
+                    child: MenuButtonWidget(
+                        formKey: widget.formKey,
+                        entity: widget.dekhar,
+                        context: context,
+                        updateMethod: buildUpdateDhaderWithEsnadBottomSheet,
+                        deleteMethod:
+                            buildShowDeleteCategoryBottomSheet) //_buildPopupMenuButton(),
+                    ),
 
                 // Share button
                 Positioned(

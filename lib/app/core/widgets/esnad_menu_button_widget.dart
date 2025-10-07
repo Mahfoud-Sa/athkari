@@ -7,14 +7,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class MenuButtonWidget extends StatelessWidget {
-  const MenuButtonWidget(
-      {super.key,
-      required this.formKey,
-      required this.entity,
-      required this.context,
-      required this.updateMethod,
-      required this.deleteMethod,
-      required this.entityName});
+  const MenuButtonWidget({
+    super.key,
+    required this.formKey,
+    required this.entity,
+    required this.context,
+    required this.updateMethod,
+    required this.deleteMethod,
+  });
 
   final GlobalKey<FormState> formKey;
   final entity;
@@ -24,8 +24,6 @@ class MenuButtonWidget extends StatelessWidget {
       updateMethod;
 
   final Future<void> Function(BuildContext context, int esnadId) deleteMethod;
-
-  final String entityName;
 
   @override
   Widget build(BuildContext context) {

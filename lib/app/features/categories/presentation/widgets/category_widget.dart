@@ -38,15 +38,21 @@ class CategoryWidget extends StatelessWidget {
         child: Stack(
           alignment: Alignment.topLeft,
           children: [
-            //  Positioned(
-            //       left: 0, // small offset from the left
-            //       top: 0,  // small offset from the top
-            //       child: SizedBox(
-            //         width: 32, // smaller width
-            //         height: 32, // smaller height
-            //         child:MenuButtonWidget(formKey: formKey,entity: category, context: context, updateMethod: buildShowUpdateCategoryModalBottomSheet, deleteMethod: null, entityName: '',),
-            //        ),
-            //     ),
+            Positioned(
+              left: 0, // small offset from the left
+              top: 0, // small offset from the top
+              child: SizedBox(
+                width: 32, // smaller width
+                height: 32, // smaller height
+                child: MenuButtonWidget(
+                  formKey: formKey,
+                  entity: category,
+                  context: context,
+                  updateMethod: buildShowUpdateCategoryModalBottomSheet,
+                  deleteMethod: buildShowDeleteCategoryBottomSheet,
+                ),
+              ),
+            ),
             // Center the first Text widget
             Center(
               child: Column(

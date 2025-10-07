@@ -104,7 +104,6 @@ class EsnadCardWidget extends StatelessWidget {
                     context: context,
                     updateMethod: buildUpdateEsnadModalBottomSheet,
                     deleteMethod: buildEsnadShowDeleteBottomSheet,
-                    entityName: 'الاسناد',
                   ),
                 ),
 
