@@ -98,9 +98,9 @@ class EsnadCardWidget extends StatelessWidget {
                 // More options button
                 Positioned(
                   left: 0,
-                  child: MenuButtonWidget(
+                  child: MenuButtonWidget<int>(
                     formKey: formKey,
-                    entity: esnad,
+                    entity: esnad.id!,
                     context: context,
                     updateMethod: buildUpdateEsnadModalBottomSheet,
                     deleteMethod: buildEsnadShowDeleteBottomSheet,

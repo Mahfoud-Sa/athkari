@@ -8,6 +8,7 @@ import 'package:athkari/app/core/widgets/custome_container.dart';
 import 'package:athkari/app/core/widgets/esnad_menu_button_widget.dart';
 import 'package:athkari/app/features/categories/data/modules/category_models.dart';
 import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
+import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -153,13 +154,15 @@ class _DekarCardWidgetState extends State<DekharCardWidget>
                 Positioned(
                     left: 0,
                     // context,widget.formKey,widget.dekhar,updateRepetationController
-                    child: MenuButtonWidget(
+                    child: MenuButtonWidget<DhkarEntity>(
                         formKey: widget.formKey,
                         entity: widget.dekhar,
                         context: context,
                         updateMethod: buildUpdateDhaderWithEsnadBottomSheet,
-                        deleteMethod:
-                            buildShowDeleteCategoryBottomSheet) //_buildPopupMenuButton(),
+                        deleteMethod: (context, entity) {
+                          return buildShowDeleteCategoryBottomSheet(
+                              context, widget.dekhar.id!);
+                        }) //_buildPopupMenuButton(),
                     ),
 
                 // Share button
