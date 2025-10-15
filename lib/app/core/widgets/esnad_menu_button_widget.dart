@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
-class MenuButtonWidget extends StatelessWidget {
+class MenuButtonWidget<T> extends StatelessWidget {
   const MenuButtonWidget({
     super.key,
     required this.formKey,
@@ -17,13 +17,13 @@ class MenuButtonWidget extends StatelessWidget {
   });
 
   final GlobalKey<FormState> formKey;
-  final entity;
+  final T entity;
   final BuildContext context;
   final Future<void> Function(
-          BuildContext, GlobalKey<FormState>, TextEditingController, int)
+          BuildContext, GlobalKey<FormState>, TextEditingController, T)
       updateMethod;
 
-  final Future<void> Function(BuildContext context, int esnadId) deleteMethod;
+  final Future<void> Function(BuildContext context, T entity) deleteMethod;
 
   @override
   Widget build(BuildContext context) {
@@ -59,11 +59,11 @@ class MenuButtonWidget extends StatelessWidget {
                 onTap: () {
                   Navigator.pop(context);
                   final esnadUpdatedValueController =
-                      TextEditingController(text: entity.name!);
+                      TextEditingController(text: _getName(entity));
 
                   // Use the passed updateMethod variable
-                  updateMethod(context, formKey, esnadUpdatedValueController,
-                      entity.id!);
+                  updateMethod(
+                      context, formKey, esnadUpdatedValueController, entity);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -91,7 +91,7 @@ class MenuButtonWidget extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   Navigator.pop(context);
-                  deleteMethod(context, entity.id!);
+                  deleteMethod(context, entity);
                 },
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -118,5 +118,18 @@ class MenuButtonWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  // Helper method to extract name based on entity type
+  String _getName(T entity) {
+    if (entity is EsnadEntity) {
+      return entity.name ?? '';
+    } else if (entity is int) {
+      // If entity is just an ID, you might need to handle this differently
+      // You could fetch the name from a cache or pass it separately
+      return ''; // Or handle as needed
+    }
+    // Add other entity types as needed
+    return entity.toString();
   }
 }

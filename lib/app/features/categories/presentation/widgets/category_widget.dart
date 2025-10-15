@@ -44,12 +44,15 @@ class CategoryWidget extends StatelessWidget {
               child: SizedBox(
                 width: 32, // smaller width
                 height: 32, // smaller height
-                child: MenuButtonWidget(
+                child: MenuButtonWidget<CategoryEntity>(
                   formKey: formKey,
                   entity: category,
                   context: context,
-                  updateMethod: buildShowUpdateCategoryModalBottomSheet,
-                  deleteMethod: buildShowDeleteCategoryBottomSheet,
+                  updateMethod: (ctx, formkey, controller, category) =>
+                      buildShowUpdateCategoryModalBottomSheet(
+                          ctx, formkey, controller, category.id!),
+                  deleteMethod: (ctx, category) =>
+                      buildShowDeleteCategoryBottomSheet(ctx, category.id!),
                 ),
               ),
             ),
