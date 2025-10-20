@@ -13,6 +13,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:share_plus/share_plus.dart';
 
 class DekharCardWidget extends StatefulWidget {
@@ -165,7 +166,7 @@ class _DekarCardWidgetState extends State<DekharCardWidget>
                               ctx, formKey, controller, dekhar);
                         },
                         deleteMethod: (ctx, dekhar) =>
-                            buildShowDeleteCategoryBottomSheet(
+                            showDeleteDhkarBottomSheet(
                                 ctx, dekhar.id!)) //_buildPopupMenuButton(),
                     ),
 
@@ -192,7 +193,17 @@ class _DekarCardWidgetState extends State<DekharCardWidget>
                 Positioned(
                   left: 72,
                   child: _buildIconButton(
-                      1 > 3 ? Icons.add : Icons.delete,
+                      1 > 3
+                          ? SvgPicture.asset(
+                              'assets/svgs/add_icon.svg',
+                              width: 24,
+                              height: 24,
+                            )
+                          : SvgPicture.asset(
+                              'assets/svgs/minus_icon.svg',
+                              width: 24,
+                              height: 24,
+                            ),
                       3 > 4
                           ? () {
                               buildShowRemoveDekeerBottomSheet(
@@ -317,7 +328,44 @@ class _DekarCardWidgetState extends State<DekharCardWidget>
 //   );
 // }
 
-  Widget _buildIconButton(IconData icon, VoidCallback onPressed) {
+  // Widget _buildIconButton(dynamic icon, VoidCallback onPressed) {
+  //   return SizedBox(
+  //     width: 24,
+  //     height: 24,
+  //     child: IconButton(
+  //         padding: EdgeInsets.zero,
+  //         constraints: const BoxConstraints(),
+  //         splashRadius: 16,
+  //         onPressed: onPressed,
+  //         icon: //Icon(
+  //             icon as Widget
+  //         //,size: 16,
+  //         // color: const Color(0xFF80BCBD),
+  //         // ),
+  //         ),
+  //   );
+  // }
+  Widget _buildIconButton(dynamic icon, VoidCallback onPressed) {
+    Widget iconWidget;
+
+    if (icon is IconData) {
+      iconWidget = Icon(
+        icon,
+        size: 16,
+        color: const Color(0xFF80BCBD),
+      );
+    } else if (icon is SvgPicture) {
+      iconWidget = icon;
+    } else if (icon is String && icon.endsWith('.svg')) {
+      // Optional: allows you to pass a path directly like 'assets/svgs/add_icon.svg'
+      iconWidget = SvgPicture.asset(
+        icon,
+        width: 16,
+      );
+    } else {
+      iconWidget = const SizedBox.shrink(); // fallback if unknown type
+    }
+
     return SizedBox(
       width: 24,
       height: 24,
@@ -326,11 +374,7 @@ class _DekarCardWidgetState extends State<DekharCardWidget>
         constraints: const BoxConstraints(),
         splashRadius: 16,
         onPressed: onPressed,
-        icon: Icon(
-          icon,
-          size: 16,
-          color: const Color(0xFF80BCBD),
-        ),
+        icon: iconWidget,
       ),
     );
   }

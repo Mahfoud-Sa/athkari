@@ -1,0 +1,7 @@
+<!-- save as assets/icons/minus-icon.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 47 47" width="47" height="47" fill="none">
+  <!-- minus sign -->
+  <g stroke="#80BCBD" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <line x1="11.5" y1="23.5" x2="35.5" y2="23.5" />
+  </g>
+</svg>
