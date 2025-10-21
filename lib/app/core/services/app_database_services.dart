@@ -92,17 +92,6 @@ class AppDataBaseServices {
 
   Future<void> _onCreate(Database db, int version) async {
     print("Creating tables...");
-    // await db.execute('''
-    //   CREATE TABLE DailyWered (
-    //     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    //     dhaker TEXT ,
-    //     repetitions INTEGER,
-    //     esnads_id,
-
-    //     FOREIGN KEY (esnads_id) REFERENCES Esnads(id) ON DELETE CASCADE
-
-    //   )
-    // ''');
     await db.execute('''
       CREATE TABLE Adhkars (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -140,7 +129,7 @@ class AppDataBaseServices {
     // Perform in a transaction for atomicity
     await _database!.transaction((txn) async {
       // Clear all tables
-      // await txn.delete('DailyWered');
+
       await txn.delete('Adhkars');
       await txn.delete('Categories');
       await txn.delete('Esnads');
@@ -161,7 +150,7 @@ class AppDataBaseServices {
     // Perform in a transaction for atomicity
     await _database!.transaction((txn) async {
       // Clear all tables
-      // await txn.delete('DailyWered');
+
       await txn.delete('Adhkars');
       await txn.delete('Categories');
       await txn.delete('Esnads');
@@ -230,6 +219,8 @@ class AppDataBaseServices {
       'dhaker': adhkar['dhaker'] as String,
       'repetitions': adhkar['repetitions'] as int,
       'category_id': adhkar['category_id'] as int,
+      'in_daily_wered':
+          adhkar['in_daily_wered'] ? null : adhkar['in_daily_wered'] as bool,
       'esnads_id': adhkar['esnads_id'] as int,
     };
   }
@@ -241,7 +232,7 @@ class AppDataBaseServices {
       await _seedCategoriesFromJson();
       await _seedAdhkarsFromJson();
 
-      // await _seedDailyWered();
+      //
     } catch (e) {
       throw Exception('Failed to seed database: $e');
     }
