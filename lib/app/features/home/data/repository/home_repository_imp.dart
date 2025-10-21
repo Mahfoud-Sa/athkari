@@ -10,41 +10,38 @@ import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+
 class HomeRepositoryImp implements HomeRepository {
   final AppDataBaseServices _appDataBaseServices;
   final ReleaseRemoteDataSorcesImp _gitHubApiService;
   HomeRepositoryImp(this._appDataBaseServices, this._gitHubApiService);
   @override
   Future<DailyWeredProgressEntity> getDailyWeredProgress() async {
-    int totalWered =
-        await _appDataBaseServices.dailyWeredDao.getTotalDailyWered();
-    int compeletedWered =
-        await _appDataBaseServices.dailyWeredDao.getCompeletedDailyWered();
+    int totalWered = 4;
+    // await _appDataBaseServices.adhkaiDao.getTotalDailyWered();
+    int compeletedWered = 7;
+    //  await _appDataBaseServices.dailyWeredDao.getCompeletedDailyWered();
 
     return DailyWeredProgressEntity(
         totalWered: totalWered, compeletedWered: compeletedWered);
   }
 
- 
   @override
   Future<bool> resetDatabase() async {
-    try{
-       bool result = await InternetConnection().hasInternetAccess;
-    if(result){
-      await  _appDataBaseServices.clearAllTablesFromInternet();
-      
-    }else{
-      await  _appDataBaseServices.clearAllTablesFromJson();
-    }}
-    catch(e){
-      if(kDebugMode){
+    try {
+      bool result = await InternetConnection().hasInternetAccess;
+      if (result) {
+        await _appDataBaseServices.clearAllTablesFromInternet();
+      } else {
+        await _appDataBaseServices.clearAllTablesFromJson();
+      }
+    } catch (e) {
+      if (kDebugMode) {
         print(e);
       }
       return false;
     }
-   
+
     return true;
-    
   }
 }
- 

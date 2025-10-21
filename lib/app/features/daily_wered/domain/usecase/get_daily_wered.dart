@@ -11,6 +11,6 @@ class GetDailyWereUseCase implements UseCase {
   GetDailyWereUseCase(this._dailyWeredRepository);
   @override
   Future<List<DailyWeredModel>> call({params}) async {
-    return await _dailyWeredRepository.getAllDailyWereds();
+    return await _dailyWeredRepository.getAllDailyWered();
   }
 }

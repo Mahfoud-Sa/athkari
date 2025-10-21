@@ -7,11 +7,13 @@ import 'package:athkari/app/core/ModelBottomSheet/update_dhkar_with_esnad_modelb
 import 'package:athkari/app/core/widgets/custome_container.dart';
 import 'package:athkari/app/core/widgets/esnad_menu_button_widget.dart';
 import 'package:athkari/app/features/categories/data/modules/category_models.dart';
+import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
-import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:share_plus/share_plus.dart';
 
 class DekharCardWidget extends StatefulWidget {
@@ -158,11 +160,14 @@ class _DekarCardWidgetState extends State<DekharCardWidget>
                         formKey: widget.formKey,
                         entity: widget.dekhar,
                         context: context,
-                        updateMethod: buildUpdateDhaderWithEsnadBottomSheet,
-                        deleteMethod: (context, entity) {
-                          return buildShowDeleteCategoryBottomSheet(
-                              context, widget.dekhar.id!);
-                        }) //_buildPopupMenuButton(),
+                        updateMethod: (ctx, formKey, controller, dekhar) {
+                          context.read<CategoryCubit>().fetchEsnadsData();
+                          return buildUpdateDhaderWithEsnadBottomSheet(
+                              ctx, formKey, controller, dekhar);
+                        },
+                        deleteMethod: (ctx, dekhar) =>
+                            showDeleteDhkarBottomSheet(
+                                ctx, dekhar.id!)) //_buildPopupMenuButton(),
                     ),
 
                 // Share button
@@ -188,8 +193,18 @@ class _DekarCardWidgetState extends State<DekharCardWidget>
                 Positioned(
                   left: 72,
                   child: _buildIconButton(
-                      1 > 3 ? Icons.add : Icons.delete,
-                      3 > 4
+                      widget.isAddToDailyWered
+                          ? SvgPicture.asset(
+                              'assets/svgs/minus_icon.svg',
+                              width: 24,
+                              height: 24,
+                            )
+                          : SvgPicture.asset(
+                              'assets/svgs/add_icon.svg',
+                              width: 24,
+                              height: 24,
+                            ),
+                      widget.isAddToDailyWered
                           ? () {
                               buildShowRemoveDekeerBottomSheet(
                                   context, widget.dekhar.id!);
@@ -247,73 +262,27 @@ class _DekarCardWidgetState extends State<DekharCardWidget>
   void shareMethod() => Share.share(
       '${widget.dekhar.dhkar}\n\n${widget.dekhar.esnad?.name ?? ""}');
 
-//   Widget _buildPopupMenuButton() {
-//   // Define your custom text style
-//   const TextStyle customTextStyle = TextStyle(
-//     color: Color(0xFF80BCBD), // Using your color value
-//     fontWeight: FontWeight.w400,
-//     fontFamily: "IBMPlexSansArabic",
-//     fontStyle: FontStyle.normal,
-//     fontSize: 12.0
-//   );
+  Widget _buildIconButton(dynamic icon, VoidCallback onPressed) {
+    Widget iconWidget;
 
-//   return SizedBox(
-//     width: 24,
-//     height: 24,
-//     child: Directionality(  // Wrap with Directionality for RTL support
-//       textDirection: TextDirection.rtl,
-//       child: PopupMenuButton(
-//         color: Colors.white,
-//         shape: RoundedRectangleBorder(
-//           borderRadius: BorderRadius.circular(10),
-//         ),
-//         elevation: 20,
-//         shadowColor: const Color(0x33c8c8c8),
-//         padding: EdgeInsets.zero,
-//         icon: Icon(
-//           Icons.more_vert,
-//           color: const Color(0xFF80BCBD),
-//           size: 18,
-//         ),
-//         itemBuilder: (context) => [
-//           PopupMenuItem(
-//             child: ListTile(
-//               trailing: const Icon(Icons.delete, size: 20,color: Color(0xFF80BCBD),), // Changed to trailing
-//               title: const Text(
-//                 'حذف',
-//                 style: customTextStyle,
-//                 textAlign: TextAlign.right,  // Right align text
-//               ),
-//               onTap: () {
+    if (icon is IconData) {
+      iconWidget = Icon(
+        icon,
+        size: 16,
+        color: const Color(0xFF80BCBD),
+      );
+    } else if (icon is SvgPicture) {
+      iconWidget = icon;
+    } else if (icon is String && icon.endsWith('.svg')) {
+      // Optional: allows you to pass a path directly like 'assets/svgs/add_icon.svg'
+      iconWidget = SvgPicture.asset(
+        icon,
+        width: 16,
+      );
+    } else {
+      iconWidget = const SizedBox.shrink(); // fallback if unknown type
+    }
 
-//                 showDeleteDhkarBottomSheet(context,widget.dekhar.id!);
-//               },
-//             ),
-//           ),
-//           PopupMenuItem(
-//             child: ListTile(
-//               trailing: const Icon(Icons.edit, size: 20,color: Color(0xFF80BCBD)), // Changed to trailing
-//               title: const Text(
-//                 'تعديل',
-//                 style: customTextStyle,
-//                 textAlign: TextAlign.right,  // Right align text
-//               ),
-//               onTap: () {
-//                 TextEditingController updateRepetationController = TextEditingController(
-//                   text: widget.dekhar.repetitions.toString(),
-//                 );
-//                 Navigator.pop(context);
-//                 buildUpdateDhaderWithEsnadBottomSheet(context,widget.formKey,widget.dekhar,updateRepetationController);
-//               },
-//             ),
-//           ),
-//         ],
-//       ),
-//     ),
-//   );
-// }
-
-  Widget _buildIconButton(IconData icon, VoidCallback onPressed) {
     return SizedBox(
       width: 24,
       height: 24,
@@ -322,11 +291,7 @@ class _DekarCardWidgetState extends State<DekharCardWidget>
         constraints: const BoxConstraints(),
         splashRadius: 16,
         onPressed: onPressed,
-        icon: Icon(
-          icon,
-          size: 16,
-          color: const Color(0xFF80BCBD),
-        ),
+        icon: iconWidget,
       ),
     );
   }

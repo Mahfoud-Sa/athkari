@@ -5,7 +5,6 @@ import 'package:athkari/app/core/widgets/custome_container.dart';
 import 'package:athkari/app/core/widgets/esnad_menu_button_widget.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/presentation/pages/category_detailes_page.dart';
-import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
 import 'package:flutter/material.dart';
 
 class CategoryWidget extends StatelessWidget {
@@ -45,12 +44,15 @@ class CategoryWidget extends StatelessWidget {
               child: SizedBox(
                 width: 32, // smaller width
                 height: 32, // smaller height
-                child: MenuButtonWidget<int>(
+                child: MenuButtonWidget<CategoryEntity>(
                   formKey: formKey,
-                  entity: category.id!,
+                  entity: category,
                   context: context,
-                  updateMethod: buildShowUpdateCategoryModalBottomSheet,
-                  deleteMethod: buildShowDeleteCategoryBottomSheet,
+                  updateMethod: (ctx, formkey, controller, category) =>
+                      buildShowUpdateCategoryModalBottomSheet(
+                          ctx, formkey, controller, category.id!),
+                  deleteMethod: (ctx, category) =>
+                      buildShowDeleteCategoryBottomSheet(ctx, category.id!),
                 ),
               ),
             ),

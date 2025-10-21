@@ -16,10 +16,9 @@ Future<void> buildUpdateDhaderWithEsnadBottomSheet(
   GlobalKey<FormState> formKey,
   TextEditingController textEditingController_1,
   final dekhair,
-
 ) {
   textEditingController_1.text = dekhair.dhkar!;
-  int? esnadId=dekhair.esnad?.id;
+  int? esnadId = dekhair.esnad?.id;
   final ValueNotifier<bool> esnadValid = ValueNotifier<bool>(false);
 
   return showModalBottomSheet(
@@ -68,17 +67,16 @@ Future<void> buildUpdateDhaderWithEsnadBottomSheet(
                     ),
                   ),
                 ),
-                
+
                 // Text Field Section
                 const Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    'نص الذكر (المتن)',                    
+                    'نص الذكر (المتن)',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
                       color: Colors.black87,
-                      
                     ),
                   ),
                 ),
@@ -114,12 +112,12 @@ Future<void> buildUpdateDhaderWithEsnadBottomSheet(
                     ),
                   ),
                 ),
-                
+
                 // Esnad Dropdown Section
                 const Align(
                   alignment: Alignment.centerRight,
                   child: Text(
-                    'اختر السند',
+                    'اختيار السند',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
@@ -152,12 +150,14 @@ Future<void> buildUpdateDhaderWithEsnadBottomSheet(
                                 return DropdownMenuItem<int>(
                                   value: esnad?.id,
                                   child: Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 4),
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 4),
                                     child: Text(
                                       esnad?.name ?? '',
                                       textDirection: TextDirection.rtl,
                                       overflow: TextOverflow.ellipsis,
-                                      maxLines: 1, // Changed to 1 line to prevent overflow
+                                      maxLines:
+                                          1, // Changed to 1 line to prevent overflow
                                       style: const TextStyle(fontSize: 16),
                                     ),
                                   ),
@@ -180,7 +180,8 @@ Future<void> buildUpdateDhaderWithEsnadBottomSheet(
                                 hintText: "اختر من القائمة",
                                 hintTextDirection: TextDirection.rtl,
                                 filled: true,
-                                fillColor: const Color.fromARGB(255, 214, 214, 213),
+                                fillColor:
+                                    const Color.fromARGB(255, 214, 214, 213),
                                 contentPadding: const EdgeInsets.symmetric(
                                   horizontal: 20,
                                   vertical: 16,
@@ -194,7 +195,7 @@ Future<void> buildUpdateDhaderWithEsnadBottomSheet(
                     },
                   ),
                 ),
-                
+
                 // Buttons Section
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -208,13 +209,13 @@ Future<void> buildUpdateDhaderWithEsnadBottomSheet(
                         onTap: () {
                           final isFormValid = formKey.currentState!.validate();
                           final isEsnadValid = esnadId != null;
-                          
+
                           if (isFormValid && isEsnadValid) {
                             context.read<CategoryDetailsCubit>().updateDekhar(
-                              dekhair.id!,
-                              textEditingController_1.text,
-                              esnadId!,
-                            );
+                                  dekhair.id!,
+                                  textEditingController_1.text,
+                                  esnadId!,
+                                );
                             Navigator.pop(context);
                           } else if (!isEsnadValid) {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -244,4 +245,3 @@ Future<void> buildUpdateDhaderWithEsnadBottomSheet(
     },
   );
 }
-

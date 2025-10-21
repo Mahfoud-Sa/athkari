@@ -4,30 +4,44 @@ import 'package:athkari/app/features/daily_wered/data/modules/dhkar_model.dart';
 import 'package:athkari/app/features/daily_wered/domain/repository/daily_wered_repository.dart';
 import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
 
-class DailyWeredRepositoryImpl implements DailyWeredRepository {
+class DailyWeredRepositoryImpl {
+  //implements DailyWeredRepository
   final AppDataBaseServices _appDataBaseServices;
 
   DailyWeredRepositoryImpl(this._appDataBaseServices);
 
-  @override
-  Future<List<DailyWeredModel>> getAllDailyWereds() async {
-    var temp = await _appDataBaseServices.dailyWeredDao.getAllAdhkai();
+  Future<List<DailyWeredModel>> getAllDailyWered() async {
+    // var temp = await _appDataBaseServices.dailyWeredDao.getAllAdhkai();
+    var temp = await _appDataBaseServices.adhkaiDao.getAllDailyWereds();
+
     return temp;
   }
 
   @override
+  Future<List<DailyWeredModel>> getAllDailyWereds() async {
+    // var temp = await _appDataBaseServices.dailyWeredDao.getAllAdhkai();
+    await Future.delayed(Duration(seconds: 1));
+    // temp =
+    //  var temp = await _appDataBaseServices.adhkaiDao.getAllDailyWereds();
+
+    return <DailyWeredModel>[];
+    ;
+  }
+
+  @override
   Future<void> doneDailyWered(int id) async {
-    await _appDataBaseServices.dailyWeredDao.doneDailyWered(id);
+    //  await _appDataBaseServices.dailyWeredDao.doneDailyWered(id);
   }
 
   @override
   Future<void> updateDailyWeredRepertation(int id, int repetation) async {
-    await _appDataBaseServices.dailyWeredDao.updateRepetation(id, repetation);
+    //   await _appDataBaseServices.dailyWeredDao.updateRepetation(id, repetation);
   }
 
   @override
   Future<int> deleteDailyWered(int id) async {
-    return await _appDataBaseServices.dailyWeredDao.deleteDailyWered(id);
+    return 1;
+    // return await _appDataBaseServices.dailyWeredDao.deleteDailyWered(id);
   }
 
   // @override
@@ -38,13 +52,13 @@ class DailyWeredRepositoryImpl implements DailyWeredRepository {
   // }
 
   @override
-  Future<int> addDhkar(int dekharId,int repetitions) async{
+  Future<int> addDhkar(int dekharId, int repetitions) async {
     //return _appDataBaseServices.adhkaiDao.Insert(dheer, esnaad);
-    // TODO: implement updateDhkar
-    DhkarModel? _dhkarModel=await _appDataBaseServices.adhkaiDao.getDhkarById(dekharId);
-var temp=await _appDataBaseServices.dailyWeredDao.createDailyWered(DailyWeredModel(dhkar: _dhkarModel!.dhkar!,esnad: _dhkarModel.esnad,repetitions: repetitions,id: _dhkarModel.id));
-print(temp);
-return(temp);
+
+    var temp =
+        await _appDataBaseServices.adhkaiDao.addToDaily(dekharId, repetitions);
+    print(temp);
+    return (temp);
   }
 
   // @override
