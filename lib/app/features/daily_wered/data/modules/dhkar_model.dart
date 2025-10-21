@@ -6,30 +6,34 @@ class DhkarModel extends DhkarEntity {
   final String? dhkar;
   int? repetitions;
   final EsnadModel? esnad;
+  final bool inDailyWered;
 
-  DhkarModel({
-    this.id,
-    this.dhkar,
-    this.repetitions,
-    this.esnad,
-  });
+  DhkarModel(
+      {this.id,
+      this.dhkar,
+      this.repetitions,
+      this.esnad,
+      this.inDailyWered = false});
 
   factory DhkarModel.fromDataBase(Map<String, dynamic> map) {
     return DhkarModel(
         id: map['id'] ?? "",
         dhkar: map['dhaker'] ?? "",
+        inDailyWered: map["inDailyWered"] ?? false,
         esnad: EsnadModel.fromDataBase(map));
   }
-factory DhkarModel.fromDataBase_1(Map<String, dynamic> map) {
-  return DhkarModel(
-    id: map['adhkar_id'],  // Use aliased adhkar_id
-    dhkar: map['dhaker'] ?? "",
-    esnad: EsnadModel(
-      id: map['esnad_id'],  // Use aliased esnad_id
-      name: map['esnad_name'] ?? "",  // Use aliased esnad_name
-    ),
-  );
-}
+  factory DhkarModel.fromDataBase_1(Map<String, dynamic> map) {
+    return DhkarModel(
+      id: map['adhkar_id'], // Use aliased adhkar_id
+      dhkar: map['dhaker'] ?? "",
+      inDailyWered: map["inDailyWered"] == 1,
+
+      esnad: EsnadModel(
+        id: map['esnad_id'], // Use aliased esnad_id
+        name: map['esnad_name'] ?? "", // Use aliased esnad_name
+      ),
+    );
+  }
   Map<String, dynamic> toDatabse() {
     return {
       'id': id,
@@ -43,6 +47,7 @@ factory DhkarModel.fromDataBase_1(Map<String, dynamic> map) {
     return DhkarModel(
         id: entity.id,
         dhkar: entity.dhkar,
+        inDailyWered: entity.inDailyWered,
         esnad: EsnadModel.fromEntity(entity.esnad!));
   }
 }

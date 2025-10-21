@@ -193,18 +193,18 @@ class _DekarCardWidgetState extends State<DekharCardWidget>
                 Positioned(
                   left: 72,
                   child: _buildIconButton(
-                      1 > 3
+                      widget.isAddToDailyWered
                           ? SvgPicture.asset(
-                              'assets/svgs/add_icon.svg',
+                              'assets/svgs/minus_icon.svg',
                               width: 24,
                               height: 24,
                             )
                           : SvgPicture.asset(
-                              'assets/svgs/minus_icon.svg',
+                              'assets/svgs/add_icon.svg',
                               width: 24,
                               height: 24,
                             ),
-                      3 > 4
+                      widget.isAddToDailyWered
                           ? () {
                               buildShowRemoveDekeerBottomSheet(
                                   context, widget.dekhar.id!);
@@ -262,89 +262,6 @@ class _DekarCardWidgetState extends State<DekharCardWidget>
   void shareMethod() => Share.share(
       '${widget.dekhar.dhkar}\n\n${widget.dekhar.esnad?.name ?? ""}');
 
-//   Widget _buildPopupMenuButton() {
-//   // Define your custom text style
-//   const TextStyle customTextStyle = TextStyle(
-//     color: Color(0xFF80BCBD), // Using your color value
-//     fontWeight: FontWeight.w400,
-//     fontFamily: "IBMPlexSansArabic",
-//     fontStyle: FontStyle.normal,
-//     fontSize: 12.0
-//   );
-
-//   return SizedBox(
-//     width: 24,
-//     height: 24,
-//     child: Directionality(  // Wrap with Directionality for RTL support
-//       textDirection: TextDirection.rtl,
-//       child: PopupMenuButton(
-//         color: Colors.white,
-//         shape: RoundedRectangleBorder(
-//           borderRadius: BorderRadius.circular(10),
-//         ),
-//         elevation: 20,
-//         shadowColor: const Color(0x33c8c8c8),
-//         padding: EdgeInsets.zero,
-//         icon: Icon(
-//           Icons.more_vert,
-//           color: const Color(0xFF80BCBD),
-//           size: 18,
-//         ),
-//         itemBuilder: (context) => [
-//           PopupMenuItem(
-//             child: ListTile(
-//               trailing: const Icon(Icons.delete, size: 20,color: Color(0xFF80BCBD),), // Changed to trailing
-//               title: const Text(
-//                 'حذف',
-//                 style: customTextStyle,
-//                 textAlign: TextAlign.right,  // Right align text
-//               ),
-//               onTap: () {
-
-//                 showDeleteDhkarBottomSheet(context,widget.dekhar.id!);
-//               },
-//             ),
-//           ),
-//           PopupMenuItem(
-//             child: ListTile(
-//               trailing: const Icon(Icons.edit, size: 20,color: Color(0xFF80BCBD)), // Changed to trailing
-//               title: const Text(
-//                 'تعديل',
-//                 style: customTextStyle,
-//                 textAlign: TextAlign.right,  // Right align text
-//               ),
-//               onTap: () {
-//                 TextEditingController updateRepetationController = TextEditingController(
-//                   text: widget.dekhar.repetitions.toString(),
-//                 );
-//                 Navigator.pop(context);
-//                 buildUpdateDhaderWithEsnadBottomSheet(context,widget.formKey,widget.dekhar,updateRepetationController);
-//               },
-//             ),
-//           ),
-//         ],
-//       ),
-//     ),
-//   );
-// }
-
-  // Widget _buildIconButton(dynamic icon, VoidCallback onPressed) {
-  //   return SizedBox(
-  //     width: 24,
-  //     height: 24,
-  //     child: IconButton(
-  //         padding: EdgeInsets.zero,
-  //         constraints: const BoxConstraints(),
-  //         splashRadius: 16,
-  //         onPressed: onPressed,
-  //         icon: //Icon(
-  //             icon as Widget
-  //         //,size: 16,
-  //         // color: const Color(0xFF80BCBD),
-  //         // ),
-  //         ),
-  //   );
-  // }
   Widget _buildIconButton(dynamic icon, VoidCallback onPressed) {
     Widget iconWidget;
 

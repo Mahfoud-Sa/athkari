@@ -36,14 +36,60 @@ class CategoryDao {
         .toList();
   }
 
+//   Future<List<CategoryModel>> getCategoriesWithDekars() async {
+//     final query = '''
+//   SELECT
+//     categories.id AS id,
+//     categories.name AS name,
+//     Adhkars.dhaker AS dhaker,
+//     Adhkars.repetitions AS repetitions,
+//     CASE WHEN DailyWered.id IS NOT NULL THEN 1 ELSE 0 END AS inDailyWered
+//   FROM categories
+//     LEFT JOIN Adhkars ON categories.id = Adhkars.category_id
+//     LEFT JOIN DailyWered ON Adhkars.dhaker = DailyWered.dhaker
+//       AND Adhkars.repetitions = DailyWered.repetitions
+// ''';
+
+//     final List<Map<String, dynamic>> result = await database.rawQuery(query);
+
+//     var temp = result
+//         .fold<Map<int, CategoryModel>>({}, (map, row) {
+//           int categoryId = row['id'];
+//           String categoryName = row['name'];
+//           bool inDailyWered = row['inDailyWered'] == 1;
+
+//           // Add category if it doesn't exist in the map
+//           map.putIfAbsent(
+//             categoryId,
+//             () => CategoryModel(
+//               id: categoryId,
+//               name: categoryName,
+//               dhkars: [],
+//               inDailyWered: inDailyWered,
+//             ),
+//           );
+
+//           // Add adhkar if it's not null
+//           if (row['dhaker'] != null) {
+//             map[categoryId]!.dhkars!.add(DhkarModel(
+//                 dhkar: row['dhaker'], repetitions: row['repetitions']));
+//           }
+
+//           return map;
+//         })
+//         .values
+//         .toList();
+//     print(temp);
+//     return temp;
+//   }
   Future<List<CategoryModel>> getCategoriesWithDekars() async {
     final query = '''
-  SELECT 
-    categories.id AS id, 
-    categories.name AS name,  
+  SELECT
+    categories.id AS id,
+    categories.name AS name,
     Adhkars.dhaker AS dhaker,
     Adhkars.repetitions AS repetitions
-  FROM categories 
+  FROM categories
     LEFT JOIN Adhkars ON categories.id = Adhkars.category_id
 ''';
 
@@ -86,11 +132,57 @@ class CategoryDao {
         .toList()[0];
   }
 
-Future<CategoryModel?> getCategoryDetailes(int id) async {
-  CategoryModel? categoryName = await getCategory(id);
-  
-  final result = await database.rawQuery('''
-    SELECT 
+  // Future<CategoryModel?> getCategoryDetailes(int id) async {
+  //   CategoryModel? categoryName = await getCategory(id);
+
+  //   final result = await database.rawQuery('''
+  //     SELECT
+  //       Adhkars.id AS adhkar_id,
+  //       Adhkars.dhaker,
+  //       Adhkars.repetitions,
+  //       Adhkars.category_id,
+  //       Adhkars.esnads_id,
+  //       Esnads.id AS esnad_id,
+  //       Esnads.name AS esnad_name,
+  //       CASE
+  //         WHEN EXISTS (
+  //           SELECT 1 FROM DailyWered
+  //           WHERE DailyWered.dhaker = Adhkars.dhaker
+  //           AND DailyWered.repetitions = Adhkars.repetitions
+  //         ) THEN 1
+  //         ELSE 0
+  //       END AS inDailyWered
+  //     FROM Adhkars
+  //     LEFT JOIN Esnads ON Adhkars.esnads_id = Esnads.id
+  //     WHERE Adhkars.category_id = ?
+  //   ''', [id]);
+  //   // Debug print to see raw results
+  //   print('RAW QUERY RESULTS:');
+  //   for (var row in result) {
+  //     print(
+  //         'Dhkar: ${row['dhaker']}, Repetitions: ${row['repetitions']}, inDailyWered: ${row['inDailyWered']}');
+  //   }
+
+  //   // Also print what's in DailyWered for comparison
+  //   final dailyWeredContents =
+  //       await database.rawQuery('SELECT dhaker, repetitions FROM DailyWered');
+  //   print('DAILY WERED CONTENTS: $dailyWeredContents');
+  //   debugPrint(result.toString());
+
+  //   List<DhkarModel> dekhars =
+  //       result.map((dekar) => DhkarModel.fromDataBase_1(dekar)).toList();
+
+  //   return CategoryModel(
+  //     id: id,
+  //     name: categoryName!.name,
+  //     dhkars: dekhars,
+  //   );
+  // }
+  Future<CategoryModel?> getCategoryDetailes(int id) async {
+    CategoryModel? categoryName = await getCategory(id);
+
+    final result = await database.rawQuery('''
+    SELECT
       Adhkars.id AS adhkar_id,
       Adhkars.dhaker,
       Adhkars.repetitions,
@@ -103,17 +195,16 @@ Future<CategoryModel?> getCategoryDetailes(int id) async {
     WHERE Adhkars.category_id = ?
   ''', [id]);
 
-  debugPrint(result.toString());
-  
-  List<DhkarModel> dekhars = result
-      .map((dekar) => DhkarModel.fromDataBase_1(dekar))
-      .toList();
+    debugPrint(result.toString());
 
-  return CategoryModel(
-    name: categoryName!.name, 
-    dhkars: dekhars,
-  );
-}
+    List<DhkarModel> dekhars =
+        result.map((dekar) => DhkarModel.fromDataBase_1(dekar)).toList();
+
+    return CategoryModel(
+      name: categoryName!.name,
+      dhkars: dekhars,
+    );
+  }
 
   Future<void> seedCategory() async {
     database.execute('DROP TABLE IF EXISTS Categories');
@@ -141,7 +232,7 @@ Future<CategoryModel?> getCategoryDetailes(int id) async {
     var temp = await getCategories();
     print(temp);
   }
- 
+
   Future<void> resetCategory() async {
     database.execute('DROP TABLE IF EXISTS Categories');
     database.execute('''
@@ -163,6 +254,6 @@ Future<CategoryModel?> getCategoryDetailes(int id) async {
 
       )
     ''');
-   seedCategory();
+    seedCategory();
   }
 }
