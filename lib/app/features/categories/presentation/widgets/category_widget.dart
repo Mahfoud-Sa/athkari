@@ -5,6 +5,7 @@ import 'package:athkari/app/core/widgets/custome_container.dart';
 import 'package:athkari/app/core/widgets/esnad_menu_button_widget.dart';
 import 'package:athkari/app/features/categories/domain/entities/category_entity.dart';
 import 'package:athkari/app/features/categories/presentation/pages/category_detailes_page.dart';
+import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
 import 'package:flutter/material.dart';
 
 class CategoryWidget extends StatelessWidget {
@@ -27,9 +28,7 @@ class CategoryWidget extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => CatogoryDetailesPage(
-              category: category,
-            ),
+            builder: (context) => CatogoryDetailesPage(category: category),
           ),
         );
       },
@@ -50,7 +49,11 @@ class CategoryWidget extends StatelessWidget {
                   context: context,
                   updateMethod: (ctx, formkey, controller, category) =>
                       buildShowUpdateCategoryModalBottomSheet(
-                          ctx, formkey, controller, category.id!),
+                    ctx,
+                    formkey,
+                    controller,
+                    category.id!,
+                  ),
                   deleteMethod: (ctx, category) =>
                       buildShowDeleteCategoryBottomSheet(ctx, category.id!),
                 ),
@@ -61,27 +64,29 @@ class CategoryWidget extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: 15,
-                  ),
+                  SizedBox(height: 15),
                   Text(
                     textAlign: TextAlign.center,
                     '${category.name}',
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontSize: _fontsize,
-                        color: Color.fromARGB(255, 128, 188, 189)),
+                          fontSize: _fontsize,
+                          color: Color.fromARGB(255, 128, 188, 189),
+                        ),
                   ),
                   const SizedBox(
-                      height: 10), // Add some spacing between the texts
+                    height: 10,
+                  ), // Add some spacing between the texts
                   Text(
                     textAlign: TextAlign.center,
                     "عدد الاذكار ${'${category.dhkars!.length}'} ذكر",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontSize: _fontsize - 2, color: Colors.black12),
+                          fontSize: _fontsize - 2,
+                          color: Colors.black12,
+                        ),
                   ),
                 ],
               ),

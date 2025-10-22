@@ -29,14 +29,6 @@ class AppDataBaseServices {
     return _database;
   }
 
-  // DailyWeredDao get dailyWeredDao {
-  //   if (_database == null) {
-  //     throw Exception(
-  //         "Database not initialized yet. Please wait until it's initialized.");
-  //   }
-  //   return DailyWeredDao(_database!);
-  // }
-
   DhkarDao get adhkaiDao {
     if (_database == null) {
       throw Exception(

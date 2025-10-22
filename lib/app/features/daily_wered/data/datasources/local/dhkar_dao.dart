@@ -27,7 +27,7 @@ class DhkarDao {
   }
 
 // AdhkaiDao(this._db);
-  Future<bool> Delete(int id) async {
+  Future<bool> delete(int id) async {
     try {
       // Assuming you have an 'id' field in your DhkarModel
       // and your table has a primary key column named 'id'
@@ -46,8 +46,24 @@ class DhkarDao {
     }
   }
 
+  Future<int> updateRepetation(int id, int repetation) async {
+    try {
+      var state = await database.update(
+        'DailyWered', // table name
+        {"repetitions": repetation}, // Map of column names to values
+        where: 'id = ?', // WHERE clause to identify the record
+        whereArgs: [id], // Values for the WHERE clause
+      );
+      print(state);
+      return state;
+    } catch (e) {
+      print('Error updating item: $e');
+      return 0;
+    }
+  }
+
   // AdhkaiDao(this._db);
-  Future<int> InsertWitnCategory(int categoryId, DhkarModel dhkar) async {
+  Future<int> insertWitnCategory(int categoryId, DhkarModel dhkar) async {
     var value = {
       'dhaker': dhkar.dhkar,
       'repetitions': dhkar.repetitions,
@@ -62,10 +78,11 @@ class DhkarDao {
     var value = {'in_daily_wered': true, 'repetitions': repetitions};
     var status = await database
         .update("Adhkars", value, where: 'id = ?', whereArgs: [dhkarId]);
+    print(status);
     return status;
   }
 
-  Future<int> Update(int categoryId, DhkarModel dhkar) async {
+  Future<int> update(int categoryId, DhkarModel dhkar) async {
     var value = {
       'dhaker': dhkar.dhkar,
       'repetitions': dhkar.repetitions,

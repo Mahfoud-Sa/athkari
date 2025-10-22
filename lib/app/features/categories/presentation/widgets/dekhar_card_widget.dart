@@ -193,7 +193,7 @@ class _DekarCardWidgetState extends State<DekharCardWidget>
                 Positioned(
                   left: 72,
                   child: _buildIconButton(
-                      widget.isAddToDailyWered
+                      widget.dekhar.inDailyWered!
                           ? SvgPicture.asset(
                               'assets/svgs/minus_icon.svg',
                               width: 24,

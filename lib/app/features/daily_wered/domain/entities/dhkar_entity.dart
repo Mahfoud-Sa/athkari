@@ -5,11 +5,7 @@ class DhkarEntity {
   final String? dhkar;
   final int? repetitions;
   final EsnadEntity? esnad;
-  final bool inDailyWered;
+  final bool? inDailyWered;
   DhkarEntity(
-      {this.inDailyWered = false,
-      this.esnad,
-      this.id,
-      this.dhkar,
-      this.repetitions});
+      {this.inDailyWered, this.esnad, this.id, this.dhkar, this.repetitions});
 }

@@ -82,6 +82,7 @@ class CategoryDao {
 //     print(temp);
 //     return temp;
 //   }
+
   Future<List<CategoryModel>> getCategoriesWithDekars() async {
     final query = '''
   SELECT
@@ -188,6 +189,7 @@ class CategoryDao {
       Adhkars.repetitions,
       Adhkars.category_id,
       Adhkars.esnads_id,
+      Adhkars.in_daily_wered,
       Esnads.id AS esnad_id,
       Esnads.name AS esnad_name
     FROM Adhkars
@@ -199,7 +201,8 @@ class CategoryDao {
 
     List<DhkarModel> dekhars =
         result.map((dekar) => DhkarModel.fromDataBase_1(dekar)).toList();
-
+    print(dekhars.first.id);
+    print(dekhars.first.inDailyWered);
     return CategoryModel(
       name: categoryName!.name,
       dhkars: dekhars,

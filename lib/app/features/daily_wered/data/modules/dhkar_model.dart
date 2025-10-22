@@ -6,7 +6,7 @@ class DhkarModel extends DhkarEntity {
   final String? dhkar;
   int? repetitions;
   final EsnadModel? esnad;
-  final bool inDailyWered;
+  final bool? inDailyWered;
 
   DhkarModel(
       {this.id,
@@ -26,7 +26,7 @@ class DhkarModel extends DhkarEntity {
     return DhkarModel(
       id: map['adhkar_id'], // Use aliased adhkar_id
       dhkar: map['dhaker'] ?? "",
-      inDailyWered: map["inDailyWered"] == 1,
+      inDailyWered: map["in_daily_wered"] == 1,
 
       esnad: EsnadModel(
         id: map['esnad_id'], // Use aliased esnad_id

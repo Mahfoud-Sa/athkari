@@ -17,7 +17,6 @@ import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubi
 import 'package:athkari/app/core/services/app_database_services.dart';
 import 'package:athkari/app/features/daily_wered/data/repository/daily_wered_repository_impl.dart';
 import 'package:athkari/app/features/daily_wered/data/repository/dhkar_repository_impl.dart';
-import 'package:athkari/app/features/daily_wered/domain/repository/daily_wered_repository.dart';
 import 'package:athkari/app/features/daily_wered/domain/repository/dhkar_repository.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/add_dhaker_usecase.dart';
 import 'package:athkari/app/features/daily_wered/domain/usecase/delete_daily_wered_usecase.dart';
@@ -81,35 +80,49 @@ Future<void> initializationContainer() async {
       () => CategoryDetailsCubit(getIt(), getIt(), getIt(), getIt(), getIt()));
   getIt.registerFactory<CategoryCubit>(
       () => CategoryCubit(getIt(), getIt(), getIt(), getIt(), getIt()));
-  getIt.registerFactory<EsnadsCubit>(() => EsnadsCubit(getIt(), getIt(), getIt(), getIt()));
-  getIt.registerFactory<DailyWeredProgressCubit>(() => DailyWeredProgressCubit(getIt()));
+  getIt.registerFactory<EsnadsCubit>(
+      () => EsnadsCubit(getIt(), getIt(), getIt(), getIt()));
+  getIt.registerFactory<DailyWeredProgressCubit>(
+      () => DailyWeredProgressCubit(getIt()));
 
   // Repositories (interface -> implementation)
   getIt.registerSingleton<DhkarRepositoryImpl>(DhkarRepositoryImpl(getIt()));
-  getIt.registerSingleton<CategoryRepositoryImp>(CategoryRepositoryImp(getIt()));
+  getIt
+      .registerSingleton<CategoryRepositoryImp>(CategoryRepositoryImp(getIt()));
   getIt.registerSingleton<EsnadsRepository>(EsnadsRepositoryImp(getIt()));
-  getIt.registerSingleton<DailyWeredRepositoryImpl>(DailyWeredRepositoryImpl(getIt()));
-  getIt.registerSingleton<HomeRepositoryImp>(HomeRepositoryImp(getIt(), getIt()));
+  // getIt.registerSingleton<DailyWeredRepositoryImpl>(DailyWeredRepositoryImpl(getIt()));
+  getIt.registerSingleton<HomeRepositoryImp>(
+      HomeRepositoryImp(getIt(), getIt()));
   getIt.registerSingleton<ReleaseRepositoryImp>(ReleaseRepositoryImp());
 
   // Use Cases
   // Daily
-  getIt.registerSingleton<GetDailyWereUseCase>(GetDailyWereUseCase(getIt()));
+  // getIt.registerSingleton<GetDailyWereUseCase>(GetDailyWereUseCase(getIt()));
   getIt.registerSingleton<AddDhakerUseCase>(AddDhakerUseCase(getIt()));
-  getIt.registerSingleton<DoneDailyWeredUsecase>(DoneDailyWeredUsecase(getIt()));
-  getIt.registerSingleton<UpdateDailyWeredRepetationUsecase>(UpdateDailyWeredRepetationUsecase(getIt()));
-  getIt.registerSingleton<DeleteDailyWeredUsecase>(DeleteDailyWeredUsecase(getIt()));
-  getIt.registerSingleton<FetchDailyWeredUsecase>(FetchDailyWeredUsecase(getIt()));
+  getIt
+      .registerSingleton<DoneDailyWeredUsecase>(DoneDailyWeredUsecase(getIt()));
+  getIt.registerSingleton<UpdateDailyWeredRepetationUsecase>(
+      UpdateDailyWeredRepetationUsecase(getIt()));
+  getIt.registerSingleton<DeleteDailyWeredUsecase>(
+      DeleteDailyWeredUsecase(getIt()));
+  getIt.registerSingleton<FetchDailyWeredUsecase>(
+      FetchDailyWeredUsecase(getIt()));
 
   // Category
   getIt.registerSingleton<GetCatogoriesUseCase>(GetCatogoriesUseCase(getIt()));
-  getIt.registerSingleton<GetCatogoryDetailsUseCase>(GetCatogoryDetailsUseCase(getIt()));
+  getIt.registerSingleton<GetCatogoryDetailsUseCase>(
+      GetCatogoryDetailsUseCase(getIt()));
   getIt.registerSingleton<AddCatogoriesUseCase>(AddCatogoriesUseCase(getIt()));
-  getIt.registerSingleton<UpdateCatogoriesUseCase>(UpdateCatogoriesUseCase(getIt()));
-  getIt.registerSingleton<DeleteCatogoriesUseCase>(DeleteCatogoriesUseCase(getIt()));
-  getIt.registerSingleton<AddDekharWithEsnadUsecase>(AddDekharWithEsnadUsecase(getIt()));
-  getIt.registerSingleton<UpdateDekharWithEsnadUsecase>(UpdateDekharWithEsnadUsecase(getIt()));
-  getIt.registerSingleton<AddToDailyweredUsecase>(AddToDailyweredUsecase(getIt()));
+  getIt.registerSingleton<UpdateCatogoriesUseCase>(
+      UpdateCatogoriesUseCase(getIt()));
+  getIt.registerSingleton<DeleteCatogoriesUseCase>(
+      DeleteCatogoriesUseCase(getIt()));
+  getIt.registerSingleton<AddDekharWithEsnadUsecase>(
+      AddDekharWithEsnadUsecase(getIt()));
+  getIt.registerSingleton<UpdateDekharWithEsnadUsecase>(
+      UpdateDekharWithEsnadUsecase(getIt()));
+  getIt.registerSingleton<AddToDailyweredUsecase>(
+      AddToDailyweredUsecase(getIt()));
   getIt.registerSingleton<DeleteDekharUseCase>(DeleteDekharUseCase(getIt()));
 
   // Esnads

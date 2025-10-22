@@ -29,17 +29,21 @@ class _CatogoryDetailesPageState extends State<CatogoryDetailesPage> {
 
   @override
   void initState() {
-  super.initState();
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    context.read<CategoryDetailsCubit>().fetchCategoryDetails(widget.category.id!);
-  });
-}
-@override
-void dispose() {
-  addCategoryText.dispose();
-  editCategoryText.dispose();
-  super.dispose();
-}
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context
+          .read<CategoryDetailsCubit>()
+          .fetchCategoryDetails(widget.category.id!);
+    });
+  }
+
+  @override
+  void dispose() {
+    addCategoryText.dispose();
+    editCategoryText.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,15 +53,14 @@ void dispose() {
         widget.category.name ?? 'تفاصيل التصنيف',
         popMethod: () {
           Navigator.pop(context);
-        //  context.read<CategoryCubit>().fetchData();
+          //  context.read<CategoryCubit>().fetchData();
         },
       ),
       body: BlocListener<CategoryDetailsCubit, CategoryDetailsState>(
         listener: (context, state) {
           if (state is NotifyCategoryDetailsState) {
             successToastMessage(context, state.message);
-          }
-           else if (state is DeleteErrorCategoryDetailsState) {
+          } else if (state is DeleteErrorCategoryDetailsState) {
             errorToastMessage(context, state.message);
           }
         },
@@ -66,13 +69,14 @@ void dispose() {
             if (state is LoadingCategoryDetailsState) {
               return buildWaitingState();
             } else if (state is DoneCategoryDetailsState) {
+              print(state.categoryDetails.dhkars!.first.inDailyWered);
               return _buildDoneState(state);
             } else if (state is ErrorCategoryDetailsState) {
               return ErrorStateWidget(message: state.message);
             } else if (state is EmptyCategoryDetailsState) {
               return emptyDataWidget();
             }
-            return  emptyDataWidget();
+            return emptyDataWidget();
           },
         ),
       ),
@@ -112,7 +116,10 @@ void dispose() {
             itemCount: state.categoryDetails.dhkars?.length ?? 0,
             itemBuilder: (context, index) {
               final dekhar = state.categoryDetails.dhkars![index];
-              return DekharCardWidget(dekhar: dekhar,formKey: formKey,);
+              return DekharCardWidget(
+                dekhar: dekhar,
+                formKey: formKey,
+              );
             },
           ),
         ),
