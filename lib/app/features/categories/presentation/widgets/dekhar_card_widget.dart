@@ -1,15 +1,11 @@
 import 'package:athkari/app/core/ModelBottomSheet/add_to_dailywered_modelbottomsheet.dart';
-import 'package:athkari/app/core/ModelBottomSheet/delete_category_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/delete_dhkar_bottomsheet.dart';
-import 'package:athkari/app/core/ModelBottomSheet/edit_dekhar_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/remove_dailywered_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/update_dhkar_with_esnad_modelbottomsheet.dart';
 import 'package:athkari/app/core/widgets/custome_container.dart';
 import 'package:athkari/app/core/widgets/esnad_menu_button_widget.dart';
-import 'package:athkari/app/features/categories/data/modules/category_models.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/catogery_cubit.dart';
 import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,7 +17,7 @@ class DekharCardWidget extends StatefulWidget {
       {super.key, required this.dekhar, required this.formKey});
   final double _fontsize = 18;
   final DhkarEntity dekhar;
-  final isAddToDailyWered = false;
+
   final GlobalKey<FormState> formKey;
   @override
   State<DekharCardWidget> createState() => _DekarCardWidgetState();
@@ -204,7 +200,7 @@ class _DekarCardWidgetState extends State<DekharCardWidget>
                               width: 24,
                               height: 24,
                             ),
-                      widget.isAddToDailyWered
+                      widget.dekhar.inDailyWered!
                           ? () {
                               buildShowRemoveDekeerBottomSheet(
                                   context, widget.dekhar.id!);
