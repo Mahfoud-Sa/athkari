@@ -6,13 +6,11 @@ import 'package:athkari/app/features/daily_wered/data/repository/dhkar_repositor
 import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
 
 class AddToDailyweredUsecase extends UseCase<void, (int, int)> {
-  // final CategoryRepositoryImp _categoryRepository;
   final DhkarRepositoryImpl _dekharRepository;
   AddToDailyweredUsecase(this._dekharRepository);
 
   @override
   Future call({(int, int)? params}) {
-    // TODO: implement call
-    return _dekharRepository.addDhkarT(params!.$1, params.$2);
+    return _dekharRepository.addToDailyWered(params!.$1, params.$2);
   }
 }

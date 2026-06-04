@@ -19,7 +19,7 @@ class DhkarModel extends DhkarEntity {
     return DhkarModel(
         id: map['id'] ?? "",
         dhkar: map['dhaker'] ?? "",
-        inDailyWered: map["inDailyWered"] ?? false,
+        inDailyWered: map["in_daily_wered"] == 1,
         esnad: EsnadModel.fromDataBase(map));
   }
   factory DhkarModel.fromDataBase_1(Map<String, dynamic> map) {

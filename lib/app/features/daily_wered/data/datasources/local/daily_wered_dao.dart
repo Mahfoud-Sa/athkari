@@ -8,28 +8,34 @@ class DailyWeredDao {
   DailyWeredDao(this.database);
   final Database database;
 
-  
   // Example: Get all records
   Future<List<DailyWeredModel>> getAllAdhkai() async {
     // var dekars = await database
     //     .query('DailyWered', where: "is_compeleted = ?", whereArgs: ["false"]);
-    var dekars = await database
-        .query('DailyWered');
+    var dekars = await database.query('DailyWered');
     print(dekars);
     return dekars.map((dekar) => DailyWeredModel.fromDataBase(dekar)).toList();
   }
- Future<int> getTotalDailyWered() async {
-    var dekars = await database
-        .query('DailyWered');
+
+  Future<int> getTotalDailyWered() async {
+    var dekars = await database.query('DailyWered');
     print(dekars);
-    return dekars.map((dekar) => DailyWeredModel.fromDataBase(dekar)).toList().length;
+    return dekars
+        .map((dekar) => DailyWeredModel.fromDataBase(dekar))
+        .toList()
+        .length;
   }
+
   Future<int> getCompeletedDailyWered() async {
     var dekars = await database
-        .query('DailyWered', where: "is_compeleted = ?", whereArgs: ["true"]);
+        .query('DailyWered', where: "is_compeleted = ?", whereArgs: [1]);
     print(dekars);
-    return dekars.map((dekar) => DailyWeredModel.fromDataBase(dekar)).toList().length;
+    return dekars
+        .map((dekar) => DailyWeredModel.fromDataBase(dekar))
+        .toList()
+        .length;
   }
+
   Future<int> getTotal() async {
     var result = await database.query('Adhkars');
 
@@ -40,7 +46,7 @@ class DailyWeredDao {
     try {
       var state = await database.update(
         'DailyWered', // table name
-        {"is_compeleted": true}, // Map of column names to values
+        {"is_compeleted": 1}, // Map of column names to values
         where: 'id = ?', // WHERE clause to identify the record
         whereArgs: [id], // Values for the WHERE clause
       );
@@ -75,11 +81,10 @@ class DailyWeredDao {
         'dhaker': dhkarName,
         'repetitions': i,
         'esnads_id': 0,
-        'is_compeleted': "false"
+        'is_compeleted': 0
       };
-      var temp=database.insert("DailyWered", value);
+      var temp = database.insert("DailyWered", value);
       await temp;
-      
     }
   }
 
@@ -90,14 +95,14 @@ class DailyWeredDao {
     return state;
   }
 
-    Future<int> createDailyWered(DailyWeredModel dailyWered) async {
-  var state = await database.insert('DailyWered', {
-    "dhaker": dailyWered.dhkar,
-    "repetitions": dailyWered.repetitions,
-    "esnads_id": dailyWered.esnad!.id,
-    "is_compeleted": 0, 
-  });
-  print(state);
-  return state;
-}
+  Future<int> createDailyWered(DailyWeredModel dailyWered) async {
+    var state = await database.insert('DailyWered', {
+      "dhaker": dailyWered.dhkar,
+      "repetitions": dailyWered.repetitions,
+      "esnads_id": dailyWered.esnad!.id,
+      "is_compeleted": 0,
+    });
+    print(state);
+    return state;
+  }
 }

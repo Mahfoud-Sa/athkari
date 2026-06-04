@@ -7,6 +7,6 @@ class UpdateDailyWeredRepetationUsecase implements UseCase<void, int> {
   UpdateDailyWeredRepetationUsecase(this._dekharRepository);
   @override
   Future<void> call({int? params, int? repatation}) async {
-    _dekharRepository.updateDailyWeredRepertation(params!, repatation!);
+    await _dekharRepository.updateDailyWeredRepertation(params!, repatation!);
   }
 }

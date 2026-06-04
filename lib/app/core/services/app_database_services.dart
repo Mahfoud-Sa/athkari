@@ -89,8 +89,8 @@ class AppDataBaseServices {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         dhaker TEXT ,
         repetitions INTEGER,
-        is_compeleted bool,
-        in_daily_wered bool,
+        is_compeleted INTEGER,
+        in_daily_wered INTEGER,
         category_id,
         esnads_id,
         FOREIGN KEY (category_id) REFERENCES Categories(id) ON DELETE CASCADE,
@@ -167,7 +167,7 @@ class AppDataBaseServices {
 
       await FileDownloader.downloadFile(
           url: jsonUrl,
-          name: "categories.json", //(optional)
+          name: "adhkars.json", //(optional)
           subPath: "jsons",
           onProgress: (name, progress) {
             print('DOWNLOAD PROGRESS: $progress%');
@@ -207,12 +207,14 @@ class AppDataBaseServices {
   }
 
   Map<String, dynamic> _mapAdhkarToDbRow(dynamic adhkar) {
+    final inDailyWered = adhkar['in_daily_wered'] == true;
+
     return {
       'dhaker': adhkar['dhaker'] as String,
       'repetitions': adhkar['repetitions'] as int,
       'category_id': adhkar['category_id'] as int,
-      'in_daily_wered':
-          adhkar['in_daily_wered'] ? null : adhkar['in_daily_wered'] as bool,
+      'is_compeleted': 0,
+      'in_daily_wered': inDailyWered ? 1 : 0,
       'esnads_id': adhkar['esnads_id'] as int,
     };
   }

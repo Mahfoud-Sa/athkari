@@ -49,7 +49,7 @@ class DhkarDao {
   Future<int> updateRepetation(int id, int repetation) async {
     try {
       var state = await database.update(
-        'DailyWered', // table name
+        'Adhkars', // table name
         {"repetitions": repetation}, // Map of column names to values
         where: 'id = ?', // WHERE clause to identify the record
         whereArgs: [id], // Values for the WHERE clause
@@ -74,8 +74,34 @@ class DhkarDao {
     return state;
   }
 
-  Future<int> addToDaily(int dhkarId, int repetitions) async {
-    var value = {'in_daily_wered': true, 'repetitions': repetitions};
+  // Function to toggle daily wered status
+  Future<int> updateDailyWeredStatus(int dhkarId, bool inDailyWered) async {
+    var value = {'in_daily_wered': inDailyWered ? 1 : 0};
+    var status = await database
+        .update("Adhkars", value, where: 'id = ?', whereArgs: [dhkarId]);
+    print(status);
+    return status;
+  }
+
+  Future<int> doneDailyWered(int id) async {
+    try {
+      var state = await database.update(
+        'Adhkars',
+        {"is_compeleted": 1},
+        where: 'id = ?',
+        whereArgs: [id],
+      );
+      print(state);
+      return state;
+    } catch (e) {
+      print('Error updating item: $e');
+      return 0;
+    }
+  }
+
+  // Function to update repetitions
+  Future<int> updateRepetitions(int dhkarId, int repetitions) async {
+    var value = {'repetitions': repetitions};
     var status = await database
         .update("Adhkars", value, where: 'id = ?', whereArgs: [dhkarId]);
     print(status);
@@ -124,7 +150,7 @@ class DhkarDao {
     var dekars = await database.query(
       'Adhkars',
       where: 'in_daily_wered = ?',
-      whereArgs: [true],
+      whereArgs: [1],
     );
     print(dekars);
 
@@ -144,8 +170,8 @@ class DhkarDao {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         dhaker TEXT ,
         repetitions INTEGER,
-        is_compeleted bool,
-        in_daily_wered bool,
+        is_compeleted INTEGER,
+        in_daily_wered INTEGER,
         category_id,
         esnads_id,
         FOREIGN KEY (category_id) REFERENCES Categories(id) ON DELETE CASCADE,
@@ -173,6 +199,8 @@ class DhkarDao {
           'dhaker': adhkarsList[i]['dhaker'],
           'repetitions': adhkarsList[i]['repetitions'],
           'category_id': adhkarsList[i]['category_id'],
+          'is_compeleted': 0,
+          'in_daily_wered': adhkarsList[i]['in_daily_wered'] == true ? 1 : 0,
           "esnads_id": adhkarsList[i]['esnads_id']
         }, // Data to insert
         conflictAlgorithm: ConflictAlgorithm.replace, // Handle conflicts

@@ -1,17 +1,16 @@
 import 'package:athkari/app/features/daily_wered/data/modules/daily_werel_model.dart';
-import 'package:athkari/app/features/daily_wered/data/modules/dhkar_model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class DailyWeredCubitStates extends Equatable {}
 
 class InitialDailyWeredState extends DailyWeredCubitStates {
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 class LoadingDailyWeredState extends DailyWeredCubitStates {
   @override
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }
 
 class DoneDailyWeredState extends DailyWeredCubitStates {
@@ -29,8 +28,7 @@ class EmptyDailyWeredDataState extends DailyWeredCubitStates {
 
   EmptyDailyWeredDataState({required this.message});
   @override
-  // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [message];
 }
 
 class NotifeyDailyWeredCubitState extends DailyWeredCubitStates {

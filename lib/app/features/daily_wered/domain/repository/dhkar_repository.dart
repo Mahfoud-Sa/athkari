@@ -16,5 +16,5 @@ abstract class DhkarRepository {
   Future<void> doneDailyWered(int id);
   Future<void> updateDailyWeredRepertation(int id, int repetation);
   Future<int> deleteDailyWered(int id);
-  Future<int> addDhkarT(int dekharId, int repetitions);
+  Future<int> addToDailyWered(int dekharId, int repetitions);
 }

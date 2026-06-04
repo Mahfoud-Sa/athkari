@@ -7,6 +7,6 @@ class DoneDailyWeredUsecase implements UseCase<void, int> {
   DoneDailyWeredUsecase(this._dekharRepository);
   @override
   Future<void> call({int? params}) async {
-    _dekharRepository.doneDailyWered(params!);
+    await _dekharRepository.doneDailyWered(params!);
   }
 }

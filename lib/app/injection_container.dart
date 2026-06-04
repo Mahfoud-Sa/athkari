@@ -97,7 +97,7 @@ Future<void> initializationContainer() async {
 
   // Use Cases
   // Daily
-  // getIt.registerSingleton<GetDailyWereUseCase>(GetDailyWereUseCase(getIt()));
+  getIt.registerSingleton<GetDailyWereUseCase>(GetDailyWereUseCase(getIt()));
   getIt.registerSingleton<AddDhakerUseCase>(AddDhakerUseCase(getIt()));
   getIt
       .registerSingleton<DoneDailyWeredUsecase>(DoneDailyWeredUsecase(getIt()));

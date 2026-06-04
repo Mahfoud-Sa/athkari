@@ -7,6 +7,6 @@ class DeleteDailyWeredUsecase implements UseCase<void, int> {
   DeleteDailyWeredUsecase(this._dekharRepository);
   @override
   Future<void> call({int? params}) async {
-    _dekharRepository.deleteDailyWered(params!);
+    await _dekharRepository.deleteDailyWered(params!);
   }
 }

@@ -65,31 +65,31 @@ class DhkarRepositoryImpl implements DhkarRepository {
   }
 
   @override
-  Future<int> addDhkarT(int dekharId, int repetitions) async {
-    //return _appDataBaseServices.adhkaiDao.Insert(dheer, esnaad);
+  Future<int> addToDailyWered(int dekharId, int repetitions) async {
+    /// this methos is changes the adkhar's daily were to be true,
+    ///  so it will showin then in the dauily wered pages
+    ///
+    int responsive = await _appDataBaseServices.adhkaiDao
+        .updateDailyWeredStatus(dekharId, true);
+    await _appDataBaseServices.adhkaiDao
+        .updateRepetation(dekharId, repetitions);
 
-    var temp =
-        await _appDataBaseServices.adhkaiDao.addToDaily(dekharId, repetitions);
-    print(temp);
-    return (temp);
+    return (responsive);
   }
 
   @override
   Future<int> deleteDailyWered(int id) {
-    // TODO: implement deleteDailyWered
-    throw UnimplementedError();
+    return _appDataBaseServices.adhkaiDao.updateDailyWeredStatus(id, false);
   }
 
   @override
-  Future<void> doneDailyWered(int id) {
-    // TODO: implement doneDailyWered
-    throw UnimplementedError();
+  Future<void> doneDailyWered(int id) async {
+    await _appDataBaseServices.adhkaiDao.doneDailyWered(id);
   }
 
   @override
   Future<List<DailyWeredModel>> getAllDailyWereds() {
-    // TODO: implement getAllDailyWereds
-    throw UnimplementedError();
+    return _appDataBaseServices.adhkaiDao.getAllDailyWereds();
   }
 
   @override
