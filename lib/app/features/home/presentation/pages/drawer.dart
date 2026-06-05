@@ -13,7 +13,6 @@ import 'package:athkari/app/features/home/presentation/widgets/drawer_app_bar_wi
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:athkari/app/features/home/presentation/cubit/app_update_cubit.dart';
-import 'package:http/http.dart';
 import 'dart:ui' as ui;
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -174,7 +173,9 @@ class DrawerWidget extends StatelessWidget {
         const DrawerTitleWidet(title: 'أخرى'),
         ForwardedTitleWidget(
           title: 'مشاركة التطبيق',
-          onPressed: () => Share.share('check out my website https://example.com'),
+          onPressed: () => SharePlus.instance.share(
+            ShareParams(text: 'check out my website https://example.com'),
+          ),
         ),
         ForwardedTitleWidget(
         title: 'تحقق من التحديثات',

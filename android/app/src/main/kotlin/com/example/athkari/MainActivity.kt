@@ -1,4 +1,4 @@
-package com.example.athkari
+package com.GIdtEeam.athkari
 
 import io.flutter.embedding.android.FlutterActivity
 

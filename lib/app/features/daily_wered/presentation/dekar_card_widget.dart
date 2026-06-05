@@ -1,11 +1,7 @@
-import 'package:athkari/app/core/ModelBottomSheet/delete_dhkar_bottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/edit_dekhar_modelbottomsheet.dart';
-import 'package:athkari/app/core/ModelBottomSheet/update_dhkar_with_esnad_modelbottomsheet.dart';
-import 'package:athkari/app/core/ModelBottomSheet/update_esnad_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/remove_dailywered_modelbottomsheet.dart';
 import 'package:athkari/app/core/widgets/custome_container.dart';
 import 'package:athkari/app/features/daily_wered/data/modules/daily_werel_model.dart';
-import 'package:athkari/app/features/daily_wered/domain/entities/dhkar_entity.dart';
 import 'package:athkari/app/features/daily_wered/presentation/block/local/cubit/daily_were_cubit_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -209,7 +205,10 @@ class _DekarDailyWereCardWidgetState extends State<DekarDailyWereCardWidget>
                 Positioned(
                   left: 24,
                   child: _buildIconButton(Icons.share, () {
-                    Share.share('${widget.dhkar.dhkar}\n\n${widget.dhkar.esnad?.name ?? ""}');
+                    SharePlus.instance.share(ShareParams(
+                      text:
+                          '${widget.dhkar.dhkar}\n\n${widget.dhkar.esnad?.name ?? ""}',
+                    ));
                   }),
                 ),
                 

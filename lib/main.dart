@@ -1,5 +1,3 @@
-import 'dart:isolate';
-
 import 'package:athkari/app/config/routes/routes.dart';
 import 'package:athkari/app/config/thems/light_thems.dart';
 import 'package:athkari/app/features/categories/presentation/cubit/category_details_cubit.dart';
@@ -13,7 +11,6 @@ import 'package:athkari/app/features/home/presentation/cubit/reset_cubit.dart';
 import 'package:athkari/app/features/home/presentation/cubit/today_dekhar_cubit.dart';
 import 'package:athkari/app/injection_container.dart';
 import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,16 +1,11 @@
-import 'package:athkari/app/core/ModelBottomSheet/delete_category_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/delete_esand_modelbottomsheet.dart';
-import 'package:athkari/app/core/ModelBottomSheet/delete_general_modelbottomsheet.dart';
 import 'package:athkari/app/core/ModelBottomSheet/update_esnad_modelbottomsheet.dart';
 import 'package:athkari/app/core/methods/success_snackbar.dart';
 import 'package:athkari/app/core/widgets/custome_container.dart';
 import 'package:athkari/app/features/esnaad/domain/entities/esnad_entity.dart';
-import 'package:athkari/app/features/esnaad/presentation/cubit/Esnads_cubit.dart';
 import 'package:athkari/app/core/widgets/esnad_menu_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:share_plus/share_plus.dart';
 
 class EsnadCardWidget extends StatelessWidget {
@@ -114,7 +109,7 @@ class EsnadCardWidget extends StatelessWidget {
                 Positioned(
                   left: 24,
                   child: _buildIconButton(Icons.share, () {
-                    Share.share(esnad.name!);
+                    SharePlus.instance.share(ShareParams(text: esnad.name!));
                   }),
                 ),
 

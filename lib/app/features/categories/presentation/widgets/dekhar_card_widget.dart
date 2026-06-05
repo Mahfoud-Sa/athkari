@@ -255,8 +255,9 @@ class _DekarCardWidgetState extends State<DekharCardWidget>
     );
   }
 
-  void shareMethod() => Share.share(
-      '${widget.dekhar.dhkar}\n\n${widget.dekhar.esnad?.name ?? ""}');
+  void shareMethod() => SharePlus.instance.share(ShareParams(
+        text: '${widget.dekhar.dhkar}\n\n${widget.dekhar.esnad?.name ?? ""}',
+      ));
 
   Widget _buildIconButton(dynamic icon, VoidCallback onPressed) {
     Widget iconWidget;

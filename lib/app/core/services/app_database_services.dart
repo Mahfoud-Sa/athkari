@@ -1,15 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:athkari/app/core/constrainsa.dart';
 import 'package:athkari/app/features/categories/data/datasources/local/category_dao.dart';
-import 'package:athkari/app/features/daily_wered/data/datasources/local/daily_wered_dao.dart';
 import 'package:athkari/app/features/daily_wered/data/datasources/local/dhkar_dao.dart';
 import 'package:athkari/app/features/esnaad/data/datasources/esnad_dto.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:path/path.dart';
 import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 class AppDataBaseServices {
@@ -157,33 +153,10 @@ class AppDataBaseServices {
 
   Future<void> _seedAdhkarsFromInternet() async {
     try {
-      // Load and parse JSON
-      // final jsonString = await rootBundle.loadString('assets/jsons/adhkars.json');
-      // final adhkarsList = jsonDecode(jsonString) as List<dynamic>;
       const String jsonUrl =
           'https://raw.githubusercontent.com/Mahfoud-Sa/athkari/main/assets/jsons/adhkars.json';
 
-      String downloadPath = '';
-
-      await FileDownloader.downloadFile(
-          url: jsonUrl,
-          name: "adhkars.json", //(optional)
-          subPath: "jsons",
-          onProgress: (name, progress) {
-            print('DOWNLOAD PROGRESS: $progress%');
-          },
-          downloadDestination: DownloadDestinations.appFiles,
-          onDownloadCompleted: (String path) {
-            downloadPath = path;
-            print('FILE DOWNLOADED TO PATH: $path');
-          },
-          onDownloadError: (String error) {
-            print('DOWNLOAD ERROR: $error');
-          });
-
-      final file = File(downloadPath);
-      final jsonString = await file.readAsString();
-      final adhkarsList = jsonDecode(jsonString) as List;
+      final adhkarsList = await _loadJsonListFromUrl(jsonUrl);
 
       // Get database instance
       final db = await AppDataBaseServices().db;
@@ -246,32 +219,10 @@ class AppDataBaseServices {
   }
 
   Future<void> _seedCategoriesFromInternet() async {
-    // final jsonString = await rootBundle.loadString('assets/jsons/categories.json');
-    // final categoryList = jsonDecode(jsonString) as List<dynamic>;
     const String jsonUrl =
         'https://raw.githubusercontent.com/Mahfoud-Sa/athkari/main/assets/jsons/categories.json';
 
-    String downloadPath = '';
-
-    await FileDownloader.downloadFile(
-        url: jsonUrl,
-        name: "categories.json", //(optional)
-        subPath: "jsons",
-        onProgress: (name, progress) {
-          print('DOWNLOAD PROGRESS: $progress%');
-        },
-        downloadDestination: DownloadDestinations.appFiles,
-        onDownloadCompleted: (String path) {
-          downloadPath = path;
-          print('FILE DOWNLOADED TO PATH: $path');
-        },
-        onDownloadError: (String error) {
-          print('DOWNLOAD ERROR: $error');
-        });
-
-    final file = File(downloadPath);
-    final jsonString = await file.readAsString();
-    final categoryList = jsonDecode(jsonString) as List;
+    final categoryList = await _loadJsonListFromUrl(jsonUrl);
 
     final db = await AppDataBaseServices().db;
     if (db == null) throw Exception('Database not initialized');
@@ -291,27 +242,7 @@ class AppDataBaseServices {
     const String jsonUrl =
         'https://raw.githubusercontent.com/Mahfoud-Sa/athkari/main/assets/jsons/esnads.json';
 
-    String downloadPath = '';
-
-    await FileDownloader.downloadFile(
-        url: jsonUrl,
-        name: "esnads.json", //(optional)
-        subPath: "jsons",
-        onProgress: (name, progress) {
-          print('DOWNLOAD PROGRESS: $progress%');
-        },
-        downloadDestination: DownloadDestinations.appFiles,
-        onDownloadCompleted: (String path) {
-          downloadPath = path;
-          print('FILE DOWNLOADED TO PATH: $path');
-        },
-        onDownloadError: (String error) {
-          print('DOWNLOAD ERROR: $error');
-        });
-
-    final file = File(downloadPath);
-    final jsonString = await file.readAsString();
-    final esnads = jsonDecode(jsonString) as List;
+    final esnads = await _loadJsonListFromUrl(jsonUrl);
 
     final db = await this.db;
     if (db == null) throw Exception('Database not initialized');
@@ -398,5 +329,15 @@ class AppDataBaseServices {
     } catch (e) {
       throw Exception('Failed to seed adhkars: $e');
     }
+  }
+
+  Future<List<dynamic>> _loadJsonListFromUrl(String url) async {
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode < 200 || response.statusCode >= 300) {
+      throw Exception(
+          'Failed to load JSON from $url: HTTP ${response.statusCode}');
+    }
+
+    return jsonDecode(utf8.decode(response.bodyBytes)) as List<dynamic>;
   }
 }
